@@ -8,87 +8,49 @@
     <style>
         /* Modern "Apple Pro" Premium Theme (Midnight & Sapphire) */
         :root {
-            --bg: #0b0f19;          /* Very Dark Slate */
-            --surface: #1a2235;     /* Sleek Card BG */
-            --primary: #3b82f6;     /* Sapphire Blue */
-            --primary-hover: #2563eb;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: #2e3c54;
-            --danger: #ef4444;
-            --success: #10b981;
+            --bg: #0b0f19; --surface: #1a2235; --primary: #3b82f6; --primary-hover: #2563eb;
+            --text: #f1f5f9; --text-muted: #94a3b8; --border: #2e3c54; --danger: #ef4444; --success: #10b981;
         }
         
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
         .container { padding: 20px; max-width: 500px; margin: 0 auto; }
-        h1, h2, h3, h4 { margin: 0 0 12px 0; font-weight: 600; letter-spacing: -0.5px; }
+        h1, h2, h3, h4 { margin: 0 0 12px 0; font-weight: 600; }
         .hidden { display: none !important; }
-        .text-primary { color: var(--primary); } 
-        .text-center { text-align: center; }
+        .text-primary { color: var(--primary); } .text-center { text-align: center; }
         
         /* Smooth Animations */
         .tab-content { animation: fadeIn 0.3s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Premium Inputs & Buttons */
-        input, select { 
-            width: 100%; padding: 15px 18px; margin-bottom: 15px; border-radius: 12px; 
-            border: 1px solid var(--border); background: #0f1523; color: var(--text); 
-            font-size: 15px; outline: none; box-sizing: border-box; transition: all 0.2s; 
-        }
+        /* Inputs & Buttons */
+        input, select { width: 100%; padding: 15px 18px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); background: #0f1523; color: var(--text); font-size: 15px; outline: none; box-sizing: border-box; transition: all 0.2s; }
         input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
         
-        button { 
-            width: 100%; padding: 16px; border-radius: 12px; border: none; 
-            background: var(--primary); color: #fff; font-weight: 600; font-size: 16px; 
-            cursor: pointer; transition: 0.2s; display: flex; justify-content: center; align-items: center; gap: 8px;
-        }
+        button { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--primary); color: #fff; font-weight: 600; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
         button:active { transform: scale(0.97); background: var(--primary-hover); }
-        .btn-danger { background: var(--danger); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-success { background: var(--success); }
         
-        /* Sleek Cards */
-        .card { 
-            background: var(--surface); padding: 20px; border-radius: 16px; margin-bottom: 16px; 
-            border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
-        }
+        /* Cards */
+        .card { background: var(--surface); padding: 20px; border-radius: 16px; margin-bottom: 16px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
         .stat-box { background: #0f1523; padding: 16px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
         .stat-box h2 { color: var(--primary); margin-top: 4px; font-size: 24px; margin-bottom:0; }
-        .stat-box p { margin: 0; color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-box p { margin: 0; color: var(--text-muted); font-size: 12px; text-transform: uppercase; }
         
-        /* Minimalist Bottom Nav */
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(26, 34, 53, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid var(--border); display: flex; justify-content: space-around; 
-            padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000; 
-        }
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 34, 53, 0.9); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; transition: 0.3s; }
         .nav-item i { font-size: 20px; margin-bottom: 5px; transition: 0.2s; }
         .nav-item.active { color: var(--primary); }
         .nav-item.active i { transform: translateY(-3px); }
         
-        /* Location Force Modal */
-        #location-modal {
-            position: fixed; inset: 0; background: rgba(11, 15, 25, 0.95); z-index: 99999;
-            display: flex; justify-content: center; align-items: center; padding: 20px;
-        }
-        
         .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+        
+        /* List Items */
+        .list-item { background: #0f1523; padding: 12px; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center; }
     </style>
 </head>
 <body>
-
-<!-- LOCATION FORCE MODAL -->
-<div id="location-modal" class="hidden">
-    <div class="card" style="text-align: center; max-width: 300px;">
-        <i class="fas fa-map-marker-alt text-primary" style="font-size: 40px; margin-bottom: 15px;"></i>
-        <h3>GPS Required</h3>
-        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">To use the Hemant Team Workspace, you must allow live location tracking for Field Radar.</p>
-        <button onclick="requestLocationAccess()"><i class="fas fa-check"></i> Allow Location</button>
-    </div>
-</div>
 
 <div class="container">
     <!-- LOGIN SCREEN -->
@@ -103,33 +65,31 @@
         <button onclick="authenticateUser()"><i class="fas fa-arrow-right"></i> Sign In</button>
     </div>
 
-    <!-- MEMBER APP -->
+    <!-- ================= MEMBER APP ================= -->
     <div id="member-app" class="hidden">
         <div class="header-top">
             <div>
                 <h3 style="margin:0;">Hi, <span id="mem-name" class="text-primary"></span></h3>
-                <span style="color: var(--success); font-size:12px;"><i class="fas fa-circle" style="font-size:8px;"></i> System Active</span>
+                <span style="color: var(--success); font-size:12px;"><i class="fas fa-circle" style="font-size:8px;"></i> Online</span>
             </div>
-            <i class="fas fa-bell" style="font-size: 20px; color: var(--text-muted);"></i>
         </div>
 
-        <!-- NEW: Sign-in Plan Tab -->
+        <!-- 1. Plan / Check-in Tab (GPS Only Here) -->
         <div id="mem-plan" class="tab-content">
             <h2 class="text-center">Field Check-in</h2>
             <div class="card" style="border-left: 3px solid var(--primary);">
-                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Register your live location before showing a plan to update the Admin Radar.</p>
-                <input type="text" id="plan-prospect" placeholder="Prospect Name (Who are you meeting?)">
+                <p style="font-size: 13px; color: var(--text-muted); margin-top:0;">Only requires GPS when you sign in for a plan.</p>
+                <input type="text" id="plan-prospect" placeholder="Prospect Name">
                 <select id="plan-type">
                     <option value="1-on-1 Plan">1-on-1 Plan</option>
                     <option value="Venue Plan">Venue Plan</option>
                     <option value="Follow-up">Follow-up Meeting</option>
                 </select>
-                <button onclick="submitPlanCheckIn()"><i class="fas fa-map-pin"></i> Sign In to Plan (GPS)</button>
+                <button id="checkin-btn" onclick="submitPlanCheckIn()"><i class="fas fa-map-pin"></i> Sign In to Plan (GPS)</button>
             </div>
-            <div id="today-plans-list" style="margin-top: 15px;"></div>
         </div>
 
-        <!-- DPR -->
+        <!-- 2. DPR Tab -->
         <div id="mem-dpr" class="tab-content hidden">
             <h2 class="text-center">Daily Report</h2>
             <div class="card">
@@ -139,16 +99,30 @@
             </div>
         </div>
 
-        <!-- Leads -->
+        <!-- 3. Leads Vault Tab -->
         <div id="mem-list" class="tab-content hidden">
             <h2 class="text-center">Lead Vault</h2>
+            
+            <!-- Add Lead Form -->
             <div class="card">
                 <input type="text" id="lead-name" placeholder="Prospect Name">
-                <input type="number" id="lead-phone" placeholder="WhatsApp Number">
+                <input type="number" id="lead-phone" placeholder="WhatsApp Number (e.g. 9876543210)">
+                <select id="lead-temp">
+                    <option value="🔥 Hot">🔥 Hot</option>
+                    <option value="🌤️ Warm">🌤️ Warm</option>
+                    <option value="🥶 Cold">🥶 Cold</option>
+                </select>
                 <button onclick="saveLead()"><i class="fas fa-save"></i> Save Lead</button>
+            </div>
+            
+            <!-- Member's Saved Leads Display -->
+            <h4 style="margin-top: 15px;"><i class="fas fa-list text-primary"></i> My Prospect List</h4>
+            <div id="my-leads-list" style="max-height: 350px; overflow-y: auto;">
+                <p style="text-align:center; color:var(--text-muted); font-size:13px;">No leads added yet.</p>
             </div>
         </div>
 
+        <!-- Member Bottom Nav -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchTab('mem', 'plan', this)"><i class="fas fa-briefcase"></i>Plan</div>
             <div class="nav-item" onclick="switchTab('mem', 'dpr', this)"><i class="fas fa-chart-bar"></i>DPR</div>
@@ -157,27 +131,26 @@
         </div>
     </div>
 
-    <!-- ADMIN APP -->
+    <!-- ================= ADMIN APP (HQ) ================= -->
     <div id="admin-app" class="hidden">
         <div class="header-top">
             <h3 style="margin:0;"><i class="fas fa-shield-alt text-primary"></i> HQ Command</h3>
             <span style="font-size: 12px; color: var(--danger);">Admin Access</span>
         </div>
 
-        <!-- Radar / Dashboard -->
+        <!-- 1. Live Radar Tab -->
         <div id="admin-radar" class="tab-content">
             <div class="stat-grid" style="margin-bottom: 15px;">
-                <div class="stat-box"><p>Total Network BV</p><h2 id="total-bv">0</h2></div>
-                <div class="stat-box"><p>Live Agents</p><h2 id="live-agents">0</h2></div>
+                <div class="stat-box"><p>Total BV</p><h2 id="total-bv">0</h2></div>
+                <div class="stat-box"><p>Active Agents</p><h2 id="live-agents">0</h2></div>
             </div>
-            
-            <h4 style="margin-top: 20px;"><i class="fas fa-satellite-dish text-primary"></i> Live Field Radar</h4>
+            <h4 style="margin-top: 20px;"><i class="fas fa-satellite-dish text-primary"></i> Field Check-ins</h4>
             <div class="card" id="radar-status" style="max-height: 300px; overflow-y: auto;">
-                <p style="color: var(--text-muted); font-size: 13px; text-align: center;">Waiting for team plan check-ins...</p>
+                <p style="color: var(--text-muted); font-size: 13px; text-align: center;">Waiting for check-ins...</p>
             </div>
         </div>
 
-        <!-- Add Member -->
+        <!-- 2. Add ID Tab -->
         <div id="admin-network" class="tab-content hidden">
             <h2 class="text-center">Onboard ID</h2>
             <div class="card">
@@ -187,18 +160,20 @@
                 <button onclick="createMemberReal()"><i class="fas fa-user-plus"></i> Create Access</button>
             </div>
         </div>
-        
-        <div id="admin-settings" class="tab-content hidden">
-            <h2 class="text-center">System Controls</h2>
-            <div class="card">
-                <button class="btn-danger"><i class="fas fa-skull"></i> Execute Data Wipe</button>
+
+        <!-- 3. NEW: Team List Tab -->
+        <div id="admin-team" class="tab-content hidden">
+            <h2 class="text-center">My Team (Roster)</h2>
+            <div class="card" id="team-list-container" style="max-height: 400px; overflow-y: auto; padding: 10px;">
+                <p style="text-align:center; color:var(--text-muted); font-size:13px;"><i class="fas fa-spinner fa-spin"></i> Loading team...</p>
             </div>
         </div>
 
+        <!-- Admin Bottom Nav -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-radar"></i>Radar</div>
-            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-shield"></i>Network</div>
-            <div class="nav-item" onclick="switchTab('admin', 'settings', this)"><i class="fas fa-cogs"></i>Control</div>
+            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-plus"></i>Add ID</div>
+            <div class="nav-item" onclick="switchTab('admin', 'team', this)"><i class="fas fa-users"></i>Team</div>
             <div class="nav-item" onclick="safeLogout()"><i class="fas fa-power-off"></i>Exit</div>
         </div>
     </div>
@@ -220,7 +195,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // 🌟 Check Initial State
+    // 🌟 Boot App Without Annoying Popups
     window.onload = () => {
         const role = localStorage.getItem("htm_role");
         const uid = localStorage.getItem("htm_user_id");
@@ -228,36 +203,17 @@
         if(role === 'admin') {
             document.getElementById('admin-app').classList.remove('hidden');
             fetchAdminRadar();
+            fetchTeamMembers(); // Load Team list for Admin
         } else if (role === 'member' && uid) {
-            // Ask for location before showing app
-            document.getElementById('location-modal').classList.remove('hidden');
+            document.getElementById('member-app').classList.remove('hidden');
+            document.getElementById('mem-name').innerText = localStorage.getItem("htm_name");
+            fetchMyLeads(); // Load Member's leads
         } else {
             document.getElementById('auth-screen').classList.remove('hidden');
         }
     };
 
-    // 📍 Force Location Access Popup
-    function requestLocationAccess() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // Location granted!
-                    document.getElementById('location-modal').classList.add('hidden');
-                    document.getElementById('member-app').classList.remove('hidden');
-                    document.getElementById('mem-name').innerText = localStorage.getItem("htm_name");
-                    initPresenceHeartbeat();
-                },
-                (error) => {
-                    alert("❌ Location is mandatory. Please go to browser settings and allow location for this site.");
-                },
-                { enableHighAccuracy: true } // Force accurate GPS
-            );
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
-
-    // 🔒 Login (With Device Binding)
+    // 🔒 Login Logic
     function authenticateUser() {
         const id = document.getElementById('login-id').value.trim();
         const pass = document.getElementById('login-pass').value.trim();
@@ -265,90 +221,177 @@
 
         db.collection("users").doc(id).get().then((doc) => {
             if(doc.exists && doc.data().password === pass) {
-                const data = doc.data();
-                
-                // FIXED DEVICE LOGIC
                 let localToken = localStorage.getItem("htm_device_token");
-                if(!localToken) { 
-                    localToken = "DEV-" + Math.random().toString(36).substr(2, 9); 
-                }
-
-                if(!data.deviceToken || data.deviceToken === "") {
-                    // First time login - Bind device
-                    db.collection("users").doc(id).update({ deviceToken: localToken });
-                } else if(data.deviceToken !== localToken) {
-                    return alert("🚫 Access Denied! Unrecognized Device. Please use your registered phone.");
-                }
-
-                // Setup local storage (KEEPING device token safe)
+                if(!localToken) localToken = "DEV-" + Math.random().toString(36).substr(2, 9); 
+                
+                // Set Local Auth
                 localStorage.setItem("htm_device_token", localToken);
                 localStorage.setItem("htm_role", "member");
                 localStorage.setItem("htm_user_id", id);
-                localStorage.setItem("htm_name", data.name);
+                localStorage.setItem("htm_name", doc.data().name);
                 
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('location-modal').classList.remove('hidden'); // Force GPS
+                window.location.reload(); // Quick refresh to load fast
             } else {
                 alert("❌ Incorrect ID or Password");
             }
-        }).catch(err => alert("Connection Error. Check network."));
+        }).catch(err => alert("Connection Error."));
     }
 
-    // 📝 NEW: Sign In Plan (Check-in)
+    // 📍 1. Smart GPS Check-in (Only asks when clicked)
     function submitPlanCheckIn() {
-        const prospect = document.getElementById('plan-prospect').value;
+        const prospect = document.getElementById('plan-prospect').value.trim();
         const type = document.getElementById('plan-type').value;
         const uid = localStorage.getItem("htm_user_id");
 
         if(!prospect) return alert("Please enter prospect name!");
 
-        navigator.geolocation.getCurrentPosition((pos) => {
-            db.collection("tracking").add({
-                member: uid,
-                memberName: localStorage.getItem("htm_name"),
-                prospect: prospect,
-                type: type,
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude,
-                time: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert("✅ Field Sign-in Successful! Admin Notified.");
-                document.getElementById('plan-prospect').value = '';
-            });
-        }, () => alert("GPS Error! Cannot check-in without location."));
+        if(navigator.geolocation) {
+            const btn = document.getElementById('checkin-btn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
+            
+            navigator.geolocation.getCurrentPosition((pos) => {
+                db.collection("tracking").add({
+                    member: uid,
+                    memberName: localStorage.getItem("htm_name"),
+                    prospect: prospect,
+                    type: type,
+                    lat: pos.coords.latitude,
+                    lng: pos.coords.longitude,
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    alert("✅ Field Sign-in Successful! Admin Notified.");
+                    document.getElementById('plan-prospect').value = '';
+                    btn.innerHTML = '<i class="fas fa-map-pin"></i> Sign In to Plan (GPS)';
+                });
+            }, (err) => {
+                alert("❌ GPS is required to check-in. Please allow location access.");
+                btn.innerHTML = '<i class="fas fa-map-pin"></i> Sign In to Plan (GPS)';
+            }, { enableHighAccuracy: true });
+        } else {
+            alert("Your browser does not support GPS.");
+        }
     }
 
-    // 📡 ADMIN: Live Radar Fetch
+    // 📝 2. Save and Fetch Leads for Member (With 1-click WhatsApp)
+    function saveLead() {
+        const name = document.getElementById('lead-name').value;
+        const phone = document.getElementById('lead-phone').value;
+        const temp = document.getElementById('lead-temp').value;
+        const uid = localStorage.getItem("htm_user_id");
+
+        if(!name || !phone) return alert("Name & Phone required");
+
+        db.collection("leads").add({
+            member: uid, prospect: name, phone: phone, temperature: temp,
+            time: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-phone').value = '';
+            // Auto fetches dynamically below
+        });
+    }
+
+    function fetchMyLeads() {
+        const uid = localStorage.getItem("htm_user_id");
+        if(!uid) return;
+
+        // Fetching all leads of this member
+        db.collection("leads").where("member", "==", uid).onSnapshot((snap) => {
+            const listDiv = document.getElementById('my-leads-list');
+            if(snap.empty) {
+                listDiv.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:13px;">No leads added yet.</p>';
+                return;
+            }
+            
+            listDiv.innerHTML = "";
+            snap.forEach(doc => {
+                const d = doc.data();
+                const waLink = `https://wa.me/91${d.phone}?text=Hello%20${encodeURIComponent(d.prospect)}`;
+                
+                listDiv.innerHTML += `
+                <div class="list-item">
+                    <div>
+                        <strong style="color:var(--text);">${d.prospect}</strong><br>
+                        <span style="font-size:12px; color:var(--text-muted);">${d.temperature}</span>
+                    </div>
+                    <a href="${waLink}" target="_blank" style="background:#25D366; color:#000; padding:8px 12px; border-radius:8px; text-decoration:none; font-size:12px; font-weight:bold;">
+                        <i class="fab fa-whatsapp"></i> Chat
+                    </a>
+                </div>`;
+            });
+        });
+    }
+
+    // 📊 3. Real DPR Submisison
+    function submitDPR() {
+        const plans = document.getElementById('dpr-plans').value;
+        const bv = document.getElementById('dpr-bv').value;
+        if(!plans || !bv) return alert("Fill required details.");
+        
+        db.collection("dpr").add({
+            member: localStorage.getItem("htm_user_id"),
+            plans: parseInt(plans), bv: parseInt(bv),
+            time: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => { 
+            alert("✅ Report Synced to Admin!"); 
+            document.getElementById('dpr-plans').value = ''; 
+            document.getElementById('dpr-bv').value = ''; 
+        });
+    }
+
+    // 📡 4. Admin Live Radar Fetch
     function fetchAdminRadar() {
-        // Fetch Total BV
         db.collection("dpr").onSnapshot((snapshot) => {
             let totalBV = 0;
             snapshot.forEach((doc) => totalBV += doc.data().bv);
             document.getElementById('total-bv').innerText = totalBV;
         });
 
-        // Fetch Live Radar (Check-ins)
-        db.collection("tracking").orderBy("time", "desc").limit(10).onSnapshot((snapshot) => {
+        db.collection("tracking").orderBy("time", "desc").limit(15).onSnapshot((snapshot) => {
             const radar = document.getElementById('radar-status');
             radar.innerHTML = "";
             let count = 0;
             snapshot.forEach((doc) => {
                 count++;
                 const d = doc.data();
-                const timeStr = d.time ? new Date(d.time.toDate()).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Just now';
                 radar.innerHTML += `
-                <div style="background: #0f1523; padding: 12px; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--primary);">
+                <div class="list-item" style="display:block;">
                     <div style="display:flex; justify-content: space-between;">
                         <strong style="color: var(--text);">${d.memberName || d.member}</strong>
-                        <span style="font-size: 11px; color: var(--text-muted);">${timeStr}</span>
+                        <span style="font-size: 11px; color: var(--success);">Checked-in</span>
                     </div>
                     <p style="margin: 5px 0 0 0; font-size: 13px; color: var(--text-muted);">
-                        <i class="fas fa-map-pin text-primary"></i> Meeting <b>${d.prospect}</b> (${d.type})
+                        <i class="fas fa-map-pin text-primary"></i> ${d.type}: <b>${d.prospect}</b>
                     </p>
                 </div>`;
             });
             document.getElementById('live-agents').innerText = count;
             if(count === 0) radar.innerHTML = '<p class="text-center text-muted">No recent field activity.</p>';
+        });
+    }
+
+    // 👥 5. Admin Team List Fetch (New Tab)
+    function fetchTeamMembers() {
+        db.collection("users").onSnapshot((snap) => {
+            const container = document.getElementById('team-list-container');
+            container.innerHTML = "";
+            if(snap.empty) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:13px;">No members yet.</p>';
+                return;
+            }
+            snap.forEach(doc => {
+                const data = doc.data();
+                container.innerHTML += `
+                <div class="list-item">
+                    <div>
+                        <strong style="color: var(--text);">${data.name}</strong><br>
+                        <span style="font-size: 11px; color: var(--text-muted);">ID: ${doc.id}</span>
+                    </div>
+                    <span style="font-size: 10px; padding: 4px 8px; border-radius: 12px; background: var(--success); color: #fff;">
+                        Active
+                    </span>
+                </div>`;
+            });
         });
     }
 
@@ -365,15 +408,6 @@
             alert(`✅ ID ${id} Generated!`);
             document.querySelectorAll("input").forEach(i => i.value = "");
         });
-    }
-
-    // Fixed Safe Logout (Preserves Device Token)
-    function safeLogout() {
-        // ONLY remove user session info, DO NOT wipe device token
-        localStorage.removeItem("htm_role");
-        localStorage.removeItem("htm_user_id");
-        localStorage.removeItem("htm_name");
-        window.location.reload();
     }
 
     // Tab Switcher
@@ -393,9 +427,12 @@
         }
     }
     
-    function submitDPR() { alert("Report logic preserved."); }
-    function saveLead() { alert("Lead saved."); }
-    function initPresenceHeartbeat() {}
+    function safeLogout() {
+        localStorage.removeItem("htm_role");
+        localStorage.removeItem("htm_user_id");
+        localStorage.removeItem("htm_name");
+        window.location.reload();
+    }
 </script>
 </body>
 </html>
