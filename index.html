@@ -2,219 +2,241 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hemant Team Management | God Mode CRM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HTM | Enterprise CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Premium Glassmorphism Theme (Dark Blue & Gold) */
+        /* Minimalist Modern App Theme */
         :root {
-            --gold: #FFD700;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --danger: rgba(231, 76, 60, 0.8);
-            --success: rgba(46, 204, 113, 0.8);
+            --bg: #0f172a;        /* Deep Space Blue */
+            --surface: #1e293b;   /* Clean Card Background */
+            --primary: #fbbf24;   /* Premium Gold */
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --success: #10b981;
         }
+        
         body {
-            margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
-            color: #fff; min-height: 100vh; padding: 15px;
+            margin: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg); 
+            color: var(--text);
+            -webkit-font-smoothing: antialiased; 
+            padding-bottom: 80px; /* Space for Bottom Nav */
         }
-        .glass-panel {
-            background: var(--glass-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-radius: 16px; border: 1px solid var(--glass-border);
-            padding: 20px; max-width: 800px; margin: 0 auto 20px auto;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-        h1, h2, h3 { text-align: center; color: var(--gold); }
+        
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; }
         .hidden { display: none !important; }
+        .text-gold { color: var(--primary); }
+        .text-center { text-align: center; }
         
         /* Inputs & Buttons */
-        input, select, button, textarea {
-            width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px;
-            border: 1px solid var(--glass-border); background: rgba(0,0,0,0.3);
-            color: #fff; font-size: 15px; box-sizing: border-box; outline: none;
+        input, select {
+            width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 14px;
+            border: 1px solid #334155; background: var(--surface);
+            color: var(--text); font-size: 16px; outline: none; box-sizing: border-box;
+            transition: 0.3s;
         }
-        input::placeholder, textarea::placeholder { color: #aaa; }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2); }
+        input::placeholder { color: var(--text-muted); }
+        
         button {
-            background: linear-gradient(90deg, #d4af37, #aa7c11); border: none; font-weight: bold; cursor: pointer; transition: 0.3s;
+            width: 100%; padding: 16px; border-radius: 14px; border: none;
+            background: var(--primary); color: #000; font-weight: bold; font-size: 16px;
+            cursor: pointer; transition: 0.2s;
         }
-        button:hover { filter: brightness(1.2); }
+        button:active { transform: scale(0.98); }
         .btn-danger { background: var(--danger); color: white; }
         .btn-success { background: var(--success); color: white; }
         
-        /* Navigation Tabs */
-        .nav-bar { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; }
-        .nav-tab { flex: 1; text-align: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer; white-space: nowrap; }
-        .nav-tab.active { background: var(--gold); color: #000; font-weight: bold; }
+        /* Minimalist Cards */
+        .card { background: var(--surface); padding: 20px; border-radius: 18px; margin-bottom: 16px; border: 1px solid #334155; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .stat-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 14px; text-align: center; }
+        .stat-box h2 { color: var(--primary); margin-top: 5px; font-size: 26px; }
+        .stat-box p { margin: 0; color: var(--text-muted); font-size: 13px; }
         
-        /* Grids & Cards */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .stat-card { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid var(--glass-border); }
-        .stat-card h3 { margin: 0; font-size: 24px; }
+        /* Top Header Area */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
+        .status-dot { height: 10px; width: 10px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 8px var(--success); }
         
-        /* FOMO / Alerts */
-        .alert-box { background: rgba(255, 215, 0, 0.2); border-left: 4px solid var(--gold); padding: 10px; margin-bottom: 15px; font-size: 14px; }
-        
-        /* Admin Hidden Trigger */
-        .admin-trigger { position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; opacity: 0; cursor: default; z-index: 9999; }
+        /* App Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(15px);
+            border-top: 1px solid #334155; display: flex; justify-content: space-around;
+            padding: 12px 0; padding-bottom: env(safe-area-inset-bottom, 12px);
+            z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
+            font-size: 12px; cursor: pointer; flex: 1; transition: 0.3s;
+        }
+        .nav-item i { font-size: 22px; margin-bottom: 6px; }
+        .nav-item.active { color: var(--primary); }
     </style>
 </head>
 <body>
 
-<!-- LOGIN SYSTEM (With Device Binding Logic) -->
-<div id="auth-screen" class="glass-panel">
-    <h1><i class="fas fa-crown" onclick="promptAdminLogin()" style="cursor: pointer;"></i> HTM System</h1>
-    <div class="alert-box" id="device-msg">Registering new device to this ID upon login...</div>
-    <input type="text" id="login-id" placeholder="Enter Member ID (e.g. HTM-001)">
-    <input type="password" id="login-pass" placeholder="Password">
-    <button onclick="authenticateUser()"><i class="fas fa-sign-in-alt"></i> Secure Login</button>
-</div>
+<div class="container">
 
-<!-- MEMBER APP PANEL -->
-<div id="member-app" class="hidden">
-    <div class="glass-panel">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="margin: 0;">Welcome, <span id="mem-name">Member</span></h3>
-            <span style="color: var(--success); font-size: 12px;"><i class="fas fa-circle"></i> Online</span>
-        </div>
+    <!-- LOGIN SCREEN -->
+    <div id="auth-screen" class="card" style="margin-top: 30vh; text-align: center; border: none; background: transparent;">
+        <!-- SECRET ADMIN TRIGGER ON CROWN ICON -->
+        <h1 style="font-size: 32px; margin-bottom: 30px;">
+            <i class="fas fa-crown text-gold" onclick="promptAdminLogin()" style="cursor: pointer;"></i> HTM
+        </h1>
+        <p style="color: var(--text-muted); margin-bottom: 20px;" id="device-msg">Secure Workspace Login</p>
         
-        <!-- App Navigation -->
-        <div class="nav-bar" style="margin-top: 15px;">
-            <div class="nav-tab active" onclick="switchTab('mem', 'dashboard')"><i class="fas fa-home"></i> Home</div>
-            <div class="nav-tab" onclick="switchTab('mem', 'dpr')"><i class="fas fa-chart-line"></i> DPR</div>
-            <div class="nav-tab" onclick="switchTab('mem', 'list')"><i class="fas fa-address-book"></i> List</div>
-            <div class="nav-tab" onclick="switchTab('mem', 'kyc')"><i class="fas fa-file-shield"></i> KYC</div>
+        <input type="text" id="login-id" placeholder="Member ID (e.g., HTM-01)">
+        <input type="password" id="login-pass" placeholder="Password">
+        <button onclick="authenticateUser()"><i class="fas fa-arrow-right"></i> Continue</button>
+    </div>
+
+    <!-- MEMBER APP -->
+    <div id="member-app" class="hidden">
+        <div class="header">
+            <div>
+                <h2 style="margin:0;">Hi, <span id="mem-name" class="text-gold">Member</span></h2>
+                <span style="font-size: 12px; color: var(--text-muted);"><span class="status-dot"></span> System Active</span>
+            </div>
+            <i class="fas fa-bell text-gold" style="font-size: 20px;"></i>
         </div>
 
-        <!-- Member: Dashboard Tab -->
+        <!-- Mem Tab: Home -->
         <div id="mem-dashboard" class="tab-content">
-            <div class="alert-box"><i class="fas fa-bolt"></i> AI Alert: Focus on 'Hot Leads' today for max conversion!</div>
-            <button class="btn-success" style="padding: 20px; font-size: 18px;" onclick="logLocation()"><i class="fas fa-map-marker-alt"></i> Start Field Work (Check-in)</button>
-            <div class="grid-2" style="margin-top: 15px;">
-                <div class="stat-card"><p>Target BV</p><h3>0</h3></div>
-                <div class="stat-card"><p>Achieved BV</p><h3>0</h3></div>
+            <div class="card" style="border-left: 4px solid var(--primary);">
+                <h4><i class="fas fa-bolt text-gold"></i> AI Focus</h4>
+                <p style="font-size: 14px; color: var(--text-muted); margin:0;">Complete 2 more Plans today to hit your weekly BV target.</p>
+            </div>
+            <button class="btn-success" style="padding: 20px;" onclick="logLocation()"><i class="fas fa-map-pin"></i> Field Check-In</button>
+            
+            <div class="stat-grid">
+                <div class="stat-box"><p>Plans</p><h3>0</h3></div>
+                <div class="stat-box"><p>BV</p><h3>0</h3></div>
             </div>
         </div>
 
-        <!-- Member: DPR Tab -->
+        <!-- Mem Tab: DPR -->
         <div id="mem-dpr" class="tab-content hidden">
-            <h2 style="color: white;">Daily Progress Report</h2>
-            <input type="number" id="dpr-plans" placeholder="Total Plans Shown Today">
-            <input type="number" id="dpr-dd" placeholder="Total DD Closed">
-            <input type="number" id="dpr-bv" placeholder="Total Business Volume (BV)">
-            <select id="dpr-product">
-                <option value="">-- Select Top Product Sold --</option>
-                <option value="Bhagavad Gita">Bhagavad Gita</option>
-                <option value="Suit Length">Suit Length</option>
-                <option value="Health Supplement">Health Supplement</option>
-            </select>
-            <button onclick="submitDPR()"><i class="fas fa-paper-plane"></i> Submit Encrypted Report</button>
+            <h2 class="text-center">Daily Report</h2>
+            <div class="card">
+                <input type="number" id="dpr-plans" placeholder="Total Plans Shown">
+                <input type="number" id="dpr-dd" placeholder="Total DD Closed">
+                <input type="number" id="dpr-bv" placeholder="Total BV Generated">
+                <select id="dpr-product">
+                    <option value="">-- Top Product Sold --</option>
+                    <option value="Bhagavad Gita">Bhagavad Gita</option>
+                    <option value="Suit Length">Suit Length</option>
+                    <option value="Health Supplement">Health Supplement</option>
+                </select>
+                <button onclick="submitDPR()">Sync Report</button>
+            </div>
         </div>
 
-        <!-- Member: Contact List Tab -->
+        <!-- Mem Tab: List -->
         <div id="mem-list" class="tab-content hidden">
-            <h2 style="color: white;">Smart List Builder</h2>
-            <input type="text" id="lead-name" placeholder="Prospect Name">
-            <select id="lead-temp">
-                <option value="hot">🔥 Hot (High AI Score)</option>
-                <option value="warm">🌤️ Warm (Medium AI Score)</option>
-                <option value="cold">🥶 Cold (Low AI Score)</option>
-            </select>
-            <button onclick="saveLead()">Add to Secure Vault</button>
-            <hr style="border-color: var(--glass-border);">
-            <div id="leads-container">
-                <p style="color: #aaa; text-align: center; font-size: 12px;">No active leads yet.</p>
+            <h2 class="text-center">Lead Vault</h2>
+            <div class="card">
+                <input type="text" id="lead-name" placeholder="Prospect Name">
+                <select id="lead-temp">
+                    <option value="hot">🔥 Hot Lead</option>
+                    <option value="warm">🌤️ Warm Lead</option>
+                    <option value="cold">🥶 Cold Lead</option>
+                </select>
+                <button onclick="saveLead()">Save Prospect</button>
             </div>
         </div>
 
-        <!-- Member: KYC Vault -->
-        <div id="mem-kyc" class="tab-content hidden">
-            <h2 style="color: white;">Secure KYC Upload</h2>
-            <input type="text" placeholder="Prospect Name for KYC">
-            <input type="file" accept="image/*,application/pdf">
-            <button><i class="fas fa-cloud-upload-alt"></i> Upload to Admin Vault</button>
+        <!-- Mem Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('mem', 'dashboard', this)"><i class="fas fa-home"></i>Home</div>
+            <div class="nav-item" onclick="switchTab('mem', 'dpr', this)"><i class="fas fa-chart-bar"></i>DPR</div>
+            <div class="nav-item" onclick="switchTab('mem', 'list', this)"><i class="fas fa-users"></i>Leads</div>
+            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-sign-out-alt"></i>Exit</div>
         </div>
     </div>
-</div>
 
-<!-- ADMIN GOD MODE PANEL -->
-<div id="admin-app" class="hidden">
-    <div class="glass-panel">
-        <h2><i class="fas fa-user-shield"></i> Admin Command Center</h2>
-        
-        <div class="nav-bar">
-            <div class="nav-tab active" onclick="switchTab('admin', 'overview')">Overview</div>
-            <div class="nav-tab" onclick="switchTab('admin', 'network')">Network setup</div>
-            <div class="nav-tab" onclick="switchTab('admin', 'radar')">Spy Radar</div>
-            <div class="nav-tab" onclick="switchTab('admin', 'settings')">Controls</div>
+    <!-- ADMIN APP (GOD MODE) -->
+    <div id="admin-app" class="hidden">
+        <div class="header">
+            <div>
+                <h2 style="margin:0;" class="text-gold"><i class="fas fa-shield-alt"></i> Command</h2>
+                <span style="font-size: 12px; color: var(--danger);">God Mode Active</span>
+            </div>
         </div>
 
-        <!-- Admin: Overview -->
+        <!-- Admin Tab: Overview -->
         <div id="admin-overview" class="tab-content">
-            <div class="grid-2">
-                <div class="stat-card"><p>Total Team BV</p><h3 id="total-bv">0</h3></div>
-                <div class="stat-card"><p>Expected Payout</p><h3 id="est-payout">₹0</h3></div>
+            <div class="stat-grid">
+                <div class="stat-box"><p>Team BV</p><h2 id="total-bv">0</h2></div>
+                <div class="stat-box"><p>Est. Payout</p><h2 id="est-payout">₹0</h2></div>
             </div>
-            <div class="alert-box" style="margin-top: 15px;"><i class="fas fa-chart-pie"></i> Top Product: Pending Data</div>
         </div>
 
-        <!-- Admin: Network Setup (ID Creation & Device Binding) -->
+        <!-- Admin Tab: Network -->
         <div id="admin-network" class="tab-content hidden">
-            <h3 style="color: white;">Create New Member</h3>
-            <input type="text" id="new-mem-name" placeholder="Member Name">
-            <input type="text" id="new-mem-id" placeholder="Assign ID (e.g. HTM-002)">
-            <input type="text" id="new-mem-pass" placeholder="Assign Password">
-            <button onclick="createMember()"><i class="fas fa-plus"></i> Generate Secure ID</button>
-        </div>
-
-        <!-- Admin: Spy Radar -->
-        <div id="admin-radar" class="tab-content hidden">
-            <h3 style="color: white;">Live Geo & Activity Radar</h3>
-            <div style="background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px;">
-                <p style="color: var(--danger); font-size: 14px;"><i class="fas fa-exclamation-triangle"></i> Sleeping Alert: No members inactive for 48 hrs.</p>
-                <hr style="border-color: rgba(255,255,255,0.1);">
-                <p style="font-size: 14px;" id="radar-status"><i class="fas fa-map-marker-alt" style="color: var(--success);"></i> Waiting for live check-ins...</p>
+            <h2 class="text-center">New Member</h2>
+            <div class="card">
+                <input type="text" id="new-mem-name" placeholder="Full Name">
+                <input type="text" id="new-mem-id" placeholder="Assign ID (HTM-0X)">
+                <input type="text" id="new-mem-pass" placeholder="Password">
+                <button onclick="createMember()">Register Access</button>
             </div>
         </div>
 
-        <!-- Admin: Total Controls (Kill Switch) -->
+        <!-- Admin Tab: Radar -->
+        <div id="admin-radar" class="tab-content hidden">
+            <h2 class="text-center">Live Radar</h2>
+            <div class="card" style="border-left: 4px solid var(--danger);">
+                <p style="color: var(--danger); margin:0; font-size: 14px;"><i class="fas fa-exclamation-triangle"></i> Sleeping Alert: System Monitoring.</p>
+            </div>
+            <div class="card" id="radar-status" style="font-size: 14px; line-height: 1.6;">
+                <i class="fas fa-spinner fa-spin text-gold"></i> Waiting for check-ins...
+            </div>
+        </div>
+        
+        <!-- Admin Tab: Settings -->
         <div id="admin-settings" class="tab-content hidden">
-            <button class="btn-danger" style="margin-top: 20px;" onclick="killSwitch()"><i class="fas fa-skull"></i> REMOTE KILL SWITCH (Wipe Team Data)</button>
-            <button style="background: #333; margin-top: 10px;" onclick="forceLogout()"><i class="fas fa-sign-out-alt"></i> Exit God Mode</button>
+            <h2 class="text-center">Security</h2>
+            <div class="card">
+                <button class="btn-danger" style="margin-bottom: 15px;" onclick="killSwitch()"><i class="fas fa-skull"></i> Wipe Team Data</button>
+            </div>
+        </div>
+
+        <!-- Admin Bottom Nav -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('admin', 'overview', this)"><i class="fas fa-globe"></i>HQ</div>
+            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-plus"></i>Add</div>
+            <div class="nav-item" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-crosshairs"></i>Radar</div>
+            <div class="nav-item" onclick="switchTab('admin', 'settings', this)"><i class="fas fa-cog"></i>Setup</div>
+            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-power-off"></i>Exit</div>
         </div>
     </div>
-</div>
 
-<!-- Invisible div to trigger Admin Login Prompt (Double click bottom right corner) -->
-<div class="admin-trigger" ondblclick="promptAdminLogin()"></div>
+</div>
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-    /* ========================================================
-       FIREBASE CONFIGURATION (Aapki Asli Keys)
-       ======================================================== */
+    // 🔥 Firebase Keys (Hemant Team Management)
     const firebaseConfig = {
       apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
       authDomain: "hemant-team-management.firebaseapp.com",
       projectId: "hemant-team-management",
       storageBucket: "hemant-team-management.firebasestorage.app",
       messagingSenderId: "975104255247",
-      appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a",
-      measurementId: "G-MSXDJDH73X"
+      appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a"
     };
     
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    /* ========================================================
-       CORE LOGIC & UI BEHAVIOR
-       ======================================================== */
-
-    // Check for Persistent Session & Device Binding
+    // Init App State
     window.onload = () => {
         const storedToken = localStorage.getItem("htm_device_token");
         const role = localStorage.getItem("htm_role");
@@ -227,7 +249,7 @@
             } else {
                 document.getElementById('mem-name').innerText = localStorage.getItem("htm_user_id");
                 document.getElementById('member-app').classList.remove('hidden');
-                initPresenceHeartbeat(); // Start sending 'Online' status
+                initPresenceHeartbeat();
             }
         }
     };
@@ -235,157 +257,118 @@
     function authenticateUser() {
         const id = document.getElementById('login-id').value;
         const pass = document.getElementById('login-pass').value;
+        if(!id || !pass) return alert("Credentials required.");
         
-        if(!id || !pass) { alert("Credentials required."); return; }
-        
-        // Simulating Auth & Device Binding lock
-        const deviceToken = "DEV-" + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem("htm_device_token", deviceToken);
+        localStorage.setItem("htm_device_token", "DEV-" + Date.now());
         localStorage.setItem("htm_role", "member");
         localStorage.setItem("htm_user_id", id);
         
         document.getElementById('auth-screen').classList.add('hidden');
         document.getElementById('mem-name').innerText = id;
         document.getElementById('member-app').classList.remove('hidden');
-        
         initPresenceHeartbeat();
     }
 
-    // Secret Admin Login Trigger
+    // Secret Admin Login on Crown Click
     function promptAdminLogin() {
-        const pin = prompt("Enter Master PIN for God Mode:");
-        if(pin === "9999") { // Aapka Master Password
+        const pin = prompt("Enter Master PIN:");
+        if(pin === "9999") { 
             localStorage.setItem("htm_device_token", "ADMIN-OVERRIDE");
             localStorage.setItem("htm_role", "admin");
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('admin-app').classList.remove('hidden');
             fetchAdminData();
         } else {
-            alert("Security Alert Triggered. IP Logged.");
+            alert("Security Alert: Invalid Entry.");
         }
     }
 
     function forceLogout() {
-        localStorage.removeItem("htm_device_token");
-        localStorage.removeItem("htm_role");
-        localStorage.removeItem("htm_user_id");
+        localStorage.clear();
         window.location.reload();
     }
 
-    function switchTab(panel, tabName) {
-        // Reset all tabs
+    // Bottom Tab Navigation Logic
+    function switchTab(panel, tabName, clickedElement) {
+        // Hide all content tabs
         const tabs = document.querySelectorAll(`[id^="${panel}-"]`);
         tabs.forEach(t => t.classList.add('hidden'));
         
-        // Reset nav highlights
-        const navs = document.getElementById(`${panel}-app`).querySelectorAll('.nav-tab');
-        navs.forEach(n => n.classList.remove('active'));
+        // Remove active class from all icons in current panel
+        const navItems = clickedElement.parentElement.querySelectorAll('.nav-item');
+        navItems.forEach(n => n.classList.remove('active'));
         
-        // Show selected
+        // Show selected content and activate icon
         document.getElementById(`${panel}-${tabName}`).classList.remove('hidden');
-        event.currentTarget.classList.add('active');
+        clickedElement.classList.add('active');
     }
 
-    // 🔴 Auto-Delegation / Live Status Heartbeat
     function initPresenceHeartbeat() {
         setInterval(() => {
             const uid = localStorage.getItem("htm_user_id");
-            db.collection("presence").doc(uid).set({
+            if(uid) db.collection("presence").doc(uid).set({
                 lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
                 status: "online"
             });
-        }, 10000); // Har 10 second me Admin ko signal jayega
+        }, 10000);
     }
 
-    // 📍 Live Location Logging
     function logLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const lat = position.coords.latitude;
-                    const long = position.coords.longitude;
-                    const uid = localStorage.getItem("htm_user_id");
-                    
                     db.collection("tracking").add({
-                        member: uid,
-                        lat: lat,
-                        long: long,
+                        member: localStorage.getItem("htm_user_id"),
+                        lat: position.coords.latitude,
+                        long: position.coords.longitude,
                         time: firebase.firestore.FieldValue.serverTimestamp()
-                    }).then(() => {
-                        alert("✅ Location Secured. Admin Geo-Radar updated.");
-                    });
+                    }).then(() => alert("✅ Field Location Secured."));
                 },
-                (error) => {
-                    alert("❌ Please enable GPS/Location on your phone.");
-                }
+                (error) => alert("❌ Please enable Location/GPS.")
             );
         }
     }
 
-    // 📝 Submit DPR to Firebase
     function submitDPR() {
         const plans = document.getElementById('dpr-plans').value;
         const dd = document.getElementById('dpr-dd').value;
         const bv = document.getElementById('dpr-bv').value;
         const product = document.getElementById('dpr-product').value;
-        const uid = localStorage.getItem("htm_user_id");
 
-        if(!plans || !dd || !bv || !product) return alert("Fill all details to unlock app functionalities.");
+        if(!plans || !bv) return alert("Fill required details.");
         
         db.collection("dpr").add({
-            member: uid,
-            plans: parseInt(plans),
-            dd: parseInt(dd),
-            bv: parseInt(bv),
-            topProduct: product,
-            time: firebase.firestore.FieldValue.serverTimestamp()
+            member: localStorage.getItem("htm_user_id"),
+            plans: parseInt(plans), dd: parseInt(dd) || 0, bv: parseInt(bv),
+            topProduct: product, time: firebase.firestore.FieldValue.serverTimestamp()
         }).then(() => {
-            alert("✅ Encrypted DPR synced. Cheque Predictor updated.");
-            document.getElementById('dpr-plans').value = '';
-            document.getElementById('dpr-dd').value = '';
-            document.getElementById('dpr-bv').value = '';
+            alert("✅ Report Synced.");
+            document.querySelectorAll("input[type=number]").forEach(i => i.value = "");
         });
     }
 
-    // 📞 Add Lead
     function saveLead() {
         const name = document.getElementById('lead-name').value;
-        const temp = document.getElementById('lead-temp').value;
-        const uid = localStorage.getItem("htm_user_id");
-
-        if(name) {
-            db.collection("leads").add({
-                member: uid,
-                prospect: name,
-                temperature: temp,
-                time: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                alert(`✅ Lead saved in Secure Vault. AI Score Calculation Complete.`);
-                document.getElementById('lead-name').value = '';
-            });
-        }
-    }
-
-    function createMember() {
-        alert("Member Created & Encrypted. Awaiting their device registration.");
+        if(!name) return;
+        db.collection("leads").add({
+            member: localStorage.getItem("htm_user_id"),
+            prospect: name, temperature: document.getElementById('lead-temp').value,
+            time: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert("✅ Lead Vault Updated.");
+            document.getElementById('lead-name').value = '';
+        });
     }
 
     function killSwitch() {
-        const confirmWipe = confirm("WARNING: This will remotely wipe all local DB data from all member devices. Proceed?");
-        if(confirmWipe) {
-            alert("Kill Switch Activated. Data self-destruct initiated...");
-        }
+        if(confirm("Wipe all local team data?")) alert("Kill Switch Engaged.");
     }
 
-    // 📊 Fetch Data for Admin Overview
     function fetchAdminData() {
         db.collection("dpr").onSnapshot((snapshot) => {
             let totalBV = 0;
-            snapshot.forEach((doc) => {
-                totalBV += doc.data().bv;
-            });
+            snapshot.forEach((doc) => totalBV += doc.data().bv);
             document.getElementById('total-bv').innerText = totalBV;
-            // Example logic: Agar 100 BV match pe 1000rs bante hain (Assume simple metric)
             document.getElementById('est-payout').innerText = "₹" + (totalBV * 10); 
         });
 
@@ -394,7 +377,7 @@
             radar.innerHTML = "";
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                radar.innerHTML += `<p><i class="fas fa-crosshairs" style="color: var(--gold);"></i> <b>${data.member}</b> checked in at Lat: ${data.lat.toFixed(2)}, Long: ${data.long.toFixed(2)}</p>`;
+                radar.innerHTML += `<p style="margin-bottom:8px;"><i class="fas fa-crosshairs text-gold"></i> <b>${data.member}</b> field check-in received.</p>`;
             });
         });
     }
