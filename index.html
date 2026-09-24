@@ -3,503 +3,605 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HTM | Premium Workspace</title>
+    <title>Hemant Team | Enterprise CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Modern Premium Theme (Midnight & Sapphire) */
+        /* Enterprise SaaS CSS Framework */
         :root {
-            --bg: #0b0f19; --surface: #1a2235; --primary: #3b82f6; --primary-hover: #2563eb;
-            --text: #f1f5f9; --text-muted: #94a3b8; --border: #2e3c54; --danger: #ef4444; --success: #10b981; --warning: #f59e0b;
+            --bg-color: #0f172a;
+            --surface-color: #1e293b;
+            --surface-hover: #334155;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
+
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { margin: 0; background: var(--bg-color); color: var(--text-main); padding-bottom: 80px; -webkit-font-smoothing: antialiased; }
         
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; min-height: 100vh; -webkit-font-smoothing: antialiased; }
-        .container { padding: 20px; max-width: 500px; margin: 0 auto; }
-        h1, h2, h3, h4 { margin: 0 0 12px 0; font-weight: 600; }
         .hidden { display: none !important; }
-        .text-primary { color: var(--primary); } .text-center { text-align: center; }
+        .text-center { text-align: center; }
+        .text-primary { color: var(--primary); }
         
-        .tab-content { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Layouts & Containers */
+        .app-container { max-width: 600px; margin: 0 auto; padding: 16px; }
+        .card { background: var(--surface-color); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
         
-        /* Inputs & Buttons */
-        input, select { width: 100%; padding: 15px 18px; margin-bottom: 12px; border-radius: 10px; border: 1px solid var(--border); background: #0f1523; color: var(--text); font-size: 14px; outline: none; box-sizing: border-box; transition: all 0.2s; }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        /* Typography */
+        h1, h2, h3, h4 { margin: 0 0 16px 0; font-weight: 600; color: var(--text-main); }
+        .text-sm { font-size: 12px; color: var(--text-muted); }
         
-        button { width: 100%; padding: 15px; border-radius: 10px; border: none; background: var(--primary); color: #fff; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
-        button:active { transform: scale(0.97); }
-        .btn-success { background: var(--success); } .btn-danger { background: var(--danger); } .btn-warning { background: var(--warning); color:#000; }
+        /* Form Elements */
+        .form-group { margin-bottom: 12px; }
+        .form-label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+        input, select {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border);
+            background: var(--bg-color); color: var(--text-main); font-size: 14px; outline: none; transition: 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
         
-        /* Cards & Grids */
-        .card { background: var(--surface); padding: 18px; border-radius: 14px; margin-bottom: 15px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .stat-box { background: #0f1523; padding: 14px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
-        .stat-box h2 { color: var(--primary); margin-top: 4px; font-size: 22px; margin-bottom:0; }
-        .stat-box p { margin: 0; color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
+        /* Buttons */
+        .btn { 
+            width: 100%; padding: 12px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s;
+        }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:active { background: var(--primary-hover); }
+        .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+        .btn-success { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
+        .btn-sm { width: auto; padding: 6px 12px; font-size: 12px; }
         
-        /* Bottom Nav */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(26, 34, 53, 0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0 calc(10px + env(safe-area-inset-bottom)); z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; transition: 0.3s; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; transition: 0.2s; }
+        /* Data Grids & Lists */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .stat-box { background: var(--bg-color); padding: 16px; border-radius: 8px; border: 1px solid var(--border); text-align: center; }
+        .stat-box h2 { font-size: 24px; margin: 4px 0 0 0; color: var(--text-main); }
+        
+        .list-item { background: var(--bg-color); border: 1px solid var(--border); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+        .list-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .action-row { display: flex; gap: 8px; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface-color);
+            border-top: 1px solid var(--border); display: flex; padding: 8px 0 env(safe-area-inset-bottom) 0; z-index: 50;
+        }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; gap: 4px; cursor: pointer; }
+        .nav-item i { font-size: 18px; }
         .nav-item.active { color: var(--primary); }
-        .nav-item.active i { transform: translateY(-3px); }
-        
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-        
-        /* Advanced List Item (Leads) */
-        .list-item { background: #0f1523; padding: 15px; border-radius: 12px; margin-bottom: 12px; border-left: 4px solid var(--primary); display: flex; flex-direction: column; gap: 8px; }
-        .dd-section { display: flex; gap: 8px; margin-top: 5px; border-top: 1px dashed var(--border); padding-top: 10px; }
+
+        /* Custom Notification Toast */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+        .toast { padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); animation: slideDown 0.3s ease-out forwards; }
+        .toast.success { background: var(--success); color: #fff; }
+        .toast.error { background: var(--danger); color: #fff; }
+        .toast.info { background: var(--surface-hover); color: var(--text-main); border: 1px solid var(--border); }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Header */
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- LOGIN SCREEN -->
-    <div id="auth-screen" class="card hidden" style="margin-top: 15vh; border: none; background: transparent; box-shadow: none;">
-        <h1 class="text-center" style="font-size: 36px; margin-bottom: 5px;">
-            <i class="fas fa-crown text-primary" onclick="promptAdminLogin()" style="cursor: pointer;"></i> HTM
-        </h1>
-        <p class="text-center" style="color: var(--text-muted); margin-bottom: 30px;">Team Workspace</p>
-        
-        <input type="text" id="login-id" placeholder="User ID (e.g., HTM-01)">
-        <input type="password" id="login-pass" placeholder="Password">
-        <button onclick="authenticateUser()"><i class="fas fa-arrow-right"></i> Secure Login</button>
+<!-- Notification System -->
+<div id="toast-container"></div>
+
+<div class="app-container">
+    
+    <!-- AUTHENTICATION MODULE -->
+    <div id="auth-module" class="card hidden" style="margin-top: 10vh; border: none; background: transparent;">
+        <div class="text-center" style="margin-bottom: 32px;">
+            <i class="fas fa-crown text-primary" style="font-size: 40px; cursor: pointer;" onclick="initAdminOverride()"></i>
+            <h2 style="margin-top: 16px;">Hemant Team Workspace</h2>
+            <p class="text-sm">Enterprise Identity Verification</p>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Member ID</label>
+            <input type="text" id="auth-id" placeholder="HTM-XXX">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="auth-pass" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary" onclick="Auth.login()" style="margin-top: 24px;">Authenticate Access</button>
     </div>
 
-    <!-- ================= MEMBER APP ================= -->
-    <div id="member-app" class="hidden">
-        <div class="header-top">
+    <!-- MEMBER MODULE -->
+    <div id="member-module" class="hidden">
+        <div class="app-header">
             <div>
-                <h3 style="margin:0;">Hi, <span id="mem-name" class="text-primary"></span></h3>
-                <span style="color: var(--success); font-size:11px;"><i class="fas fa-circle" style="font-size:8px;"></i> Online</span>
+                <h3 style="margin: 0;" id="mem-ui-name"></h3>
+                <span class="text-sm" style="color: var(--success);">● Active Session</span>
             </div>
-            <div onclick="switchTab('mem', 'profile', this)" style="cursor:pointer;">
-                <i class="fas fa-user-circle text-primary" style="font-size: 24px;"></i>
-            </div>
+            <i class="fas fa-user-circle" style="font-size: 24px; color: var(--text-muted);"></i>
         </div>
 
-        <!-- 1. Plan / Check-in Tab -->
+        <!-- Check-in Workflow -->
         <div id="mem-plan" class="tab-content">
-            <h2 class="text-center">Field Check-in</h2>
-            
-            <!-- Start Plan UI -->
-            <div id="plan-start-ui" class="card" style="border-left: 3px solid var(--primary);">
-                <p style="font-size: 12px; color: var(--text-muted); margin-top:0;">Start your meeting to notify Admin Radar.</p>
-                <input type="text" id="plan-prospect" placeholder="Prospect Name">
-                <select id="plan-type">
-                    <option value="1-on-1 Plan">1-on-1 Plan</option>
-                    <option value="Venue Plan">Venue Plan</option>
-                    <option value="Follow-up">Follow-up Meeting</option>
-                </select>
-                <button id="checkin-btn" onclick="startPlan()"><i class="fas fa-play"></i> Start Plan (GPS)</button>
+            <div id="plan-init-state" class="card">
+                <h4>New Field Operation</h4>
+                <div class="form-group">
+                    <input type="text" id="plan-prospect" placeholder="Prospect Name">
+                </div>
+                <div class="form-group">
+                    <select id="plan-type">
+                        <option value="1-on-1 Plan">1-on-1 Plan</option>
+                        <option value="Follow-up">Follow-up</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="Member.startPlan()">
+                    <i class="fas fa-map-marker-alt"></i> Log Location & Start
+                </button>
             </div>
 
-            <!-- Active Plan UI (Hidden by default) -->
-            <div id="plan-active-ui" class="card hidden" style="border-left: 3px solid var(--warning); text-align: center;">
-                <h3 class="text-warning"><i class="fas fa-spinner fa-spin"></i> Meeting in Progress</h3>
-                <p id="active-prospect-name" style="font-size: 16px; font-weight: bold;"></p>
-                <p style="font-size: 12px; color: var(--text-muted);">Admin Radar is tracking this meeting.</p>
-                
-                <div style="display:flex; gap:10px; margin-top: 15px;">
-                    <button class="btn-success" onclick="endPlan()"><i class="fas fa-check-square"></i> End Plan</button>
-                    <button class="btn-danger" onclick="clearPlan()"><i class="fas fa-times"></i> Cancel</button>
+            <div id="plan-active-state" class="card hidden" style="border-left: 4px solid var(--warning);">
+                <div class="list-header">
+                    <h4><i class="fas fa-sync fa-spin"></i> Meeting in Progress</h4>
+                    <span class="text-sm" id="active-timer">Logging...</span>
+                </div>
+                <p id="active-prospect-display" style="font-size: 16px;"></p>
+                <div class="action-row">
+                    <button class="btn btn-success btn-sm" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete</button>
+                    <button class="btn btn-danger btn-sm" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Cancel</button>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Leads Vault (With Follow-up & DD) -->
-        <div id="mem-list" class="tab-content hidden">
-            <h2 class="text-center">Lead Vault</h2>
-            
-            <!-- Add Lead Form -->
+        <!-- Lead Generation & DD Workflow -->
+        <div id="mem-leads" class="tab-content hidden">
             <div class="card">
-                <input type="text" id="lead-name" placeholder="Prospect Name">
-                <input type="number" id="lead-phone" placeholder="WhatsApp Number">
-                <select id="lead-temp">
-                    <option value="🔥 Hot">🔥 Hot</option>
-                    <option value="🌤️ Warm">🌤️ Warm</option>
-                    <option value="🥶 Cold">🥶 Cold</option>
-                </select>
-                <p style="font-size: 11px; color: var(--text-muted); margin: 0 0 5px 5px;">Follow-up Date:</p>
-                <input type="date" id="lead-date">
-                <button onclick="saveLead()"><i class="fas fa-save"></i> Save Lead</button>
-            </div>
-            
-            <h4 style="margin-top: 15px;"><i class="fas fa-address-book text-primary"></i> My Prospects</h4>
-            <div id="my-leads-list" style="max-height: 400px; overflow-y: auto;">
-                <p style="text-align:center; color:var(--text-muted); font-size:12px;">No leads added yet.</p>
-            </div>
-        </div>
-
-        <!-- 3. Member Profile (History) -->
-        <div id="mem-profile" class="tab-content hidden">
-            <h2 class="text-center">My Profile</h2>
-            <div class="stat-grid" style="margin-bottom: 15px;">
-                <div class="stat-box"><p>Total DD Closed</p><h2 id="prof-dd-count" class="text-success">0</h2></div>
-                <div class="stat-box"><p>Total Plans</p><h2 id="prof-plan-count">0</h2></div>
-            </div>
-            <div class="card">
-                <h4><i class="fas fa-history text-primary"></i> Recent Activity</h4>
-                <div id="my-history-list" style="max-height: 250px; overflow-y: auto;">
-                    <p style="font-size:12px; color:var(--text-muted);">Fetching history...</p>
+                <h4>Register Prospect</h4>
+                <div class="grid-2">
+                    <input type="text" id="lead-name" placeholder="Name">
+                    <input type="number" id="lead-phone" placeholder="Phone">
                 </div>
+                <div class="grid-2">
+                    <select id="lead-temp">
+                        <option value="Hot">🔥 Hot</option>
+                        <option value="Warm">🌤️ Warm</option>
+                        <option value="Cold">🥶 Cold</option>
+                    </select>
+                    <input type="date" id="lead-date" title="Follow-up Date">
+                </div>
+                <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Save Lead</button>
             </div>
+            
+            <h4>My Pipeline</h4>
+            <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Bottom Nav -->
+        <!-- Member Navigation -->
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('mem', 'plan', this)"><i class="fas fa-briefcase"></i>Plan</div>
-            <div class="nav-item" onclick="switchTab('mem', 'list', this)"><i class="fas fa-users"></i>Leads</div>
-            <div class="nav-item" onclick="switchTab('mem', 'profile', this)"><i class="fas fa-user"></i>Profile</div>
-            <div class="nav-item" onclick="safeLogout()"><i class="fas fa-sign-out-alt"></i>Exit</div>
+            <div class="nav-item active" onclick="UI.switchTab('member', 'plan', this)"><i class="fas fa-briefcase"></i>Operations</div>
+            <div class="nav-item" onclick="UI.switchTab('member', 'leads', this)"><i class="fas fa-users"></i>Pipeline</div>
+            <div class="nav-item" onclick="Auth.logout()"><i class="fas fa-sign-out-alt"></i>Log out</div>
         </div>
     </div>
 
-    <!-- ================= ADMIN APP (HQ) ================= -->
-    <div id="admin-app" class="hidden">
-        <div class="header-top">
-            <h3 style="margin:0;"><i class="fas fa-shield-alt text-primary"></i> HQ Command</h3>
-            <span style="font-size: 11px; color: var(--danger);">God Mode Active</span>
+    <!-- ADMIN MODULE -->
+    <div id="admin-module" class="hidden">
+        <div class="app-header">
+            <div>
+                <h3 style="margin: 0;">HQ Command Center</h3>
+                <span class="text-sm" style="color: var(--danger);">Administrator Protocol</span>
+            </div>
         </div>
 
-        <!-- Admin Radar -->
+        <!-- Admin: Radar & Stats -->
         <div id="admin-radar" class="tab-content">
-            <div class="stat-grid" style="margin-bottom: 15px;">
-                <div class="stat-box"><p>Total DD Cash</p><h2 id="total-dd-amt" class="text-success">₹0</h2></div>
-                <div class="stat-box"><p>Live Meetings</p><h2 id="live-agents">0</h2></div>
+            <div class="grid-2" style="margin-bottom: 16px;">
+                <div class="stat-box"><p>Network DD Volume</p><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
+                <div class="stat-box"><p>Active Operations</p><h2 id="admin-active-count">0</h2></div>
             </div>
-            <h4 style="margin-top: 20px;"><i class="fas fa-satellite-dish text-primary"></i> Live Field Radar</h4>
-            <div class="card" id="radar-status" style="max-height: 300px; overflow-y: auto;"></div>
+            <h4>Live Tracking Logs</h4>
+            <div id="admin-radar-container"></div>
         </div>
 
-        <!-- Add ID -->
-        <div id="admin-network" class="tab-content hidden">
-            <h2 class="text-center">Onboard ID</h2>
+        <!-- Admin: Team Management (CRUD) -->
+        <div id="admin-team" class="tab-content hidden">
             <div class="card">
-                <input type="text" id="new-mem-name" placeholder="Full Name">
-                <input type="text" id="new-mem-id" placeholder="Assign ID (HTM-0X)">
-                <input type="text" id="new-mem-pass" placeholder="Password">
-                <button onclick="createMemberReal()"><i class="fas fa-user-plus"></i> Create Access</button>
+                <h4>Provision New ID</h4>
+                <div class="grid-2">
+                    <input type="text" id="new-id" placeholder="ID (e.g. HTM-01)">
+                    <input type="text" id="new-name" placeholder="Full Name">
+                </div>
+                <input type="text" id="new-pass" placeholder="Password" style="margin-bottom: 12px;">
+                <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Member</button>
             </div>
+            <h4>Network Roster</h4>
+            <div id="admin-team-container"></div>
         </div>
 
-        <!-- Admin Bottom Nav -->
+        <!-- Admin: Sales & Leads Management -->
+        <div id="admin-sales" class="tab-content hidden">
+            <div class="app-header" style="border:none; padding:0; margin-bottom: 12px;">
+                <h4>Global Sales Pipeline</h4>
+            </div>
+            <div id="admin-sales-container"></div>
+        </div>
+
+        <!-- Admin Navigation -->
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-radar"></i>Radar</div>
-            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-plus"></i>Add ID</div>
-            <div class="nav-item" onclick="safeLogout()"><i class="fas fa-power-off"></i>Exit</div>
+            <div class="nav-item active" onclick="UI.switchTab('admin', 'radar', this)"><i class="fas fa-radar"></i>Radar</div>
+            <div class="nav-item" onclick="UI.switchTab('admin', 'team', this)"><i class="fas fa-user-shield"></i>Team</div>
+            <div class="nav-item" onclick="UI.switchTab('admin', 'sales', this)"><i class="fas fa-chart-line"></i>Sales</div>
+            <div class="nav-item" onclick="Auth.logout()"><i class="fas fa-sign-out-alt"></i>Log out</div>
         </div>
     </div>
+
 </div>
 
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-    // 🔥 REAL FIREBASE KEYS
+    // 1. Core Configuration & Services
     const firebaseConfig = {
-      apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
-      authDomain: "hemant-team-management.firebaseapp.com",
-      projectId: "hemant-team-management",
-      storageBucket: "hemant-team-management.firebasestorage.app",
-      messagingSenderId: "975104255247",
-      appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a"
+        apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
+        authDomain: "hemant-team-management.firebaseapp.com",
+        projectId: "hemant-team-management",
+        storageBucket: "hemant-team-management.firebasestorage.app",
+        messagingSenderId: "975104255247",
+        appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a"
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // 🌟 Boot App State
-    window.onload = () => {
-        const role = localStorage.getItem("htm_role");
-        const uid = localStorage.getItem("htm_user_id");
-        
-        if(role === 'admin') {
-            document.getElementById('admin-app').classList.remove('hidden');
-            fetchAdminRadar();
-        } else if (role === 'member' && uid) {
-            document.getElementById('member-app').classList.remove('hidden');
-            document.getElementById('mem-name').innerText = localStorage.getItem("htm_name");
-            checkActivePlan(); // Check if member was already in a plan
-            fetchMyLeads(); 
-            fetchMyProfile();
-        } else {
-            document.getElementById('auth-screen').classList.remove('hidden');
+    // 2. UI Utility Class (Toasts & Navigation)
+    class UI {
+        static showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icon = type === 'success' ? 'fa-check-circle' : (type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle');
+            toast.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
-    };
 
-    // 🔒 Login Logic
-    function authenticateUser() {
-        const id = document.getElementById('login-id').value.trim();
-        const pass = document.getElementById('login-pass').value.trim();
-        if(!id || !pass) return alert("Enter ID & Password");
+        static switchTab(module, tabId, element) {
+            document.getElementById(`${module}-module`).querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            element.parentElement.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`${module}-${tabId}`).classList.remove('hidden');
+            element.classList.add('active');
+        }
+    }
 
-        db.collection("users").doc(id).get().then((doc) => {
-            if(doc.exists && doc.data().password === pass) {
-                let localToken = localStorage.getItem("htm_device_token");
-                if(!localToken) localToken = "DEV-" + Math.random().toString(36).substr(2, 9); 
-                
-                localStorage.setItem("htm_device_token", localToken);
-                localStorage.setItem("htm_role", "member");
-                localStorage.setItem("htm_user_id", id);
-                localStorage.setItem("htm_name", doc.data().name);
-                
-                window.location.reload(); 
+    // 3. Authentication & Session Management
+    class Auth {
+        static init() {
+            const role = localStorage.getItem('htm_role');
+            if (role === 'admin') {
+                document.getElementById('admin-module').classList.remove('hidden');
+                Admin.initData();
+            } else if (role === 'member' && localStorage.getItem('htm_id')) {
+                document.getElementById('member-module').classList.remove('hidden');
+                document.getElementById('mem-ui-name').innerText = localStorage.getItem('htm_name');
+                Member.initData();
             } else {
-                alert("❌ Incorrect ID or Password");
+                document.getElementById('auth-module').classList.remove('hidden');
             }
-        }).catch(err => alert("Connection Error."));
-    }
-
-    // 📍 1. ADVANCED PLAN SYSTEM (START, END, CLEAR)
-    function checkActivePlan() {
-        const activePlanId = localStorage.getItem("active_plan_id");
-        if(activePlanId) {
-            document.getElementById('plan-start-ui').classList.add('hidden');
-            document.getElementById('plan-active-ui').classList.remove('hidden');
-            document.getElementById('active-prospect-name').innerText = "Meeting: " + localStorage.getItem("active_prospect");
-        } else {
-            document.getElementById('plan-start-ui').classList.remove('hidden');
-            document.getElementById('plan-active-ui').classList.add('hidden');
         }
-    }
 
-    function startPlan() {
-        const prospect = document.getElementById('plan-prospect').value.trim();
-        const type = document.getElementById('plan-type').value;
-        const uid = localStorage.getItem("htm_user_id");
+        static async login() {
+            const id = document.getElementById('auth-id').value.trim();
+            const pass = document.getElementById('auth-pass').value.trim();
+            if (!id || !pass) return UI.showToast('Authentication fields cannot be empty.', 'error');
 
-        if(!prospect) return alert("Please enter prospect name!");
-
-        if(navigator.geolocation) {
-            const btn = document.getElementById('checkin-btn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Locating...';
-            
-            navigator.geolocation.getCurrentPosition((pos) => {
-                db.collection("tracking").add({
-                    member: uid,
-                    memberName: localStorage.getItem("htm_name"),
-                    prospect: prospect,
-                    type: type,
-                    lat: pos.coords.latitude,
-                    lng: pos.coords.longitude,
-                    status: "Ongoing", // Realtime status
-                    time: firebase.firestore.FieldValue.serverTimestamp()
-                }).then((docRef) => {
-                    localStorage.setItem("active_plan_id", docRef.id);
-                    localStorage.setItem("active_prospect", prospect);
-                    document.getElementById('plan-prospect').value = '';
-                    checkActivePlan();
-                    btn.innerHTML = '<i class="fas fa-play"></i> Start Plan (GPS)';
-                });
-            }, (err) => {
-                alert("❌ GPS is required to check-in.");
-                btn.innerHTML = '<i class="fas fa-play"></i> Start Plan (GPS)';
-            });
-        }
-    }
-
-    function endPlan() {
-        const planId = localStorage.getItem("active_plan_id");
-        if(!planId) return;
-
-        db.collection("tracking").doc(planId).update({
-            status: "Completed",
-            endTime: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-            alert("✅ Plan Completed Successfully!");
-            localStorage.removeItem("active_plan_id");
-            localStorage.removeItem("active_prospect");
-            checkActivePlan();
-        });
-    }
-
-    function clearPlan() {
-        const planId = localStorage.getItem("active_plan_id");
-        if(!planId) return;
-
-        if(confirm("Are you sure you want to cancel this plan entry?")) {
-            db.collection("tracking").doc(planId).delete().then(() => {
-                localStorage.removeItem("active_plan_id");
-                localStorage.removeItem("active_prospect");
-                checkActivePlan();
-            });
-        }
-    }
-
-    // 📝 2. LEADS, FOLLOW-UP & DIRECT DD SUBMISSION
-    function saveLead() {
-        const name = document.getElementById('lead-name').value;
-        const phone = document.getElementById('lead-phone').value;
-        const temp = document.getElementById('lead-temp').value;
-        const date = document.getElementById('lead-date').value;
-        const uid = localStorage.getItem("htm_user_id");
-
-        if(!name || !phone) return alert("Name & Phone required");
-
-        db.collection("leads").add({
-            member: uid, prospect: name, phone: phone, temperature: temp, followUp: date,
-            ddClosed: false, ddAmount: 0,
-            time: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-            alert("Lead Saved!");
-            document.querySelectorAll("#mem-list input").forEach(i => i.value='');
-        });
-    }
-
-    function fetchMyLeads() {
-        const uid = localStorage.getItem("htm_user_id");
-        db.collection("leads").where("member", "==", uid).onSnapshot((snap) => {
-            const listDiv = document.getElementById('my-leads-list');
-            listDiv.innerHTML = "";
-            if(snap.empty) {
-                listDiv.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:12px;">No leads yet.</p>'; return;
-            }
-            
-            snap.forEach(doc => {
-                const d = doc.data();
-                const docId = doc.id;
-                const waLink = `https://wa.me/91${d.phone}?text=Hello%20${encodeURIComponent(d.prospect)}`;
+            try {
+                const doc = await db.collection('users').doc(id).get();
+                if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials");
                 
-                // Card UI based on DD Status
-                let ddUI = "";
-                if(d.ddClosed) {
-                    ddUI = `<div style="margin-top:10px; background:rgba(16, 185, 129, 0.2); padding:8px; border-radius:8px; color:var(--success); font-size:12px; font-weight:bold;"><i class="fas fa-check-circle"></i> DD Closed: ₹${d.ddAmount}</div>`;
-                } else {
-                    ddUI = `
-                    <div class="dd-section">
-                        <input type="number" id="dd-amt-${docId}" placeholder="Enter DD ₹" style="padding:8px; margin:0; flex:1; font-size:13px;">
-                        <button onclick="submitDD('${docId}')" style="padding:8px 12px; width:auto; font-size:12px; background:var(--success);"><i class="fas fa-check"></i> Close DD</button>
-                    </div>`;
+                const data = doc.data();
+                let localToken = localStorage.getItem('htm_device');
+                if (!localToken) localToken = "DEV-" + Date.now();
+
+                // Device Binding Enforcement
+                if (!data.deviceToken) {
+                    await db.collection('users').doc(id).update({ deviceToken: localToken });
+                } else if (data.deviceToken !== localToken) {
+                    throw new Error("Unrecognized Device Detected. Contact Admin.");
                 }
 
-                listDiv.innerHTML += `
-                <div class="list-item">
-                    <div style="display:flex; justify-content: space-between; align-items:center;">
-                        <div>
-                            <strong style="color:var(--text); font-size:15px;">${d.prospect}</strong>
-                            <span style="display:block; font-size:11px; color:var(--text-muted); margin-top:3px;">Temp: ${d.temperature} | Follow-up: <b style="color:var(--primary);">${d.followUp || 'N/A'}</b></span>
-                        </div>
-                        <a href="${waLink}" target="_blank" style="background:#25D366; color:#000; padding:8px; border-radius:8px; text-decoration:none;"><i class="fab fa-whatsapp"></i> Chat</a>
-                    </div>
-                    ${ddUI}
-                </div>`;
-            });
-        });
-    }
+                localStorage.setItem('htm_device', localToken);
+                localStorage.setItem('htm_role', 'member');
+                localStorage.setItem('htm_id', id);
+                localStorage.setItem('htm_name', data.name);
+                
+                UI.showToast('Verification Successful', 'success');
+                setTimeout(() => window.location.reload(), 800);
+            } catch (err) {
+                UI.showToast(err.message, 'error');
+            }
+        }
 
-    // Submit DD directly from lead card
-    function submitDD(docId) {
-        const amt = document.getElementById(`dd-amt-${docId}`).value;
-        if(!amt || amt <= 0) return alert("Enter valid DD amount!");
-        
-        if(confirm(`Are you sure you want to lock this DD for ₹${amt}?`)) {
-            db.collection("leads").doc(docId).update({
-                ddClosed: true,
-                ddAmount: parseInt(amt),
-                ddDate: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => alert("🎉 DD Closed Successfully!"));
+        static logout() {
+            localStorage.removeItem('htm_role');
+            localStorage.removeItem('htm_id');
+            localStorage.removeItem('htm_name');
+            window.location.reload();
         }
     }
 
-    // 👤 3. Member Profile History
-    function fetchMyProfile() {
-        const uid = localStorage.getItem("htm_user_id");
-        
-        // Count DDs
-        db.collection("leads").where("member", "==", uid).where("ddClosed", "==", true).onSnapshot((snap) => {
-            let totalDD = 0;
-            snap.forEach(doc => totalDD += doc.data().ddAmount);
-            document.getElementById('prof-dd-count').innerText = "₹" + totalDD;
-        });
+    // 4. Member Operations Workflow
+    class Member {
+        static initData() {
+            this.checkActivePlanState();
+            this.streamLeads();
+        }
 
-        // Fetch History
-        db.collection("tracking").where("member", "==", uid).onSnapshot((snap) => {
-            const histDiv = document.getElementById('my-history-list');
-            histDiv.innerHTML = "";
-            let planCount = 0;
-            snap.forEach(doc => {
-                const d = doc.data();
-                if(d.status === "Completed") planCount++;
+        static checkActivePlanState() {
+            const activeId = localStorage.getItem("htm_active_plan");
+            if (activeId) {
+                document.getElementById('plan-init-state').classList.add('hidden');
+                document.getElementById('plan-active-state').classList.remove('hidden');
+                document.getElementById('active-prospect-display').innerText = "Prospect: " + localStorage.getItem("htm_active_prospect");
+            } else {
+                document.getElementById('plan-init-state').classList.remove('hidden');
+                document.getElementById('plan-active-state').classList.add('hidden');
+            }
+        }
+
+        static startPlan() {
+            const prospect = document.getElementById('plan-prospect').value.trim();
+            const type = document.getElementById('plan-type').value;
+            if (!prospect) return UI.showToast('Prospect name is required.', 'error');
+
+            if (!navigator.geolocation) return UI.showToast('Geolocation not supported by device.', 'error');
+            
+            UI.showToast('Acquiring GPS Signal...', 'info');
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                try {
+                    const docRef = await db.collection("tracking").add({
+                        memberId: localStorage.getItem('htm_id'),
+                        memberName: localStorage.getItem('htm_name'),
+                        prospect: prospect,
+                        type: type,
+                        lat: pos.coords.latitude,
+                        lng: pos.coords.longitude,
+                        status: "Active",
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    localStorage.setItem("htm_active_plan", docRef.id);
+                    localStorage.setItem("htm_active_prospect", prospect);
+                    document.getElementById('plan-prospect').value = '';
+                    this.checkActivePlanState();
+                    UI.showToast('Operation logged successfully.', 'success');
+                } catch (err) { UI.showToast('Database Error', 'error'); }
+            }, () => UI.showToast('GPS Permission Denied.', 'error'), { enableHighAccuracy: true });
+        }
+
+        static async endPlan() {
+            const planId = localStorage.getItem("htm_active_plan");
+            if (!planId) return;
+            try {
+                await db.collection("tracking").doc(planId).update({ status: "Completed" });
+                localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect");
+                this.checkActivePlanState();
+                UI.showToast('Operation Completed.', 'success');
+            } catch (err) { UI.showToast('Sync Error', 'error'); }
+        }
+
+        static async cancelPlan() {
+            const planId = localStorage.getItem("htm_active_plan");
+            if (!planId) return;
+            if (confirm("Terminate and delete this active log?")) {
+                await db.collection("tracking").doc(planId).delete();
+                localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect");
+                this.checkActivePlanState();
+                UI.showToast('Operation Terminated.', 'info');
+            }
+        }
+
+        static async addLead() {
+            const payload = {
+                memberId: localStorage.getItem('htm_id'),
+                name: document.getElementById('lead-name').value.trim(),
+                phone: document.getElementById('lead-phone').value.trim(),
+                temp: document.getElementById('lead-temp').value,
+                followUp: document.getElementById('lead-date').value,
+                ddClosed: false, ddAmount: 0,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            if (!payload.name || !payload.phone) return UI.showToast('Incomplete lead data.', 'error');
+            
+            try {
+                await db.collection('leads').add(payload);
+                document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = '';
+                UI.showToast('Lead stored in pipeline.', 'success');
+            } catch (err) { UI.showToast('Database Error', 'error'); }
+        }
+
+        static streamLeads() {
+            const uid = localStorage.getItem('htm_id');
+            db.collection('leads').where("memberId", "==", uid).onSnapshot(snap => {
+                const container = document.getElementById('member-leads-container');
+                container.innerHTML = snap.empty ? '<p class="text-sm text-center">Pipeline is empty.</p>' : '';
                 
-                const timeStr = d.time ? new Date(d.time.toDate()).toLocaleDateString() : 'Recent';
-                const statusColor = d.status === "Ongoing" ? "var(--warning)" : "var(--success)";
-                
-                histDiv.innerHTML += `
-                <div style="padding:10px; border-bottom:1px solid var(--border); font-size:13px;">
-                    <strong style="color:var(--text);">${d.prospect} (${d.type})</strong><br>
-                    <span style="color:var(--text-muted); font-size:11px;">${timeStr}</span> | <span style="color:${statusColor}; font-weight:bold; font-size:11px;">${d.status}</span>
-                </div>`;
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const waLink = `https://wa.me/91${d.phone}?text=Hello%20${encodeURIComponent(d.name)}`;
+                    const ddAction = d.ddClosed 
+                        ? `<span class="text-sm" style="color: var(--success);"><i class="fas fa-check-circle"></i> DD: ₹${d.ddAmount}</span>`
+                        : `<div style="display:flex; gap:8px;">
+                            <input type="number" id="dd-${doc.id}" placeholder="DD ₹" style="padding:6px; flex:1;">
+                            <button class="btn btn-success btn-sm" onclick="Member.closeDD('${doc.id}')">Close</button>
+                           </div>`;
+                    
+                    container.innerHTML += `
+                    <div class="list-item">
+                        <div class="list-header">
+                            <div>
+                                <h4 style="margin:0;">${d.name}</h4>
+                                <span class="text-sm">Status: ${d.temp} | FW: ${d.followUp || 'N/A'}</span>
+                            </div>
+                            <a href="${waLink}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#fff; text-decoration:none;"><i class="fab fa-whatsapp"></i> Chat</a>
+                        </div>
+                        <div class="action-row">${ddAction}</div>
+                    </div>`;
+                });
             });
-            document.getElementById('prof-plan-count').innerText = planCount;
-            if(snap.empty) histDiv.innerHTML = '<p style="color:var(--text-muted); font-size:12px;">No plans executed yet.</p>';
-        });
+        }
+
+        static async closeDD(leadId) {
+            const amt = document.getElementById(`dd-${leadId}`).value;
+            if (!amt || amt <= 0) return UI.showToast('Invalid Amount', 'error');
+            if(confirm(`Confirm DD closure for ₹${amt}?`)) {
+                await db.collection('leads').doc(leadId).update({ ddClosed: true, ddAmount: parseInt(amt) });
+                UI.showToast('Revenue logged successfully.', 'success');
+            }
+        }
     }
 
-    // 📡 4. Admin Live Radar Fetch (Shows Active/Completed & Total DDs)
-    function fetchAdminRadar() {
-        // Calculate Total Network DD
-        db.collection("leads").where("ddClosed", "==", true).onSnapshot((snapshot) => {
-            let totalDDAmt = 0;
-            snapshot.forEach((doc) => totalDDAmt += doc.data().ddAmount);
-            document.getElementById('total-dd-amt').innerText = "₹" + totalDDAmt;
-        });
+    // 5. Admin Super-User Operations (Granular Data Control)
+    class Admin {
+        static initData() {
+            this.streamRadar();
+            this.streamTeam();
+            this.streamSales();
+        }
 
-        // Live Agent Tracking
-        db.collection("tracking").orderBy("time", "desc").limit(15).onSnapshot((snapshot) => {
-            const radar = document.getElementById('radar-status');
-            radar.innerHTML = "";
-            let liveCount = 0;
-            snapshot.forEach((doc) => {
-                const d = doc.data();
-                if(d.status === "Ongoing") liveCount++;
-                
-                const statusBadge = d.status === "Ongoing" 
-                    ? `<span style="background:var(--warning); color:#000; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:bold;">In Meeting</span>`
-                    : `<span style="background:var(--success); color:#fff; padding:3px 8px; border-radius:8px; font-size:10px; font-weight:bold;">Completed</span>`;
+        static async createUser() {
+            const id = document.getElementById('new-id').value.trim();
+            const name = document.getElementById('new-name').value.trim();
+            const pass = document.getElementById('new-pass').value.trim();
+            
+            if(!id || !pass) return UI.showToast('ID and Password mandatory.', 'error');
+            
+            try {
+                await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", active: true });
+                UI.showToast('Identity provisioned successfully.', 'success');
+                document.getElementById('new-id').value = ''; document.getElementById('new-name').value = ''; document.getElementById('new-pass').value = '';
+            } catch (err) { UI.showToast('Provisioning failed.', 'error'); }
+        }
 
-                radar.innerHTML += `
-                <div class="list-item" style="display:block;">
-                    <div style="display:flex; justify-content: space-between; margin-bottom:5px;">
-                        <strong style="color: var(--text);">${d.memberName || d.member}</strong>
-                        ${statusBadge}
-                    </div>
-                    <p style="margin: 0; font-size: 13px; color: var(--text-muted);">
-                        <i class="fas fa-user-tie text-primary"></i> Prospect: <b>${d.prospect}</b>
-                    </p>
-                </div>`;
+        // Radar & Tracking Clear Options
+        static streamRadar() {
+            db.collection('tracking').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const container = document.getElementById('admin-radar-container');
+                container.innerHTML = snap.empty ? '<p class="text-sm text-center">No telemetry data.</p>' : '';
+                let activeCount = 0;
+
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    if(d.status === "Active") activeCount++;
+                    const statusBadge = d.status === "Active" ? `<span style="color:var(--warning);"><i class="fas fa-satellite-dish fa-spin"></i> Active</span>` : `<span style="color:var(--success);">Completed</span>`;
+                    
+                    container.innerHTML += `
+                    <div class="list-item">
+                        <div class="list-header">
+                            <div>
+                                <strong>${d.memberName}</strong> <span class="text-sm">(${d.memberId})</span><br>
+                                <span class="text-sm">Target: ${d.prospect} [${d.type}]</span>
+                            </div>
+                            <div class="text-sm" style="text-align:right;">${statusBadge}</div>
+                        </div>
+                        <div class="action-row">
+                            ${d.status === 'Active' ? `<button class="btn btn-warning btn-sm" onclick="Admin.forceEndTracking('${doc.id}')">Force End</button>` : ''}
+                            <button class="btn btn-danger btn-sm" onclick="Admin.deleteRecord('tracking', '${doc.id}')"><i class="fas fa-trash"></i> Delete Log</button>
+                        </div>
+                    </div>`;
+                });
+                document.getElementById('admin-active-count').innerText = activeCount;
             });
-            document.getElementById('live-agents').innerText = liveCount;
-        });
+        }
+
+        static async forceEndTracking(docId) {
+            if(confirm("Force end this member's operation?")) {
+                await db.collection('tracking').doc(docId).update({ status: "Completed (Forced by Admin)" });
+                UI.showToast('Operation forcibly ended.', 'info');
+            }
+        }
+
+        // Team Delete/Reset Options
+        static streamTeam() {
+            db.collection('users').onSnapshot(snap => {
+                const container = document.getElementById('admin-team-container');
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    container.innerHTML += `
+                    <div class="list-item">
+                        <div class="list-header">
+                            <div><strong>${d.name}</strong> <span class="text-sm">[${doc.id}]</span><br>
+                            <span class="text-sm">Device Bind: ${d.deviceToken ? 'Yes' : 'No'}</span></div>
+                        </div>
+                        <div class="action-row">
+                            <button class="btn btn-sm" style="border:1px solid var(--border); color:var(--text-main);" onclick="Admin.resetDevice('${doc.id}')">Reset Device</button>
+                            <button class="btn btn-danger btn-sm" onclick="Admin.deleteRecord('users', '${doc.id}', 'Delete this User ID permanently?')"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    </div>`;
+                });
+            });
+        }
+
+        static async resetDevice(uid) {
+            if(confirm(`Unbind current device for user ${uid}?`)) {
+                await db.collection('users').doc(uid).update({ deviceToken: "" });
+                UI.showToast('Device constraint removed.', 'success');
+            }
+        }
+
+        // Sales Clear Options
+        static streamSales() {
+            db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const container = document.getElementById('admin-sales-container');
+                container.innerHTML = snap.empty ? '<p class="text-sm text-center">Pipeline empty.</p>' : '';
+                let totalDD = 0;
+
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    if(d.ddClosed) totalDD += d.ddAmount;
+                    const ddLabel = d.ddClosed ? `<span style="color:var(--success);">DD: ₹${d.ddAmount}</span>` : `<span style="color:var(--warning);">Pending</span>`;
+                    
+                    container.innerHTML += `
+                    <div class="list-item">
+                        <div class="list-header">
+                            <div><strong>${d.name}</strong> <span class="text-sm">handled by ${d.memberId}</span><br>
+                            ${ddLabel}</div>
+                        </div>
+                        <div class="action-row">
+                            ${d.ddClosed ? `<button class="btn btn-warning btn-sm" onclick="Admin.revokeDD('${doc.id}')">Revoke DD</button>` : ''}
+                            <button class="btn btn-danger btn-sm" onclick="Admin.deleteRecord('leads', '${doc.id}')"><i class="fas fa-trash"></i> Delete Lead</button>
+                        </div>
+                    </div>`;
+                });
+                document.getElementById('admin-dd-total').innerText = '₹' + totalDD;
+            });
+        }
+
+        static async revokeDD(leadId) {
+            if(confirm("Revoke DD and reset to pending?")) {
+                await db.collection('leads').doc(leadId).update({ ddClosed: false, ddAmount: 0 });
+                UI.showToast('Revenue revoked.', 'info');
+            }
+        }
+
+        // Universal Master Delete Function
+        static async deleteRecord(collection, docId, msg = "Permanently delete this record?") {
+            if(confirm(msg)) {
+                await db.collection(collection).doc(docId).delete();
+                UI.showToast('Record purged from database.', 'success');
+            }
+        }
     }
 
-    // Admin Onboard
-    function createMemberReal() {
-        const id = document.getElementById('new-mem-id').value.trim();
-        const name = document.getElementById('new-mem-name').value;
-        const pass = document.getElementById('new-mem-pass').value;
-        if(!id || !pass) return alert("Required fields missing");
-
-        db.collection("users").doc(id).set({ name: name, password: pass, deviceToken: "", isActive: true }).then(() => {
-            alert(`✅ ID ${id} Generated!`); document.querySelectorAll("#admin-network input").forEach(i => i.value = "");
-        });
+    // Secret Admin Trigger
+    function initAdminOverride() {
+        const pass = prompt("Master Access Protocol:");
+        if(pass === "9999") {
+            localStorage.setItem('htm_role', 'admin');
+            window.location.reload();
+        }
     }
 
-    function switchTab(panel, tabName, element) {
-        const panelID = panel === 'mem' ? 'member-app' : 'admin-app';
-        document.getElementById(panelID).querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
-        element.parentElement.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        document.getElementById(`${panel}-${tabName}`).classList.remove('hidden');
-        element.classList.add('active');
-    }
-
-    function promptAdminLogin() {
-        const pin = prompt("Admin PIN:");
-        if(pin === "9999") { localStorage.setItem("htm_role", "admin"); window.location.reload(); }
-    }
-    
-    function safeLogout() {
-        localStorage.removeItem("htm_role"); localStorage.removeItem("htm_user_id"); localStorage.removeItem("htm_name");
-        window.location.reload();
-    }
+    Auth.init();
 </script>
 </body>
 </html>
