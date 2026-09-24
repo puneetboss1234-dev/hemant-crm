@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HTM | Enterprise CRM</title>
+    <title>HTM | Premium CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Minimalist Modern App Theme */
+        /* Ultra Premium Theme */
         :root {
-            --bg: #0f172a;        /* Deep Space Blue */
-            --surface: #1e293b;   /* Clean Card Background */
-            --primary: #fbbf24;   /* Premium Gold */
+            --bg: #050b14;        /* Deep Space Black */
+            --surface: rgba(30, 41, 59, 0.7);   /* Glass Card */
+            --primary: #d4af37;   /* Rich Royal Gold */
+            --primary-glow: rgba(212, 175, 55, 0.4);
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --danger: #ef4444;
@@ -20,79 +21,119 @@
         body {
             margin: 0; 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg); 
+            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
             color: var(--text);
             -webkit-font-smoothing: antialiased; 
-            padding-bottom: 80px; /* Space for Bottom Nav */
+            padding-bottom: 90px;
+            min-height: 100vh;
+        }
+
+        /* SPLASH SCREEN POPUP */
+        #splash-screen {
+            position: fixed; inset: 0; background: #020617; z-index: 99999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+        .splash-logo { font-size: 60px; color: var(--primary); animation: pulseGlow 1.5s infinite alternate; }
+        .splash-title { font-size: 24px; font-weight: 700; margin-top: 20px; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(90deg, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 10px var(--primary-glow)); transform: scale(0.98); }
+            100% { filter: drop-shadow(0 0 25px var(--primary)); transform: scale(1.05); }
         }
         
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; }
+        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; letter-spacing: 0.5px; }
         .hidden { display: none !important; }
         .text-gold { color: var(--primary); }
         .text-center { text-align: center; }
         
-        /* Inputs & Buttons */
-        input, select {
-            width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 14px;
-            border: 1px solid #334155; background: var(--surface);
-            color: var(--text); font-size: 16px; outline: none; box-sizing: border-box;
-            transition: 0.3s;
+        /* Smooth Tab Animations */
+        .tab-content { animation: fadeSlideUp 0.4s ease-out forwards; }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2); }
-        input::placeholder { color: var(--text-muted); }
+        
+        /* Inputs & Buttons (Premium) */
+        input, select {
+            width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4);
+            color: var(--text); font-size: 16px; outline: none; box-sizing: border-box;
+            transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); background: rgba(0,0,0,0.6); }
         
         button {
-            width: 100%; padding: 16px; border-radius: 14px; border: none;
-            background: var(--primary); color: #000; font-weight: bold; font-size: 16px;
-            cursor: pointer; transition: 0.2s;
+            width: 100%; padding: 16px; border-radius: 12px; border: none;
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            color: #000; font-weight: 800; font-size: 16px; letter-spacing: 1px;
+            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px var(--primary-glow);
         }
-        button:active { transform: scale(0.98); }
-        .btn-danger { background: var(--danger); color: white; }
-        .btn-success { background: var(--success); color: white; }
+        button:active { transform: scale(0.96); box-shadow: 0 2px 5px var(--primary-glow); }
         
-        /* Minimalist Cards */
-        .card { background: var(--surface); padding: 20px; border-radius: 18px; margin-bottom: 16px; border: 1px solid #334155; }
+        /* Cards */
+        .card { 
+            background: var(--surface); padding: 22px; border-radius: 20px; margin-bottom: 18px; 
+            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .stat-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 14px; text-align: center; }
-        .stat-box h2 { color: var(--primary); margin-top: 5px; font-size: 26px; }
-        .stat-box p { margin: 0; color: var(--text-muted); font-size: 13px; }
+        .stat-box { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: transform 0.3s ease; }
+        .stat-box:hover { transform: translateY(-3px); border-color: var(--primary-glow); }
+        .stat-box h2 { color: var(--primary); margin-top: 5px; font-size: 28px; }
+        .stat-box p { margin: 0; color: var(--text-muted); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Top Header Area */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
-        .status-dot { height: 10px; width: 10px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 8px var(--success); }
-        
-        /* App Bottom Navigation Bar */
+        /* Bottom Navigation Bar (Smooth & Animated) */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(15px);
-            border-top: 1px solid #334155; display: flex; justify-content: space-around;
-            padding: 12px 0; padding-bottom: env(safe-area-inset-bottom, 12px);
-            z-index: 1000; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around;
+            padding: 15px 0 calc(15px + env(safe-area-inset-bottom));
+            z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
         }
         .nav-item {
             display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
-            font-size: 12px; cursor: pointer; flex: 1; transition: 0.3s;
+            font-size: 12px; cursor: pointer; flex: 1; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
-        .nav-item i { font-size: 22px; margin-bottom: 6px; }
-        .nav-item.active { color: var(--primary); }
+        .nav-item i { font-size: 22px; margin-bottom: 6px; transition: transform 0.3s ease; }
+        
+        /* Nav Item Active State */
+        .nav-item.active { color: var(--primary); transform: translateY(-4px); }
+        .nav-item.active i { transform: scale(1.15); filter: drop-shadow(0 0 5px var(--primary-glow)); }
+        .nav-item.active::after {
+            content: ''; position: absolute; bottom: -8px; width: 6px; height: 6px; 
+            background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary);
+        }
+        
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
+        .status-dot { height: 10px; width: 10px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px var(--success); }
     </style>
 </head>
 <body>
 
+<!-- SPLASH SCREEN POPUP -->
+<div id="splash-screen">
+    <i class="fas fa-crown splash-logo"></i>
+    <div class="splash-title">Hemant Team</div>
+    <p style="color: var(--text-muted); font-size: 12px; margin-top: 10px; letter-spacing: 2px;">MANAGEMENT SYSTEM</p>
+</div>
+
 <div class="container">
 
     <!-- LOGIN SCREEN -->
-    <div id="auth-screen" class="card" style="margin-top: 30vh; text-align: center; border: none; background: transparent;">
-        <!-- SECRET ADMIN TRIGGER ON CROWN ICON -->
-        <h1 style="font-size: 32px; margin-bottom: 30px;">
-            <i class="fas fa-crown text-gold" onclick="promptAdminLogin()" style="cursor: pointer;"></i> HTM
+    <div id="auth-screen" class="card hidden" style="margin-top: 25vh; text-align: center; border: none; background: transparent; box-shadow: none;">
+        <h1 style="font-size: 38px; margin-bottom: 30px; letter-spacing: 1px;">
+            <!-- Crown Admin Trigger -->
+            <i class="fas fa-crown text-gold" onclick="promptAdminLogin()" style="cursor: pointer; filter: drop-shadow(0 0 10px rgba(212,175,55,0.3));"></i> HTM
         </h1>
-        <p style="color: var(--text-muted); margin-bottom: 20px;" id="device-msg">Secure Workspace Login</p>
+        <p style="color: var(--text-muted); margin-bottom: 25px;" id="device-msg">Secure Enterprise Login</p>
         
         <input type="text" id="login-id" placeholder="Member ID (e.g., HTM-01)">
         <input type="password" id="login-pass" placeholder="Password">
-        <button onclick="authenticateUser()"><i class="fas fa-arrow-right"></i> Continue</button>
+        <button onclick="authenticateUser()"><i class="fas fa-sign-in-alt"></i> Access Workspace</button>
     </div>
 
     <!-- MEMBER APP -->
@@ -100,28 +141,28 @@
         <div class="header">
             <div>
                 <h2 style="margin:0;">Hi, <span id="mem-name" class="text-gold">Member</span></h2>
-                <span style="font-size: 12px; color: var(--text-muted);"><span class="status-dot"></span> System Active</span>
+                <span style="font-size: 12px; color: var(--text-muted);"><span class="status-dot"></span> Secure Connection</span>
             </div>
-            <i class="fas fa-bell text-gold" style="font-size: 20px;"></i>
+            <i class="fas fa-bell text-gold" style="font-size: 22px;"></i>
         </div>
 
         <!-- Mem Tab: Home -->
         <div id="mem-dashboard" class="tab-content">
             <div class="card" style="border-left: 4px solid var(--primary);">
-                <h4><i class="fas fa-bolt text-gold"></i> AI Focus</h4>
-                <p style="font-size: 14px; color: var(--text-muted); margin:0;">Complete 2 more Plans today to hit your weekly BV target.</p>
+                <h4><i class="fas fa-robot text-gold"></i> AI Suggestion</h4>
+                <p style="font-size: 14px; color: var(--text-muted); margin:0;">Follow up with your 'Hot Leads' today to maximize closing ratio.</p>
             </div>
-            <button class="btn-success" style="padding: 20px;" onclick="logLocation()"><i class="fas fa-map-pin"></i> Field Check-In</button>
+            <button class="btn-success" style="padding: 18px; margin-bottom: 10px;" onclick="logLocation()"><i class="fas fa-map-marker-alt"></i> Mark GPS Attendance</button>
             
             <div class="stat-grid">
-                <div class="stat-box"><p>Plans</p><h3>0</h3></div>
-                <div class="stat-box"><p>BV</p><h3>0</h3></div>
+                <div class="stat-box"><p>Plans Shown</p><h3>0</h3></div>
+                <div class="stat-box"><p>BV Generated</p><h3>0</h3></div>
             </div>
         </div>
 
         <!-- Mem Tab: DPR -->
         <div id="mem-dpr" class="tab-content hidden">
-            <h2 class="text-center">Daily Report</h2>
+            <h2 class="text-center" style="margin-bottom: 20px;">Daily Report</h2>
             <div class="card">
                 <input type="number" id="dpr-plans" placeholder="Total Plans Shown">
                 <input type="number" id="dpr-dd" placeholder="Total DD Closed">
@@ -132,13 +173,13 @@
                     <option value="Suit Length">Suit Length</option>
                     <option value="Health Supplement">Health Supplement</option>
                 </select>
-                <button onclick="submitDPR()">Sync Report</button>
+                <button onclick="submitDPR()">Sync Report Securely</button>
             </div>
         </div>
 
         <!-- Mem Tab: List -->
         <div id="mem-list" class="tab-content hidden">
-            <h2 class="text-center">Lead Vault</h2>
+            <h2 class="text-center" style="margin-bottom: 20px;">Lead Vault</h2>
             <div class="card">
                 <input type="text" id="lead-name" placeholder="Prospect Name">
                 <select id="lead-temp">
@@ -146,16 +187,16 @@
                     <option value="warm">🌤️ Warm Lead</option>
                     <option value="cold">🥶 Cold Lead</option>
                 </select>
-                <button onclick="saveLead()">Save Prospect</button>
+                <button onclick="saveLead()">Encrypt & Save Lead</button>
             </div>
         </div>
 
         <!-- Mem Bottom Nav -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchTab('mem', 'dashboard', this)"><i class="fas fa-home"></i>Home</div>
-            <div class="nav-item" onclick="switchTab('mem', 'dpr', this)"><i class="fas fa-chart-bar"></i>DPR</div>
-            <div class="nav-item" onclick="switchTab('mem', 'list', this)"><i class="fas fa-users"></i>Leads</div>
-            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-sign-out-alt"></i>Exit</div>
+            <div class="nav-item" onclick="switchTab('mem', 'dpr', this)"><i class="fas fa-chart-line"></i>DPR</div>
+            <div class="nav-item" onclick="switchTab('mem', 'list', this)"><i class="fas fa-address-book"></i>Leads</div>
+            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-power-off"></i>Exit</div>
         </div>
     </div>
 
@@ -163,56 +204,59 @@
     <div id="admin-app" class="hidden">
         <div class="header">
             <div>
-                <h2 style="margin:0;" class="text-gold"><i class="fas fa-shield-alt"></i> Command</h2>
-                <span style="font-size: 12px; color: var(--danger);">God Mode Active</span>
+                <h2 style="margin:0;" class="text-gold"><i class="fas fa-chess-king"></i> God Mode</h2>
+                <span style="font-size: 12px; color: var(--danger);">Encrypted Admin Session</span>
             </div>
         </div>
 
         <!-- Admin Tab: Overview -->
         <div id="admin-overview" class="tab-content">
             <div class="stat-grid">
-                <div class="stat-box"><p>Team BV</p><h2 id="total-bv">0</h2></div>
-                <div class="stat-box"><p>Est. Payout</p><h2 id="est-payout">₹0</h2></div>
+                <div class="stat-box"><p>Total Network BV</p><h2 id="total-bv">0</h2></div>
+                <div class="stat-box"><p>Estimated Payout</p><h2 id="est-payout">₹0</h2></div>
+            </div>
+            <div class="card" style="margin-top: 15px; border-left: 4px solid var(--primary);">
+                <h4 style="margin:0;"><i class="fas fa-chart-pie text-gold"></i> Live Analytics synced.</h4>
             </div>
         </div>
 
         <!-- Admin Tab: Network -->
         <div id="admin-network" class="tab-content hidden">
-            <h2 class="text-center">New Member</h2>
+            <h2 class="text-center" style="margin-bottom: 20px;">Onboard Member</h2>
             <div class="card">
                 <input type="text" id="new-mem-name" placeholder="Full Name">
                 <input type="text" id="new-mem-id" placeholder="Assign ID (HTM-0X)">
                 <input type="text" id="new-mem-pass" placeholder="Password">
-                <button onclick="createMember()">Register Access</button>
+                <button onclick="createMember()">Generate Credentials</button>
             </div>
         </div>
 
         <!-- Admin Tab: Radar -->
         <div id="admin-radar" class="tab-content hidden">
-            <h2 class="text-center">Live Radar</h2>
-            <div class="card" style="border-left: 4px solid var(--danger);">
+            <h2 class="text-center" style="margin-bottom: 20px;">Live Geo-Radar</h2>
+            <div class="card" style="border: 1px solid rgba(239, 68, 68, 0.3);">
                 <p style="color: var(--danger); margin:0; font-size: 14px;"><i class="fas fa-exclamation-triangle"></i> Sleeping Alert: System Monitoring.</p>
             </div>
-            <div class="card" id="radar-status" style="font-size: 14px; line-height: 1.6;">
-                <i class="fas fa-spinner fa-spin text-gold"></i> Waiting for check-ins...
+            <div class="card" id="radar-status" style="font-size: 14px; line-height: 1.8;">
+                <i class="fas fa-circle-notch fa-spin text-gold"></i> Waiting for GPS check-ins...
             </div>
         </div>
         
         <!-- Admin Tab: Settings -->
         <div id="admin-settings" class="tab-content hidden">
-            <h2 class="text-center">Security</h2>
+            <h2 class="text-center" style="margin-bottom: 20px;">Master Control</h2>
             <div class="card">
-                <button class="btn-danger" style="margin-bottom: 15px;" onclick="killSwitch()"><i class="fas fa-skull"></i> Wipe Team Data</button>
+                <button style="background: var(--danger); color: white; margin-bottom: 15px;" onclick="killSwitch()"><i class="fas fa-skull-crossbones"></i> Wipe Team Devices</button>
+                <p style="font-size: 12px; color: var(--text-muted); text-align: center;">Use only in case of data breach.</p>
             </div>
         </div>
 
         <!-- Admin Bottom Nav -->
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('admin', 'overview', this)"><i class="fas fa-globe"></i>HQ</div>
-            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-plus"></i>Add</div>
-            <div class="nav-item" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-crosshairs"></i>Radar</div>
-            <div class="nav-item" onclick="switchTab('admin', 'settings', this)"><i class="fas fa-cog"></i>Setup</div>
-            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-power-off"></i>Exit</div>
+            <div class="nav-item active" onclick="switchTab('admin', 'overview', this)"><i class="fas fa-chart-pie"></i>Overview</div>
+            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-shield"></i>Network</div>
+            <div class="nav-item" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-radar"></i>Radar</div>
+            <div class="nav-item" onclick="switchTab('admin', 'settings', this)"><i class="fas fa-cogs"></i>Control</div>
         </div>
     </div>
 
@@ -236,22 +280,31 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // Init App State
+    // 🌟 Splash Screen Logic & Init State
     window.onload = () => {
-        const storedToken = localStorage.getItem("htm_device_token");
-        const role = localStorage.getItem("htm_role");
-        
-        if(storedToken) {
-            document.getElementById('auth-screen').classList.add('hidden');
-            if(role === 'admin') {
-                document.getElementById('admin-app').classList.remove('hidden');
-                fetchAdminData();
+        setTimeout(() => {
+            // Fade out splash screen after 2 seconds
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => splash.classList.add('hidden'), 600);
+            
+            // Check Login State
+            const storedToken = localStorage.getItem("htm_device_token");
+            const role = localStorage.getItem("htm_role");
+            
+            if(storedToken) {
+                if(role === 'admin') {
+                    document.getElementById('admin-app').classList.remove('hidden');
+                    fetchAdminData();
+                } else {
+                    document.getElementById('mem-name').innerText = localStorage.getItem("htm_user_id");
+                    document.getElementById('member-app').classList.remove('hidden');
+                    initPresenceHeartbeat();
+                }
             } else {
-                document.getElementById('mem-name').innerText = localStorage.getItem("htm_user_id");
-                document.getElementById('member-app').classList.remove('hidden');
-                initPresenceHeartbeat();
+                document.getElementById('auth-screen').classList.remove('hidden');
             }
-        }
+        }, 2000); // 2000ms = 2 seconds
     };
 
     function authenticateUser() {
@@ -288,18 +341,26 @@
         window.location.reload();
     }
 
-    // Bottom Tab Navigation Logic
+    // 🛠️ Fixed Bottom Tab Navigation Logic (With smooth animation trigger)
     function switchTab(panel, tabName, clickedElement) {
-        // Hide all content tabs
-        const tabs = document.querySelectorAll(`[id^="${panel}-"]`);
-        tabs.forEach(t => t.classList.add('hidden'));
+        const panelContainer = panel === 'mem' ? 'member-app' : 'admin-app';
         
-        // Remove active class from all icons in current panel
+        // Hide all content tabs
+        const tabs = document.getElementById(panelContainer).querySelectorAll('.tab-content');
+        tabs.forEach(t => {
+            t.classList.add('hidden');
+            t.style.animation = 'none'; // reset animation
+        });
+        
+        // Remove active class from nav icons
         const navItems = clickedElement.parentElement.querySelectorAll('.nav-item');
         navItems.forEach(n => n.classList.remove('active'));
         
-        // Show selected content and activate icon
-        document.getElementById(`${panel}-${tabName}`).classList.remove('hidden');
+        // Show selected content and re-trigger animation
+        const selectedTab = document.getElementById(`${panel}-${tabName}`);
+        selectedTab.classList.remove('hidden');
+        setTimeout(() => selectedTab.style.animation = 'fadeSlideUp 0.4s ease-out forwards', 10);
+        
         clickedElement.classList.add('active');
     }
 
