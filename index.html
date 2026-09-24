@@ -8,266 +8,172 @@
     <style>
         /* Ultra Premium Theme */
         :root {
-            --bg: #050b14;        /* Deep Space Black */
-            --surface: rgba(30, 41, 59, 0.7);   /* Glass Card */
-            --primary: #d4af37;   /* Rich Royal Gold */
-            --primary-glow: rgba(212, 175, 55, 0.4);
-            --text: #f8fafc;
-            --text-muted: #94a3b8;
-            --danger: #ef4444;
-            --success: #10b981;
+            --bg: #050b14; var(--surface): rgba(30, 41, 59, 0.7); --primary: #d4af37; 
+            --primary-glow: rgba(212, 175, 55, 0.4); --text: #f8fafc; --text-muted: #94a3b8;
+            --danger: #ef4444; --success: #10b981;
         }
-        
-        body {
-            margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #020617 0%, #0f172a 100%);
-            color: var(--text);
-            -webkit-font-smoothing: antialiased; 
-            padding-bottom: 90px;
-            min-height: 100vh;
-        }
-
-        /* SPLASH SCREEN POPUP */
-        #splash-screen {
-            position: fixed; inset: 0; background: #020617; z-index: 99999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.6s ease, visibility 0.6s;
-        }
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(135deg, #020617 0%, #0f172a 100%); color: var(--text); padding-bottom: 90px; min-height: 100vh; }
+        #splash-screen { position: fixed; inset: 0; background: #020617; z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.6s; }
         .splash-logo { font-size: 60px; color: var(--primary); animation: pulseGlow 1.5s infinite alternate; }
-        .splash-title { font-size: 24px; font-weight: 700; margin-top: 20px; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(90deg, #fff, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        @keyframes pulseGlow {
-            0% { filter: drop-shadow(0 0 10px var(--primary-glow)); transform: scale(0.98); }
-            100% { filter: drop-shadow(0 0 25px var(--primary)); transform: scale(1.05); }
-        }
-        
+        @keyframes pulseGlow { 0% { filter: drop-shadow(0 0 10px var(--primary-glow)); transform: scale(0.98); } 100% { filter: drop-shadow(0 0 25px var(--primary)); transform: scale(1.05); } }
         .container { padding: 20px; max-width: 600px; margin: 0 auto; }
-        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; letter-spacing: 0.5px; }
+        h1, h2, h3, h4 { margin: 0 0 10px 0; font-weight: 600; }
         .hidden { display: none !important; }
-        .text-gold { color: var(--primary); }
-        .text-center { text-align: center; }
-        
-        /* Smooth Tab Animations */
+        .text-gold { color: var(--primary); } .text-center { text-align: center; }
         .tab-content { animation: fadeSlideUp 0.4s ease-out forwards; }
-        @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Inputs & Buttons (Premium) */
-        input, select {
-            width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4);
-            color: var(--text); font-size: 16px; outline: none; box-sizing: border-box;
-            transition: all 0.3s ease; backdrop-filter: blur(10px);
-        }
-        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); background: rgba(0,0,0,0.6); }
+        input, select { width: 100%; padding: 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.4); color: var(--text); font-size: 16px; outline: none; box-sizing: border-box; backdrop-filter: blur(10px); }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        button { width: 100%; padding: 16px; border-radius: 12px; border: none; background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%); color: #000; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 15px var(--primary-glow); margin-bottom: 10px; }
+        button:active { transform: scale(0.96); }
+        .btn-danger { background: var(--danger); color: white; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4); }
         
-        button {
-            width: 100%; padding: 16px; border-radius: 12px; border: none;
-            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
-            color: #000; font-weight: 800; font-size: 16px; letter-spacing: 1px;
-            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 15px var(--primary-glow);
-        }
-        button:active { transform: scale(0.96); box-shadow: 0 2px 5px var(--primary-glow); }
-        
-        /* Cards */
-        .card { 
-            background: var(--surface); padding: 22px; border-radius: 20px; margin-bottom: 18px; 
-            border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
+        .card { background: var(--surface); padding: 22px; border-radius: 20px; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); }
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .stat-box { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.03); transition: transform 0.3s ease; }
-        .stat-box:hover { transform: translateY(-3px); border-color: var(--primary-glow); }
+        .stat-box { background: rgba(0,0,0,0.3); padding: 18px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.03); }
         .stat-box h2 { color: var(--primary); margin-top: 5px; font-size: 28px; }
-        .stat-box p { margin: 0; color: var(--text-muted); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-box p { margin: 0; color: var(--text-muted); font-size: 13px; }
         
-        /* Bottom Navigation Bar (Smooth & Animated) */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around;
-            padding: 15px 0 calc(15px + env(safe-area-inset-bottom));
-            z-index: 1000; box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
-        }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
-            font-size: 12px; cursor: pointer; flex: 1; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .nav-item i { font-size: 22px; margin-bottom: 6px; transition: transform 0.3s ease; }
-        
-        /* Nav Item Active State */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(15, 23, 42, 0.95); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; padding: 15px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 12px; cursor: pointer; flex: 1; transition: 0.3s; }
+        .nav-item i { font-size: 22px; margin-bottom: 6px; }
         .nav-item.active { color: var(--primary); transform: translateY(-4px); }
-        .nav-item.active i { transform: scale(1.15); filter: drop-shadow(0 0 5px var(--primary-glow)); }
-        .nav-item.active::after {
-            content: ''; position: absolute; bottom: -8px; width: 6px; height: 6px; 
-            background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary);
-        }
         
-        /* Header */
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-top: 10px; }
-        .status-dot { height: 10px; width: 10px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px var(--success); }
+        /* Checkbox Styling */
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px;}
+        .checkbox-group input { width: 20px; height: 20px; margin: 0; }
+        .lead-card { background: rgba(0,0,0,0.4); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--primary); display: flex; justify-content: space-between; align-items: center;}
     </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN POPUP -->
 <div id="splash-screen">
     <i class="fas fa-crown splash-logo"></i>
-    <div class="splash-title">Hemant Team</div>
-    <p style="color: var(--text-muted); font-size: 12px; margin-top: 10px; letter-spacing: 2px;">MANAGEMENT SYSTEM</p>
+    <h2 class="text-gold" style="margin-top:20px; letter-spacing: 2px;">HEMANT TEAM</h2>
 </div>
 
 <div class="container">
-
     <!-- LOGIN SCREEN -->
-    <div id="auth-screen" class="card hidden" style="margin-top: 25vh; text-align: center; border: none; background: transparent; box-shadow: none;">
-        <h1 style="font-size: 38px; margin-bottom: 30px; letter-spacing: 1px;">
-            <!-- Crown Admin Trigger -->
-            <i class="fas fa-crown text-gold" onclick="promptAdminLogin()" style="cursor: pointer; filter: drop-shadow(0 0 10px rgba(212,175,55,0.3));"></i> HTM
-        </h1>
-        <p style="color: var(--text-muted); margin-bottom: 25px;" id="device-msg">Secure Enterprise Login</p>
-        
-        <input type="text" id="login-id" placeholder="Member ID (e.g., HTM-01)">
+    <div id="auth-screen" class="card hidden" style="margin-top: 25vh; text-align: center; background: transparent; border: none;">
+        <h1 style="font-size: 38px; margin-bottom: 30px;"><i class="fas fa-crown text-gold" onclick="promptAdminLogin()" style="cursor: pointer;"></i> HTM</h1>
+        <p id="login-msg" style="color: var(--text-muted); margin-bottom: 25px;">Secure Workspace Login</p>
+        <input type="text" id="login-id" placeholder="Member ID (e.g. HTM-01)">
         <input type="password" id="login-pass" placeholder="Password">
-        <button onclick="authenticateUser()"><i class="fas fa-sign-in-alt"></i> Access Workspace</button>
+        <button onclick="authenticateUser()"><i class="fas fa-sign-in-alt"></i> Access</button>
     </div>
 
     <!-- MEMBER APP -->
     <div id="member-app" class="hidden">
-        <div class="header">
-            <div>
-                <h2 style="margin:0;">Hi, <span id="mem-name" class="text-gold">Member</span></h2>
-                <span style="font-size: 12px; color: var(--text-muted);"><span class="status-dot"></span> Secure Connection</span>
-            </div>
-            <i class="fas fa-bell text-gold" style="font-size: 22px;"></i>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <h2 style="margin:0;">Hi, <span id="mem-name" class="text-gold"></span></h2>
+            <span style="color: var(--success); font-size:12px;">● Online</span>
         </div>
 
-        <!-- Mem Tab: Home -->
+        <!-- Dashboard -->
         <div id="mem-dashboard" class="tab-content">
-            <div class="card" style="border-left: 4px solid var(--primary);">
-                <h4><i class="fas fa-robot text-gold"></i> AI Suggestion</h4>
-                <p style="font-size: 14px; color: var(--text-muted); margin:0;">Follow up with your 'Hot Leads' today to maximize closing ratio.</p>
-            </div>
-            <button class="btn-success" style="padding: 18px; margin-bottom: 10px;" onclick="logLocation()"><i class="fas fa-map-marker-alt"></i> Mark GPS Attendance</button>
-            
+            <button style="background: var(--success); color: white;" onclick="logLocation()"><i class="fas fa-map-marker-alt"></i> GPS Check-In</button>
             <div class="stat-grid">
-                <div class="stat-box"><p>Plans Shown</p><h3>0</h3></div>
-                <div class="stat-box"><p>BV Generated</p><h3>0</h3></div>
+                <div class="stat-box"><p>Plans</p><h3 id="my-plans">0</h3></div>
+                <div class="stat-box"><p>BV</p><h3 id="my-bv">0</h3></div>
             </div>
         </div>
 
-        <!-- Mem Tab: DPR -->
+        <!-- DPR -->
         <div id="mem-dpr" class="tab-content hidden">
-            <h2 class="text-center" style="margin-bottom: 20px;">Daily Report</h2>
+            <h2 class="text-center">Daily Report</h2>
             <div class="card">
                 <input type="number" id="dpr-plans" placeholder="Total Plans Shown">
                 <input type="number" id="dpr-dd" placeholder="Total DD Closed">
                 <input type="number" id="dpr-bv" placeholder="Total BV Generated">
                 <select id="dpr-product">
-                    <option value="">-- Top Product Sold --</option>
                     <option value="Bhagavad Gita">Bhagavad Gita</option>
-                    <option value="Suit Length">Suit Length</option>
-                    <option value="Health Supplement">Health Supplement</option>
+                    <option value="Suit">Suit Length</option>
+                    <option value="Health">Health Product</option>
                 </select>
-                <button onclick="submitDPR()">Sync Report Securely</button>
+                <button onclick="submitDPR()">Sync Report</button>
             </div>
         </div>
 
-        <!-- Mem Tab: List -->
+        <!-- Leads (With WhatsApp) -->
         <div id="mem-list" class="tab-content hidden">
-            <h2 class="text-center" style="margin-bottom: 20px;">Lead Vault</h2>
+            <h2 class="text-center">Lead Vault</h2>
             <div class="card">
                 <input type="text" id="lead-name" placeholder="Prospect Name">
+                <input type="number" id="lead-phone" placeholder="WhatsApp Number">
                 <select id="lead-temp">
-                    <option value="hot">🔥 Hot Lead</option>
-                    <option value="warm">🌤️ Warm Lead</option>
-                    <option value="cold">🥶 Cold Lead</option>
+                    <option value="🔥 Hot">🔥 Hot</option>
+                    <option value="🌤️ Warm">🌤️ Warm</option>
+                    <option value="🥶 Cold">🥶 Cold</option>
                 </select>
-                <button onclick="saveLead()">Encrypt & Save Lead</button>
+                <button onclick="saveLead()">Save & Analyze</button>
             </div>
+            <div id="my-leads-list"></div>
         </div>
 
-        <!-- Mem Bottom Nav -->
         <div class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('mem', 'dashboard', this)"><i class="fas fa-home"></i>Home</div>
-            <div class="nav-item" onclick="switchTab('mem', 'dpr', this)"><i class="fas fa-chart-line"></i>DPR</div>
-            <div class="nav-item" onclick="switchTab('mem', 'list', this)"><i class="fas fa-address-book"></i>Leads</div>
-            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-power-off"></i>Exit</div>
+            <div class="nav-item active" onclick="switchTab('mem', 'dashboard', this)" id="nav-dashboard"><i class="fas fa-home"></i>Home</div>
+            <div class="nav-item" onclick="switchTab('mem', 'dpr', this)" id="nav-dpr"><i class="fas fa-chart-line"></i>DPR</div>
+            <div class="nav-item" onclick="switchTab('mem', 'list', this)" id="nav-list"><i class="fas fa-address-book"></i>Leads</div>
+            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-sign-out-alt"></i>Exit</div>
         </div>
     </div>
 
-    <!-- ADMIN APP (GOD MODE) -->
+    <!-- ADMIN APP -->
     <div id="admin-app" class="hidden">
-        <div class="header">
-            <div>
-                <h2 style="margin:0;" class="text-gold"><i class="fas fa-chess-king"></i> God Mode</h2>
-                <span style="font-size: 12px; color: var(--danger);">Encrypted Admin Session</span>
-            </div>
-        </div>
+        <h2 class="text-gold" style="margin-bottom: 20px;"><i class="fas fa-chess-king"></i> God Mode</h2>
 
-        <!-- Admin Tab: Overview -->
         <div id="admin-overview" class="tab-content">
             <div class="stat-grid">
                 <div class="stat-box"><p>Total Network BV</p><h2 id="total-bv">0</h2></div>
-                <div class="stat-box"><p>Estimated Payout</p><h2 id="est-payout">₹0</h2></div>
-            </div>
-            <div class="card" style="margin-top: 15px; border-left: 4px solid var(--primary);">
-                <h4 style="margin:0;"><i class="fas fa-chart-pie text-gold"></i> Live Analytics synced.</h4>
+                <div class="stat-box"><p>Est. Payout</p><h2 id="est-payout">₹0</h2></div>
             </div>
         </div>
 
-        <!-- Admin Tab: Network -->
+        <!-- THE REAL ADD MEMBER SYSTEM -->
         <div id="admin-network" class="tab-content hidden">
-            <h2 class="text-center" style="margin-bottom: 20px;">Onboard Member</h2>
+            <h2 class="text-center">Create Member ID</h2>
             <div class="card">
                 <input type="text" id="new-mem-name" placeholder="Full Name">
-                <input type="text" id="new-mem-id" placeholder="Assign ID (HTM-0X)">
+                <input type="text" id="new-mem-id" placeholder="User ID (e.g. HTM-01)">
                 <input type="text" id="new-mem-pass" placeholder="Password">
-                <button onclick="createMember()">Generate Credentials</button>
+                
+                <h4 style="margin-top: 10px; color: var(--primary);">App Permissions (Visibility)</h4>
+                <div class="checkbox-group"><input type="checkbox" id="perm-dpr" checked> Show DPR Tab</div>
+                <div class="checkbox-group"><input type="checkbox" id="perm-list" checked> Show Leads Tab</div>
+                
+                <button onclick="createMemberReal()">Create Network ID</button>
+                <p id="admin-msg" style="color: var(--success); font-size: 14px; text-align: center;"></p>
             </div>
         </div>
 
-        <!-- Admin Tab: Radar -->
         <div id="admin-radar" class="tab-content hidden">
-            <h2 class="text-center" style="margin-bottom: 20px;">Live Geo-Radar</h2>
-            <div class="card" style="border: 1px solid rgba(239, 68, 68, 0.3);">
-                <p style="color: var(--danger); margin:0; font-size: 14px;"><i class="fas fa-exclamation-triangle"></i> Sleeping Alert: System Monitoring.</p>
-            </div>
+            <h2 class="text-center">Live Radar</h2>
             <div class="card" id="radar-status" style="font-size: 14px; line-height: 1.8;">
-                <i class="fas fa-circle-notch fa-spin text-gold"></i> Waiting for GPS check-ins...
+                <i class="fas fa-circle-notch fa-spin text-gold"></i> Fetching data...
             </div>
         </div>
         
-        <!-- Admin Tab: Settings -->
         <div id="admin-settings" class="tab-content hidden">
-            <h2 class="text-center" style="margin-bottom: 20px;">Master Control</h2>
             <div class="card">
-                <button style="background: var(--danger); color: white; margin-bottom: 15px;" onclick="killSwitch()"><i class="fas fa-skull-crossbones"></i> Wipe Team Devices</button>
-                <p style="font-size: 12px; color: var(--text-muted); text-align: center;">Use only in case of data breach.</p>
+                <button class="btn-danger" onclick="killSwitch()"><i class="fas fa-skull-crossbones"></i> Master Data Wipe</button>
             </div>
         </div>
 
-        <!-- Admin Bottom Nav -->
         <div class="bottom-nav">
             <div class="nav-item active" onclick="switchTab('admin', 'overview', this)"><i class="fas fa-chart-pie"></i>Overview</div>
-            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-shield"></i>Network</div>
+            <div class="nav-item" onclick="switchTab('admin', 'network', this)"><i class="fas fa-user-plus"></i>Add ID</div>
             <div class="nav-item" onclick="switchTab('admin', 'radar', this)"><i class="fas fa-radar"></i>Radar</div>
-            <div class="nav-item" onclick="switchTab('admin', 'settings', this)"><i class="fas fa-cogs"></i>Control</div>
+            <div class="nav-item" onclick="forceLogout()"><i class="fas fa-power-off"></i>Exit</div>
         </div>
     </div>
-
 </div>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-    // 🔥 Firebase Keys (Hemant Team Management)
+    // 🔥 REAL FIREBASE SETUP
     const firebaseConfig = {
       apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
       authDomain: "hemant-team-management.firebaseapp.com",
@@ -276,156 +182,169 @@
       messagingSenderId: "975104255247",
       appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a"
     };
-    
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // 🌟 Splash Screen Logic & Init State
     window.onload = () => {
         setTimeout(() => {
-            // Fade out splash screen after 2 seconds
-            const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            setTimeout(() => splash.classList.add('hidden'), 600);
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => document.getElementById('splash-screen').classList.add('hidden'), 600);
             
-            // Check Login State
-            const storedToken = localStorage.getItem("htm_device_token");
             const role = localStorage.getItem("htm_role");
-            
-            if(storedToken) {
-                if(role === 'admin') {
-                    document.getElementById('admin-app').classList.remove('hidden');
-                    fetchAdminData();
-                } else {
-                    document.getElementById('mem-name').innerText = localStorage.getItem("htm_user_id");
-                    document.getElementById('member-app').classList.remove('hidden');
-                    initPresenceHeartbeat();
-                }
+            if(role === 'admin') {
+                document.getElementById('admin-app').classList.remove('hidden');
+                fetchAdminDataReal();
+            } else if (role === 'member') {
+                loadMemberDataReal();
             } else {
                 document.getElementById('auth-screen').classList.remove('hidden');
             }
-        }, 2000); // 2000ms = 2 seconds
+        }, 1500);
     };
 
+    // 🔴 1. REAL ADMIN: ADD MEMBER TO DATABASE
+    function createMemberReal() {
+        const name = document.getElementById('new-mem-name').value;
+        const id = document.getElementById('new-mem-id').value;
+        const pass = document.getElementById('new-mem-pass').value;
+        const permDPR = document.getElementById('perm-dpr').checked;
+        const permList = document.getElementById('perm-list').checked;
+
+        if(!name || !id || !pass) return alert("Fill all details!");
+
+        db.collection("users").doc(id).set({
+            name: name,
+            password: pass,
+            deviceToken: "", // Empty means ready for first login lock
+            permissions: { dpr: permDPR, list: permList },
+            isActive: true,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            document.getElementById('admin-msg').innerText = `✅ ID ${id} created successfully!`;
+            document.getElementById('new-mem-name').value = '';
+            document.getElementById('new-mem-id').value = '';
+            document.getElementById('new-mem-pass').value = '';
+        }).catch(err => alert("Error: Make sure Firestore Rules are set to true"));
+    }
+
+    // 🔴 2. REAL LOGIN & DEVICE BINDING LOGIC
     function authenticateUser() {
         const id = document.getElementById('login-id').value;
         const pass = document.getElementById('login-pass').value;
-        if(!id || !pass) return alert("Credentials required.");
-        
-        localStorage.setItem("htm_device_token", "DEV-" + Date.now());
-        localStorage.setItem("htm_role", "member");
-        localStorage.setItem("htm_user_id", id);
-        
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('mem-name').innerText = id;
+        const msg = document.getElementById('login-msg');
+
+        if(!id || !pass) return alert("Enter ID & Password");
+        msg.innerText = "Verifying on Secure Server...";
+
+        db.collection("users").doc(id).get().then((doc) => {
+            if(doc.exists && doc.data().password === pass) {
+                const data = doc.data();
+                if(!data.isActive) return alert("Your ID is Blocked by Admin.");
+
+                // Check Device Lock (1 User = 1 Phone)
+                let localToken = localStorage.getItem("htm_device_token");
+                if(!localToken) { localToken = "DEV-" + Date.now(); }
+
+                if(data.deviceToken === "") {
+                    // Lock this phone to ID
+                    db.collection("users").doc(id).update({ deviceToken: localToken });
+                    localStorage.setItem("htm_device_token", localToken);
+                } else if(data.deviceToken !== localToken) {
+                    return alert("🚫 Access Denied! Unrecognized Device. Use your registered phone.");
+                }
+
+                // Login Success
+                localStorage.setItem("htm_device_token", localToken);
+                localStorage.setItem("htm_role", "member");
+                localStorage.setItem("htm_user_id", id);
+                localStorage.setItem("htm_name", data.name);
+                
+                // Save Permissions Locally
+                localStorage.setItem("perm_dpr", data.permissions.dpr);
+                localStorage.setItem("perm_list", data.permissions.list);
+
+                document.getElementById('auth-screen').classList.add('hidden');
+                loadMemberDataReal();
+            } else {
+                msg.innerText = "❌ Incorrect ID or Password";
+                msg.style.color = "red";
+            }
+        }).catch(err => alert("Database connection error."));
+    }
+
+    // 🔴 3. LOAD MEMBER TABS BASED ON ADMIN PERMISSION
+    function loadMemberDataReal() {
         document.getElementById('member-app').classList.remove('hidden');
-        initPresenceHeartbeat();
+        document.getElementById('mem-name').innerText = localStorage.getItem("htm_name");
+
+        const permDPR = localStorage.getItem("perm_dpr");
+        const permList = localStorage.getItem("perm_list");
+
+        // Hide tabs if admin unchecked them
+        if(permDPR === "false") document.getElementById('nav-dpr').classList.add('hidden');
+        if(permList === "false") document.getElementById('nav-list').classList.add('hidden');
+
+        fetchMyLeads(); // Load leads
     }
 
-    // Secret Admin Login on Crown Click
-    function promptAdminLogin() {
-        const pin = prompt("Enter Master PIN:");
-        if(pin === "9999") { 
-            localStorage.setItem("htm_device_token", "ADMIN-OVERRIDE");
-            localStorage.setItem("htm_role", "admin");
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('admin-app').classList.remove('hidden');
-            fetchAdminData();
-        } else {
-            alert("Security Alert: Invalid Entry.");
-        }
-    }
+    // 🔴 4. SMART LEADS WITH 1-CLICK WHATSAPP
+    function saveLead() {
+        const name = document.getElementById('lead-name').value;
+        const phone = document.getElementById('lead-phone').value;
+        const temp = document.getElementById('lead-temp').value;
+        if(!name || !phone) return alert("Name & Phone required");
 
-    function forceLogout() {
-        localStorage.clear();
-        window.location.reload();
-    }
-
-    // 🛠️ Fixed Bottom Tab Navigation Logic (With smooth animation trigger)
-    function switchTab(panel, tabName, clickedElement) {
-        const panelContainer = panel === 'mem' ? 'member-app' : 'admin-app';
-        
-        // Hide all content tabs
-        const tabs = document.getElementById(panelContainer).querySelectorAll('.tab-content');
-        tabs.forEach(t => {
-            t.classList.add('hidden');
-            t.style.animation = 'none'; // reset animation
+        db.collection("leads").add({
+            member: localStorage.getItem("htm_user_id"),
+            prospect: name, phone: phone, temperature: temp,
+            time: firebase.firestore.FieldValue.serverTimestamp()
+        }).then(() => {
+            alert("Lead added to Vault!");
+            document.getElementById('lead-name').value = '';
+            document.getElementById('lead-phone').value = '';
         });
-        
-        // Remove active class from nav icons
-        const navItems = clickedElement.parentElement.querySelectorAll('.nav-item');
-        navItems.forEach(n => n.classList.remove('active'));
-        
-        // Show selected content and re-trigger animation
-        const selectedTab = document.getElementById(`${panel}-${tabName}`);
-        selectedTab.classList.remove('hidden');
-        setTimeout(() => selectedTab.style.animation = 'fadeSlideUp 0.4s ease-out forwards', 10);
-        
-        clickedElement.classList.add('active');
     }
 
-    function initPresenceHeartbeat() {
-        setInterval(() => {
-            const uid = localStorage.getItem("htm_user_id");
-            if(uid) db.collection("presence").doc(uid).set({
-                lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-                status: "online"
+    function fetchMyLeads() {
+        const uid = localStorage.getItem("htm_user_id");
+        if(!uid) return;
+        db.collection("leads").where("member", "==", uid).onSnapshot((snap) => {
+            const listDiv = document.getElementById('my-leads-list');
+            listDiv.innerHTML = "";
+            snap.forEach(doc => {
+                const d = doc.data();
+                // Real WhatsApp Link Generation
+                const waLink = `https://wa.me/91${d.phone}?text=Hello%20${d.prospect},%20namaste!`;
+                listDiv.innerHTML += `
+                <div class="lead-card">
+                    <div>
+                        <strong style="color:var(--primary);">${d.prospect}</strong><br>
+                        <span style="font-size:12px;">${d.temperature}</span>
+                    </div>
+                    <a href="${waLink}" target="_blank" style="background:#25D366; color:#000; padding:8px 12px; border-radius:8px; text-decoration:none; font-size:12px; font-weight:bold;">
+                        <i class="fab fa-whatsapp"></i> Chat
+                    </a>
+                </div>`;
             });
-        }, 10000);
+        });
     }
 
-    function logLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    db.collection("tracking").add({
-                        member: localStorage.getItem("htm_user_id"),
-                        lat: position.coords.latitude,
-                        long: position.coords.longitude,
-                        time: firebase.firestore.FieldValue.serverTimestamp()
-                    }).then(() => alert("✅ Field Location Secured."));
-                },
-                (error) => alert("❌ Please enable Location/GPS.")
-            );
-        }
-    }
-
+    // REAL DPR SYNC
     function submitDPR() {
         const plans = document.getElementById('dpr-plans').value;
-        const dd = document.getElementById('dpr-dd').value;
         const bv = document.getElementById('dpr-bv').value;
-        const product = document.getElementById('dpr-product').value;
-
         if(!plans || !bv) return alert("Fill required details.");
         
         db.collection("dpr").add({
             member: localStorage.getItem("htm_user_id"),
-            plans: parseInt(plans), dd: parseInt(dd) || 0, bv: parseInt(bv),
-            topProduct: product, time: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-            alert("✅ Report Synced.");
-            document.querySelectorAll("input[type=number]").forEach(i => i.value = "");
-        });
-    }
-
-    function saveLead() {
-        const name = document.getElementById('lead-name').value;
-        if(!name) return;
-        db.collection("leads").add({
-            member: localStorage.getItem("htm_user_id"),
-            prospect: name, temperature: document.getElementById('lead-temp').value,
+            plans: parseInt(plans),
+            bv: parseInt(bv),
             time: firebase.firestore.FieldValue.serverTimestamp()
-        }).then(() => {
-            alert("✅ Lead Vault Updated.");
-            document.getElementById('lead-name').value = '';
-        });
+        }).then(() => { alert("Report Synced"); document.getElementById('dpr-plans').value = ''; document.getElementById('dpr-bv').value = ''; });
     }
 
-    function killSwitch() {
-        if(confirm("Wipe all local team data?")) alert("Kill Switch Engaged.");
-    }
-
-    function fetchAdminData() {
+    // REAL ADMIN FETCH
+    function fetchAdminDataReal() {
         db.collection("dpr").onSnapshot((snapshot) => {
             let totalBV = 0;
             snapshot.forEach((doc) => totalBV += doc.data().bv);
@@ -433,14 +352,47 @@
             document.getElementById('est-payout').innerText = "₹" + (totalBV * 10); 
         });
 
-        db.collection("tracking").orderBy("time", "desc").limit(3).onSnapshot((snapshot) => {
+        db.collection("tracking").orderBy("time", "desc").limit(5).onSnapshot((snapshot) => {
             const radar = document.getElementById('radar-status');
             radar.innerHTML = "";
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                radar.innerHTML += `<p style="margin-bottom:8px;"><i class="fas fa-crosshairs text-gold"></i> <b>${data.member}</b> field check-in received.</p>`;
+                radar.innerHTML += `<p style="margin-bottom:8px; border-bottom:1px solid #333; padding-bottom:5px;">
+                    <i class="fas fa-map-marker-alt text-gold"></i> <b>${data.member}</b> Checked-in
+                </p>`;
             });
         });
+    }
+
+    function logLocation() {
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+                db.collection("tracking").add({
+                    member: localStorage.getItem("htm_user_id"),
+                    time: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => alert("Location Logged securely."));
+            });
+        }
+    }
+
+    function promptAdminLogin() {
+        const pin = prompt("Enter Master PIN:");
+        if(pin === "9999") { 
+            localStorage.setItem("htm_device_token", "ADMIN"); localStorage.setItem("htm_role", "admin");
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('admin-app').classList.remove('hidden');
+            fetchAdminDataReal();
+        }
+    }
+    
+    function forceLogout() { localStorage.clear(); window.location.reload(); }
+    
+    function switchTab(panel, tabName, element) {
+        const panelID = panel === 'mem' ? 'member-app' : 'admin-app';
+        document.getElementById(panelID).querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+        element.parentElement.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(`${panel}-${tabName}`).classList.remove('hidden');
+        element.classList.add('active');
     }
 </script>
 </body>
