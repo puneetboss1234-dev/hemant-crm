@@ -132,12 +132,11 @@
     </div>
 </div>
 
-<!-- Modal 3: SOS Whisper Chat (UPDATED FOR 2-WAY) -->
+<!-- Modal 3: SOS Whisper Chat -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
         <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
         
-        <!-- Live Chat History -->
         <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
             <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
@@ -148,6 +147,37 @@
             <button class="btn btn-primary btn-sm" style="background: var(--danger);" onclick="Member.sendSOS()">Send</button>
         </div>
         <button class="btn btn-outline" style="margin-top: 16px;" onclick="UI.dismissModal('sos-modal')">Close</button>
+    </div>
+</div>
+
+<!-- Modal 4: Tutorial / Guide Modal (NEW) -->
+<div id="tutorial-modal" class="modal-overlay hidden">
+    <div class="modal-box" style="border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow); text-align: left; padding: 20px 16px;">
+        <h3 style="margin-bottom: 16px; color: var(--primary); text-align: center;"><i class="fas fa-graduation-cap"></i> System Guide</h3>
+        
+        <div style="max-height: 350px; overflow-y: auto; padding-right: 8px;">
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--primary);">
+                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-crosshairs"></i> 1. Field Operations</h4>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Field mein plan dikhane se pehle Prospect ka naam likhein, Selfie (camera button) pe click karke photo lein, aur <strong>Initiate Check-in</strong> dabayein. GPS se HQ ko location mil jayegi.</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--success);">
+                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-funnel-dollar"></i> 2. Pipeline (Leads)</h4>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan hone ke baad Pipeline tab mein lead ko <strong>Register</strong> karein. Agar DD mil jaye, toh niche Submit DD button duba kar amount close karein.</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #8b5cf6;">
+                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-brain"></i> 3. Academy & AI</h4>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Prospect koi bahana banaye toh <strong>AI Helper</strong> mein type karein (Jaise: "Expensive"). Neeche flashcards ko tap karke perfect reply seekhein.</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--danger);">
+                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-headset"></i> 4. Secret SOS (Whisper)</h4>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Neeche Red Headphone 🎧 icon par click karke aap chupke se Admin ko message bhej sakte hain. Admin ka reply pop-up mein aayega.</p>
+            </div>
+        </div>
+        
+        <button class="btn btn-primary" style="margin-top: 16px;" onclick="UI.dismissModal('tutorial-modal')">Got it, Let's Work!</button>
     </div>
 </div>
 
@@ -229,7 +259,6 @@
         <!-- Admin Tab 3: CONTROLS & SOS CHAT -->
         <div id="admin-controls" class="tab-content hidden">
             
-            <!-- Live SOS Whispers (UPDATED FOR REPLY) -->
             <div class="card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
                 <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
                 <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;">
@@ -284,7 +313,9 @@
                 <div id="mem-badges-container"></div>
             </div>
             <div style="display: flex; gap: 12px; align-items: center;">
-                <i class="fas fa-qrcode text-primary" style="font-size: 22px; cursor: pointer;" onclick="Member.showQR()"></i>
+                <!-- Tutorial Button -->
+                <i class="fas fa-question-circle text-warning" style="font-size: 20px; cursor: pointer;" onclick="UI.showModal('tutorial-modal')"></i>
+                <i class="fas fa-qrcode text-primary" style="font-size: 20px; cursor: pointer;" onclick="Member.showQR()"></i>
                 <span class="badge badge-success" id="mem-network-status">Online</span>
                 <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
             </div>
@@ -443,6 +474,12 @@
             else if (role === 'member' && localStorage.getItem('htm_id')) {
                 document.getElementById('member-module').classList.remove('hidden');
                 document.getElementById('mem-ui-name').innerText = localStorage.getItem('htm_name'); Member.initData();
+                
+                // Show Tutorial on first login
+                if (localStorage.getItem('htm_tutorial_seen') !== 'true') {
+                    setTimeout(() => { UI.showModal('tutorial-modal'); localStorage.setItem('htm_tutorial_seen', 'true'); }, 1000);
+                }
+
             } else { document.getElementById('auth-module').classList.remove('hidden'); }
         }
         static async login() {
@@ -491,25 +528,32 @@
             });
         }
 
-        // NEW: Listen for HQ Replies to My SOS
+        // FIXED: Firebase Composite Index Bypass - Manual sort applied in Javascript to prevent silent errors
         static listenSOSReplies() {
-            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).orderBy('timestamp', 'desc').limit(5).onSnapshot(snap => {
+            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 const c = document.getElementById('mem-sos-history');
                 if(!c) return;
-                c.innerHTML = '';
-                if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
                 
-                snap.forEach(doc => {
-                    const d = doc.data();
+                let msgs = [];
+                snap.forEach(doc => { msgs.push({id: doc.id, ...doc.data()}) });
+                
+                // Sort by time internally so we don't need a complex database index setup
+                msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                msgs = msgs.slice(0, 5); // Keep top 5
+                
+                c.innerHTML = '';
+                if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
+                
+                msgs.forEach(d => {
                     c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; margin-bottom:8px;">
                         <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
                         ${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}
                     </div>`;
                     
-                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${doc.id}`)) {
+                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
                         UI.showToast(`HQ Reply: ${d.reply}`, 'success');
-                        localStorage.setItem(`sos_seen_${doc.id}`, d.reply);
-                        UI.showModal('sos-modal'); // Auto open to show reply
+                        localStorage.setItem(`sos_seen_${d.id}`, d.reply);
+                        UI.showModal('sos-modal'); 
                     }
                 });
             });
@@ -653,7 +697,6 @@
         }
         static async clearLiveLink() { await db.collection('system').doc('academy').set({ liveLink: null }); document.getElementById('admin-live-link').value = ''; UI.showToast('Live session ended.', 'success'); }
 
-        // NEW: Admin Listen and Render SOS with Reply Inputs
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').limit(10).onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
@@ -674,7 +717,6 @@
             });
         }
 
-        // NEW: Send Reply Logic
         static async replySOS(id) {
             const text = document.getElementById(`sos-reply-${id}`).value.trim();
             if(!text) return UI.showToast('Reply cannot be empty', 'error');
@@ -731,7 +773,6 @@
             });
         }
         
-        // NEW: Native JPG Generation using HTML5 Canvas (No external libraries needed)
         static exportJPG() {
             if (this.leadsVault.length === 0) return UI.showToast('No records available to export.', 'warning');
             
@@ -740,62 +781,33 @@
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             
-            const rowHeight = 40;
-            const headerHeight = 70;
-            const width = 850;
+            const rowHeight = 40; const headerHeight = 70; const width = 850;
             const height = headerHeight + (this.leadsVault.length + 1) * rowHeight + 40;
             
             canvas.width = width; canvas.height = height;
             
-            // White Background for JPG
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height);
             
-            // Draw Header & Branding
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 26px sans-serif';
-            ctx.fillText('HTM Enterprise Network Report', 20, 45);
-            ctx.font = '14px sans-serif';
-            ctx.fillStyle = '#64748b';
-            ctx.fillText(`Generated: ${new Date().toLocaleDateString()}`, 650, 40);
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 26px sans-serif'; ctx.fillText('HTM Enterprise Network Report', 20, 45);
+            ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()}`, 650, 40);
             
-            // Draw Table Header Bar
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillRect(15, headerHeight, width - 30, rowHeight);
-            ctx.fillStyle = '#334155';
-            ctx.font = 'bold 15px sans-serif';
-            ctx.fillText('Prospect Name', 30, headerHeight + 25);
-            ctx.fillText('Contact', 260, headerHeight + 25);
-            ctx.fillText('Agent (Under List)', 460, headerHeight + 25);
-            ctx.fillText('Status / Plan Date', 660, headerHeight + 25);
+            ctx.fillStyle = '#f8fafc'; ctx.fillRect(15, headerHeight, width - 30, rowHeight);
+            ctx.fillStyle = '#334155'; ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('Prospect Name', 30, headerHeight + 25); ctx.fillText('Contact', 260, headerHeight + 25);
+            ctx.fillText('Agent (Under List)', 460, headerHeight + 25); ctx.fillText('Status / Plan Date', 660, headerHeight + 25);
             
-            // Draw Data Rows
-            ctx.font = '14px sans-serif';
-            ctx.fillStyle = '#0f172a';
+            ctx.font = '14px sans-serif'; ctx.fillStyle = '#0f172a';
             
             this.leadsVault.forEach((lead, index) => {
                 const y = headerHeight + rowHeight + (index * rowHeight) + 25;
-                
-                // Row Separator Line
-                ctx.beginPath();
-                ctx.moveTo(15, y - 25);
-                ctx.lineTo(width - 15, y - 25);
-                ctx.strokeStyle = '#e2e8f0';
-                ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(15, y - 25); ctx.lineTo(width - 15, y - 25); ctx.strokeStyle = '#e2e8f0'; ctx.stroke();
                 
                 const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount})` : (lead.followUp || lead.temp);
-                
-                ctx.fillText(lead.name.substring(0, 25), 30, y);
-                ctx.fillText(lead.phone, 260, y);
-                ctx.fillText(lead.memberName.substring(0, 25), 460, y);
-                ctx.fillText(statusText, 660, y);
+                ctx.fillText(lead.name.substring(0, 25), 30, y); ctx.fillText(lead.phone, 260, y);
+                ctx.fillText(lead.memberName.substring(0, 25), 460, y); ctx.fillText(statusText, 660, y);
             });
             
-            // Trigger Download
-            const link = document.createElement('a');
-            link.download = `HTM_Master_Report_${Date.now()}.jpg`;
-            link.href = canvas.toDataURL('image/jpeg', 1.0);
-            link.click();
+            const link = document.createElement('a'); link.download = `HTM_Master_Report_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click();
             UI.showToast('JPG Report Downloaded Successfully!', 'success');
         }
 
