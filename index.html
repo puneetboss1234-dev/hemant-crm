@@ -83,7 +83,7 @@
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 16px; }
         .flip-card-front { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); backdrop-filter: blur(10px); }
-        .flip-card-back { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); backdrop-filter: blur(10px); transform: rotateY(180deg); text-align: left; align-items: flex-start; }
+        .flip-card-back { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); backdrop-filter: blur(10px); transform: rotateY(180deg); text-align: left; align-items: flex-start; overflow-y:auto; }
 
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 24px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
         .nav-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; gap: 4px; padding: 10px 0; border-radius: 18px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -109,6 +109,8 @@
         .toast.success { border-left: 4px solid var(--success); }
         .toast.error { border-left: 4px solid var(--danger); }
         .toast.warning { border-left: 4px solid var(--warning); }
+        
+        .btn-live-pulse { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulseRed 2s infinite; }
     </style>
 </head>
 <body>
@@ -134,17 +136,18 @@
     </div>
 </div>
 
+<!-- SOS Modal (Fixed Member View) -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
         <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <div id="mem-sos-history" style="max-height: 200px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
             <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
         <div style="display:flex; gap:8px;">
             <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0;">
             <button class="btn btn-primary btn-sm" style="background: var(--danger);" onclick="Member.sendSOS()">Send</button>
         </div>
-        <button class="btn btn-outline" style="margin-top: 16px;" onclick="UI.dismissModal('sos-modal')">Close</button>
+        <button class="btn btn-outline" style="margin-top: 16px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
     </div>
 </div>
 
@@ -154,11 +157,15 @@
         <div style="max-height: 350px; overflow-y: auto; padding-right: 8px;">
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--primary);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-crosshairs"></i> 1. Field Operations</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan dikhane se pehle Prospect naam, Selfie lein, aur <strong>Initiate Check-in</strong> dabayein. End par Remarks zaroor dalein.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan dikhane se pehle Prospect naam aur Selfie lein, aur <strong>Initiate Check-in</strong> dabayein. End par Remarks zaroor dalein.</p>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--success);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-funnel-dollar"></i> 2. Pipeline (Leads)</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Pipeline mein Smart Filters use karein. Swipe buttons se 1-click WhatsApp ya Upline Push request karein.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Pipeline mein leads save karein. 1-click se WA par ping karein ya follow up ko +1 day aage badhayein.</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #8b5cf6;">
+                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-brain"></i> 3. Academy & AI</h4>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Agar prospect bahana banaye toh <strong>Academy tab</strong> mein jakar AI se poochein ya Flashcards se script seekhein.</p>
             </div>
         </div>
         <button class="btn btn-primary" style="margin-top: 16px;" onclick="UI.dismissModal('tutorial-modal')">Got it, Let's Work!</button>
@@ -321,7 +328,7 @@
                 <div style="text-align: center;">
                     <h3 style="color:var(--warning);"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3>
                     <p id="active-prospect-display" style="font-size: 18px; font-weight:bold; margin: 8px 0;"></p>
-                    <p class="text-xs">Satellite location registered with HQ Radar.</p>
+                    <p class="text-xs" id="active-location-display">Satellite location registered with HQ Radar.</p>
                 </div>
                 <div class="record-actions" style="margin-top: 16px;">
                     <button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete (Add Remarks)</button>
@@ -375,9 +382,100 @@
             <div id="member-leads-container"></div>
         </div>
 
+        <!-- Member Tab 3: ACADEMY (RESTORED & UPGRADED) -->
+        <div id="mem-academy" class="tab-content hidden">
+            <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
+                <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
+                    <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
+                </button>
+            </div>
+
+            <!-- AI Closing Assistant (Bilingual Trained) -->
+            <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
+                <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
+                <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0;">
+                    <button class="btn btn-primary btn-sm" style="background: #8b5cf6;" onclick="Member.askAI()">Ask AI</button>
+                </div>
+                <div id="ai-response" class="text-sm" style="margin-top: 12px;"></div>
+            </div>
+
+            <h4 style="margin-bottom: 16px;"><i class="fas fa-brain text-primary"></i> Field Flashcards</h4>
+            <p class="text-xs" style="margin-bottom: 16px;">Tap card to reveal the psychological script.</p>
+
+            <div class="grid-2">
+                <!-- Card 1 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-wallet" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Paise nahi hain"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Sir, agar aaj ₹X lagane ke liye paise nahi hain, toh aage chalkar problem badhegi. Yehi reason hai start karne ka, taaki paise ki kami hamesha ke liye khatam ho."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-clock" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Time nahi hai"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business 'Time Freedom' ke liye kar rahe hain. Bas din ka 1-2 ghanta chahiye."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-brain" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Soch kar bataunga"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Zaroor sir, par ek sawal hai—kya sochne se account balance badhega? Action lene se badhega. Sath milkar abhi shuru karte hain!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-users" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Family se poochna hai"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Family mana karegi kyunki unhone plan nahi dekha. Agar aapko successful hona hai toh decision aapka hona chahiye, baad mein unhe result dikhana!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 5 (Full width) -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height: 120px;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-link" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                        <h4 style="margin: 0; font-size:14px;">"Ye chain (pyramid) system hai?"</h4>
+                    </div>
+                    <div class="flip-card-back">
+                        <p style="font-size: 12px; margin: 0; line-height: 1.4;">"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai, sirf joining pe nahi. Documents check kar lijiye."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('mem', 'dash', this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem', 'leads', this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem', 'academy', this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
         </div>
     </div>
 
@@ -440,7 +538,7 @@
                 localStorage.setItem('htm_device', localToken); localStorage.setItem('htm_role', 'member');
                 localStorage.setItem('htm_id', id); localStorage.setItem('htm_name', doc.data().name);
                 localStorage.setItem('htm_badge', doc.data().badge || ''); 
-                localStorage.setItem('htm_target', doc.data().target || 50000); // Save Target Cache
+                localStorage.setItem('htm_target', doc.data().target || 50000); 
                 window.location.reload();
             } catch (err) { UI.showToast(err.message, 'error'); }
         }
@@ -455,7 +553,6 @@
             this.renderMemberBadges(); this.listenBroadcast(); this.listenSOSReplies();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
             
-            // Listen live for Target Updates from Admin
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => {
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target);
             });
@@ -476,39 +573,40 @@
             });
         }
 
+        // FIXED SOS LOGIC: Member reads reply first, then clears it manually.
         static listenSOSReplies() {
             db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 const c = document.getElementById('mem-sos-history');
                 if(!c) return;
                 
                 let msgs = [];
-                // Only keep messages that haven't been cleared by the member
-                snap.forEach(doc => { 
-                    if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); 
-                });
-                
+                snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
                 msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 
                 c.innerHTML = '';
                 if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
                 
                 msgs.forEach(d => {
-                    c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; margin-bottom:8px;">
-                        <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
+                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; float:right; font-size:16px;" title="Clear Message"><i class="fas fa-times-circle"></i></button>` : '';
+                    
+                    c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:10px 12px; border-radius:8px; margin-bottom:8px;">
+                        ${clearBtn}
+                        <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8; padding-right:20px;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
                         ${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}
                     </div>`;
                     
-                    // Auto-clear logic: If HQ replied and Member sees it, hide it forever from member screen
-                    if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
+                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
                         UI.showToast(`HQ Replied!`, 'success');
                         localStorage.setItem(`sos_seen_${d.id}`, d.reply);
                         UI.showModal('sos-modal'); 
-                        
-                        // Mark as cleared so it disappears on next refresh/snapshot
-                        db.collection('sos_messages').doc(d.id).update({ clearedByMember: true });
                     }
                 });
             });
+        }
+
+        // Clears specific SOS from member's view after they have read the reply
+        static async clearSOS(id) {
+            await db.collection('sos_messages').doc(id).update({ clearedByMember: true });
         }
 
         static showQR() {
@@ -525,6 +623,32 @@
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
         }
 
+        // UPGRADED BILINGUAL AI SYSTEM
+        static askAI() {
+            const q = document.getElementById('ai-query').value.toLowerCase(); 
+            const resBox = document.getElementById('ai-response');
+            
+            resBox.style.color = "var(--text-main)";
+            resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)";
+            resBox.style.padding = "12px";
+            resBox.style.borderRadius = "8px";
+            resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
+
+            if(q.includes('paise') || q.includes('money') || q.includes('expensive')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'I completely understand. But if money is tight right now, isn't that exactly why you need this business? To never have to say I don't have money again.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir main samajhta hu. Par agar aaj naya shuru karne ke liye paise nahi hain, toh aage bhi nahi honge. Yehi reason hai business start karne ka, taaki paise ki kami na ho.'";
+            } else if(q.includes('time') || q.includes('busy')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'You work hard all day yet have no freedom. We build this business part-time exactly to earn Time Freedom in the future. Just 1 hour a day is enough.'<br><br><b>🇮🇳 Hinglish:</b> 'Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business time lagane nahi, aage chalkar Time Freedom kamane ke liye kar rahe hain.'";
+            } else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Illegal pyramids don't have real products. We are a registered business where you earn based on effort, not just joining. Let me show you the documents.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir, fake cheezein chup kar hoti hain. Hum proper product based registered company hain aur documents open hain. Aap khud check kijiye.'";
+            } else if(q.includes('papa') || q.includes('family') || q.includes('ask')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself, and show them the results later!'<br><br><b>🇮🇳 Hinglish:</b> 'Family mana karegi kyunki unhone plan nahi dekha. Agar successful hona hai toh decision aapka hona chahiye. Unhe result aane par proof dikhana!'";
+            } else if(q.includes('soch') || q.includes('think')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Of course! But thinking alone won't change your bank balance; taking action will. Let's start today with my support.'<br><br><b>🇮🇳 Hinglish:</b> 'Zaroor sochiye, par sochne se balance nahi badhega. Action lene se hoga. Main 100% support karunga, aaj hi shuru karte hain.'";
+            } else {
+                resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b>🇬🇧 English:</b> 'I hear you. But let me ask you, if you don't take action today, where will you be in 5 years? Our system provides full support.'<br><br><b>🇮🇳 Hinglish:</b> 'Jo aap keh rahe hain bilkul natural hai sir. Lekin agar aaj action nahi liya, toh kal kuch nahi badlega. Humara system aapko 100% support karega.'";
+            }
+        }
+
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; 
@@ -537,7 +661,6 @@
                 if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; } 
                 else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "You have 0 closed conversions today."; }
                 
-                // Individual Target Progress Logic
                 const target = parseInt(localStorage.getItem('htm_target')) || 50000;
                 document.getElementById('mem-target-label').innerText = `Monthly Target (₹${target.toLocaleString()})`;
                 
@@ -582,13 +705,11 @@
             
             UI.showToast('Obtaining fast coordinate lock...', 'warning');
             
-            // FAST GEOLOCATION & REVERSE GEOCODING
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude; const lng = pos.coords.longitude;
                 let locName = "Coordinates Locked";
                 
                 try {
-                    // Free Nominatim API for Area Name
                     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
                     const data = await res.json();
                     if(data && data.display_name) { locName = data.display_name.split(',').slice(0, 3).join(','); }
@@ -604,7 +725,7 @@
                 localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect);
                 document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); selfieInput.value = "";
                 UI.showToast('Run logged on active grid.', 'success');
-            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); // FAST Config
+            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
         }
 
         static async endPlan() {
@@ -706,7 +827,6 @@
             document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success');
         }
 
-        // Permanent SOS Vault for Admin + Delete functionality
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
@@ -733,7 +853,6 @@
             await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success');
         }
 
-        // Updated Admin Create User with Individual Target
         static async createUser() {
             const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); 
             const badge = document.getElementById('new-badge').value;
@@ -762,7 +881,6 @@
                     if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
                     const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
                     
-                    // Shows actual Geocoded Location Name
                     const locText = d.locationName ? `<span style="display:block; margin-top:4px; color:#60a5fa;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : '';
                     const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:6px 0 0 0;"><i>Note: ${d.remarks}</i></p>` : '';
                     
