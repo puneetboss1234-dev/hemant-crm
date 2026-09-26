@@ -279,9 +279,12 @@
                     <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger);" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
                 </div>
                 <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
-                <input type="text" id="ac-vid" placeholder="YouTube Video URL (embed format)">
+                
+                <!-- NEW: Direct YouTube Link Support -->
+                <input type="text" id="ac-vid" placeholder="Paste Direct YouTube Link (e.g. https://youtu.be/...)">
                 <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
                 <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
+                
                 <input type="text" id="ac-q" placeholder="Daily Quiz Question?">
                 <div class="grid-2">
                     <input type="text" id="ac-o1" placeholder="Option A"><input type="text" id="ac-o2" placeholder="Option B">
@@ -427,35 +430,32 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Tab 3: ACADEMY (FULLY RESTORED) -->
+        <!-- Member Tab 3: ACADEMY (HINDI OPTIMIZED) -->
         <div id="mem-academy" class="tab-content hidden">
             
-            <!-- Live Training Link -->
             <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
                 <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
                     <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
                 </button>
             </div>
 
-            <!-- YouTube Video Box -->
             <div id="mem-ac-video-box" class="hidden" style="margin-bottom: 16px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4>
                 <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe></div>
             </div>
 
-            <!-- PDF Box -->
             <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom: 16px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4>
                 <button class="btn btn-outline" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button>
             </div>
 
-            <!-- Daily Quiz Section -->
+            <!-- Quiz Section -->
             <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom: 24px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-question-circle text-warning"></i> आज का सवाल (Daily Quiz)</h4>
                 <div class="card" id="quiz-card" style="border-color: rgba(245, 158, 11, 0.3);">
                     <p class="text-sm" id="quiz-q" style="margin-top:0;">Question loading...</p>
-                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option A</div>
-                    <div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option B</div>
+                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div>
+                    <div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
                 </div>
             </div>
 
@@ -480,7 +480,7 @@
                 </div>
             </div>
 
-            <!-- AI Assistant -->
+            <!-- Bilingual AI -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
                 <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
@@ -559,7 +559,6 @@
 
         </div>
 
-        <!-- NEW: ALL 3 TABS VISIBLE IN MEMBER NAV -->
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('mem', 'dash', this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem', 'leads', this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
@@ -929,17 +928,31 @@
             UI.showToast('Live Training dispatched!', 'success');
         }
 
+        // SMART YOUTUBE AUTO-CONVERTER
         static async updateAcademy() {
-            const vid = document.getElementById('ac-vid').value.trim();
+            let vid = document.getElementById('ac-vid').value.trim();
             const pdf = document.getElementById('ac-pdf').value.trim();
             const q = document.getElementById('ac-q').value.trim();
             const o1 = document.getElementById('ac-o1').value.trim();
             const o2 = document.getElementById('ac-o2').value.trim();
             const ans = document.getElementById('ac-ans').value;
             
+            // Auto convert Direct YouTube Link to Embed Format
+            if (vid) {
+                if (vid.includes('youtube.com/watch?v=')) {
+                    try { const videoId = new URL(vid).searchParams.get('v'); if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } catch(e) {}
+                } else if (vid.includes('youtu.be/')) {
+                    const videoId = vid.split('youtu.be/')[1].split('?')[0]; if(videoId) vid = `https://www.youtube.com/embed/${videoId}`;
+                }
+            }
+            
             await db.collection('system').doc('academy').set({
                 vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }, {merge: true});
+            
+            // Clear inputs
+            document.getElementById('ac-vid').value = '';
+            document.getElementById('ac-pdf').value = '';
             UI.showToast('Academy Updated for all Agents!', 'success');
         }
 
@@ -978,6 +991,7 @@
             const id = document.getElementById('global-sos-id').value;
             await this.replySOS(id, 'global-sos-reply');
             this.closeGlobalSOS();
+            document.getElementById('global-sos-reply').value = '';
         }
 
         static closeGlobalSOS() { document.getElementById('global-sos-alert').classList.remove('show'); }
