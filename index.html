@@ -6,7 +6,6 @@
     <title>HTM | Enterprise CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* ================= CORE THEME & GLASSMORPHISM ================= */
         :root {
             --primary: #3b82f6; --primary-glow: rgba(59, 130, 246, 0.45);
             --text-main: #ffffff; --text-muted: rgba(255, 255, 255, 0.65);
@@ -34,7 +33,6 @@
         .text-sm { font-size: 12px; color: var(--text-muted); }
         .text-xs { font-size: 11px; color: var(--text-muted); }
 
-        /* Pure Glass Cards */
         .card, .dashboard-stat, .record-item, .urgency-banner { 
             background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
@@ -65,7 +63,6 @@
         .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
         .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
         .badge-primary { background: rgba(59, 130, 246, 0.15); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.3); }
-
         .gamification-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 4px; }
         .badge-closer { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4); }
         .badge-starter { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2)); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
@@ -100,7 +97,6 @@
         .record-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
         .record-actions { display: flex; gap: 8px; margin-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 12px; }
 
-        /* Whisper Floating SOS Button */
         .btn-sos { position: fixed; bottom: 90px; right: 20px; width: 50px; height: 50px; border-radius: 25px; background: rgba(239, 68, 68, 0.8); backdrop-filter: blur(10px); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.5); z-index: 99; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); }
         
         #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
@@ -124,7 +120,7 @@
     </div>
 </div>
 
-<!-- Modal 2: Digital QR Card (NEW) -->
+<!-- Modal 2: Digital QR Card -->
 <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow);">
         <h3 style="margin-bottom: 8px;">Digital Agent ID</h3>
@@ -136,16 +132,22 @@
     </div>
 </div>
 
-<!-- Modal 3: SOS Whisper Send (NEW) -->
+<!-- Modal 3: SOS Whisper Chat (UPDATED FOR 2-WAY) -->
 <div id="sos-modal" class="modal-overlay hidden">
-    <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow);">
-        <h3 style="margin-bottom: 8px; color: var(--danger);"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <p class="text-sm" style="margin-bottom: 16px;">Send a silent SOS or ask Admin a quick question.</p>
-        <textarea id="sos-message" placeholder="Type your situation here..."></textarea>
-        <div class="grid-2">
-            <button class="btn btn-primary" style="background: var(--danger);" onclick="Member.sendSOS()">Send SOS</button>
-            <button class="btn btn-outline" onclick="UI.dismissModal('sos-modal')">Cancel</button>
+    <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
+        <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
+        
+        <!-- Live Chat History -->
+        <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+            <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
+
+        <p class="text-xs" style="margin-bottom: 8px;">Send a silent SOS or ask Admin a quick question.</p>
+        <div style="display:flex; gap:8px;">
+            <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0;">
+            <button class="btn btn-primary btn-sm" style="background: var(--danger);" onclick="Member.sendSOS()">Send</button>
+        </div>
+        <button class="btn btn-outline" style="margin-top: 16px;" onclick="UI.dismissModal('sos-modal')">Close</button>
     </div>
 </div>
 
@@ -182,16 +184,12 @@
                 <div class="dashboard-stat"><span class="text-xs">Active Deployments</span><h2 id="admin-active-count">0</h2></div>
             </div>
 
-            <!-- Conversion Funnel Analytics (NEW) -->
             <div class="card" style="padding: 16px;">
                 <h4 style="margin-bottom: 12px; font-size: 14px;"><i class="fas fa-filter text-primary"></i> Live Conversion Funnel</h4>
-                
                 <div style="margin-bottom: 6px;"><span class="text-xs">Total Leads</span> <strong id="funnel-total" style="float:right; font-size:14px;">0</strong></div>
                 <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 4px; margin-bottom: 12px;"><div id="bar-total" style="width:100%; background: var(--primary); height: 100%; border-radius: 4px; transition: 0.5s;"></div></div>
-        
                 <div style="margin-bottom: 6px;"><span class="text-xs">Hot Prospects</span> <strong id="funnel-hot" style="float:right; font-size:14px;">0</strong></div>
                 <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 4px; margin-bottom: 12px;"><div id="bar-hot" style="width:0%; background: var(--warning); height: 100%; border-radius: 4px; transition: 0.5s;"></div></div>
-        
                 <div style="margin-bottom: 6px;"><span class="text-xs">Converted (DD)</span> <strong id="funnel-closed" style="float:right; font-size:14px;">0</strong></div>
                 <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 4px;"><div id="bar-closed" style="width:0%; background: var(--success); height: 100%; border-radius: 4px; transition: 0.5s;"></div></div>
             </div>
@@ -228,27 +226,25 @@
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- Admin Tab 3: CONTROLS & SOS RADAR -->
+        <!-- Admin Tab 3: CONTROLS & SOS CHAT -->
         <div id="admin-controls" class="tab-content hidden">
             
-            <!-- Live SOS Whispers (NEW) -->
+            <!-- Live SOS Whispers (UPDATED FOR REPLY) -->
             <div class="card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
-                <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> Live SOS Whispers</h4>
-                <div id="admin-sos-container" style="max-height: 150px; overflow-y: auto;">
+                <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
+                <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;">
                     <p class="text-xs text-center">No active distress signals.</p>
                 </div>
             </div>
 
             <div class="card">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-bullhorn text-primary"></i> Broadcast Dispatcher</h4>
-                <p class="text-sm" style="margin-bottom: 14px;">Push immediate tactical notifications directly to all agent viewports.</p>
                 <textarea id="admin-task-input" placeholder="Type tactical command or day plan..."></textarea>
                 <button class="btn btn-primary" onclick="Admin.publishTask()"><i class="fas fa-paper-plane"></i> Deploy Network Pop-up</button>
             </div>
 
             <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-video text-danger"></i> Live Academy Dispatch</h4>
-                <p class="text-sm" style="margin-bottom: 14px;">Push a live Zoom/Meet link to all agents.</p>
                 <input type="url" id="admin-live-link" placeholder="Paste Zoom/Google Meet Link here...">
                 <div class="grid-2">
                     <button class="btn btn-primary" style="background:#ef4444;" onclick="Admin.pushLiveLink()"><i class="fas fa-broadcast-tower"></i> Go Live</button>
@@ -257,11 +253,12 @@
             </div>
         </div>
 
-        <!-- Admin Tab 4: GOD MODE -->
+        <!-- Admin Tab 4: GOD MODE & JPG EXPORT -->
         <div id="admin-godmode" class="tab-content hidden">
             <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 14px;">
                 <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Enterprise Data Vault</h4>
-                <button class="btn btn-outline btn-sm" style="border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportData()"><i class="fas fa-download"></i> CSV Export</button>
+                <!-- JPG Export Button -->
+                <button class="btn btn-outline btn-sm" style="border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG Report</button>
             </div>
             <div id="admin-sales-container"></div>
         </div>
@@ -277,7 +274,6 @@
     <!-- ================= MEMBER MODULE ================= -->
     <div id="member-module" class="hidden">
         
-        <!-- Whisper SOS Button (NEW) -->
         <div class="btn-sos" onclick="UI.showModal('sos-modal')">
             <i class="fas fa-headset"></i>
         </div>
@@ -288,7 +284,6 @@
                 <div id="mem-badges-container"></div>
             </div>
             <div style="display: flex; gap: 12px; align-items: center;">
-                <!-- QR Code Trigger (NEW) -->
                 <i class="fas fa-qrcode text-primary" style="font-size: 22px; cursor: pointer;" onclick="Member.showQR()"></i>
                 <span class="badge badge-success" id="mem-network-status">Online</span>
                 <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
@@ -313,13 +308,10 @@
                     <option value="Venue Plan">Venue Seminar</option>
                     <option value="Follow-up Close">Follow-up Close</option>
                 </select>
-                
-                <!-- Selfie Verification Upload (NEW) -->
                 <label class="btn btn-outline" style="font-size:12px; padding:10px; margin-bottom: 12px; color: var(--warning); border-color: rgba(245, 158, 11, 0.5);">
                     <i class="fas fa-camera"></i> Mandatory Check-in Selfie
                     <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="UI.showToast('Selfie Verified locally.', 'success')">
                 </label>
-
                 <button class="btn btn-primary" onclick="Member.startPlan()"><i class="fas fa-map-marker-alt"></i> Initiate Check-in (GPS)</button>
             </div>
 
@@ -366,14 +358,12 @@
 
         <!-- Member Tab 3: ACADEMY & AI -->
         <div id="mem-academy" class="tab-content hidden">
-            
             <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
                 <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
                     <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
                 </button>
             </div>
 
-            <!-- AI Closing Assistant (NEW) -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
                 <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
@@ -390,11 +380,8 @@
                     <div class="flip-card-front">
                         <i class="fas fa-wallet" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
                         <h3 style="margin: 0;">"Paise nahi hain"</h3>
-                        <span class="text-xs" style="margin-top: 8px;">Tap to reveal</span>
                     </div>
-                    <div class="flip-card-back">
-                        <p style="font-size: 13px; margin: 0;">"Main samajh sakta hu. Jab maine plan dekha tha, mujhe bhi laga tha. Lekin agar aaj life badalne ke liye paise nahi hain, toh yehi reason hai is business ko start karne ka!"</p>
-                    </div>
+                    <div class="flip-card-back"><p style="font-size: 13px; margin: 0;">"Agar aaj life badalne ke liye paise nahi hain, toh yehi reason hai is business ko start karne ka!"</p></div>
                 </div>
             </div>
             
@@ -403,11 +390,8 @@
                     <div class="flip-card-front">
                         <i class="fas fa-clock" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
                         <h3 style="margin: 0;">"Time nahi hai"</h3>
-                        <span class="text-xs" style="margin-top: 8px;">Tap to reveal</span>
                     </div>
-                    <div class="flip-card-back">
-                        <p style="font-size: 13px; margin: 0;">"Exactly! Aap itne busy hain, fir bhi freedom nahi hai. Hum ye business aage chal kar 'Time Freedom' kamane ke liye kar rahe hain."</p>
-                    </div>
+                    <div class="flip-card-back"><p style="font-size: 13px; margin: 0;">"Hum ye business aage chal kar 'Time Freedom' kamane ke liye kar rahe hain."</p></div>
                 </div>
             </div>
         </div>
@@ -438,19 +422,15 @@
 
     class UI {
         static showToast(msg, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
-            toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
-            container.appendChild(toast);
+            const container = document.getElementById('toast-container'); const toast = document.createElement('div');
+            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
+            toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
         static switchTab(prefix, tabId, element) {
             document.querySelectorAll(`#${prefix === 'admin' ? 'admin' : 'member'}-module .tab-content`).forEach(el => el.classList.add('hidden'));
             element.parentElement.querySelectorAll('.nav-box').forEach(el => el.classList.remove('active'));
-            document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden');
-            element.classList.add('active');
+            document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
         }
         static showModal(id) { document.getElementById(id).classList.remove('hidden'); }
         static dismissModal(id) { document.getElementById(id).classList.add('hidden'); }
@@ -459,12 +439,10 @@
     class Auth {
         static init() {
             const role = localStorage.getItem('htm_role');
-            if (role === 'admin') {
-                document.getElementById('admin-module').classList.remove('hidden'); Admin.initData();
-            } else if (role === 'member' && localStorage.getItem('htm_id')) {
+            if (role === 'admin') { document.getElementById('admin-module').classList.remove('hidden'); Admin.initData(); } 
+            else if (role === 'member' && localStorage.getItem('htm_id')) {
                 document.getElementById('member-module').classList.remove('hidden');
-                document.getElementById('mem-ui-name').innerText = localStorage.getItem('htm_name');
-                Member.initData();
+                document.getElementById('mem-ui-name').innerText = localStorage.getItem('htm_name'); Member.initData();
             } else { document.getElementById('auth-module').classList.remove('hidden'); }
         }
         static async login() {
@@ -486,7 +464,7 @@
 
     class Member {
         static initData() {
-            this.renderMemberBadges(); this.listenBroadcast(); this.listenLiveTraining();
+            this.renderMemberBadges(); this.listenBroadcast(); this.listenLiveTraining(); this.listenSOSReplies();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
         }
 
@@ -513,40 +491,52 @@
             });
         }
 
-        // NEW: Digital QR Card Show
-        static showQR() {
-            const phone = "Your HQ Number"; // Or agent number if stored
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`;
-            document.getElementById('qr-image').src = url;
-            UI.showModal('qr-modal');
+        // NEW: Listen for HQ Replies to My SOS
+        static listenSOSReplies() {
+            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).orderBy('timestamp', 'desc').limit(5).onSnapshot(snap => {
+                const c = document.getElementById('mem-sos-history');
+                if(!c) return;
+                c.innerHTML = '';
+                if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
+                
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; margin-bottom:8px;">
+                        <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
+                        ${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}
+                    </div>`;
+                    
+                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${doc.id}`)) {
+                        UI.showToast(`HQ Reply: ${d.reply}`, 'success');
+                        localStorage.setItem(`sos_seen_${doc.id}`, d.reply);
+                        UI.showModal('sos-modal'); // Auto open to show reply
+                    }
+                });
+            });
         }
 
-        // NEW: Whisper SOS Send
+        static showQR() {
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`;
+            document.getElementById('qr-image').src = url; UI.showModal('qr-modal');
+        }
+
         static async sendSOS() {
             const msg = document.getElementById('sos-message').value.trim();
             if(!msg) return UI.showToast('Message empty.', 'error');
             await db.collection('sos_messages').add({
                 memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
-                message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                message: msg, reply: "", timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             document.getElementById('sos-message').value = '';
-            UI.dismissModal('sos-modal');
-            UI.showToast('SOS dispatched securely.', 'success');
+            UI.showToast('SOS dispatched securely. Waiting for HQ...', 'success');
         }
 
-        // NEW: AI Local Assistant Simulation
         static askAI() {
-            const q = document.getElementById('ai-query').value.toLowerCase();
-            const resBox = document.getElementById('ai-response');
-            if(q.includes('scam') || q.includes('fake')) {
-                resBox.innerText = "🤖 'Sir, fake cheezein chup kar hoti hain. Hum MCA registered hain aur HQ directly monitor karta hai. Documents dikhau?'";
-            } else if(q.includes('expensive') || q.includes('paise')) {
-                resBox.innerText = "🤖 'Sir, mehenga sasta kuch nahi hota, return on investment dekhiye. ₹X laga kar system aapko lifetime business de raha hai.'";
-            } else if(q.includes('family') || q.includes('papa')) {
-                resBox.innerText = "🤖 'Sir, family mana karegi kyunki unhe information nahi hai. Decision maker aap hain. Unhe proof dikhaiye jab check aayega.'";
-            } else {
-                resBox.innerText = "🤖 'Sir, jo aap keh rahe hain wo natural hai. Lekin system 100% support karega agar aap aaj action lein.'";
-            }
+            const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
+            if(q.includes('scam') || q.includes('fake')) resBox.innerText = "🤖 'Sir, fake cheezein chup kar hoti hain. Hum registered hain aur HQ directly monitor karta hai. Documents dikhau?'";
+            else if(q.includes('expensive') || q.includes('paise')) resBox.innerText = "🤖 'Sir, mehenga sasta kuch nahi hota, return on investment dekhiye. ₹X laga kar system aapko lifetime business de raha hai.'";
+            else if(q.includes('family') || q.includes('papa')) resBox.innerText = "🤖 'Sir, family mana karegi kyunki unhe information nahi hai. Decision maker aap hain. Unhe proof dikhaiye jab check aayega.'";
+            else resBox.innerText = "🤖 'Sir, jo aap keh rahe hain wo natural hai. Lekin system 100% support karega agar aap aaj action lein.'";
         }
 
         static evaluateUrgencyTriggers() {
@@ -577,8 +567,7 @@
         static checkActivePlanState() {
             const planId = localStorage.getItem("htm_active_plan");
             if (planId) {
-                document.getElementById('plan-init-state').classList.add('hidden');
-                document.getElementById('plan-active-state').classList.remove('hidden');
+                document.getElementById('plan-init-state').classList.add('hidden'); document.getElementById('plan-active-state').classList.remove('hidden');
                 document.getElementById('active-prospect-display').innerText = localStorage.getItem("htm_active_prospect");
             } else {
                 document.getElementById('plan-init-state').classList.remove('hidden'); document.getElementById('plan-active-state').classList.add('hidden');
@@ -586,11 +575,9 @@
         }
 
         static startPlan() {
-            const prospect = document.getElementById('plan-prospect').value.trim();
-            const selfieInput = document.getElementById('plan-selfie');
-            
+            const prospect = document.getElementById('plan-prospect').value.trim(); const selfieInput = document.getElementById('plan-selfie');
             if (!prospect) return UI.showToast('Designate prospect target.', 'error');
-            if (selfieInput.files.length === 0) return UI.showToast('Camera verification required to proceed.', 'error'); // NEW Selfie Check
+            if (selfieInput.files.length === 0) return UI.showToast('Camera verification required.', 'error');
             if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
             
             UI.showToast('Obtaining coordinate lock...', 'warning');
@@ -624,20 +611,16 @@
             if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
             if (!navigator.onLine) {
                 let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload);
-                localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = '';
-                return UI.showToast('Cached offline locally.', 'warning');
+                localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline locally.', 'warning');
             }
-            payload.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-            await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
+            payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
         }
 
         static streamLeads() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                const container = document.getElementById('member-leads-container');
-                container.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding:16px;">Pipeline empty.</p>' : '';
+                const container = document.getElementById('member-leads-container'); container.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding:16px;">Pipeline empty.</p>' : '';
                 snap.forEach(doc => {
-                    const d = doc.data();
-                    const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px;">₹${d.ddAmount} Finalized</span>` : `<div style="display:flex; gap:8px;"><input type="number" id="dd-${doc.id}" placeholder="₹ Amount" style="margin:0; padding:8px;"><button class="btn btn-outline btn-sm" onclick="Member.closeDD('${doc.id}')">Submit DD</button></div>`;
+                    const d = doc.data(); const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px;">₹${d.ddAmount} Finalized</span>` : `<div style="display:flex; gap:8px;"><input type="number" id="dd-${doc.id}" placeholder="₹ Amount" style="margin:0; padding:8px;"><button class="btn btn-outline btn-sm" onclick="Member.closeDD('${doc.id}')">Submit DD</button></div>`;
                     container.innerHTML += `<div class="record-item"><div class="record-header"><div><strong style="font-size:15px;">${d.name}</strong><br><span class="text-xs">Class: ${d.temp} | Follow-up: <span style="color:var(--primary);">${d.followUp || 'None'}</span></span></div><a href="https://wa.me/91${d.phone}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#fff; text-decoration:none;"><i class="fab fa-whatsapp"></i></a></div><div class="record-actions">${ddUI}</div></div>`;
                 });
             });
@@ -670,7 +653,7 @@
         }
         static async clearLiveLink() { await db.collection('system').doc('academy').set({ liveLink: null }); document.getElementById('admin-live-link').value = ''; UI.showToast('Live session ended.', 'success'); }
 
-        // NEW: Admin Listen to SOS Whispers
+        // NEW: Admin Listen and Render SOS with Reply Inputs
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').limit(10).onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
@@ -678,12 +661,25 @@
                 c.innerHTML = '';
                 snap.forEach(doc => {
                     const d = doc.data();
-                    c.innerHTML += `<div style="background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 8px 12px; margin-bottom: 8px; border-radius: 4px;">
-                        <strong class="text-xs">${d.memberName}</strong> <span class="text-xs" style="float:right;">Now</span>
+                    const replyUI = d.reply 
+                        ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0;"><strong>HQ Reply:</strong> ${d.reply}</p>`
+                        : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}')">Send</button></div>`;
+                    
+                    c.innerHTML += `<div style="background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 12px; margin-bottom: 8px; border-radius: 4px;">
+                        <strong class="text-sm">${d.memberName}</strong>
                         <p style="margin: 4px 0 0 0; font-size: 13px;">${d.message}</p>
+                        ${replyUI}
                     </div>`;
                 });
             });
+        }
+
+        // NEW: Send Reply Logic
+        static async replySOS(id) {
+            const text = document.getElementById(`sos-reply-${id}`).value.trim();
+            if(!text) return UI.showToast('Reply cannot be empty', 'error');
+            await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() });
+            UI.showToast('Reply dispatched to Agent.', 'success');
         }
 
         static async createUser() {
@@ -705,6 +701,7 @@
                 document.getElementById('admin-active-count').innerText = count;
             });
         }
+        
         static streamTeam() {
             db.collection('users').onSnapshot(snap => {
                 const container = document.getElementById('admin-team-container'); container.innerHTML = '';
@@ -715,7 +712,6 @@
             });
         }
 
-        // NEW: Funnel Analytics Logic
         static streamSales() {
             db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const container = document.getElementById('admin-sales-container'); container.innerHTML = snap.empty ? '<p class="text-xs text-center">Data repository void.</p>' : '';
@@ -730,23 +726,77 @@
                 });
 
                 document.getElementById('admin-dd-total').innerText = '₹' + total;
-                // Update Funnel Bars
-                document.getElementById('funnel-total').innerText = totalCount;
-                document.getElementById('funnel-hot').innerText = hotCount;
-                document.getElementById('funnel-closed').innerText = closedCount;
-                if(totalCount > 0) {
-                    document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`;
-                    document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`;
-                }
+                document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
+                if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
             });
         }
         
-        static exportData() {
-            if (this.leadsVault.length === 0) return UI.showToast('No records available.', 'warning');
-            let csv = "Agent,Prospect Name,Phone,Temperature,Follow Up,Finalized,DD Amount\n";
-            this.leadsVault.forEach(r => { csv += `"${r.memberName}","${r.name}","${r.phone}","${r.temp}","${r.followUp}",${r.ddClosed},${r.ddAmount}\n`; });
-            const blob = new Blob([csv], { type: 'text/csv' }); const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a'); a.setAttribute('href', url); a.setAttribute('download', `HTM_Master_Vault_${Date.now()}.csv`); a.click();
+        // NEW: Native JPG Generation using HTML5 Canvas (No external libraries needed)
+        static exportJPG() {
+            if (this.leadsVault.length === 0) return UI.showToast('No records available to export.', 'warning');
+            
+            UI.showToast('Generating Master JPG Report...', 'warning');
+            
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const rowHeight = 40;
+            const headerHeight = 70;
+            const width = 850;
+            const height = headerHeight + (this.leadsVault.length + 1) * rowHeight + 40;
+            
+            canvas.width = width; canvas.height = height;
+            
+            // White Background for JPG
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw Header & Branding
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 26px sans-serif';
+            ctx.fillText('HTM Enterprise Network Report', 20, 45);
+            ctx.font = '14px sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(`Generated: ${new Date().toLocaleDateString()}`, 650, 40);
+            
+            // Draw Table Header Bar
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(15, headerHeight, width - 30, rowHeight);
+            ctx.fillStyle = '#334155';
+            ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('Prospect Name', 30, headerHeight + 25);
+            ctx.fillText('Contact', 260, headerHeight + 25);
+            ctx.fillText('Agent (Under List)', 460, headerHeight + 25);
+            ctx.fillText('Status / Plan Date', 660, headerHeight + 25);
+            
+            // Draw Data Rows
+            ctx.font = '14px sans-serif';
+            ctx.fillStyle = '#0f172a';
+            
+            this.leadsVault.forEach((lead, index) => {
+                const y = headerHeight + rowHeight + (index * rowHeight) + 25;
+                
+                // Row Separator Line
+                ctx.beginPath();
+                ctx.moveTo(15, y - 25);
+                ctx.lineTo(width - 15, y - 25);
+                ctx.strokeStyle = '#e2e8f0';
+                ctx.stroke();
+                
+                const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount})` : (lead.followUp || lead.temp);
+                
+                ctx.fillText(lead.name.substring(0, 25), 30, y);
+                ctx.fillText(lead.phone, 260, y);
+                ctx.fillText(lead.memberName.substring(0, 25), 460, y);
+                ctx.fillText(statusText, 660, y);
+            });
+            
+            // Trigger Download
+            const link = document.createElement('a');
+            link.download = `HTM_Master_Report_${Date.now()}.jpg`;
+            link.href = canvas.toDataURL('image/jpeg', 1.0);
+            link.click();
+            UI.showToast('JPG Report Downloaded Successfully!', 'success');
         }
 
         static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ Terminated)" }); }
