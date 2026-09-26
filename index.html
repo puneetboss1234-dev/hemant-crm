@@ -28,9 +28,8 @@
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { max-width: 600px; margin: 0 auto; padding: 16px; }
-        
-        /* UPDATED HEADER */
-        .app-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; }
+        .app-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; }
+        .member-header { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; }
         h1, h2, h3, h4 { margin: 0; font-weight: 600; }
         .text-sm { font-size: 12px; color: var(--text-muted); }
         .text-xs { font-size: 11px; color: var(--text-muted); }
@@ -55,23 +54,23 @@
         .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 15px var(--primary-glow); }
         .btn-primary:active { transform: scale(0.98); }
         .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; }
-        .btn-outline.active { background: rgba(59, 130, 246, 0.2); border-color: var(--primary); color: var(--primary); }
         .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
         .btn-sm { width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; }
 
-        .btn-live-pulse { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulseRed 2s infinite; }
-        @keyframes pulseRed { 0%, 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.8); transform: scale(1.02); } }
+        .filter-pill { border-radius: 20px; padding: 6px 14px; font-size: 11px; white-space: nowrap; transition: 0.3s; }
+        .filter-pill.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
 
+        .action-tray { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
+        .action-btn { flex: 1; padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; white-space: nowrap; }
+        
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
         .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
         .badge-primary { background: rgba(59, 130, 246, 0.15); color: var(--primary); border: 1px solid rgba(59, 130, 246, 0.3); }
-        .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-        
         .gamification-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 4px; }
         .badge-closer { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4); }
         .badge-starter { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2)); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
-        .tag-pill { display: inline-block; padding: 2px 8px; background: rgba(255,255,255,0.1); border-radius: 12px; font-size: 10px; margin-right: 4px; color: #cbd5e1; }
+        .tag-prof { background: rgba(255,255,255,0.1); color: var(--text-main); font-size: 9px; padding: 2px 6px; border-radius: 4px; }
 
         .radar-screen { position: relative; height: 160px; border-radius: 14px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
         .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 20px 20px; }
@@ -116,7 +115,7 @@
 
 <div id="toast-container"></div>
 
-<!-- Broadcast Modal -->
+<!-- Modals -->
 <div id="broadcast-modal" class="modal-overlay hidden">
     <div class="modal-box">
         <i class="fas fa-bullhorn" style="font-size: 36px; color: var(--warning); margin-bottom: 14px;"></i>
@@ -126,26 +125,21 @@
     </div>
 </div>
 
-<!-- QR Modal -->
 <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow);">
         <h3 style="margin-bottom: 8px;">Digital Agent ID</h3>
         <p class="text-sm" style="margin-bottom: 20px;">Prospect can scan to connect directly.</p>
-        <div style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin-bottom: 20px;">
-            <img id="qr-image" src="" alt="QR Code" width="180" height="180">
-        </div>
+        <div style="background: white; padding: 16px; border-radius: 12px; display: inline-block; margin-bottom: 20px;"><img id="qr-image" src="" alt="QR Code" width="180" height="180"></div>
         <button class="btn btn-outline" onclick="UI.dismissModal('qr-modal')">Close Scanner</button>
     </div>
 </div>
 
-<!-- SOS Chat Modal -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
         <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
         <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
             <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
-        <p class="text-xs" style="margin-bottom: 8px;">Send a silent SOS or ask Admin a quick question.</p>
         <div style="display:flex; gap:8px;">
             <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0;">
             <button class="btn btn-primary btn-sm" style="background: var(--danger);" onclick="Member.sendSOS()">Send</button>
@@ -154,26 +148,17 @@
     </div>
 </div>
 
-<!-- Tutorial Modal -->
 <div id="tutorial-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow); text-align: left; padding: 20px 16px;">
         <h3 style="margin-bottom: 16px; color: var(--primary); text-align: center;"><i class="fas fa-graduation-cap"></i> System Guide</h3>
         <div style="max-height: 350px; overflow-y: auto; padding-right: 8px;">
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--primary);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-crosshairs"></i> 1. Field Operations</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Check-in with GPS & Selfie before meeting. End meeting with remarks to update HQ.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan dikhane se pehle Prospect naam, Selfie lein, aur <strong>Initiate Check-in</strong> dabayein. End par Remarks zaroor dalein.</p>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--success);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-funnel-dollar"></i> 2. Pipeline (Leads)</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Register leads with tags. Use <strong>+1 Day</strong> to delay, or request <strong>Admin Help</strong> for upline closing support.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #8b5cf6;">
-                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-brain"></i> 3. Academy & AI</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Type prospect excuses in AI helper to get perfect reply scripts instantly.</p>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--danger);">
-                <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-headset"></i> 4. Secret SOS</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Tap the red floating button to secretly text admin during a tough meeting.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Pipeline mein Smart Filters use karein. Swipe buttons se 1-click WhatsApp ya Upline Push request karein.</p>
             </div>
         </div>
         <button class="btn btn-primary" style="margin-top: 16px;" onclick="UI.dismissModal('tutorial-modal')">Got it, Let's Work!</button>
@@ -206,13 +191,11 @@
             <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
         </div>
 
-        <!-- Admin Tab 1: HOME & FUNNEL -->
         <div id="admin-home" class="tab-content">
             <div class="grid-2" style="margin-bottom: 16px;">
                 <div class="dashboard-stat"><span class="text-xs">Network Turnover (DD)</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
                 <div class="dashboard-stat"><span class="text-xs">Active Deployments</span><h2 id="admin-active-count">0</h2></div>
             </div>
-
             <div class="card" style="padding: 16px;">
                 <h4 style="margin-bottom: 12px; font-size: 14px;"><i class="fas fa-filter text-primary"></i> Live Conversion Funnel</h4>
                 <div style="margin-bottom: 6px;"><span class="text-xs">Total Leads</span> <strong id="funnel-total" style="float:right; font-size:14px;">0</strong></div>
@@ -222,67 +205,44 @@
                 <div style="margin-bottom: 6px;"><span class="text-xs">Converted (DD)</span> <strong id="funnel-closed" style="float:right; font-size:14px;">0</strong></div>
                 <div style="background: rgba(255,255,255,0.1); height: 6px; border-radius: 4px;"><div id="bar-closed" style="width:0%; background: var(--success); height: 100%; border-radius: 4px; transition: 0.5s;"></div></div>
             </div>
-
-            <div class="radar-screen">
-                <div class="radar-grid"></div>
-                <div class="radar-sweep"></div>
-                <div id="radar-blips"></div>
-                <span style="position: absolute; bottom: 8px; font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px;">Live Field Grid</span>
-            </div>
+            <div class="radar-screen"><div class="radar-grid"></div><div class="radar-sweep"></div><div id="radar-blips"></div></div>
             <h4 style="margin-bottom: 12px;"><i class="fas fa-satellite text-primary"></i> Real-Time Agent Deployments</h4>
             <div id="admin-radar-container"></div>
         </div>
 
-        <!-- Admin Tab 2: TEAM -->
         <div id="admin-team" class="tab-content hidden">
             <div class="card">
                 <h4 style="margin-bottom: 16px;"><i class="fas fa-user-plus text-primary"></i> Onboard New Asset</h4>
                 <div class="grid-2">
-                    <input type="text" id="new-id" placeholder="ID (HTM-XX)">
-                    <input type="text" id="new-name" placeholder="Full Name">
+                    <input type="text" id="new-id" placeholder="ID (HTM-XX)"><input type="text" id="new-name" placeholder="Full Name">
                 </div>
                 <div class="grid-2">
                     <input type="password" id="new-pass" placeholder="Password">
-                    <select id="new-badge">
-                        <option value="">No Badge</option>
-                        <option value="Closer">🏆 Top Closer</option>
-                        <option value="Starter">⚡ Fast Starter</option>
-                    </select>
+                    <input type="number" id="new-target" placeholder="Monthly Target (₹)">
                 </div>
+                <select id="new-badge" style="margin-bottom: 12px;"><option value="">No Badge</option><option value="Closer">🏆 Top Closer</option><option value="Starter">⚡ Fast Starter</option></select>
                 <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Credentials</button>
             </div>
             <h4 style="margin-bottom: 12px;"><i class="fas fa-users text-primary"></i> Active Roster</h4>
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- Admin Tab 3: CONTROLS & SOS CHAT -->
         <div id="admin-controls" class="tab-content hidden">
             <div class="card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
                 <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
-                <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;">
-                    <p class="text-xs text-center">No active distress signals.</p>
-                </div>
+                <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;"></div>
             </div>
             <div class="card">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-bullhorn text-primary"></i> Broadcast Dispatcher</h4>
                 <textarea id="admin-task-input" placeholder="Type tactical command or day plan..."></textarea>
                 <button class="btn btn-primary" onclick="Admin.publishTask()"><i class="fas fa-paper-plane"></i> Deploy Network Pop-up</button>
             </div>
-            <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
-                <h4 style="margin-bottom: 8px;"><i class="fas fa-video text-danger"></i> Live Academy Dispatch</h4>
-                <input type="url" id="admin-live-link" placeholder="Paste Zoom/Google Meet Link here...">
-                <div class="grid-2">
-                    <button class="btn btn-primary" style="background:#ef4444;" onclick="Admin.pushLiveLink()"><i class="fas fa-broadcast-tower"></i> Go Live</button>
-                    <button class="btn btn-outline" onclick="Admin.clearLiveLink()">End Session</button>
-                </div>
-            </div>
         </div>
 
-        <!-- Admin Tab 4: GOD MODE -->
         <div id="admin-godmode" class="tab-content hidden">
             <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 14px;">
                 <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Enterprise Data Vault</h4>
-                <button class="btn btn-outline btn-sm" style="border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG Report</button>
+                <button class="btn btn-outline btn-sm" style="border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
             </div>
             <div id="admin-sales-container"></div>
         </div>
@@ -302,39 +262,43 @@
             <i class="fas fa-headset"></i>
         </div>
 
-        <!-- UPDATED HEADER WITH OS BRANDING -->
-        <div class="app-header">
-            <div>
-                <h4 style="margin: 0 0 4px 0; font-size: 13px; color: var(--primary); letter-spacing: 0.5px;"><i class="fas fa-shield-alt"></i> Hemant Team Management OS</h4>
-                <h3 style="margin: 0; font-size: 22px;">Welcome, <span id="mem-ui-name">Agent</span></h3>
-                <div id="mem-badges-container" style="margin-top:6px;"></div>
+        <div class="member-header">
+            <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-crown text-primary" style="font-size: 24px; filter: drop-shadow(0 0 10px var(--primary-glow));"></i>
+                    <h3 style="margin: 0; font-size: 16px;">HTM <span style="font-weight: 300; opacity: 0.8;">OS</span></h3>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <i class="fas fa-question-circle text-warning" style="font-size: 20px; cursor: pointer;" onclick="UI.showModal('tutorial-modal')"></i>
+                    <i class="fas fa-qrcode text-primary" style="font-size: 20px; cursor: pointer;" onclick="Member.showQR()"></i>
+                    <span class="badge badge-success" id="mem-network-status">Online</span>
+                    <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
+                </div>
             </div>
-            <div style="display: flex; gap: 12px; align-items: center; align-self: flex-start; margin-top: 4px;">
-                <i class="fas fa-question-circle text-warning" style="font-size: 20px; cursor: pointer;" onclick="UI.showModal('tutorial-modal')"></i>
-                <i class="fas fa-qrcode text-primary" style="font-size: 20px; cursor: pointer;" onclick="Member.showQR()"></i>
-                <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
+            <div style="width: 100%; margin-top: 8px;">
+                <h2 style="font-size: 24px; margin: 0; text-shadow: 0 0 15px rgba(255,255,255,0.2);" id="mem-ui-name">Welcome, Agent</h2>
+                <div id="mem-badges-container" style="margin-top: 6px;"></div>
             </div>
         </div>
 
         <!-- Member Tab 1: DASHBOARD -->
         <div id="mem-dash" class="tab-content">
-            
-            <!-- NEW: Target Progress Bar -->
-            <div class="card" style="padding: 16px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                    <strong style="font-size:13px;"><i class="fas fa-bullseye text-primary"></i> Monthly Target</strong>
-                    <strong class="text-success" style="font-size:13px;" id="mem-target-text">₹0 / ₹50,000</strong>
-                </div>
-                <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow:hidden;">
-                    <div id="mem-target-bar" style="width:0%; background: linear-gradient(90deg, var(--primary), var(--success)); height: 100%; border-radius: 4px; transition: 1s ease-out;"></div>
-                </div>
-            </div>
-
             <div id="mem-urgency-wrapper" class="card urgency-banner">
                 <i class="fas fa-hourglass-half" style="font-size: 20px; color: var(--warning);"></i>
                 <div>
                     <strong style="font-size: 13px;" id="urgency-title">Daily Quota Incomplete</strong>
                     <div class="text-xs" id="urgency-desc">Target DD pending. Field action required.</div>
+                </div>
+            </div>
+
+            <!-- Target Progress Bar -->
+            <div class="card" style="padding: 16px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: flex-end;">
+                    <span class="text-sm" id="mem-target-label">Monthly Target</span>
+                    <strong id="mem-target-text" style="color: var(--success); font-size: 15px;">₹0 (0%)</strong>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div id="mem-target-bar" style="width:0%; background: var(--success); height: 100%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px var(--success);"></div>
                 </div>
             </div>
 
@@ -357,12 +321,10 @@
                 <div style="text-align: center;">
                     <h3 style="color:var(--warning);"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3>
                     <p id="active-prospect-display" style="font-size: 18px; font-weight:bold; margin: 8px 0;"></p>
-                    <p class="text-xs" style="margin-bottom:16px;">Satellite location registered with HQ Radar.</p>
+                    <p class="text-xs">Satellite location registered with HQ Radar.</p>
                 </div>
-                <!-- NEW: Post-Meeting Remarks -->
-                <input type="text" id="plan-remarks" placeholder="Meeting Remarks (e.g., Will pay tomorrow)" style="background:rgba(255,255,255,0.05);">
-                <div class="record-actions" style="margin-top: 4px;">
-                    <button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete</button>
+                <div class="record-actions" style="margin-top: 16px;">
+                    <button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete (Add Remarks)</button>
                     <button class="btn btn-danger-ghost" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Drop</button>
                 </div>
             </div>
@@ -373,9 +335,8 @@
             </div>
         </div>
 
-        <!-- Member Tab 2: PIPELINE (UPDATED) -->
+        <!-- Member Tab 2: PIPELINE -->
         <div id="mem-leads" class="tab-content hidden">
-            
             <div class="card">
                 <h4 style="margin-bottom: 16px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
                 <div class="grid-2">
@@ -383,84 +344,40 @@
                     <input type="number" id="lead-phone" placeholder="Phone Number">
                 </div>
                 <div class="grid-2">
-                    <!-- NEW: Profession Tag -->
-                    <select id="lead-tag" style="margin-bottom: 12px;">
-                        <option value="Student">Student</option>
-                        <option value="Employee">Employee</option>
-                        <option value="Business">Business</option>
-                        <option value="Housewife">Housewife</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <select id="lead-temp" style="margin-bottom: 12px;">
+                    <select id="lead-temp">
                         <option value="🔥 Hot">🔥 Hot</option>
                         <option value="🌤️ Warm">🌤️ Warm</option>
                         <option value="🥶 Cold">🥶 Cold</option>
                     </select>
+                    <select id="lead-prof">
+                        <option value="Student">Student</option>
+                        <option value="Employee">Employee</option>
+                        <option value="Business">Business</option>
+                        <option value="Housewife">Housewife</option>
+                    </select>
                 </div>
-                <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
+                <input type="date" id="lead-date" title="Follow-up Date">
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
             </div>
             
-            <!-- NEW: Pipeline Filters & Potential Value -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h4 style="margin:0;"><i class="fas fa-id-badge text-primary"></i> Pipeline Leads</h4>
-                <span class="badge badge-success" id="pipeline-potential" style="font-size:11px;">Potential: ₹0</span>
+                <div class="text-xs" style="color:var(--success); font-weight:bold; background: rgba(16, 185, 129, 0.1); padding: 4px 8px; border-radius: 6px;" id="pipeline-potential">Potential: ₹0</div>
             </div>
             
-            <input type="text" id="lead-search" placeholder="Search by name or number..." onkeyup="Member.renderFilteredLeads()" style="background: rgba(255,255,255,0.05);">
-            <div style="display:flex; gap:8px; margin-bottom: 16px; overflow-x:auto; padding-bottom: 4px;">
-                <button class="btn btn-sm btn-outline filter-pill active" onclick="Member.setFilter('All', this)">All</button>
-                <button class="btn btn-sm btn-outline filter-pill" onclick="Member.setFilter('🔥 Hot', this)">🔥 Hot</button>
-                <button class="btn btn-sm btn-outline filter-pill" onclick="Member.setFilter('Today', this)">📅 Today</button>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none;">
+                <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding: 8px; font-size:12px; min-width: 120px; background: rgba(255,255,255,0.05);" oninput="Member.applyFilters()">
+                <button class="btn btn-outline btn-sm filter-pill active" id="flt-all" onclick="Member.setFilter('All')">All</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="flt-hot" onclick="Member.setFilter('Hot')">🔥 Hot</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="flt-today" onclick="Member.setFilter('Today')">📅 Today</button>
             </div>
 
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Tab 3: ACADEMY & AI -->
-        <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
-                <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
-                    <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
-                </button>
-            </div>
-
-            <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
-                <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
-                <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0;">
-                    <button class="btn btn-primary btn-sm" style="background: #8b5cf6;" onclick="Member.askAI()">Ask</button>
-                </div>
-                <p id="ai-response" class="text-sm" style="margin-top: 12px; font-style: italic; color: var(--success);"></p>
-            </div>
-
-            <h4 style="margin-bottom: 16px;"><i class="fas fa-brain text-primary"></i> Flashcards</h4>
-            <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <i class="fas fa-wallet" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
-                        <h3 style="margin: 0;">"Paise nahi hain"</h3>
-                    </div>
-                    <div class="flip-card-back"><p style="font-size: 13px; margin: 0;">"Agar aaj life badalne ke liye paise nahi hain, toh yehi reason hai is business ko start karne ka!"</p></div>
-                </div>
-            </div>
-            
-            <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <i class="fas fa-clock" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
-                        <h3 style="margin: 0;">"Time nahi hai"</h3>
-                    </div>
-                    <div class="flip-card-back"><p style="font-size: 13px; margin: 0;">"Hum ye business aage chal kar 'Time Freedom' kamane ke liye kar rahe hain."</p></div>
-                </div>
-            </div>
-        </div>
-
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('mem', 'dash', this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem', 'leads', this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem', 'academy', this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
         </div>
     </div>
 
@@ -503,7 +420,8 @@
             if (role === 'admin') { document.getElementById('admin-module').classList.remove('hidden'); Admin.initData(); } 
             else if (role === 'member' && localStorage.getItem('htm_id')) {
                 document.getElementById('member-module').classList.remove('hidden');
-                document.getElementById('mem-ui-name').innerText = localStorage.getItem('htm_name'); Member.initData();
+                document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name')}`;
+                Member.initData();
                 if (localStorage.getItem('htm_tutorial_seen') !== 'true') {
                     setTimeout(() => { UI.showModal('tutorial-modal'); localStorage.setItem('htm_tutorial_seen', 'true'); }, 1000);
                 }
@@ -518,21 +436,29 @@
                 let localToken = localStorage.getItem('htm_device') || ("DEV-" + Date.now());
                 if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken });
                 else if (doc.data().deviceToken !== localToken) throw new Error("Device mismatch.");
+                
                 localStorage.setItem('htm_device', localToken); localStorage.setItem('htm_role', 'member');
                 localStorage.setItem('htm_id', id); localStorage.setItem('htm_name', doc.data().name);
-                localStorage.setItem('htm_badge', doc.data().badge || ''); window.location.reload();
+                localStorage.setItem('htm_badge', doc.data().badge || ''); 
+                localStorage.setItem('htm_target', doc.data().target || 50000); // Save Target Cache
+                window.location.reload();
             } catch (err) { UI.showToast(err.message, 'error'); }
         }
         static logout() { localStorage.clear(); window.location.reload(); }
     }
 
     class Member {
-        static rawLeads = [];
-        static activeFilter = 'All';
+        static localLeads = [];
+        static currentFilter = 'All';
 
         static initData() {
-            this.renderMemberBadges(); this.listenBroadcast(); this.listenLiveTraining(); this.listenSOSReplies();
-            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor();
+            this.renderMemberBadges(); this.listenBroadcast(); this.listenSOSReplies();
+            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
+            
+            // Listen live for Target Updates from Admin
+            db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => {
+                if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target);
+            });
         }
 
         static renderMemberBadges() {
@@ -549,50 +475,77 @@
                 }
             });
         }
-        static listenLiveTraining() {
-            db.collection('system').doc('academy').onSnapshot(doc => {
-                const c = document.getElementById('live-training-container'); const btn = document.getElementById('btn-join-live');
-                if (doc.exists && doc.data().liveLink) { btn.setAttribute('onclick', `window.open('${doc.data().liveLink}', '_blank')`); c.classList.remove('hidden'); } 
-                else { c.classList.add('hidden'); btn.setAttribute('onclick', ''); }
-            });
-        }
+
         static listenSOSReplies() {
             db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                const c = document.getElementById('mem-sos-history'); if(!c) return;
-                let msgs = []; snap.forEach(doc => { msgs.push({id: doc.id, ...doc.data()}) });
+                const c = document.getElementById('mem-sos-history');
+                if(!c) return;
+                
+                let msgs = [];
+                // Only keep messages that haven't been cleared by the member
+                snap.forEach(doc => { 
+                    if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); 
+                });
+                
                 msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-                msgs = msgs.slice(0, 5); c.innerHTML = '';
+                
+                c.innerHTML = '';
                 if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
+                
                 msgs.forEach(d => {
                     c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px; margin-bottom:8px;">
                         <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
                         ${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}
                     </div>`;
-                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) { UI.showToast(`HQ Reply: ${d.reply}`, 'success'); localStorage.setItem(`sos_seen_${d.id}`, d.reply); UI.showModal('sos-modal'); }
+                    
+                    // Auto-clear logic: If HQ replied and Member sees it, hide it forever from member screen
+                    if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
+                        UI.showToast(`HQ Replied!`, 'success');
+                        localStorage.setItem(`sos_seen_${d.id}`, d.reply);
+                        UI.showModal('sos-modal'); 
+                        
+                        // Mark as cleared so it disappears on next refresh/snapshot
+                        db.collection('sos_messages').doc(d.id).update({ clearedByMember: true });
+                    }
                 });
             });
         }
 
-        static showQR() { const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; document.getElementById('qr-image').src = url; UI.showModal('qr-modal'); }
+        static showQR() {
+            const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`;
+            document.getElementById('qr-image').src = url; UI.showModal('qr-modal');
+        }
 
         static async sendSOS() {
             const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
-            await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: msg, reply: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched securely.', 'success');
-        }
-        
-        // NEW: SOS Direct from Lead Card
-        static async reqHelp(leadId, leadName) {
-            await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: `Need closing assistance for prospect: ${leadName}`, reply: "", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            UI.showToast('Upline Support Requested!', 'success');
+            await db.collection('sos_messages').add({
+                memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
+                message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
         }
 
-        static askAI() {
-            const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
-            if(q.includes('scam') || q.includes('fake')) resBox.innerText = "🤖 'Sir, fake cheezein chup kar hoti hain. Hum registered hain. Documents dikhau?'";
-            else if(q.includes('expensive') || q.includes('paise')) resBox.innerText = "🤖 'Sir, mehenga sasta kuch nahi hota, return on investment dekhiye.'";
-            else if(q.includes('family') || q.includes('papa')) resBox.innerText = "🤖 'Sir, family mana karegi kyunki unhe information nahi hai. Decision maker aap hain.'";
-            else resBox.innerText = "🤖 'Sir, jo aap keh rahe hain wo natural hai. Lekin system 100% support karega agar aap aaj action lein.'";
+        static evaluateUrgencyTriggers() {
+            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
+                let hasDD = false; let totalCollected = 0; 
+                snap.forEach(doc => { 
+                    const d = doc.data();
+                    if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; }
+                });
+                
+                const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
+                if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; } 
+                else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "You have 0 closed conversions today."; }
+                
+                // Individual Target Progress Logic
+                const target = parseInt(localStorage.getItem('htm_target')) || 50000;
+                document.getElementById('mem-target-label').innerText = `Monthly Target (₹${target.toLocaleString()})`;
+                
+                const percentage = Math.min(Math.round((totalCollected / target) * 100), 100);
+                document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()} (${percentage}%)`;
+                document.getElementById('mem-target-bar').style.width = `${percentage}%`;
+                if(percentage >= 100) document.getElementById('mem-target-bar').style.boxShadow = "0 0 20px var(--success)";
+            });
         }
 
         static setupOfflineMonitor() {
@@ -627,39 +580,53 @@
             if (selfieInput.files.length === 0) return UI.showToast('Camera verification required.', 'error');
             if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
             
-            UI.showToast('Obtaining coordinate lock...', 'warning');
+            UI.showToast('Obtaining fast coordinate lock...', 'warning');
+            
+            // FAST GEOLOCATION & REVERSE GEOCODING
             navigator.geolocation.getCurrentPosition(async (pos) => {
+                const lat = pos.coords.latitude; const lng = pos.coords.longitude;
+                let locName = "Coordinates Locked";
+                
+                try {
+                    // Free Nominatim API for Area Name
+                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+                    const data = await res.json();
+                    if(data && data.display_name) { locName = data.display_name.split(',').slice(0, 3).join(','); }
+                } catch(e) { console.log("Geocoding fallback"); }
+
                 const docRef = await db.collection("tracking").add({
                     memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), prospect: prospect,
-                    type: document.getElementById('plan-type').value, status: "Active", lat: pos.coords.latitude, lng: pos.coords.longitude,
+                    type: document.getElementById('plan-type').value, status: "Active", 
+                    lat: lat, lng: lng, locationName: locName,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
+                
                 localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect);
                 document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); selfieInput.value = "";
-                UI.showToast('Run logged on active grid.');
-            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: true });
+                UI.showToast('Run logged on active grid.', 'success');
+            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); // FAST Config
         }
 
-        // NEW: End Plan with Remarks
         static async endPlan() {
             const planId = localStorage.getItem("htm_active_plan");
-            const remarks = document.getElementById('plan-remarks').value.trim() || "No remarks.";
             if (planId) { 
-                await db.collection("tracking").doc(planId).update({ status: "Completed", remarks: remarks }); 
+                const remark = prompt("Meeting Remarks (e.g. Will join tomorrow):") || "No remarks provided.";
+                await db.collection("tracking").doc(planId).update({ status: "Completed", remarks: remark }); 
                 localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); 
-                document.getElementById('plan-remarks').value = ""; this.checkActivePlanState(); UI.showToast('Operation Concluded.'); 
+                this.checkActivePlanState(); UI.showToast('Concluded & Remarks Logged.', 'success'); 
             }
         }
         static async cancelPlan() {
             const planId = localStorage.getItem("htm_active_plan");
-            if (planId && confirm("Abort tracking record?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); document.getElementById('plan-remarks').value = ""; this.checkActivePlanState(); }
+            if (planId && confirm("Abort tracking record?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); }
         }
 
         static async addLead() {
             const payload = {
                 memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
                 name: document.getElementById('lead-name').value.trim(), phone: document.getElementById('lead-phone').value.trim(),
-                temp: document.getElementById('lead-temp').value, tag: document.getElementById('lead-tag').value, followUp: document.getElementById('lead-date').value, ddClosed: false, ddAmount: 0
+                temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value,
+                followUp: document.getElementById('lead-date').value, ddClosed: false, ddAmount: 0
             };
             if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
             if (!navigator.onLine) {
@@ -671,31 +638,14 @@
 
         static streamLeads() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                this.rawLeads = []; let myClosedDD = 0; let activeNonClosed = 0;
-                snap.forEach(doc => { 
-                    const d = doc.data(); 
-                    this.rawLeads.push({id: doc.id, ...d}); 
-                    if(d.ddClosed) myClosedDD += d.ddAmount;
-                    else activeNonClosed++;
-                });
+                this.localLeads = [];
+                snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); });
                 
-                // Update Personal Target (Assumed Target ₹50,000)
-                const target = 50000; const pct = Math.min((myClosedDD / target) * 100, 100);
-                document.getElementById('mem-target-text').innerText = `₹${myClosedDD} / ₹${target}`;
-                document.getElementById('mem-target-bar').style.width = `${pct}%`;
-                
-                // Urgency Logic
-                const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
-                if (myClosedDD > 0) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Target advancing smoothly. Keep closing."; } 
-                else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "0 closed conversions. Advance pipeline immediately."; }
-                
-                // Pipeline Potential (Active leads * assumed average ₹15000)
-                document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeNonClosed * 15000).toLocaleString()}`;
-                
-                this.renderFilteredLeads();
+                const activeLeads = this.localLeads.filter(l => !l.ddClosed).length;
+                document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`;
+                this.applyFilters();
             });
 
-            // Leaderboard
             db.collection('leads').onSnapshot(snap => {
                 let totals = {}; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; });
                 const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]).slice(0, 3); let html = '';
@@ -704,74 +654,42 @@
             });
         }
 
-        static setFilter(type, el) {
-            document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
-            el.classList.add('active'); this.activeFilter = type; this.renderFilteredLeads();
+        static setFilter(type) {
+            this.currentFilter = type; document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+            if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active');
+            this.applyFilters();
         }
 
-        static renderFilteredLeads() {
-            const container = document.getElementById('member-leads-container'); container.innerHTML = '';
-            const search = document.getElementById('lead-search').value.toLowerCase();
-            const todayStr = new Date().toISOString().split('T')[0];
-            
-            let filtered = this.rawLeads.filter(d => {
-                const matchSearch = d.name.toLowerCase().includes(search) || d.phone.includes(search);
-                let matchFilter = true;
-                if(this.activeFilter === '🔥 Hot') matchFilter = d.temp === '🔥 Hot';
-                else if(this.activeFilter === 'Today') matchFilter = d.followUp === todayStr;
-                return matchSearch && matchFilter;
+        static applyFilters() {
+            const container = document.getElementById('member-leads-container'); const searchTxt = document.getElementById('lead-search').value.toLowerCase(); const todayStr = new Date().toISOString().split('T')[0]; const now = new Date();
+            let filtered = this.localLeads.filter(d => {
+                const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt); let matchType = true;
+                if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot') && !d.ddClosed; if(this.currentFilter === 'Today') matchType = d.followUp === todayStr && !d.ddClosed;
+                return matchSearch && matchType;
             });
-            
-            // Sort by timestamp desc locally
-            filtered.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-
-            if(filtered.length === 0) { container.innerHTML = '<p class="text-xs text-center" style="padding:16px;">No matching leads.</p>'; return; }
-            
+            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:16px; opacity:0.6;">No leads match criteria.</p>' : '';
             filtered.forEach(d => {
-                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px;">₹${d.ddAmount} Finalized</span>` : `<div style="display:flex; gap:8px; width:100%;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:8px;"><button class="btn btn-outline btn-sm" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
-                
-                // Check Ghosting (>7 days old and not closed)
-                let ghostAlert = '';
-                if(!d.ddClosed && d.timestamp && (Date.now() - d.timestamp.toMillis()) > 7*24*60*60*1000) {
-                    ghostAlert = `<span class="badge badge-danger" style="margin-top:6px; display:inline-block;"><i class="fas fa-snowflake"></i> Ghosting Alert</span>`;
-                }
-                
-                const profTag = d.tag ? `<span class="tag-pill">${d.tag}</span>` : '';
-                
-                // Pipeline Actions
-                const pushBtn = !d.ddClosed ? `<button class="btn btn-outline btn-sm" onclick="Member.pushOneDay('${d.id}', '${d.followUp}')">+1 Day</button>` : '';
-                const helpBtn = !d.ddClosed ? `<button class="btn btn-danger-ghost btn-sm" onclick="Member.reqHelp('${d.id}', '${d.name}')">SOS Help</button>` : '';
-
-                container.innerHTML += `
-                <div class="record-item" style="${ghostAlert ? 'border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);' : ''}">
-                    <div class="record-header">
-                        <div>
-                            <strong style="font-size:15px;">${d.name}</strong><br>
-                            ${profTag}<span class="text-xs">Class: ${d.temp} | FW: <span style="color:var(--primary);">${d.followUp || 'None'}</span></span><br>
-                            ${ghostAlert}
-                        </div>
-                        <a href="https://wa.me/91${d.phone}" target="_blank" class="btn btn-sm" style="background:#25D366; color:#fff; text-decoration:none;"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                    <div class="record-actions" style="border-top: none; padding-top: 0; margin-top: 0;">
-                        ${pushBtn} ${helpBtn}
-                    </div>
-                    <div class="record-actions">
-                        ${ddUI}
-                    </div>
-                </div>`;
+                const leadDate = d.timestamp ? d.timestamp.toDate() : now; const diffHours = (now - leadDate) / (1000 * 60 * 60); const diffDays = diffHours / 24;
+                let displayTemp = d.temp; let ghostAlert = "";
+                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤️ Warm (Auto-Cooled)";
+                if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239, 68, 68, 0.2); color:var(--danger); border:1px solid var(--danger); margin-top:4px; display:inline-block;">⚠️ Freezing Lead</span>`;
+                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:8px;">₹${d.ddAmount} Finalized</span>` : `<div style="display:flex; gap:8px;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:8px;"><button class="btn btn-outline btn-sm" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
+                const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16, 185, 129, 0.2); color: #34d399; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239, 68, 68, 0.2); color: #f87171;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary);">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
             });
         }
 
-        // NEW: Push to Tomorrow
-        static async pushOneDay(id, currentFollowUp) {
-            let d = new Date();
-            if(currentFollowUp) d = new Date(currentFollowUp);
-            d.setDate(d.getDate() + 1);
-            const tomorrow = d.toISOString().split('T')[0];
-            await db.collection('leads').doc(id).update({ followUp: tomorrow });
-            UI.showToast('Follow-up shifted to +1 Day.', 'success');
+        static async pushTomorrow(id, currentFollowUp) {
+            let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp);
+            next.setDate(next.getDate() + 1); const str = next.toISOString().split('T')[0];
+            await db.collection('leads').doc(id).update({ followUp: str }); UI.showToast('Follow-up shifted to tomorrow.', 'success');
         }
-
+        static async requestUplinePush(leadName) {
+            await db.collection('sos_messages').add({
+                memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
+                message: `URGENT CLOSING HELP: Need upline intervention for prospect - ${leadName}.`, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }); UI.showToast('Upline help requested.', 'success');
+        }
         static async closeDD(id) {
             const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify verifiable amount.', 'error');
             if (confirm(`Authorize closure for ₹${amt}?`)) { await db.collection('leads').doc(id).update({ ddClosed: true, ddAmount: parseInt(amt) }); UI.showToast('DD closed.', 'success'); }
@@ -787,33 +705,52 @@
             await db.collection('system').doc('broadcast').set({ message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
             document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success');
         }
-        static async pushLiveLink() {
-            const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Please enter a valid URL.', 'error');
-            await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Live Training dispatched!', 'success');
-        }
-        static async clearLiveLink() { await db.collection('system').doc('academy').set({ liveLink: null }); document.getElementById('admin-live-link').value = ''; UI.showToast('Live session ended.', 'success'); }
 
+        // Permanent SOS Vault for Admin + Delete functionality
         static listenSOS() {
-            db.collection('sos_messages').orderBy('timestamp', 'desc').limit(10).onSnapshot(snap => {
+            db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
                 if(snap.empty) { c.innerHTML = '<p class="text-xs text-center">No active distress signals.</p>'; return; }
                 c.innerHTML = '';
                 snap.forEach(doc => {
                     const d = doc.data();
-                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0;"><strong>HQ Reply:</strong> ${d.reply}</p>` : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}')">Send</button></div>`;
-                    c.innerHTML += `<div style="background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 12px; margin-bottom: 8px; border-radius: 4px;"><strong class="text-sm">${d.memberName}</strong><p style="margin: 4px 0 0 0; font-size: 13px;">${d.message}</p>${replyUI}</div>`;
+                    const replyUI = d.reply 
+                        ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0;"><strong>HQ Reply:</strong> ${d.reply}</p>`
+                        : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}')">Send</button></div>`;
+                    
+                    c.innerHTML += `<div style="background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 12px; margin-bottom: 8px; border-radius: 4px; position:relative;">
+                        <button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:10px; top:10px; background:none; border:none; color:var(--danger); cursor:pointer;"><i class="fas fa-trash"></i></button>
+                        <strong class="text-sm">${d.memberName}</strong>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; padding-right: 20px;">${d.message}</p>
+                        ${replyUI}
+                    </div>`;
                 });
             });
         }
+        
         static async replySOS(id) {
             const text = document.getElementById(`sos-reply-${id}`).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error');
-            await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched to Agent.', 'success');
+            await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success');
         }
 
+        // Updated Admin Create User with Individual Target
         static async createUser() {
-            const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); const badge = document.getElementById('new-badge').value;
+            const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); 
+            const badge = document.getElementById('new-badge').value;
+            const target = parseInt(document.getElementById('new-target').value) || 50000;
+
             if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error');
-            await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge }); UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value='';
+            await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target }); 
+            UI.showToast(`Asset ${id} registered with Target ₹${target.toLocaleString()}`); 
+            document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value='';
+        }
+
+        static async updateTarget(id) {
+            const t = prompt("Enter new monthly target for this agent (₹):");
+            if(t && !isNaN(t)) {
+                await db.collection('users').doc(id).update({ target: parseInt(t) });
+                UI.showToast('Agent target updated successfully.', 'success');
+            }
         }
 
         static streamRadar() {
@@ -824,8 +761,12 @@
                     const d = doc.data();
                     if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
                     const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
-                    const remUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:6px 0 0 0;"><i class="fas fa-comment-dots"></i> ${d.remarks}</p>` : '';
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${remUI}</div><div>${badge}</div></div><div class="record-actions">${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+                    
+                    // Shows actual Geocoded Location Name
+                    const locText = d.locationName ? `<span style="display:block; margin-top:4px; color:#60a5fa;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : '';
+                    const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:6px 0 0 0;"><i>Note: ${d.remarks}</i></p>` : '';
+                    
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${remarkUI}</div><div>${badge}</div></div><div class="record-actions">${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
                 });
                 document.getElementById('admin-active-count').innerText = count;
             });
@@ -836,7 +777,9 @@
                 const container = document.getElementById('admin-team-container'); container.innerHTML = '';
                 snap.forEach(doc => {
                     const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:#334155;">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : '';
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon}</div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair Terminal</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
+                    const targetUI = d.target ? `<span class="text-xs" style="color:var(--success); display:block; margin-top:4px;">Target: ₹${d.target.toLocaleString()}</span>` : '';
+                    
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon}${targetUI}</div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Set Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair Terminal</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
                 });
             });
         }
@@ -848,8 +791,7 @@
 
                 snap.forEach(doc => {
                     const d = doc.data(); this.leadsVault.push(d); totalCount++;
-                    if (d.temp === "🔥 Hot") hotCount++;
-                    if (d.ddClosed) { total += d.ddAmount; closedCount++; }
+                    if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; }
                     const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount}</span>` : `<span class="badge badge-warning">Unclosed</span>`;
                     container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name}</h4><span class="text-xs">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div><div class="record-actions">${d.ddClosed ? `<button class="btn btn-outline btn-sm" onclick="Admin.revokeDD('${doc.id}')">Revoke DD</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${doc.id}')">Expunge Record</button></div></div>`;
                 });
@@ -861,19 +803,14 @@
         }
         
         static exportJPG() {
-            if (this.leadsVault.length === 0) return UI.showToast('No records available.', 'warning');
-            UI.showToast('Generating JPG...', 'warning');
+            if (this.leadsVault.length === 0) return UI.showToast('No records available.', 'warning'); UI.showToast('Generating JPG...', 'warning');
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-            const rowHeight = 40; const headerHeight = 70; const width = 850;
-            const height = headerHeight + (this.leadsVault.length + 1) * rowHeight + 40;
-            canvas.width = width; canvas.height = height;
-            ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height);
+            const rowHeight = 40; const headerHeight = 70; const width = 850; const height = headerHeight + (this.leadsVault.length + 1) * rowHeight + 40;
+            canvas.width = width; canvas.height = height; ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height);
             ctx.fillStyle = '#0f172a'; ctx.font = 'bold 26px sans-serif'; ctx.fillText('HTM Enterprise Network Report', 20, 45);
             ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()}`, 650, 40);
-            ctx.fillStyle = '#f8fafc'; ctx.fillRect(15, headerHeight, width - 30, rowHeight);
-            ctx.fillStyle = '#334155'; ctx.font = 'bold 15px sans-serif';
-            ctx.fillText('Prospect Name', 30, headerHeight + 25); ctx.fillText('Contact', 260, headerHeight + 25);
-            ctx.fillText('Agent (Under List)', 460, headerHeight + 25); ctx.fillText('Status / Plan Date', 660, headerHeight + 25);
+            ctx.fillStyle = '#f8fafc'; ctx.fillRect(15, headerHeight, width - 30, rowHeight); ctx.fillStyle = '#334155'; ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('Prospect Name', 30, headerHeight + 25); ctx.fillText('Contact', 260, headerHeight + 25); ctx.fillText('Agent', 460, headerHeight + 25); ctx.fillText('Status', 660, headerHeight + 25);
             ctx.font = '14px sans-serif'; ctx.fillStyle = '#0f172a';
             this.leadsVault.forEach((lead, index) => {
                 const y = headerHeight + rowHeight + (index * rowHeight) + 25;
@@ -881,14 +818,13 @@
                 const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount})` : (lead.followUp || lead.temp);
                 ctx.fillText(lead.name.substring(0, 25), 30, y); ctx.fillText(lead.phone, 260, y); ctx.fillText(lead.memberName.substring(0, 25), 460, y); ctx.fillText(statusText, 660, y);
             });
-            const link = document.createElement('a'); link.download = `HTM_Master_Report_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click();
-            UI.showToast('Downloaded!', 'success');
+            const link = document.createElement('a'); link.download = `HTM_Master_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
 
-        static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ Terminated)" }); }
+        static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
         static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
         static async revokeDD(id) { await db.collection('leads').doc(id).update({ ddClosed: false, ddAmount: 0 }); }
-        static async deleteDoc(col, id) { if (confirm('Purge document from repository?')) { await db.collection(col).doc(id).delete(); } }
+        static async deleteDoc(col, id) { if (confirm('Purge document?')) { await db.collection(col).doc(id).delete(); } }
     }
 
     function initAdminOverride() { if (prompt("HQ Passkey Authorization:") === "9999") { localStorage.setItem('htm_role', 'admin'); window.location.reload(); } }
