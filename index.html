@@ -9,10 +9,7 @@
     <!-- EmailJS Integration -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function() {
-            // TODO: Create a free account at emailjs.com and replace YOUR_PUBLIC_KEY
-            emailjs.init("YOUR_PUBLIC_KEY"); 
-        })();
+        (function() { emailjs.init("YOUR_PUBLIC_KEY"); })();
     </script>
 
     <style>
@@ -69,6 +66,7 @@
         .badge-closer { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4); }
         .badge-starter { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2)); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
         .badge-suspended { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); }
+        .tag-prof { background: rgba(255,255,255,0.1); color: var(--text-main); font-size: 9px; padding: 2px 6px; border-radius: 4px; }
 
         .radar-screen { position: relative; height: 160px; border-radius: 14px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
         .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 20px 20px; }
@@ -108,11 +106,13 @@
         .toast.error { border-left: 4px solid var(--danger); }
         .toast.warning { border-left: 4px solid var(--warning); }
         
-        /* NEW: Global Admin SOS Drop-down */
+        .btn-live-pulse { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulseRed 2s infinite; }
+        
+        /* Global Admin SOS Drop-down */
         #global-sos-alert { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; z-index: 10001; transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1); background: rgba(239, 68, 68, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--danger); border-radius: 16px; padding: 16px; box-shadow: 0 15px 40px rgba(239,68,68,0.6); }
         #global-sos-alert.show { top: 20px; }
 
-        /* NEW: Accordion Scripts */
+        /* Accordion Scripts & Quiz */
         .accordion-item { border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
         .accordion-title { background: rgba(255,255,255,0.05); padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; }
         .accordion-content { padding: 12px 16px; font-size: 12px; background: rgba(0,0,0,0.2); display: none; color: var(--text-muted); line-height: 1.5; }
@@ -128,7 +128,7 @@
 
 <div id="toast-container"></div>
 
-<!-- NEW: ADMIN GLOBAL SOS ALERT BOX -->
+<!-- ADMIN GLOBAL SOS ALERT BOX -->
 <div id="global-sos-alert">
     <h4 style="margin: 0 0 8px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
     <p class="text-sm" style="color: rgba(255,255,255,0.9); margin: 0 0 12px 0;" id="global-sos-text">Loading...</p>
@@ -159,10 +159,11 @@
     </div>
 </div>
 
+<!-- SOS Modal (Member View) -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
         <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <div id="mem-sos-history" style="max-height: 200px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
             <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
         <div style="display:flex; gap:8px;">
@@ -173,6 +174,7 @@
     </div>
 </div>
 
+<!-- Tutorial Modal -->
 <div id="tutorial-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--primary); box-shadow: 0 0 40px var(--primary-glow); text-align: left; padding: 20px 16px;">
         <h3 style="margin-bottom: 16px; color: var(--primary); text-align: center;"><i class="fas fa-graduation-cap"></i> System Guide</h3>
@@ -259,7 +261,7 @@
         <div id="admin-controls" class="tab-content hidden">
             <div class="card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
                 <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
-                <div id="admin-sos-container" style="max-height: 200px; overflow-y: auto;"></div>
+                <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;"></div>
             </div>
 
             <div class="card">
@@ -268,10 +270,15 @@
                 <button class="btn btn-primary" onclick="Admin.publishTask()"><i class="fas fa-paper-plane"></i> Deploy Network Pop-up</button>
             </div>
 
-            <!-- NEW: Academy Content Manager -->
+            <!-- ACADEMY CONTENT MANAGER (Admin) -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4);">
                 <h4 style="margin-bottom: 8px; color: #a78bfa;"><i class="fas fa-graduation-cap"></i> Academy Manager</h4>
                 <p class="text-xs" style="margin-bottom:12px;">Push Live Zoom, Videos, or Daily Quiz to Member Academy Tab.</p>
+                <div class="grid-2">
+                    <input type="text" id="admin-live-link" placeholder="Live Zoom/Meet Link">
+                    <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger);" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
+                </div>
+                <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
                 <input type="text" id="ac-vid" placeholder="YouTube Video URL (embed format)">
                 <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
                 <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
@@ -289,7 +296,6 @@
                 <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Master Data Vault</h4>
             </div>
             
-            <!-- NEW: Smart Vault Filters -->
             <div class="card" style="padding: 12px;">
                 <p class="text-xs" style="margin: 0 0 8px 0;"><i class="fas fa-filter"></i> Export Filters</p>
                 <div class="grid-2">
@@ -298,9 +304,8 @@
                         <option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option>
                     </select>
                 </div>
-                <button class="btn btn-outline btn-sm" style="width:100%; border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export Filtered JPG</button>
+                <button class="btn btn-outline btn-sm" style="width:100%; border-color:#8b5cf6; color:#a78bfa; margin-top:8px;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export Filtered JPG</button>
             </div>
-
             <div id="admin-sales-container"></div>
         </div>
 
@@ -422,26 +427,35 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Tab 3: ACADEMY (HINDI OPTIMIZED) -->
+        <!-- Member Tab 3: ACADEMY (FULLY RESTORED) -->
         <div id="mem-academy" class="tab-content hidden">
             
+            <!-- Live Training Link -->
+            <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
+                <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
+                    <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
+                </button>
+            </div>
+
+            <!-- YouTube Video Box -->
             <div id="mem-ac-video-box" class="hidden" style="margin-bottom: 16px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4>
                 <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe></div>
             </div>
 
+            <!-- PDF Box -->
             <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom: 16px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4>
                 <button class="btn btn-outline" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button>
             </div>
 
-            <!-- Quiz Section -->
+            <!-- Daily Quiz Section -->
             <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom: 24px;">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-question-circle text-warning"></i> आज का सवाल (Daily Quiz)</h4>
                 <div class="card" id="quiz-card" style="border-color: rgba(245, 158, 11, 0.3);">
                     <p class="text-sm" id="quiz-q" style="margin-top:0;">Question loading...</p>
-                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div>
-                    <div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
+                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option A</div>
+                    <div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option B</div>
                 </div>
             </div>
 
@@ -466,7 +480,7 @@
                 </div>
             </div>
 
-            <!-- Bilingual AI -->
+            <!-- AI Assistant -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
                 <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
@@ -477,8 +491,75 @@
                 <div id="ai-response" class="text-sm" style="margin-top: 12px;"></div>
             </div>
 
+            <!-- Flashcards -->
+            <h4 style="margin-bottom: 16px;"><i class="fas fa-brain text-primary"></i> Field Flashcards</h4>
+            <p class="text-xs" style="margin-bottom: 16px;">Tap card to reveal the psychological script.</p>
+
+            <div class="grid-2">
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-wallet" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Paise nahi hain"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Sir, agar aaj ₹X lagane ke liye paise nahi hain, toh aage chalkar problem badhegi. Yehi reason hai start karne ka, taaki paise ki kami hamesha ke liye khatam ho."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-clock" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Time nahi hai"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business 'Time Freedom' ke liye kar rahe hain. Bas din ka 1-2 ghanta chahiye."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-lightbulb" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Soch kar bataunga"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Zaroor sir, par ek sawal hai—kya sochne se account balance badhega? Action lene se badhega. Sath milkar abhi shuru karte hain!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-users" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                            <h4 style="margin: 0; font-size:14px;">"Family se poochna hai"</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Family mana karegi kyunki unhone plan nahi dekha. Agar aapko successful hona hai toh decision aapka hona chahiye, बाद में unhe result dikhana!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height: 120px;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-link" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
+                        <h4 style="margin: 0; font-size:14px;">"Ye chain system hai?"</h4>
+                    </div>
+                    <div class="flip-card-back">
+                        <p style="font-size: 12px; margin: 0; line-height: 1.4;">"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai. Documents check kar lijiye."</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
+        <!-- NEW: ALL 3 TABS VISIBLE IN MEMBER NAV -->
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('mem', 'dash', this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem', 'leads', this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
@@ -538,7 +619,7 @@
             try {
                 const doc = await db.collection('users').doc(id).get();
                 if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
-                if (doc.data().suspended) throw new Error("Account Suspended by HQ."); // NEW: Suspend Logic Check
+                if (doc.data().suspended) throw new Error("Account Suspended by HQ."); 
                 
                 let localToken = localStorage.getItem('htm_device') || ("DEV-" + Date.now());
                 if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken });
@@ -564,7 +645,7 @@
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => {
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target);
-                if(doc.exists && doc.data().suspended) Auth.logout(); // Auto-logout if suspended
+                if(doc.exists && doc.data().suspended) Auth.logout(); 
             });
         }
 
@@ -585,14 +666,23 @@
 
         static listenAcademy() {
             db.collection('system').doc('academy').onSnapshot(doc => {
-                if(!doc.exists) return; const d = doc.data();
+                if(!doc.exists) return; 
+                const d = doc.data();
                 
+                // Live Link
+                const liveBtn = document.getElementById('btn-join-live');
+                if (d.liveLink) { liveBtn.setAttribute('onclick', `window.open('${d.liveLink}', '_blank')`); document.getElementById('live-training-container').classList.remove('hidden'); } 
+                else { document.getElementById('live-training-container').classList.add('hidden'); }
+
+                // Video Vault
                 if (d.vid) { document.getElementById('mem-ac-iframe').src = d.vid; document.getElementById('mem-ac-video-box').classList.remove('hidden'); }
                 else { document.getElementById('mem-ac-video-box').classList.add('hidden'); }
                 
+                // PDF
                 if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); }
                 else { document.getElementById('mem-ac-pdf-box').classList.add('hidden'); }
                 
+                // Quiz
                 if (d.q) { 
                     document.getElementById('quiz-q').innerText = d.q; document.getElementById('quiz-o1').innerText = d.o1; document.getElementById('quiz-o2').innerText = d.o2;
                     this.currentQuizAns = parseInt(d.ans);
@@ -642,13 +732,7 @@
                 message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
-
-            // EMAIL.JS OFFLINE TRIGGER
-            try {
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    agent_name: localStorage.getItem('htm_name'), message: msg
-                });
-            } catch(e) { console.log("EmailJS keys not configured yet."); }
+            try { emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { agent_name: localStorage.getItem('htm_name'), message: msg }); } catch(e) { console.log("EmailJS key missing."); }
         }
 
         static askAI() {
@@ -662,6 +746,8 @@
                 resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Illegal pyramids don't have real products. We are a registered business where you earn based on effort. Let me show you the documents.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir, fake चीज़ें छुप कर होती हैं। हम प्रॉपर प्रोडक्ट बेस्ड रजिस्टर्ड कंपनी हैं। आप खुद डाक्यूमेंट्स चेक कीजिये।'";
             } else if(q.includes('papa') || q.includes('family') || q.includes('ask')) {
                 resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself, and show them the results!'<br><br><b>🇮🇳 Hinglish:</b> 'फैमिली मना करेगी क्योंकि उन्होंने प्लान नहीं देखा। अगर सक्सेसफुल होना है तो डिसीजन आपका होना चाहिए।'";
+            } else if(q.includes('soch') || q.includes('think')) {
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will. Let's start today!'<br><br><b>🇮🇳 Hinglish:</b> 'ज़रा सोचिये, सिर्फ सोचने से बैलेंस नहीं बढ़ेगा। एक्शन लेने से होगा। आज ही शुरू करते हैं।'";
             } else {
                 resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years? Our system provides full support.'<br><br><b>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
             }
@@ -818,13 +904,7 @@
                 memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
                 message: `URGENT CLOSING HELP: Need upline intervention for prospect - ${leadName}.`, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }); UI.showToast('Upline help requested.', 'success');
-            
-            // EMAIL.JS OFFLINE TRIGGER
-            try {
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    agent_name: localStorage.getItem('htm_name'), message: `Needs help closing: ${leadName}`
-                });
-            } catch(e) {}
+            try { emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { agent_name: localStorage.getItem('htm_name'), message: `Needs help closing: ${leadName}` }); } catch(e) {}
         }
         static async closeDD(id) {
             const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify verifiable amount.', 'error');
@@ -834,7 +914,6 @@
 
     class Admin {
         static leadsVault = [];
-        static activeGlobalSOSId = null;
 
         static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
 
@@ -844,7 +923,12 @@
             document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success');
         }
 
-        // NEW: Update Academy Vault from Admin Panel
+        static async pushLiveLink() {
+            const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Please enter a valid URL.', 'error');
+            await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); 
+            UI.showToast('Live Training dispatched!', 'success');
+        }
+
         static async updateAcademy() {
             const vid = document.getElementById('ac-vid').value.trim();
             const pdf = document.getElementById('ac-pdf').value.trim();
@@ -855,27 +939,20 @@
             
             await db.collection('system').doc('academy').set({
                 vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            }, {merge: true});
             UI.showToast('Academy Updated for all Agents!', 'success');
         }
 
-        // FIXED: Global Top SOS Notification for Admin
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
                 if(snap.empty) { c.innerHTML = '<p class="text-xs text-center">No active distress signals.</p>'; return; }
                 c.innerHTML = '';
                 
-                // Show latest un-replied SOS on Global Alert Box
                 let latestUnreplied = null;
-
                 snap.forEach(doc => {
                     const d = doc.data();
-                    
-                    if(!d.reply && !latestUnreplied) {
-                        latestUnreplied = {id: doc.id, ...d};
-                    }
-
+                    if(!d.reply && !latestUnreplied) { latestUnreplied = {id: doc.id, ...d}; }
                     const replyUI = d.reply 
                         ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0;"><strong>HQ Reply:</strong> ${d.reply}</p>`
                         : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
@@ -888,15 +965,12 @@
                     </div>`;
                 });
 
-                // Global Box Logic
                 const alertBox = document.getElementById('global-sos-alert');
                 if(latestUnreplied) {
                     document.getElementById('global-sos-text').innerText = `${latestUnreplied.memberName}: "${latestUnreplied.message}"`;
                     document.getElementById('global-sos-id').value = latestUnreplied.id;
                     alertBox.classList.add('show');
-                } else {
-                    alertBox.classList.remove('show');
-                }
+                } else { alertBox.classList.remove('show'); }
             });
         }
         
@@ -921,7 +995,6 @@
             UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value='';
         }
 
-        // NEW: Suspend User Logic
         static async toggleSuspend(id, currentStatus) {
             await db.collection('users').doc(id).update({ suspended: !currentStatus });
             UI.showToast(currentStatus ? 'Agent Activated' : 'Agent Suspended', currentStatus ? 'success' : 'warning');
@@ -946,23 +1019,20 @@
         static streamTeam() {
             db.collection('users').onSnapshot(snap => {
                 const container = document.getElementById('admin-team-container'); container.innerHTML = '';
-                
-                // Populate Filter Dropdown
                 const filterSelect = document.getElementById('vault-filter-agent');
-                filterSelect.innerHTML = '<option value="All">All Agents</option>';
+                if(filterSelect) filterSelect.innerHTML = '<option value="All">All Agents</option>';
 
                 snap.forEach(doc => {
                     const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:#334155;">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : '';
                     const suspendBadge = d.suspended ? `<span class="badge badge-suspended">Suspended</span>` : '';
                     const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
                     
-                    // Live Agent Stats Computation
                     let totalL = 0; let closedA = 0;
                     this.leadsVault.forEach(l => { if(l.memberId === doc.id) { totalL++; if(l.ddClosed) closedA += l.ddAmount; }});
 
-                    filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
+                    if(filterSelect) filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
 
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:6px;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:6px;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Set Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair</button><button class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger);" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
                 });
             });
         }
@@ -975,17 +1045,14 @@
                     if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; }
                 });
                 
-                // Update Funnel Stats Globally
                 document.getElementById('admin-dd-total').innerText = '₹' + total;
                 document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
                 if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
                 
-                // Call renderVault to apply local filters
                 this.renderVault();
             });
         }
 
-        // NEW: Smart Render Vault with Filters
         static renderVault() {
             const container = document.getElementById('admin-sales-container');
             const agentFilter = document.getElementById('vault-filter-agent') ? document.getElementById('vault-filter-agent').value : 'All';
@@ -1002,13 +1069,11 @@
             container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center">No records match filters.</p>' : '';
             filtered.forEach(d => {
                 const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount}</span>` : `<span class="badge badge-warning">Unclosed</span>`;
-                // Note: Only use doc deletion if ID exists (in Vault we don't have id stored locally unless we map it. Let's assume we don't need delete in filtered view, or we can just show data)
                 container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name}</h4><span class="text-xs">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div></div>`;
             });
         }
         
         static exportJPG() {
-            // Apply Filters to Export
             const agentFilter = document.getElementById('vault-filter-agent').value;
             const statusFilter = document.getElementById('vault-filter-status').value;
             let exportData = this.leadsVault.filter(d => {
@@ -1037,6 +1102,11 @@
                 ctx.fillText(lead.name.substring(0, 25), 30, y); ctx.fillText(lead.phone, 260, y); ctx.fillText(lead.memberName.substring(0, 25), 460, y); ctx.fillText(statusText, 660, y);
             });
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
+        }
+
+        static async updateTarget(id) {
+            const t = prompt("Enter new monthly target for this agent (₹):");
+            if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); }
         }
 
         static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
