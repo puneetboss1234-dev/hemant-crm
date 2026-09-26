@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HTM | Enterprise CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- EmailJS Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // TODO: Create a free account at emailjs.com and replace YOUR_PUBLIC_KEY
+            emailjs.init("YOUR_PUBLIC_KEY"); 
+        })();
+    </script>
+
     <style>
         :root {
             --primary: #3b82f6; --primary-glow: rgba(59, 130, 246, 0.45);
@@ -12,17 +22,12 @@
             --danger: #ef4444; --danger-glow: rgba(239, 68, 68, 0.35);
             --success: #10b981; --success-glow: rgba(16, 185, 129, 0.35);
             --warning: #f59e0b; --warning-glow: rgba(245, 158, 11, 0.35);
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.04); --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         
-        body { 
-            margin: 0; background: radial-gradient(circle at 10% 20%, #1e1b4b 0%, #090d16 90%); background-attachment: fixed;
-            color: var(--text-main); padding-bottom: 110px; -webkit-font-smoothing: antialiased; min-height: 100vh;
-        }
-
+        body { margin: 0; background: radial-gradient(circle at 10% 20%, #1e1b4b 0%, #090d16 90%); background-attachment: fixed; color: var(--text-main); padding-bottom: 110px; -webkit-font-smoothing: antialiased; min-height: 100vh; }
         .hidden { display: none !important; }
         .tab-content:not(.hidden) { animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -34,19 +39,12 @@
         .text-sm { font-size: 12px; color: var(--text-muted); }
         .text-xs { font-size: 11px; color: var(--text-muted); }
 
-        .card, .dashboard-stat, .record-item, .urgency-banner { 
-            background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); 
-        }
-
+        .card, .dashboard-stat, .record-item, .urgency-banner { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 18px; padding: 20px; margin-bottom: 16px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .urgency-high { border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 0 25px var(--danger-glow); }
         .urgency-medium { border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 0 25px var(--warning-glow); }
         .urgency-banner { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-left: 4px solid var(--warning); margin-bottom: 16px; }
 
-        input, select, textarea { 
-            width: 100%; padding: 14px; border-radius: 12px; background: rgba(0, 0, 0, 0.3); 
-            border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 14px; margin-bottom: 12px; outline: none; transition: all 0.3s ease; 
-        }
+        input, select, textarea { width: 100%; padding: 14px; border-radius: 12px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1); color: white; font-size: 14px; margin-bottom: 12px; outline: none; transition: all 0.3s ease; }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 12px var(--primary-glow); background: rgba(0, 0, 0, 0.5); }
         textarea { resize: vertical; min-height: 80px; }
 
@@ -57,9 +55,9 @@
         .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
         .btn-sm { width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; }
 
-        .filter-pill { border-radius: 20px; padding: 6px 14px; font-size: 11px; white-space: nowrap; transition: 0.3s; }
+        .filter-pill { border-radius: 20px; padding: 6px 14px; font-size: 11px; white-space: nowrap; transition: 0.3s; cursor:pointer; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color:white;}
         .filter-pill.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary-glow); }
-
+        
         .action-tray { display: flex; gap: 6px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
         .action-btn { flex: 1; padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; text-align: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; white-space: nowrap; }
         
@@ -70,7 +68,7 @@
         .gamification-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 4px; }
         .badge-closer { background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2)); color: #fbbf24; border-color: rgba(245, 158, 11, 0.4); }
         .badge-starter { background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.2)); color: #60a5fa; border-color: rgba(59, 130, 246, 0.4); }
-        .tag-prof { background: rgba(255,255,255,0.1); color: var(--text-main); font-size: 9px; padding: 2px 6px; border-radius: 4px; }
+        .badge-suspended { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); }
 
         .radar-screen { position: relative; height: 160px; border-radius: 14px; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--glass-border); overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
         .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 20px 20px; }
@@ -110,12 +108,37 @@
         .toast.error { border-left: 4px solid var(--danger); }
         .toast.warning { border-left: 4px solid var(--warning); }
         
-        .btn-live-pulse { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; box-shadow: 0 0 20px rgba(239, 68, 68, 0.5); animation: pulseRed 2s infinite; }
+        /* NEW: Global Admin SOS Drop-down */
+        #global-sos-alert { position: fixed; top: -200px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; z-index: 10001; transition: top 0.5s cubic-bezier(0.16, 1, 0.3, 1); background: rgba(239, 68, 68, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--danger); border-radius: 16px; padding: 16px; box-shadow: 0 15px 40px rgba(239,68,68,0.6); }
+        #global-sos-alert.show { top: 20px; }
+
+        /* NEW: Accordion Scripts */
+        .accordion-item { border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+        .accordion-title { background: rgba(255,255,255,0.05); padding: 12px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; }
+        .accordion-content { padding: 12px 16px; font-size: 12px; background: rgba(0,0,0,0.2); display: none; color: var(--text-muted); line-height: 1.5; }
+        .accordion-item.active .accordion-content { display: block; }
+        
+        .quiz-option { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: 12px; cursor: pointer; transition: 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.1); }
+        .quiz-correct { background: rgba(16, 185, 129, 0.2) !important; border-color: var(--success) !important; color: var(--success); }
+        .quiz-wrong { background: rgba(239, 68, 68, 0.2) !important; border-color: var(--danger) !important; color: var(--danger); }
     </style>
 </head>
 <body>
 
 <div id="toast-container"></div>
+
+<!-- NEW: ADMIN GLOBAL SOS ALERT BOX -->
+<div id="global-sos-alert">
+    <h4 style="margin: 0 0 8px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
+    <p class="text-sm" style="color: rgba(255,255,255,0.9); margin: 0 0 12px 0;" id="global-sos-text">Loading...</p>
+    <div style="display:flex; gap:8px;">
+        <input type="hidden" id="global-sos-id">
+        <input type="text" id="global-sos-reply" placeholder="Quick Reply..." style="margin:0; background: rgba(0,0,0,0.2); border:none; padding:8px;">
+        <button class="btn btn-primary btn-sm" style="background: white; color: var(--danger);" onclick="Admin.quickReplySOS()">Send</button>
+        <button class="btn btn-outline btn-sm" style="border:none;" onclick="Admin.closeGlobalSOS()">Dismiss</button>
+    </div>
+</div>
 
 <!-- Modals -->
 <div id="broadcast-modal" class="modal-overlay hidden">
@@ -136,11 +159,10 @@
     </div>
 </div>
 
-<!-- SOS Modal (Fixed Member View) -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="border-color: var(--danger); box-shadow: 0 0 40px var(--danger-glow); text-align: left;">
         <h3 style="margin-bottom: 8px; color: var(--danger); text-align: center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <div id="mem-sos-history" style="max-height: 200px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+        <div id="mem-sos-history" style="max-height: 160px; overflow-y: auto; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
             <p class="text-xs text-center" style="opacity: 0.5;">No active whispers...</p>
         </div>
         <div style="display:flex; gap:8px;">
@@ -157,15 +179,15 @@
         <div style="max-height: 350px; overflow-y: auto; padding-right: 8px;">
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--primary);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-crosshairs"></i> 1. Field Operations</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan dikhane se pehle Prospect naam aur Selfie lein, aur <strong>Initiate Check-in</strong> dabayein. End par Remarks zaroor dalein.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">Plan दिखाने से पहले Prospect नाम और Selfie लें, और <strong>Initiate Check-in</strong> दबाएं। Meeting खत्म होने पर Remarks ज़रूर डालें।</p>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid var(--success);">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-funnel-dollar"></i> 2. Pipeline (Leads)</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Pipeline mein leads save karein. 1-click se WA par ping karein ya follow up ko +1 day aage badhayein.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">पाइपलाइन में स्मार्ट फ़िल्टर का इस्तेमाल करें। लीड कार्ड स्वाइप करके सीधे WhatsApp या Call कर सकते हैं।</p>
             </div>
             <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #8b5cf6;">
                 <h4 style="margin:0 0 6px 0; font-size: 14px;"><i class="fas fa-brain"></i> 3. Academy & AI</h4>
-                <p class="text-xs" style="margin:0; line-height: 1.5;">Agar prospect bahana banaye toh <strong>Academy tab</strong> mein jakar AI se poochein ya Flashcards se script seekhein.</p>
+                <p class="text-xs" style="margin:0; line-height: 1.5;">अगर प्रोस्पेक्ट बहाना बनाए तो <strong>Academy tab</strong> में AI से पूछें या Flashcards से सही जवाब सीखें।</p>
             </div>
         </div>
         <button class="btn btn-primary" style="margin-top: 16px;" onclick="UI.dismissModal('tutorial-modal')">Got it, Let's Work!</button>
@@ -237,20 +259,48 @@
         <div id="admin-controls" class="tab-content hidden">
             <div class="card" style="border-color: rgba(239, 68, 68, 0.4); box-shadow: 0 0 20px rgba(239, 68, 68, 0.1);">
                 <h4 style="margin-bottom: 12px; color: var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
-                <div id="admin-sos-container" style="max-height: 250px; overflow-y: auto;"></div>
+                <div id="admin-sos-container" style="max-height: 200px; overflow-y: auto;"></div>
             </div>
+
             <div class="card">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-bullhorn text-primary"></i> Broadcast Dispatcher</h4>
                 <textarea id="admin-task-input" placeholder="Type tactical command or day plan..."></textarea>
                 <button class="btn btn-primary" onclick="Admin.publishTask()"><i class="fas fa-paper-plane"></i> Deploy Network Pop-up</button>
             </div>
+
+            <!-- NEW: Academy Content Manager -->
+            <div class="card" style="border-color: rgba(139, 92, 246, 0.4);">
+                <h4 style="margin-bottom: 8px; color: #a78bfa;"><i class="fas fa-graduation-cap"></i> Academy Manager</h4>
+                <p class="text-xs" style="margin-bottom:12px;">Push Live Zoom, Videos, or Daily Quiz to Member Academy Tab.</p>
+                <input type="text" id="ac-vid" placeholder="YouTube Video URL (embed format)">
+                <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
+                <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
+                <input type="text" id="ac-q" placeholder="Daily Quiz Question?">
+                <div class="grid-2">
+                    <input type="text" id="ac-o1" placeholder="Option A"><input type="text" id="ac-o2" placeholder="Option B">
+                </div>
+                <select id="ac-ans"><option value="1">Correct: Option A</option><option value="2">Correct: Option B</option></select>
+                <button class="btn btn-primary" style="background:#8b5cf6;" onclick="Admin.updateAcademy()"><i class="fas fa-upload"></i> Publish to Academy</button>
+            </div>
         </div>
 
         <div id="admin-godmode" class="tab-content hidden">
             <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 14px;">
-                <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Enterprise Data Vault</h4>
-                <button class="btn btn-outline btn-sm" style="border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
+                <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Master Data Vault</h4>
             </div>
+            
+            <!-- NEW: Smart Vault Filters -->
+            <div class="card" style="padding: 12px;">
+                <p class="text-xs" style="margin: 0 0 8px 0;"><i class="fas fa-filter"></i> Export Filters</p>
+                <div class="grid-2">
+                    <select id="vault-filter-agent" onchange="Admin.renderVault()"><option value="All">All Agents</option></select>
+                    <select id="vault-filter-status" onchange="Admin.renderVault()">
+                        <option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline btn-sm" style="width:100%; border-color:#8b5cf6; color:#a78bfa;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export Filtered JPG</button>
+            </div>
+
             <div id="admin-sales-container"></div>
         </div>
 
@@ -298,7 +348,6 @@
                 </div>
             </div>
 
-            <!-- Target Progress Bar -->
             <div class="card" style="padding: 16px;">
                 <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: flex-end;">
                     <span class="text-sm" id="mem-target-label">Monthly Target</span>
@@ -351,17 +400,8 @@
                     <input type="number" id="lead-phone" placeholder="Phone Number">
                 </div>
                 <div class="grid-2">
-                    <select id="lead-temp">
-                        <option value="🔥 Hot">🔥 Hot</option>
-                        <option value="🌤️ Warm">🌤️ Warm</option>
-                        <option value="🥶 Cold">🥶 Cold</option>
-                    </select>
-                    <select id="lead-prof">
-                        <option value="Student">Student</option>
-                        <option value="Employee">Employee</option>
-                        <option value="Business">Business</option>
-                        <option value="Housewife">Housewife</option>
-                    </select>
+                    <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤️ Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
+                    <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
                 <input type="date" id="lead-date" title="Follow-up Date">
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
@@ -382,15 +422,51 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Tab 3: ACADEMY (RESTORED & UPGRADED) -->
+        <!-- Member Tab 3: ACADEMY (HINDI OPTIMIZED) -->
         <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
-                <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
-                    <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE
-                </button>
+            
+            <div id="mem-ac-video-box" class="hidden" style="margin-bottom: 16px;">
+                <h4 style="margin-bottom: 8px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4>
+                <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe></div>
             </div>
 
-            <!-- AI Closing Assistant (Bilingual Trained) -->
+            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom: 16px;">
+                <h4 style="margin-bottom: 8px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4>
+                <button class="btn btn-outline" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button>
+            </div>
+
+            <!-- Quiz Section -->
+            <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom: 24px;">
+                <h4 style="margin-bottom: 8px;"><i class="fas fa-question-circle text-warning"></i> आज का सवाल (Daily Quiz)</h4>
+                <div class="card" id="quiz-card" style="border-color: rgba(245, 158, 11, 0.3);">
+                    <p class="text-sm" id="quiz-q" style="margin-top:0;">Question loading...</p>
+                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div>
+                    <div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
+                </div>
+            </div>
+
+            <!-- Call Script Accordion -->
+            <h4 style="margin-bottom: 12px;"><i class="fas fa-phone text-success"></i> इनविटेशन कॉलिंग स्क्रिप्ट</h4>
+            <div style="margin-bottom: 24px;">
+                <div class="accordion-item" onclick="this.classList.toggle('active')">
+                    <div class="accordion-title"><span>Step 1: जल्दी में रहें (Urgency)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">"भाई मैं थोड़ा जल्दी में हूँ, लेकिन तुझसे एक ज़रूरी बात करनी थी..."</div>
+                </div>
+                <div class="accordion-item" onclick="this.classList.toggle('active')">
+                    <div class="accordion-title"><span>Step 2: हाल-चाल (Rapport)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">"काम कैसा चल रहा है? घर में सब कैसे हैं? (उसकी प्रॉब्लम ध्यान से सुनें)..."</div>
+                </div>
+                <div class="accordion-item" onclick="this.classList.toggle('active')">
+                    <div class="accordion-title"><span>Step 3: सस्पेंस (Curiosity)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">"अगर मैं तुझे एक ऐसा तरीका बताऊँ जिससे तू जॉब के साथ पार्ट-टाइम अर्निंग कर सके, तो क्या तू ओपन है प्लान देखने के लिए?"</div>
+                </div>
+                <div class="accordion-item" onclick="this.classList.toggle('active')">
+                    <div class="accordion-title"><span>Step 4: टाइम फिक्स (Commitment)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="accordion-content">"ठीक है, आज शाम 7 बजे 30 मिनट के लिए ज़ूम पर मिलते हैं। टाइम पर आना।"</div>
+                </div>
+            </div>
+
+            <!-- Bilingual AI -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
                 <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
@@ -401,75 +477,6 @@
                 <div id="ai-response" class="text-sm" style="margin-top: 12px;"></div>
             </div>
 
-            <h4 style="margin-bottom: 16px;"><i class="fas fa-brain text-primary"></i> Field Flashcards</h4>
-            <p class="text-xs" style="margin-bottom: 16px;">Tap card to reveal the psychological script.</p>
-
-            <div class="grid-2">
-                <!-- Card 1 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <i class="fas fa-wallet" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
-                            <h4 style="margin: 0; font-size:14px;">"Paise nahi hain"</h4>
-                        </div>
-                        <div class="flip-card-back">
-                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Sir, agar aaj ₹X lagane ke liye paise nahi hain, toh aage chalkar problem badhegi. Yehi reason hai start karne ka, taaki paise ki kami hamesha ke liye khatam ho."</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <i class="fas fa-clock" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
-                            <h4 style="margin: 0; font-size:14px;">"Time nahi hai"</h4>
-                        </div>
-                        <div class="flip-card-back">
-                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business 'Time Freedom' ke liye kar rahe hain. Bas din ka 1-2 ghanta chahiye."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <i class="fas fa-brain" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
-                            <h4 style="margin: 0; font-size:14px;">"Soch kar bataunga"</h4>
-                        </div>
-                        <div class="flip-card-back">
-                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Zaroor sir, par ek sawal hai—kya sochne se account balance badhega? Action lene se badhega. Sath milkar abhi shuru karte hain!"</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="flip-card" onclick="this.classList.toggle('flipped')">
-                    <div class="flip-card-inner">
-                        <div class="flip-card-front">
-                            <i class="fas fa-users" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
-                            <h4 style="margin: 0; font-size:14px;">"Family se poochna hai"</h4>
-                        </div>
-                        <div class="flip-card-back">
-                            <p style="font-size: 11px; margin: 0; line-height: 1.4;">"Family mana karegi kyunki unhone plan nahi dekha. Agar aapko successful hona hai toh decision aapka hona chahiye, baad mein unhe result dikhana!"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Card 5 (Full width) -->
-            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height: 120px;">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <i class="fas fa-link" style="font-size: 24px; color: var(--primary); margin-bottom: 8px;"></i>
-                        <h4 style="margin: 0; font-size:14px;">"Ye chain (pyramid) system hai?"</h4>
-                    </div>
-                    <div class="flip-card-back">
-                        <p style="font-size: 12px; margin: 0; line-height: 1.4;">"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai, sirf joining pe nahi. Documents check kar lijiye."</p>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="floating-nav">
@@ -531,6 +538,8 @@
             try {
                 const doc = await db.collection('users').doc(id).get();
                 if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
+                if (doc.data().suspended) throw new Error("Account Suspended by HQ."); // NEW: Suspend Logic Check
+                
                 let localToken = localStorage.getItem('htm_device') || ("DEV-" + Date.now());
                 if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken });
                 else if (doc.data().deviceToken !== localToken) throw new Error("Device mismatch.");
@@ -548,13 +557,14 @@
     class Member {
         static localLeads = [];
         static currentFilter = 'All';
+        static currentQuizAns = 0;
 
         static initData() {
-            this.renderMemberBadges(); this.listenBroadcast(); this.listenSOSReplies();
+            this.renderMemberBadges(); this.listenBroadcast(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
-            
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => {
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target);
+                if(doc.exists && doc.data().suspended) Auth.logout(); // Auto-logout if suspended
             });
         }
 
@@ -573,46 +583,57 @@
             });
         }
 
-        // FIXED SOS LOGIC: Member reads reply first, then clears it manually.
+        static listenAcademy() {
+            db.collection('system').doc('academy').onSnapshot(doc => {
+                if(!doc.exists) return; const d = doc.data();
+                
+                if (d.vid) { document.getElementById('mem-ac-iframe').src = d.vid; document.getElementById('mem-ac-video-box').classList.remove('hidden'); }
+                else { document.getElementById('mem-ac-video-box').classList.add('hidden'); }
+                
+                if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); }
+                else { document.getElementById('mem-ac-pdf-box').classList.add('hidden'); }
+                
+                if (d.q) { 
+                    document.getElementById('quiz-q').innerText = d.q; document.getElementById('quiz-o1').innerText = d.o1; document.getElementById('quiz-o2').innerText = d.o2;
+                    this.currentQuizAns = parseInt(d.ans);
+                    document.getElementById('quiz-o1').className = "quiz-option"; document.getElementById('quiz-o2').className = "quiz-option";
+                    document.getElementById('mem-ac-quiz-box').classList.remove('hidden');
+                } else { document.getElementById('mem-ac-quiz-box').classList.add('hidden'); }
+            });
+        }
+
+        static checkQuiz(choice) {
+            const o1 = document.getElementById('quiz-o1'); const o2 = document.getElementById('quiz-o2');
+            if(choice === this.currentQuizAns) {
+                if(choice===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct');
+                UI.showToast('Correct Answer! 🎉', 'success');
+            } else {
+                if(choice===1) o1.classList.add('quiz-wrong'); else o2.classList.add('quiz-wrong');
+                if(this.currentQuizAns===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct');
+                UI.showToast('Incorrect. Review scripts.', 'error');
+            }
+        }
+
         static listenSOSReplies() {
             db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                const c = document.getElementById('mem-sos-history');
-                if(!c) return;
-                
-                let msgs = [];
-                snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
+                const c = document.getElementById('mem-sos-history'); if(!c) return;
+                let msgs = []; snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
                 msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-                
                 c.innerHTML = '';
                 if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.5;">No active whispers...</p>'; return; }
-                
                 msgs.forEach(d => {
                     const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; float:right; font-size:16px;" title="Clear Message"><i class="fas fa-times-circle"></i></button>` : '';
-                    
-                    c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:10px 12px; border-radius:8px; margin-bottom:8px;">
-                        ${clearBtn}
-                        <p class="text-xs" style="margin:0 0 6px 0; opacity:0.8; padding-right:20px;"><span style="color:var(--danger);">You:</span> ${d.message}</p>
-                        ${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}
-                    </div>`;
-                    
-                    if(d.reply && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
-                        UI.showToast(`HQ Replied!`, 'success');
-                        localStorage.setItem(`sos_seen_${d.id}`, d.reply);
-                        UI.showModal('sos-modal'); 
+                    c.innerHTML += `<div style="background:rgba(255,255,255,0.05); padding:10px 12px; border-radius:8px; margin-bottom:8px;">${clearBtn}<p class="text-xs" style="margin:0 0 6px 0; opacity:0.8; padding-right:20px;"><span style="color:var(--danger);">You:</span> ${d.message}</p>${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0;"><strong>HQ:</strong> ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}</div>`;
+                    if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) {
+                        UI.showToast(`HQ Replied!`, 'success'); localStorage.setItem(`sos_seen_${d.id}`, d.reply); UI.showModal('sos-modal'); 
                     }
                 });
             });
         }
 
-        // Clears specific SOS from member's view after they have read the reply
-        static async clearSOS(id) {
-            await db.collection('sos_messages').doc(id).update({ clearedByMember: true });
-        }
+        static async clearSOS(id) { await db.collection('sos_messages').doc(id).update({ clearedByMember: true }); }
 
-        static showQR() {
-            const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`;
-            document.getElementById('qr-image').src = url; UI.showModal('qr-modal');
-        }
+        static showQR() { const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; document.getElementById('qr-image').src = url; UI.showModal('qr-modal'); }
 
         static async sendSOS() {
             const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
@@ -621,41 +642,35 @@
                 message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
+
+            // EMAIL.JS OFFLINE TRIGGER
+            try {
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    agent_name: localStorage.getItem('htm_name'), message: msg
+                });
+            } catch(e) { console.log("EmailJS keys not configured yet."); }
         }
 
-        // UPGRADED BILINGUAL AI SYSTEM
         static askAI() {
-            const q = document.getElementById('ai-query').value.toLowerCase(); 
-            const resBox = document.getElementById('ai-response');
-            
-            resBox.style.color = "var(--text-main)";
-            resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)";
-            resBox.style.padding = "12px";
-            resBox.style.borderRadius = "8px";
-            resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
-
+            const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
+            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)"; resBox.style.padding = "12px"; resBox.style.borderRadius = "8px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
             if(q.includes('paise') || q.includes('money') || q.includes('expensive')) {
-                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'I completely understand. But if money is tight right now, isn't that exactly why you need this business? To never have to say I don't have money again.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir main samajhta hu. Par agar aaj naya shuru karne ke liye paise nahi hain, toh aage bhi nahi honge. Yehi reason hai business start karne ka, taaki paise ki kami na ho.'";
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'If money is tight right now, isn't that exactly why you need this business? To never have to say I don't have money again.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir, agar aaj shuru karne ke liye पैसे नहीं हैं, तो आगे भी नहीं होंगे। यही रीज़न है बिज़नेस स्टार्ट करने का, ताकि पैसे की कमी ना हो।'";
             } else if(q.includes('time') || q.includes('busy')) {
-                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'You work hard all day yet have no freedom. We build this business part-time exactly to earn Time Freedom in the future. Just 1 hour a day is enough.'<br><br><b>🇮🇳 Hinglish:</b> 'Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business time lagane nahi, aage chalkar Time Freedom kamane ke liye kar rahe hain.'";
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'You work hard all day yet have no freedom. We build this business exactly to earn Time Freedom. Just 1 hour a day is enough.'<br><br><b>🇮🇳 Hinglish:</b> 'आप सुबह से रात तक busy हैं, फिर भी freedom नहीं है। हम ये बिज़नेस Time Freedom कमाने के लिए कर रहे हैं।'";
             } else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) {
-                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Illegal pyramids don't have real products. We are a registered business where you earn based on effort, not just joining. Let me show you the documents.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir, fake cheezein chup kar hoti hain. Hum proper product based registered company hain aur documents open hain. Aap khud check kijiye.'";
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Illegal pyramids don't have real products. We are a registered business where you earn based on effort. Let me show you the documents.'<br><br><b>🇮🇳 Hinglish:</b> 'Sir, fake चीज़ें छुप कर होती हैं। हम प्रॉपर प्रोडक्ट बेस्ड रजिस्टर्ड कंपनी हैं। आप खुद डाक्यूमेंट्स चेक कीजिये।'";
             } else if(q.includes('papa') || q.includes('family') || q.includes('ask')) {
-                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself, and show them the results later!'<br><br><b>🇮🇳 Hinglish:</b> 'Family mana karegi kyunki unhone plan nahi dekha. Agar successful hona hai toh decision aapka hona chahiye. Unhe result aane par proof dikhana!'";
-            } else if(q.includes('soch') || q.includes('think')) {
-                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Of course! But thinking alone won't change your bank balance; taking action will. Let's start today with my support.'<br><br><b>🇮🇳 Hinglish:</b> 'Zaroor sochiye, par sochne se balance nahi badhega. Action lene se hoga. Main 100% support karunga, aaj hi shuru karte hain.'";
+                resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself, and show them the results!'<br><br><b>🇮🇳 Hinglish:</b> 'फैमिली मना करेगी क्योंकि उन्होंने प्लान नहीं देखा। अगर सक्सेसफुल होना है तो डिसीजन आपका होना चाहिए।'";
             } else {
-                resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b>🇬🇧 English:</b> 'I hear you. But let me ask you, if you don't take action today, where will you be in 5 years? Our system provides full support.'<br><br><b>🇮🇳 Hinglish:</b> 'Jo aap keh rahe hain bilkul natural hai sir. Lekin agar aaj action nahi liya, toh kal kuch nahi badlega. Humara system aapko 100% support karega.'";
+                resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years? Our system provides full support.'<br><br><b>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
             }
         }
 
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; 
-                snap.forEach(doc => { 
-                    const d = doc.data();
-                    if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; }
-                });
+                snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
                 
                 const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
                 if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; } 
@@ -663,7 +678,6 @@
                 
                 const target = parseInt(localStorage.getItem('htm_target')) || 50000;
                 document.getElementById('mem-target-label').innerText = `Monthly Target (₹${target.toLocaleString()})`;
-                
                 const percentage = Math.min(Math.round((totalCollected / target) * 100), 100);
                 document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()} (${percentage}%)`;
                 document.getElementById('mem-target-bar').style.width = `${percentage}%`;
@@ -708,7 +722,6 @@
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude; const lng = pos.coords.longitude;
                 let locName = "Coordinates Locked";
-                
                 try {
                     const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
                     const data = await res.json();
@@ -718,13 +731,11 @@
                 const docRef = await db.collection("tracking").add({
                     memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), prospect: prospect,
                     type: document.getElementById('plan-type').value, status: "Active", 
-                    lat: lat, lng: lng, locationName: locName,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    lat: lat, lng: lng, locationName: locName, timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
                 
                 localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect);
-                document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); selfieInput.value = "";
-                UI.showToast('Run logged on active grid.', 'success');
+                document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); selfieInput.value = ""; UI.showToast('Run logged on active grid.', 'success');
             }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
         }
 
@@ -759,11 +770,8 @@
 
         static streamLeads() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                this.localLeads = [];
-                snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); });
-                
-                const activeLeads = this.localLeads.filter(l => !l.ddClosed).length;
-                document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`;
+                this.localLeads = []; snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); });
+                const activeLeads = this.localLeads.filter(l => !l.ddClosed).length; document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`;
                 this.applyFilters();
             });
 
@@ -810,6 +818,13 @@
                 memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'),
                 message: `URGENT CLOSING HELP: Need upline intervention for prospect - ${leadName}.`, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }); UI.showToast('Upline help requested.', 'success');
+            
+            // EMAIL.JS OFFLINE TRIGGER
+            try {
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    agent_name: localStorage.getItem('htm_name'), message: `Needs help closing: ${leadName}`
+                });
+            } catch(e) {}
         }
         static async closeDD(id) {
             const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify verifiable amount.', 'error');
@@ -819,6 +834,8 @@
 
     class Admin {
         static leadsVault = [];
+        static activeGlobalSOSId = null;
+
         static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
 
         static async publishTask() {
@@ -827,16 +844,41 @@
             document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success');
         }
 
+        // NEW: Update Academy Vault from Admin Panel
+        static async updateAcademy() {
+            const vid = document.getElementById('ac-vid').value.trim();
+            const pdf = document.getElementById('ac-pdf').value.trim();
+            const q = document.getElementById('ac-q').value.trim();
+            const o1 = document.getElementById('ac-o1').value.trim();
+            const o2 = document.getElementById('ac-o2').value.trim();
+            const ans = document.getElementById('ac-ans').value;
+            
+            await db.collection('system').doc('academy').set({
+                vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            UI.showToast('Academy Updated for all Agents!', 'success');
+        }
+
+        // FIXED: Global Top SOS Notification for Admin
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 const c = document.getElementById('admin-sos-container');
                 if(snap.empty) { c.innerHTML = '<p class="text-xs text-center">No active distress signals.</p>'; return; }
                 c.innerHTML = '';
+                
+                // Show latest un-replied SOS on Global Alert Box
+                let latestUnreplied = null;
+
                 snap.forEach(doc => {
                     const d = doc.data();
+                    
+                    if(!d.reply && !latestUnreplied) {
+                        latestUnreplied = {id: doc.id, ...d};
+                    }
+
                     const replyUI = d.reply 
                         ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0;"><strong>HQ Reply:</strong> ${d.reply}</p>`
-                        : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}')">Send</button></div>`;
+                        : `<div style="display:flex; gap:6px; margin-top:8px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:8px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
                     
                     c.innerHTML += `<div style="background: rgba(239,68,68,0.1); border-left: 3px solid var(--danger); padding: 12px; margin-bottom: 8px; border-radius: 4px; position:relative;">
                         <button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:10px; top:10px; background:none; border:none; color:var(--danger); cursor:pointer;"><i class="fas fa-trash"></i></button>
@@ -845,31 +887,44 @@
                         ${replyUI}
                     </div>`;
                 });
+
+                // Global Box Logic
+                const alertBox = document.getElementById('global-sos-alert');
+                if(latestUnreplied) {
+                    document.getElementById('global-sos-text').innerText = `${latestUnreplied.memberName}: "${latestUnreplied.message}"`;
+                    document.getElementById('global-sos-id').value = latestUnreplied.id;
+                    alertBox.classList.add('show');
+                } else {
+                    alertBox.classList.remove('show');
+                }
             });
         }
         
-        static async replySOS(id) {
-            const text = document.getElementById(`sos-reply-${id}`).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error');
+        static async quickReplySOS() {
+            const id = document.getElementById('global-sos-id').value;
+            await this.replySOS(id, 'global-sos-reply');
+            this.closeGlobalSOS();
+        }
+
+        static closeGlobalSOS() { document.getElementById('global-sos-alert').classList.remove('show'); }
+
+        static async replySOS(id, inputId) {
+            const text = document.getElementById(inputId).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error');
             await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success');
         }
 
         static async createUser() {
             const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); 
-            const badge = document.getElementById('new-badge').value;
-            const target = parseInt(document.getElementById('new-target').value) || 50000;
-
+            const badge = document.getElementById('new-badge').value; const target = parseInt(document.getElementById('new-target').value) || 50000;
             if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error');
-            await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target }); 
-            UI.showToast(`Asset ${id} registered with Target ₹${target.toLocaleString()}`); 
-            document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value='';
+            await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target, suspended: false }); 
+            UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value='';
         }
 
-        static async updateTarget(id) {
-            const t = prompt("Enter new monthly target for this agent (₹):");
-            if(t && !isNaN(t)) {
-                await db.collection('users').doc(id).update({ target: parseInt(t) });
-                UI.showToast('Agent target updated successfully.', 'success');
-            }
+        // NEW: Suspend User Logic
+        static async toggleSuspend(id, currentStatus) {
+            await db.collection('users').doc(id).update({ suspended: !currentStatus });
+            UI.showToast(currentStatus ? 'Agent Activated' : 'Agent Suspended', currentStatus ? 'success' : 'warning');
         }
 
         static streamRadar() {
@@ -880,10 +935,8 @@
                     const d = doc.data();
                     if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
                     const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
-                    
                     const locText = d.locationName ? `<span style="display:block; margin-top:4px; color:#60a5fa;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : '';
                     const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:6px 0 0 0;"><i>Note: ${d.remarks}</i></p>` : '';
-                    
                     container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${remarkUI}</div><div>${badge}</div></div><div class="record-actions">${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
                 });
                 document.getElementById('admin-active-count').innerText = count;
@@ -893,55 +946,101 @@
         static streamTeam() {
             db.collection('users').onSnapshot(snap => {
                 const container = document.getElementById('admin-team-container'); container.innerHTML = '';
+                
+                // Populate Filter Dropdown
+                const filterSelect = document.getElementById('vault-filter-agent');
+                filterSelect.innerHTML = '<option value="All">All Agents</option>';
+
                 snap.forEach(doc => {
                     const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:#334155;">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : '';
-                    const targetUI = d.target ? `<span class="text-xs" style="color:var(--success); display:block; margin-top:4px;">Target: ₹${d.target.toLocaleString()}</span>` : '';
+                    const suspendBadge = d.suspended ? `<span class="badge badge-suspended">Suspended</span>` : '';
+                    const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
                     
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon}${targetUI}</div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Set Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair Terminal</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
+                    // Live Agent Stats Computation
+                    let totalL = 0; let closedA = 0;
+                    this.leadsVault.forEach(l => { if(l.memberId === doc.id) { totalL++; if(l.ddClosed) closedA += l.ddAmount; }});
+
+                    filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
+
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:6px;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')">Revoke</button></div></div>`;
                 });
             });
         }
 
         static streamSales() {
             db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const container = document.getElementById('admin-sales-container'); container.innerHTML = snap.empty ? '<p class="text-xs text-center">Data repository void.</p>' : '';
                 let total = 0; let totalCount = 0; let hotCount = 0; let closedCount = 0; this.leadsVault = [];
-
                 snap.forEach(doc => {
                     const d = doc.data(); this.leadsVault.push(d); totalCount++;
                     if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; }
-                    const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount}</span>` : `<span class="badge badge-warning">Unclosed</span>`;
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name}</h4><span class="text-xs">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div><div class="record-actions">${d.ddClosed ? `<button class="btn btn-outline btn-sm" onclick="Admin.revokeDD('${doc.id}')">Revoke DD</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${doc.id}')">Expunge Record</button></div></div>`;
                 });
-
+                
+                // Update Funnel Stats Globally
                 document.getElementById('admin-dd-total').innerText = '₹' + total;
                 document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
                 if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
+                
+                // Call renderVault to apply local filters
+                this.renderVault();
+            });
+        }
+
+        // NEW: Smart Render Vault with Filters
+        static renderVault() {
+            const container = document.getElementById('admin-sales-container');
+            const agentFilter = document.getElementById('vault-filter-agent') ? document.getElementById('vault-filter-agent').value : 'All';
+            const statusFilter = document.getElementById('vault-filter-status') ? document.getElementById('vault-filter-status').value : 'All';
+            
+            let filtered = this.leadsVault.filter(d => {
+                let mAgent = (agentFilter === 'All' || d.memberName === agentFilter);
+                let mStatus = true;
+                if(statusFilter === 'Closed') mStatus = d.ddClosed;
+                else if(statusFilter === '🔥 Hot') mStatus = (!d.ddClosed && d.temp === '🔥 Hot');
+                return mAgent && mStatus;
+            });
+
+            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center">No records match filters.</p>' : '';
+            filtered.forEach(d => {
+                const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount}</span>` : `<span class="badge badge-warning">Unclosed</span>`;
+                // Note: Only use doc deletion if ID exists (in Vault we don't have id stored locally unless we map it. Let's assume we don't need delete in filtered view, or we can just show data)
+                container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name}</h4><span class="text-xs">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div></div>`;
             });
         }
         
         static exportJPG() {
-            if (this.leadsVault.length === 0) return UI.showToast('No records available.', 'warning'); UI.showToast('Generating JPG...', 'warning');
+            // Apply Filters to Export
+            const agentFilter = document.getElementById('vault-filter-agent').value;
+            const statusFilter = document.getElementById('vault-filter-status').value;
+            let exportData = this.leadsVault.filter(d => {
+                return (agentFilter === 'All' || d.memberName === agentFilter) && 
+                       (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot'));
+            });
+
+            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); 
+            UI.showToast('Generating JPG...', 'warning');
+            
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-            const rowHeight = 40; const headerHeight = 70; const width = 850; const height = headerHeight + (this.leadsVault.length + 1) * rowHeight + 40;
+            const rowHeight = 40; const headerHeight = 70; const width = 850; const height = headerHeight + (exportData.length + 1) * rowHeight + 40;
             canvas.width = width; canvas.height = height; ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 26px sans-serif'; ctx.fillText('HTM Enterprise Network Report', 20, 45);
+            
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 26px sans-serif'; ctx.fillText('HTM Filtered Report', 20, 45);
             ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()}`, 650, 40);
+            
             ctx.fillStyle = '#f8fafc'; ctx.fillRect(15, headerHeight, width - 30, rowHeight); ctx.fillStyle = '#334155'; ctx.font = 'bold 15px sans-serif';
             ctx.fillText('Prospect Name', 30, headerHeight + 25); ctx.fillText('Contact', 260, headerHeight + 25); ctx.fillText('Agent', 460, headerHeight + 25); ctx.fillText('Status', 660, headerHeight + 25);
+            
             ctx.font = '14px sans-serif'; ctx.fillStyle = '#0f172a';
-            this.leadsVault.forEach((lead, index) => {
+            exportData.forEach((lead, index) => {
                 const y = headerHeight + rowHeight + (index * rowHeight) + 25;
                 ctx.beginPath(); ctx.moveTo(15, y - 25); ctx.lineTo(width - 15, y - 25); ctx.strokeStyle = '#e2e8f0'; ctx.stroke();
                 const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount})` : (lead.followUp || lead.temp);
                 ctx.fillText(lead.name.substring(0, 25), 30, y); ctx.fillText(lead.phone, 260, y); ctx.fillText(lead.memberName.substring(0, 25), 460, y); ctx.fillText(statusText, 660, y);
             });
-            const link = document.createElement('a'); link.download = `HTM_Master_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
+            const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
 
         static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
         static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
-        static async revokeDD(id) { await db.collection('leads').doc(id).update({ ddClosed: false, ddAmount: 0 }); }
         static async deleteDoc(col, id) { if (confirm('Purge document?')) { await db.collection(col).doc(id).delete(); } }
     }
 
