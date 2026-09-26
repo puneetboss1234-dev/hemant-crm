@@ -79,6 +79,15 @@
         .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
         .btn-sm { width: auto; padding: 6px 12px; font-size: 12px; border-radius: 8px; }
 
+        /* Live Training Glowing Button */
+        .btn-live-pulse {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            color: white; border: none;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            animation: pulseRed 2s infinite;
+        }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); } 50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.8); transform: scale(1.02); } 100% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); } }
+
         /* Badges & Ranks */
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
@@ -95,6 +104,14 @@
         .radar-sweep { position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 1px solid rgba(59, 130, 246, 0.3); animation: pulseRadar 3s infinite ease-out; }
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 10px; height: 10px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
+
+        /* 3D Flip Flashcards for Academy */
+        .flip-card { background-color: transparent; height: 160px; perspective: 1000px; margin-bottom: 16px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 16px; }
+        .flip-card-front { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); backdrop-filter: blur(10px); }
+        .flip-card-back { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); backdrop-filter: blur(10px); transform: rotateY(180deg); text-align: left; align-items: flex-start; }
 
         /* Floating Box Navigation */
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 24px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
@@ -165,14 +182,13 @@
             <i class="fas fa-power-off text-muted" style="font-size: 18px; cursor: pointer;" onclick="Auth.logout()"></i>
         </div>
 
-        <!-- Admin Tab 1: HOME (Dashboard & Visual Radar) -->
+        <!-- Admin Tab 1: HOME -->
         <div id="admin-home" class="tab-content">
             <div class="grid-2" style="margin-bottom: 16px;">
                 <div class="dashboard-stat"><span class="text-xs">Network Turnover (DD)</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
                 <div class="dashboard-stat"><span class="text-xs">Active Deployments</span><h2 id="admin-active-count">0</h2></div>
             </div>
 
-            <!-- Visual Simulated CSS Radar Screen -->
             <div class="radar-screen">
                 <div class="radar-grid"></div>
                 <div class="radar-sweep"></div>
@@ -184,7 +200,7 @@
             <div id="admin-radar-container"></div>
         </div>
 
-        <!-- Admin Tab 2: TEAM (Roster & Gamification Badge Assign) -->
+        <!-- Admin Tab 2: TEAM -->
         <div id="admin-team" class="tab-content hidden">
             <div class="card">
                 <h4 style="margin-bottom: 16px;"><i class="fas fa-user-plus text-primary"></i> Onboard New Asset</h4>
@@ -206,13 +222,24 @@
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- Admin Tab 3: CONTROLS (Broadcast & Direct Multi-Ping) -->
+        <!-- Admin Tab 3: CONTROLS (Includes Academy Manager) -->
         <div id="admin-controls" class="tab-content hidden">
             <div class="card">
                 <h4 style="margin-bottom: 8px;"><i class="fas fa-bullhorn text-primary"></i> Broadcast Dispatcher</h4>
                 <p class="text-sm" style="margin-bottom: 14px;">Push immediate tactical notifications directly to all agent viewports.</p>
                 <textarea id="admin-task-input" placeholder="Type tactical command or day plan..."></textarea>
                 <button class="btn btn-primary" onclick="Admin.publishTask()"><i class="fas fa-paper-plane"></i> Deploy Network Pop-up</button>
+            </div>
+
+            <!-- NEW: Academy Live Link Dispatcher -->
+            <div class="card" style="border-color: rgba(239, 68, 68, 0.3);">
+                <h4 style="margin-bottom: 8px;"><i class="fas fa-video text-danger"></i> Live Academy Dispatch</h4>
+                <p class="text-sm" style="margin-bottom: 14px;">Push a live Zoom/Meet link to all agents. It will pulse on their Academy tab.</p>
+                <input type="url" id="admin-live-link" placeholder="Paste Zoom/Google Meet Link here...">
+                <div class="grid-2">
+                    <button class="btn btn-primary" style="background:#ef4444;" onclick="Admin.pushLiveLink()"><i class="fas fa-broadcast-tower"></i> Go Live</button>
+                    <button class="btn btn-outline" onclick="Admin.clearLiveLink()">End Session</button>
+                </div>
             </div>
 
             <div class="card">
@@ -224,7 +251,7 @@
             </div>
         </div>
 
-        <!-- Admin Tab 4: GOD MODE (Data Vault, Controls, Master Exports) -->
+        <!-- Admin Tab 4: GOD MODE -->
         <div id="admin-godmode" class="tab-content hidden">
             <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 14px;">
                 <h4 style="color: #a78bfa;"><i class="fas fa-vault"></i> Enterprise Data Vault</h4>
@@ -233,7 +260,6 @@
             <div id="admin-sales-container"></div>
         </div>
 
-        <!-- Admin Floating Box Navigation -->
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('admin', 'home', this)"><i class="fas fa-compass"></i><span>Home</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin', 'team', this)"><i class="fas fa-users-cog"></i><span>Team</span></div>
@@ -257,7 +283,6 @@
 
         <!-- Member Tab 1: DASHBOARD -->
         <div id="mem-dash" class="tab-content">
-            <!-- Dynamic Psychological Urgency Indicator -->
             <div id="mem-urgency-wrapper" class="card urgency-banner">
                 <i class="fas fa-hourglass-half" style="font-size: 20px; color: var(--warning);"></i>
                 <div>
@@ -266,7 +291,6 @@
                 </div>
             </div>
 
-            <!-- Field Meeting Controller -->
             <h4 style="margin-bottom: 12px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
             <div id="plan-init-state" class="card">
                 <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
@@ -290,7 +314,6 @@
                 </div>
             </div>
 
-            <!-- Performance Leaderboard Preview -->
             <h4 style="margin-bottom: 12px;"><i class="fas fa-trophy" style="color: #fbbf24;"></i> Top Closers</h4>
             <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 24px;">
                 <div id="member-leaderboard-preview"></div>
@@ -320,10 +343,70 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Floating Navigation -->
+        <!-- Member Tab 3: ACADEMY (NEW) -->
+        <div id="mem-academy" class="tab-content hidden">
+            
+            <!-- Dynamic Live Training Link Container -->
+            <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
+                <button class="btn btn-live-pulse" id="btn-join-live" onclick="window.open('', '_blank')">
+                    <i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE - JOIN NOW
+                </button>
+            </div>
+
+            <h4 style="margin-bottom: 16px;"><i class="fas fa-brain text-primary"></i> Objection Handling Scripts</h4>
+            <p class="text-sm" style="margin-bottom: 16px;">Tap a card to reveal the exact psychological script to close the prospect.</p>
+            
+            <!-- Glass Flashcard 1 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-wallet" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
+                        <h3 style="margin: 0;">"Mere paas paise nahi hain"</h3>
+                        <span class="text-xs" style="margin-top: 8px;">Tap to reveal answer <i class="fas fa-hand-pointer"></i></span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 style="color: var(--success); margin-bottom: 8px;">Feel, Felt, Found Technique:</h4>
+                        <p style="font-size: 13px; line-height: 1.5; margin: 0; color: var(--text-main);">"Main samajh sakta hu aap kaisa feel kar rahe ho. Jab maine plan dekha tha, mujhe bhi yahi laga tha (Felt). Lekin fir maine socha (Found) agar aaj mere paas apni life badalne ke liye ₹X nahi hain, toh yehi sabse bada reason hai is business ko start karne ka!"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glass Flashcard 2 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-clock" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
+                        <h3 style="margin: 0;">"Mere paas time nahi hai"</h3>
+                        <span class="text-xs" style="margin-top: 8px;">Tap to reveal answer <i class="fas fa-hand-pointer"></i></span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 style="color: var(--success); margin-bottom: 8px;">Logical Pivot:</h4>
+                        <p style="font-size: 13px; line-height: 1.5; margin: 0; color: var(--text-main);">"Exactly! Aap subah se raat tak itne busy hain, fir bhi account mein freedom nahi hai. Hum ye business time lagane ke liye nahi, balki aage chal kar 'Time Freedom' kamane ke liye kar rahe hain. Din ka bas 1 ghanta nikalna hai."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glass Flashcard 3 -->
+            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <i class="fas fa-users" style="font-size: 28px; color: var(--primary); margin-bottom: 12px;"></i>
+                        <h3 style="margin: 0;">"Mujhse log nahi judenge"</h3>
+                        <span class="text-xs" style="margin-top: 8px;">Tap to reveal answer <i class="fas fa-hand-pointer"></i></span>
+                    </div>
+                    <div class="flip-card-back">
+                        <h4 style="color: var(--success); margin-bottom: 8px;">System Trust:</h4>
+                        <p style="font-size: 13px; line-height: 1.5; margin: 0; color: var(--text-main);">"Aapko akela kisi ko nahi jodna. Humara pura support system (HQ Team) aur senior leaders aapke logon ko plan dikhayenge. Aapko bas network se connect karwana hai, closing experts karenge!"</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <div class="floating-nav">
             <div class="nav-box active" onclick="UI.switchTab('mem', 'dash', this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem', 'leads', this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem', 'academy', this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
         </div>
     </div>
 
@@ -416,6 +499,7 @@
         static initData() {
             this.renderMemberBadges();
             this.listenBroadcast();
+            this.listenLiveTraining(); // NEW
             this.checkActivePlanState();
             this.streamLeads();
             this.setupOfflineMonitor();
@@ -445,6 +529,21 @@
                     }
                 }
                 initialLoad = false;
+            });
+        }
+
+        // NEW: Listen for Live Training Link
+        static listenLiveTraining() {
+            db.collection('system').doc('academy').onSnapshot(doc => {
+                const container = document.getElementById('live-training-container');
+                const btn = document.getElementById('btn-join-live');
+                if (doc.exists && doc.data().liveLink) {
+                    btn.setAttribute('onclick', `window.open('${doc.data().liveLink}', '_blank')`);
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                    btn.setAttribute('onclick', '');
+                }
             });
         }
 
@@ -608,7 +707,6 @@
                 });
             });
 
-            // Stream leaderboard snapshot
             db.collection('leads').onSnapshot(snap => {
                 let totals = {};
                 snap.forEach(doc => {
@@ -658,6 +756,20 @@
             UI.showToast('Directives broadcasted.', 'success');
         }
 
+        // NEW: Push and Clear Live Training Links
+        static async pushLiveLink() {
+            const link = document.getElementById('admin-live-link').value.trim();
+            if (!link) return UI.showToast('Please enter a valid URL.', 'error');
+            await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+            UI.showToast('Live Training dispatched to network!', 'success');
+        }
+
+        static async clearLiveLink() {
+            await db.collection('system').doc('academy').set({ liveLink: null });
+            document.getElementById('admin-live-link').value = '';
+            UI.showToast('Live session ended.', 'success');
+        }
+
         static dispatchWhatsApp() {
             const phone = document.getElementById('direct-wa-phone').value.trim();
             const msg = document.getElementById('direct-wa-msg').value.trim();
@@ -690,7 +802,6 @@
                     const d = doc.data();
                     if (d.status === "Active") {
                         count++;
-                        // Place dynamic CSS blip on visual radar
                         const topPos = (30 + (idx * 25)) % 120;
                         const leftPos = (40 + (idx * 35)) % 140;
                         blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`;
