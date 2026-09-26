@@ -122,9 +122,26 @@
         .quiz-option:hover { background: rgba(255,255,255,0.1); }
         .quiz-correct { background: rgba(16, 185, 129, 0.2) !important; border-color: var(--success) !important; color: var(--success); }
         .quiz-wrong { background: rgba(239, 68, 68, 0.2) !important; border-color: var(--danger) !important; color: var(--danger); }
+
+        /* NEW: Premium Splash Screen CSS */
+        #welcome-splash { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .splash-logo { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 36px; color: white; box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); margin: 0 auto 20px auto; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
+
+<!-- NEW: SPLASH SCREEN / WELCOME MODAL -->
+<div id="welcome-splash" class="modal-overlay hidden">
+    <div class="modal-box" style="background: rgba(15, 23, 42, 0.95); border: 1px solid var(--primary); box-shadow: 0 0 50px var(--primary-glow); padding: 40px 20px;">
+        <div class="splash-logo">
+            <i class="fas fa-crown"></i>
+        </div>
+        <h2 style="margin-bottom: 8px; font-size: 24px; background: -webkit-linear-gradient(45deg, #60a5fa, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">HTM Enterprise OS</h2>
+        <p class="text-sm" style="margin-bottom: 24px; color: var(--text-muted);">Next-Gen Network Management</p>
+        <button class="btn btn-primary" onclick="UI.dismissSplash()" style="border-radius: 20px; font-size: 15px; padding: 12px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border: none;">Initialize Workspace <i class="fas fa-arrow-right"></i></button>
+    </div>
+</div>
 
 <div id="toast-container"></div>
 
@@ -280,7 +297,6 @@
                 </div>
                 <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
                 
-                <!-- NEW: Direct YouTube Link Support -->
                 <input type="text" id="ac-vid" placeholder="Paste Direct YouTube Link (e.g. https://youtu.be/...)">
                 <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
                 <hr style="border:0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 12px 0;">
@@ -430,7 +446,7 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- Member Tab 3: ACADEMY (HINDI OPTIMIZED) -->
+        <!-- Member Tab 3: ACADEMY -->
         <div id="mem-academy" class="tab-content hidden">
             
             <div id="live-training-container" class="hidden" style="margin-bottom: 24px;">
@@ -480,7 +496,7 @@
                 </div>
             </div>
 
-            <!-- Bilingual AI -->
+            <!-- AI Assistant -->
             <div class="card" style="border-color: rgba(139, 92, 246, 0.4); box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.1);">
                 <h4 style="color: #a78bfa; margin-bottom: 8px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom: 12px;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
@@ -597,7 +613,22 @@
         }
         static showModal(id) { document.getElementById(id).classList.remove('hidden'); }
         static dismissModal(id) { document.getElementById(id).classList.add('hidden'); }
+        
+        static dismissSplash() {
+            const splash = document.getElementById('welcome-splash');
+            splash.style.opacity = '0';
+            splash.style.transform = 'scale(1.1)';
+            setTimeout(() => { splash.classList.add('hidden'); }, 500);
+            sessionStorage.setItem('htm_splash_seen', 'true');
+        }
     }
+
+    // SPLASH SCREEN INITIALIZATION
+    window.addEventListener('DOMContentLoaded', () => {
+        if (!sessionStorage.getItem('htm_splash_seen')) {
+            document.getElementById('welcome-splash').classList.remove('hidden');
+        }
+    });
 
     class Auth {
         static init() {
@@ -668,20 +699,16 @@
                 if(!doc.exists) return; 
                 const d = doc.data();
                 
-                // Live Link
                 const liveBtn = document.getElementById('btn-join-live');
                 if (d.liveLink) { liveBtn.setAttribute('onclick', `window.open('${d.liveLink}', '_blank')`); document.getElementById('live-training-container').classList.remove('hidden'); } 
                 else { document.getElementById('live-training-container').classList.add('hidden'); }
 
-                // Video Vault
                 if (d.vid) { document.getElementById('mem-ac-iframe').src = d.vid; document.getElementById('mem-ac-video-box').classList.remove('hidden'); }
                 else { document.getElementById('mem-ac-video-box').classList.add('hidden'); }
                 
-                // PDF
                 if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); }
                 else { document.getElementById('mem-ac-pdf-box').classList.add('hidden'); }
                 
-                // Quiz
                 if (d.q) { 
                     document.getElementById('quiz-q').innerText = d.q; document.getElementById('quiz-o1').innerText = d.o1; document.getElementById('quiz-o2').innerText = d.o2;
                     this.currentQuizAns = parseInt(d.ans);
@@ -928,7 +955,6 @@
             UI.showToast('Live Training dispatched!', 'success');
         }
 
-        // SMART YOUTUBE AUTO-CONVERTER
         static async updateAcademy() {
             let vid = document.getElementById('ac-vid').value.trim();
             const pdf = document.getElementById('ac-pdf').value.trim();
@@ -937,7 +963,6 @@
             const o2 = document.getElementById('ac-o2').value.trim();
             const ans = document.getElementById('ac-ans').value;
             
-            // Auto convert Direct YouTube Link to Embed Format
             if (vid) {
                 if (vid.includes('youtube.com/watch?v=')) {
                     try { const videoId = new URL(vid).searchParams.get('v'); if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } catch(e) {}
@@ -950,9 +975,7 @@
                 vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }, {merge: true});
             
-            // Clear inputs
-            document.getElementById('ac-vid').value = '';
-            document.getElementById('ac-pdf').value = '';
+            document.getElementById('ac-vid').value = ''; document.getElementById('ac-pdf').value = '';
             UI.showToast('Academy Updated for all Agents!', 'success');
         }
 
