@@ -77,7 +77,8 @@
         .filter-pill { border-radius: 20px; padding: 8px 16px; font-size: 12px; font-weight: 600; white-space: nowrap; transition: 0.3s; cursor: pointer; border: 1px solid var(--glass-border); background: transparent; color: var(--text-muted); }
         .filter-pill.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 6px 15px var(--primary-glow); }
         
-        .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; } 
+        .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; } 
+        .action-tray::-webkit-scrollbar { display: none; }
         .action-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; text-align: center; border: 1px solid var(--glass-border); cursor: pointer; white-space: nowrap; transition: 0.2s; }
         
         .badge { padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; } 
@@ -322,7 +323,6 @@
     <div id="member-module" class="hidden">
         <div class="btn-sos" onclick="UI.showModal('sos-modal')"><i class="fas fa-headset"></i></div>
         
-        <!-- Adjusted Flex Headers for Mobile -->
         <div class="member-header">
             <div style="display:flex; align-items:center; gap:8px;">
                 <i class="fas fa-crown text-primary" style="font-size:26px; filter:drop-shadow(0 4px 6px rgba(59,130,246,0.2));"></i>
@@ -386,7 +386,7 @@
                 <h4 style="margin-bottom:20px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
                 <div class="grid-2"><input type="text" id="lead-name" placeholder="Prospect Name"><input type="number" id="lead-phone" placeholder="Phone Number"></div>
                 <div class="grid-2">
-                    <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤️ Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
+                    <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤️️ Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
                     <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
                 <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
@@ -430,7 +430,6 @@
                 <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
                 
-                <!-- Fixed Flex Layout -->
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3); flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
@@ -520,7 +519,6 @@
         }
     }
 
-    // Recalculate slider position on device rotate/resize
     window.addEventListener('resize', () => {
         document.querySelectorAll('.floating-nav .nav-box.active').forEach(el => UI.moveIndicator(el));
     });
@@ -790,6 +788,47 @@
             const isClosed = parseInt(newDD) > 0;
             if(confirm(`Save changes for Lead: ${newName}?`)) {
                 await db.collection('leads').doc(id).update({
-                    name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD)Code bhejo bhai, main sirf CSS me media query ya flexbox thoda adjust kar dunga taaki phone me perfect dikhe aur aapka baaki ka logic ya design bilkul waisa hi rahe (bina kuch chede). 
+                    name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD) || 0, ddClosed: isClosed
+                });
+                UI.showToast('Lead entry updated.', 'success');
+            }
+        }
 
-Ek baar 'Member tab' ka HTML aur CSS yahan paste kar do!
+        static streamSales() {
+            db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                let total = 0; let totalCount = 0; let hotCount = 0; let closedCount = 0; this.leadsVault = [];
+                snap.forEach(doc => { const d = doc.data(); this.leadsVault.push({id: doc.id, ...d}); totalCount++; if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; } });
+                document.getElementById('admin-dd-total').innerText = '₹' + total.toLocaleString(); document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
+                if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
+                this.renderVault();
+            });
+        }
+        static renderVault() {
+            const container = document.getElementById('admin-sales-container'); const agentFilter = document.getElementById('vault-filter-agent') ? document.getElementById('vault-filter-agent').value : 'All'; const statusFilter = document.getElementById('vault-filter-status') ? document.getElementById('vault-filter-status').value : 'All';
+            let filtered = this.leadsVault.filter(d => { let mAgent = (agentFilter === 'All' || d.memberName === agentFilter); let mStatus = true; if(statusFilter === 'Closed') mStatus = d.ddClosed; else if(statusFilter === '🔥 Hot') mStatus = (!d.ddClosed && d.temp === '🔥 Hot'); return mAgent && mStatus; });
+            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding: 10px;">No records match filters.</p>' : '';
+            filtered.forEach(d => { 
+                const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount.toLocaleString()}</span>` : `<span class="badge badge-warning">Unclosed</span>`; 
+                const act = `<div class="record-actions" style="margin-top:10px;"><button class="btn btn-outline btn-sm" onclick="Admin.editLeadAdmin('${d.id}')"><i class="fas fa-edit"></i> Edit Lead</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div>`;
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
+            });
+        }
+        static exportJPG() {
+            const agentFilter = document.getElementById('vault-filter-agent').value; const statusFilter = document.getElementById('vault-filter-status').value;
+            let exportData = this.leadsVault.filter(d => { return (agentFilter === 'All' || d.memberName === agentFilter) && (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); });
+            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); UI.showToast('Generating JPG...', 'warning');
+            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const rowHeight = 44; const headerHeight = 80; const width = 900; const height = headerHeight + (exportData.length + 1) * rowHeight + 40; canvas.width = width; canvas.height = height; ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('HTM Filtered Report', 30, 50); ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()} | Agent: ${agentFilter}`, 600, 45); ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4; ctx.fillRect(20, headerHeight, width - 40, rowHeight); ctx.shadowColor = 'transparent'; ctx.fillStyle = '#475569'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('Prospect Name', 40, headerHeight + 28); ctx.fillText('Contact', 280, headerHeight + 28); ctx.fillText('Agent', 480, headerHeight + 28); ctx.fillText('Status', 700, headerHeight + 28); ctx.font = '15px sans-serif'; ctx.fillStyle = '#0f172a';
+            exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
+            const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
+        }
+        static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
+        static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
+        static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
+        static async deleteDoc(col, id) { if (confirm('Purge document completely?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
+    }
+    function initAdminOverride() { if (prompt("HQ Passkey Authorization:") === "9999") { localStorage.setItem('htm_role', 'admin'); window.location.reload(); } }
+    Auth.init();
+</script>
+</body>
+</html>
