@@ -26,14 +26,14 @@
         }
         
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { margin: 0; background: var(--bg-body); color: var(--text-main); padding-bottom: 110px; -webkit-font-smoothing: antialiased; min-height: 100vh; transition: background 0.4s ease, color 0.4s ease; }
+        body { margin: 0; background: var(--bg-body); color: var(--text-main); padding-bottom: 110px; -webkit-font-smoothing: antialiased; min-height: 100vh; transition: background 0.4s ease, color 0.4s ease; overflow-x: hidden; }
         
         .hidden { display: none !important; } 
         .tab-content:not(.hidden) { animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         .container { max-width: 600px; margin: 0 auto; padding: 16px; }
-        .app-header, .member-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; transition: border-color 0.4s; }
+        .app-header, .member-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; transition: border-color 0.4s; flex-wrap: wrap; gap: 10px; }
         h1, h2, h3, h4 { margin: 0; font-weight: 700; color: var(--text-main); transition: color 0.4s; } 
         .text-sm { font-size: 13px; color: var(--text-muted); } 
         .text-xs { font-size: 11px; color: var(--text-muted); font-weight: 500; }
@@ -43,6 +43,7 @@
             border-radius: 20px; padding: 20px; margin-bottom: 16px; 
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); 
             transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.4s ease, border-color 0.4s;
+            width: 100%; overflow: hidden;
         }
         .card:hover, .record-item:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06); }
         
@@ -57,13 +58,13 @@
             width: 100%; padding: 15px; border-radius: 14px; background: #ffffff; 
             border: 1.5px solid #cbd5e1; color: var(--text-main); font-size: 14px; 
             margin-bottom: 14px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 500;
+            font-weight: 500; box-sizing: border-box;
         }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { background: rgba(15, 23, 42, 0.6); border-color: rgba(255,255,255,0.15); color: #fff; }
         input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
         textarea { resize: vertical; min-height: 90px; }
         
-        .btn { width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn { width: 100%; padding: 15px; border-radius: 14px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-sizing: border-box; }
         .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 6px 20px var(--primary-glow); } 
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
         .btn-primary:active { transform: scale(0.97); }
@@ -76,7 +77,7 @@
         .filter-pill { border-radius: 20px; padding: 8px 16px; font-size: 12px; font-weight: 600; white-space: nowrap; transition: 0.3s; cursor: pointer; border: 1px solid var(--glass-border); background: transparent; color: var(--text-muted); }
         .filter-pill.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 6px 15px var(--primary-glow); }
         
-        .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; } 
+        .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; } 
         .action-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; text-align: center; border: 1px solid var(--glass-border); cursor: pointer; white-space: nowrap; transition: 0.2s; }
         
         .badge { padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; } 
@@ -105,7 +106,7 @@
         .flip-card-back p { color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.5; }
         
         /* Sliding Glass Navigation */
-        .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); transition: background 0.4s; }
+        .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); transition: background 0.4s; box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         
         .nav-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; font-weight: 600; gap: 6px; padding: 12px 0; cursor: pointer; transition: color 0.3s; z-index: 2; position: relative; }
@@ -116,14 +117,14 @@
         .nav-indicator { position: absolute; top: 6px; bottom: 6px; background: #ffffff; border-radius: 26px; z-index: 1; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         body.dark-mode .nav-indicator { background: #334155; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; box-sizing: border-box; }
         .modal-box { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 28px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.2); animation: popModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; text-align: center; }
         @keyframes popModal { 0% { transform: scale(0.85); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; } 
         .dashboard-stat { padding: 20px; border-radius: 18px; text-align: center; } 
         .dashboard-stat h2 { color: var(--primary); font-size: 28px; margin: 8px 0 0 0; font-weight: 800; }
-        .record-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; } 
+        .record-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px; word-break: break-word; flex-wrap: wrap; } 
         .record-actions { display: flex; gap: 10px; margin-top: 14px; border-top: 1px dashed var(--glass-border); padding-top: 14px; flex-wrap: wrap; }
         
         .btn-sos { position: fixed; bottom: 100px; right: 20px; width: 55px; height: 55px; border-radius: 28px; background: var(--danger); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px var(--danger-glow); z-index: 99; cursor: pointer; font-size: 20px; transition: 0.3s; }
@@ -170,14 +171,14 @@
 
 <div id="toast-container"></div>
 
-<div id="global-sos-alert" style="position:fixed; top:-200px; left:50%; transform:translateX(-50%); width:92%; max-width:450px; z-index:10001; transition:top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(239, 68, 68, 0.95); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 20px; box-shadow: 0 15px 40px rgba(239, 68, 68, 0.3);">
+<div id="global-sos-alert" style="position:fixed; top:-200px; left:50%; transform:translateX(-50%); width:92%; max-width:450px; z-index:10001; transition:top 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); background: rgba(239, 68, 68, 0.95); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 20px; box-shadow: 0 15px 40px rgba(239, 68, 68, 0.3); box-sizing: border-box;">
     <h4 style="margin:0 0 10px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
     <p class="text-sm" style="color: white; margin:0 0 16px 0; font-weight: 500;" id="global-sos-text">Loading...</p>
-    <div style="display:flex; gap:10px;">
+    <div style="display:flex; gap:10px; align-items: center; flex-wrap: wrap;">
         <input type="hidden" id="global-sos-id">
-        <input type="text" id="global-sos-reply" placeholder="Quick Reply..." style="margin:0; background: rgba(255,255,255,0.2); border: none; color: white;">
-        <button class="btn btn-primary btn-sm" style="background: white; color: var(--danger); box-shadow: none;" onclick="Admin.quickReplySOS()">Send</button>
-        <button class="btn btn-outline btn-sm" style="color:white; border-color:white;" onclick="Admin.closeGlobalSOS()">Dismiss</button>
+        <input type="text" id="global-sos-reply" placeholder="Quick Reply..." style="margin:0; background: rgba(255,255,255,0.2); border: none; color: white; flex: 1; min-width: 140px;">
+        <button class="btn btn-primary btn-sm" style="background: white; color: var(--danger); box-shadow: none; flex-shrink: 0;" onclick="Admin.quickReplySOS()">Send</button>
+        <button class="btn btn-outline btn-sm" style="color:white; border-color:white; flex-shrink: 0;" onclick="Admin.closeGlobalSOS()">Dismiss</button>
     </div>
 </div>
 
@@ -194,9 +195,9 @@
     <div class="modal-box" style="text-align:left; border-top: 5px solid var(--danger);">
         <h3 style="margin-bottom:12px; color:var(--danger); text-align:center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
         <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:20px; border-bottom:1px solid var(--glass-border); padding-bottom:14px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
-        <div style="display:flex; gap:10px;">
-            <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0;">
-            <button class="btn btn-primary btn-sm" style="background:var(--danger); box-shadow: 0 4px 15px var(--danger-glow);" onclick="Member.sendSOS()">Send</button>
+        <div style="display:flex; gap:10px; align-items: center;">
+            <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0; flex: 1;">
+            <button class="btn btn-primary btn-sm" style="background:var(--danger); box-shadow: 0 4px 15px var(--danger-glow); flex-shrink: 0;" onclick="Member.sendSOS()">Send</button>
         </div>
         <button class="btn btn-outline" style="margin-top:16px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
     </div>
@@ -320,25 +321,27 @@
     <!-- MEMBER MODULE -->
     <div id="member-module" class="hidden">
         <div class="btn-sos" onclick="UI.showModal('sos-modal')"><i class="fas fa-headset"></i></div>
+        
+        <!-- Adjusted Flex Headers for Mobile -->
         <div class="member-header">
-            <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-                <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-crown text-primary" style="font-size:28px; filter:drop-shadow(0 4px 6px rgba(59,130,246,0.2));"></i><h3 style="margin:0; font-size:18px;">HTM <span style="font-weight:400; color:var(--text-muted);">OS</span></h3></div>
-                <div style="display:flex; gap:14px; align-items:center;">
-                    <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i>
-                    <i class="fas fa-qrcode text-primary" style="font-size:22px; cursor:pointer; transition:0.2s;" onclick="Member.showQR()"></i>
-                    <span class="badge badge-success" id="mem-network-status">Online</span>
-                    <i class="fas fa-power-off text-muted" style="font-size:20px; cursor:pointer; transition:0.2s;" onclick="Auth.logout()"></i>
-                </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <i class="fas fa-crown text-primary" style="font-size:26px; filter:drop-shadow(0 4px 6px rgba(59,130,246,0.2));"></i>
+                <h3 style="margin:0; font-size:17px;">HTM <span style="font-weight:400; color:var(--text-muted);">OS</span></h3>
+            </div>
+            <div style="display:flex; gap:12px; align-items:center; flex-wrap: wrap;">
+                <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i>
+                <i class="fas fa-qrcode text-primary" style="font-size:20px; cursor:pointer; transition:0.2s;" onclick="Member.showQR()"></i>
+                <span class="badge badge-success" id="mem-network-status">Online</span>
+                <i class="fas fa-power-off text-muted" style="font-size:18px; cursor:pointer; transition:0.2s;" onclick="Auth.logout()"></i>
             </div>
             <div style="width:100%; margin-top:12px;">
-                <h2 style="font-size:26px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
+                <h2 style="font-size:24px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
                 <div id="mem-badges-container" style="margin-top:8px;"></div>
             </div>
         </div>
 
         <div id="mem-dash" class="tab-content">
             
-            <!-- Dynamic Notice Box from Admin -->
             <div id="mem-taskbox" class="card hidden" style="border-left: 5px solid #8b5cf6; background: rgba(139, 92, 246, 0.08);">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <h4 style="color: #8b5cf6; margin-bottom: 8px;"><i class="fas fa-thumbtack"></i> HQ Directive</h4>
@@ -426,7 +429,13 @@
             <div class="card" style="border-top: 4px solid #8b5cf6; box-shadow: 0 10px 30px rgba(139,92,246,0.1);">
                 <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
-                <div style="display:flex; gap:10px;"><input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0;"><button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3);" onclick="Member.askAI()">Ask AI</button></div>
+                
+                <!-- Fixed Flex Layout -->
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
+                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3); flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
+                </div>
+                
                 <div id="ai-response" class="text-sm" style="margin-top:16px;"></div>
             </div>
 
@@ -473,9 +482,10 @@
         }
         
         static moveIndicator(element) {
+            if(!element) return;
             const nav = element.parentElement;
             let indicator = nav.querySelector('.nav-indicator');
-            if(indicator && element) {
+            if(indicator) {
                 indicator.style.left = element.offsetLeft + 'px';
                 indicator.style.width = element.offsetWidth + 'px';
             }
@@ -509,6 +519,11 @@
             }
         }
     }
+
+    // Recalculate slider position on device rotate/resize
+    window.addEventListener('resize', () => {
+        document.querySelectorAll('.floating-nav .nav-box.active').forEach(el => UI.moveIndicator(el));
+    });
 
     window.addEventListener('DOMContentLoaded', () => { 
         UI.applySavedTheme();
@@ -567,7 +582,6 @@
             });
         }
         static listenBroadcast() {
-            // Replaced default alert logic slightly to act as real-time pop
             db.collection('system').doc('broadcast').onSnapshot(doc => { if (doc.exists && doc.data().message && doc.data().message !== localStorage.getItem('htm_last_broadcast')) { document.getElementById('modal-broadcast-text').innerText = doc.data().message; UI.showModal('broadcast-modal'); localStorage.setItem('htm_last_broadcast', doc.data().message); }});
         }
         static listenAcademy() {
@@ -674,7 +688,7 @@
                 let displayTemp = d.temp; let ghostAlert = "";
                 if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤️ Warm (Auto-Cooled)";
                 if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
-                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
+                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
                 const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
                 container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
             });
@@ -714,7 +728,7 @@
                 let latestUnreplied = null;
                 snap.forEach(doc => {
                     const d = doc.data(); if(!d.reply && !latestUnreplied) { latestUnreplied = {id: doc.id, ...d}; }
-                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 10px 0 0 0; font-weight: 600;">HQ Reply: ${d.reply}</p>` : `<div style="display:flex; gap:8px; margin-top:12px;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:10px; font-size:12px; margin:0;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
+                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 10px 0 0 0; font-weight: 600;">HQ Reply: ${d.reply}</p>` : `<div style="display:flex; gap:8px; margin-top:12px; align-items:center;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:10px; font-size:12px; margin:0; flex:1;"><button class="btn btn-sm btn-primary" style="flex-shrink:0;" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
                     c.innerHTML += `<div style="background: rgba(239,68,68,0.05); border-left: 4px solid var(--danger); border-radius: 8px; padding: 14px; margin-bottom: 12px; position:relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02);"><button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:10px; top:12px; background:none; border:none; color:var(--danger); cursor:pointer; font-size: 16px;"><i class="fas fa-trash"></i></button><strong class="text-sm" style="color:var(--danger); font-size:14px;">${d.memberName}</strong><p style="margin: 6px 0 0 0; font-size: 13px; color:var(--text-main); padding-right: 25px; line-height: 1.4;">${d.message}</p>${replyUI}</div>`;
                 });
                 const alertBox = document.getElementById('global-sos-alert');
@@ -776,47 +790,6 @@
             const isClosed = parseInt(newDD) > 0;
             if(confirm(`Save changes for Lead: ${newName}?`)) {
                 await db.collection('leads').doc(id).update({
-                    name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD) || 0, ddClosed: isClosed
-                });
-                UI.showToast('Lead entry updated.', 'success');
-            }
-        }
+                    name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD)Code bhejo bhai, main sirf CSS me media query ya flexbox thoda adjust kar dunga taaki phone me perfect dikhe aur aapka baaki ka logic ya design bilkul waisa hi rahe (bina kuch chede). 
 
-        static streamSales() {
-            db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                let total = 0; let totalCount = 0; let hotCount = 0; let closedCount = 0; this.leadsVault = [];
-                snap.forEach(doc => { const d = doc.data(); this.leadsVault.push({id: doc.id, ...d}); totalCount++; if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; } });
-                document.getElementById('admin-dd-total').innerText = '₹' + total.toLocaleString(); document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
-                if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
-                this.renderVault();
-            });
-        }
-        static renderVault() {
-            const container = document.getElementById('admin-sales-container'); const agentFilter = document.getElementById('vault-filter-agent') ? document.getElementById('vault-filter-agent').value : 'All'; const statusFilter = document.getElementById('vault-filter-status') ? document.getElementById('vault-filter-status').value : 'All';
-            let filtered = this.leadsVault.filter(d => { let mAgent = (agentFilter === 'All' || d.memberName === agentFilter); let mStatus = true; if(statusFilter === 'Closed') mStatus = d.ddClosed; else if(statusFilter === '🔥 Hot') mStatus = (!d.ddClosed && d.temp === '🔥 Hot'); return mAgent && mStatus; });
-            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding: 10px;">No records match filters.</p>' : '';
-            filtered.forEach(d => { 
-                const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount.toLocaleString()}</span>` : `<span class="badge badge-warning">Unclosed</span>`; 
-                const act = `<div class="record-actions" style="margin-top:10px;"><button class="btn btn-outline btn-sm" onclick="Admin.editLeadAdmin('${d.id}')"><i class="fas fa-edit"></i> Edit Lead</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div>`;
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
-            });
-        }
-        static exportJPG() {
-            const agentFilter = document.getElementById('vault-filter-agent').value; const statusFilter = document.getElementById('vault-filter-status').value;
-            let exportData = this.leadsVault.filter(d => { return (agentFilter === 'All' || d.memberName === agentFilter) && (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); });
-            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); UI.showToast('Generating JPG...', 'warning');
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const rowHeight = 44; const headerHeight = 80; const width = 900; const height = headerHeight + (exportData.length + 1) * rowHeight + 40; canvas.width = width; canvas.height = height; ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('HTM Filtered Report', 30, 50); ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()} | Agent: ${agentFilter}`, 600, 45); ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4; ctx.fillRect(20, headerHeight, width - 40, rowHeight); ctx.shadowColor = 'transparent'; ctx.fillStyle = '#475569'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('Prospect Name', 40, headerHeight + 28); ctx.fillText('Contact', 280, headerHeight + 28); ctx.fillText('Agent', 480, headerHeight + 28); ctx.fillText('Status', 700, headerHeight + 28); ctx.font = '15px sans-serif'; ctx.fillStyle = '#0f172a';
-            exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
-            const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
-        }
-        static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
-        static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
-        static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
-        static async deleteDoc(col, id) { if (confirm('Purge document completely?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
-    }
-    function initAdminOverride() { if (prompt("HQ Passkey Authorization:") === "9999") { localStorage.setItem('htm_role', 'admin'); window.location.reload(); } }
-    Auth.init();
-</script>
-</body>
-</html>
+Ek baar 'Member tab' ka HTML aur CSS yahan paste kar do!
