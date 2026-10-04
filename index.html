@@ -295,29 +295,17 @@
                 </div>
             </div>
 
-            <!-- BULK FILE UPLOAD -->
+            <!-- NEW BULK URL UPLOAD SECTION -->
             <div class="card" style="border-top: 4px solid #10b981;">
-                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-boxes"></i> Bulk Image Upload (Gallery)</h4>
-                <p class="text-xs" style="margin-bottom:16px;">एक साथ कई फोटोज़ फोन गैलरी से सेलेक्ट करें।</p>
-                <input type="text" id="bulk-category" placeholder="Keyword (e.g. Jhumka, Suit)">
-                <input type="file" id="bulk-images" accept="image/*" multiple style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
-                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.uploadBulkProducts()">
-                    <i class="fas fa-cloud-upload-alt"></i> Upload All Files
-                </button>
-                <div id="upload-progress" class="text-sm" style="margin-top:12px; color:var(--success); font-weight:700; text-align:center;"></div>
-            </div>
-
-            <!-- SINGLE URL UPLOAD -->
-            <div class="card" style="border-top: 4px solid #f59e0b;">
-                <h4 style="margin-bottom:10px; color:#f59e0b;"><i class="fas fa-link"></i> Add Product via URL</h4>
-                <p class="text-xs" style="margin-bottom:16px;">या किसी वेबसाइट का डायरेक्ट लिंक डालें।</p>
+                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-layer-group"></i> Bulk Upload via URLs</h4>
+                <p class="text-xs" style="margin-bottom:16px;">Postimages/ImgBB के कई सारे डायरेक्ट लिंक्स एक साथ पेस्ट करें (हर लाइन में एक लिंक)।</p>
                 <div class="grid-2">
-                    <input type="text" id="prod-name" placeholder="Product Name">
-                    <input type="text" id="prod-category" placeholder="Keyword">
+                    <input type="text" id="bulk-url-name" placeholder="Base Name (e.g. Red Jhumka)">
+                    <input type="text" id="bulk-url-category" placeholder="Keyword (e.g. Jhumka)">
                 </div>
-                <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
-                <button class="btn btn-primary" style="background:#f59e0b; box-shadow: 0 6px 20px rgba(245,158,11,0.3);" onclick="Admin.addProductURL()">
-                    <i class="fas fa-plus-circle"></i> Add via URL
+                <textarea id="bulk-url-list" placeholder="Paste multiple image URLs here...&#10;https://link1.jpg&#10;https://link2.jpg" style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3); min-height: 140px; font-family: monospace; font-size:12px; white-space: pre;"></textarea>
+                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.addBulkURLs()">
+                    <i class="fas fa-rocket"></i> Add All Products
                 </button>
             </div>
 
@@ -521,7 +509,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
@@ -798,7 +785,7 @@
             filtered.forEach(d => {
                 const leadDate = d.timestamp ? d.timestamp.toDate() : now; const diffHours = (now - leadDate) / (1000 * 60 * 60); const diffDays = diffHours / 24;
                 let displayTemp = d.temp; let ghostAlert = "";
-                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤️ Warm (Auto-Cooled)";
+                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤️️ Warm (Auto-Cooled)";
                 if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
                 const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
                 const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
@@ -937,73 +924,39 @@
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
         
-        static async uploadBulkProducts() {
-            const files = document.getElementById('bulk-images').files;
-            const category = document.getElementById('bulk-category').value.trim() || 'General';
-            const progressText = document.getElementById('upload-progress');
-            
-            if(files.length === 0) return UI.showToast('Please select at least one image.', 'warning');
-            
-            progressText.innerText = `Uploading 0 / ${files.length} ... Please wait`;
-            progressText.style.color = 'var(--primary)';
-            let successCount = 0;
+        // NEW: BULK URL UPLOAD LOGIC
+        static async addBulkURLs() {
+            const baseName = document.getElementById('bulk-url-name').value.trim() || 'Product';
+            const category = document.getElementById('bulk-url-category').value.trim();
+            const urlsRaw = document.getElementById('bulk-url-list').value;
 
-            for(let i = 0; i < files.length; i++) {
-                let file = files[i];
-                let fileName = `products/${Date.now()}_${file.name}`;
-                let storageRef = firebase.storage().ref().child(fileName);
-                
+            if(!category || !urlsRaw) return UI.showToast('Category and at least one URL required.', 'error');
+
+            const urls = urlsRaw.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+
+            if(urls.length === 0) return UI.showToast('No valid URLs found.', 'warning');
+
+            let successCount = 0;
+            UI.showToast(`Processing ${urls.length} links...`, 'warning');
+
+            for(let i = 0; i < urls.length; i++) {
                 try {
-                    await storageRef.put(file);
-                    let downloadURL = await storageRef.getDownloadURL();
                     await db.collection('products').add({
-                        name: file.name.split('.')[0],
+                        name: urls.length > 1 ? `${baseName} ${i+1}` : baseName,
                         category: category.toLowerCase(),
-                        imageUrl: downloadURL,
+                        imageUrl: urls[i],
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     successCount++;
-                    progressText.innerText = `Uploading ${successCount} / ${files.length} ...`;
-                } catch(error) {
-                    console.error("Upload Error:", error);
-                    let msg = error.message;
-                    if(msg.includes('unauthorized')) msg = "Failed! Firebase Storage rules must allow Write access.";
-                    UI.showToast(msg, 'error');
+                } catch(e) {
+                    console.error("Bulk URL Error:", e);
                 }
             }
-            
-            if(successCount > 0) {
-                UI.showToast(`Successfully uploaded ${successCount} products!`, 'success');
-                progressText.style.color = 'var(--success)';
-                progressText.innerText = 'Upload Complete! ✅';
-                document.getElementById('bulk-images').value = '';
-                setTimeout(() => progressText.innerText = '', 4000);
-            } else {
-                progressText.style.color = 'var(--danger)';
-                progressText.innerText = 'Upload Failed ❌';
-            }
-        }
-        
-        static async addProductURL() {
-            const name = document.getElementById('prod-name').value.trim();
-            const category = document.getElementById('prod-category').value.trim();
-            const url = document.getElementById('prod-url').value.trim();
 
-            if(!name || !category || !url) return UI.showToast('Please fill all fields', 'error');
-
-            try {
-                await db.collection('products').add({
-                    name: name,
-                    category: category.toLowerCase(),
-                    imageUrl: url,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                UI.showToast('Product added successfully!', 'success');
-                document.getElementById('prod-name').value = '';
-                document.getElementById('prod-url').value = '';
-            } catch(e) {
-                UI.showToast('Database Error', 'error');
-            }
+            UI.showToast(`Successfully added ${successCount} products!`, 'success');
+            document.getElementById('bulk-url-name').value = '';
+            document.getElementById('bulk-url-category').value = '';
+            document.getElementById('bulk-url-list').value = '';
         }
 
         static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
