@@ -19,7 +19,6 @@
             --bg-body: #f4f7fb;
         }
         
-        /* Dark Mode Variables */
         body.dark-mode {
             --bg-body: #0f172a; --text-main: #f8fafc; --text-muted: #94a3b8;
             --glass-bg: rgba(30, 41, 59, 0.85); --glass-border: rgba(255, 255, 255, 0.1);
@@ -46,7 +45,6 @@
             width: 100%; overflow: hidden;
         }
         .card:hover, .record-item:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06); }
-        
         body.dark-mode .card, body.dark-mode .dashboard-stat, body.dark-mode .record-item { box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         
         .urgency-high { border-color: rgba(239, 68, 68, 0.3); box-shadow: 0 8px 25px var(--danger-glow); } 
@@ -105,8 +103,14 @@
         .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 20px; border: 1px solid var(--glass-border); background: var(--glass-bg); }
         .flip-card-back { background: var(--primary); border: none; transform: rotateY(180deg); text-align: left; align-items: flex-start; overflow-y: auto; color: white; }
         .flip-card-back p { color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.5; }
+
+        /* AI Gallery Cards */
+        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
+        .product-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
+        .product-card h4 { font-size: 13px; margin: 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;}
+        body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
         
-        /* Sliding Glass Navigation */
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); transition: background 0.4s; box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         
@@ -278,12 +282,13 @@
                 </div>
             </div>
 
-            <!-- Bulk Product Upload Card -->
+            <!-- Bulk Product Upload Card with Error Rule Warning -->
             <div class="card" style="border-top: 4px solid #10b981;">
                 <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-boxes"></i> Bulk Product Upload</h4>
                 <p class="text-xs" style="margin-bottom:16px;">Select multiple images and push to database.</p>
                 <input type="text" id="bulk-category" placeholder="Category/Keyword (e.g. Jhumka, Watches)">
                 <input type="file" id="bulk-images" accept="image/*" multiple style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
+                <p class="text-xs" style="color:var(--danger); margin-bottom:14px;"><strong>Note:</strong> Uploads fail if Firebase Storage Rules aren't set to <code>allow read, write: if true;</code></p>
                 <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.uploadBulkProducts()">
                     <i class="fas fa-cloud-upload-alt"></i> Upload All Products
                 </button>
@@ -321,7 +326,6 @@
             <div id="admin-sales-container"></div>
         </div>
 
-        <!-- Glass Sliding Nav for Admin -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
@@ -353,7 +357,6 @@
         </div>
 
         <div id="mem-dash" class="tab-content">
-            
             <div id="mem-taskbox" class="card hidden" style="border-left: 5px solid #8b5cf6; background: rgba(139, 92, 246, 0.08);">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <h4 style="color: #8b5cf6; margin-bottom: 8px;"><i class="fas fa-thumbtack"></i> HQ Directive</h4>
@@ -441,12 +444,10 @@
             <div class="card" style="border-top: 4px solid #8b5cf6; box-shadow: 0 10px 30px rgba(139,92,246,0.1);">
                 <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
-                
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3); flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
                 </div>
-                
                 <div id="ai-response" class="text-sm" style="margin-top:16px;"></div>
             </div>
 
@@ -460,12 +461,29 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height:140px;"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-link" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Ye chain system hai?"</h4></div><div class="flip-card-back"><p>"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai. Documents check kar lijiye."</p></div></div></div>
         </div>
 
-        <!-- Glass Sliding Nav for Member -->
+        <!-- NEW UNIQUE AI TAB -->
+        <div id="mem-ai" class="tab-content hidden">
+            <div class="card" style="border-top: 4px solid #ec4899;">
+                <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Unique AI Gallery</h4>
+                <p class="text-xs" style="margin-bottom:16px;">Search for products uploaded by HQ (e.g., Jhumka, Suit, Watch).</p>
+                <div style="display:flex; gap:10px; margin-bottom: 20px;">
+                    <input type="text" id="ai-search-input" placeholder="Search..." style="margin:0; flex:1;">
+                    <button class="btn btn-primary btn-sm" style="background:#ec4899; box-shadow: 0 4px 15px rgba(236,72,153,0.3); padding:0 24px;" onclick="Member.searchAIProducts()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div id="ai-gallery-container" class="grid-2">
+                    <p class="text-xs text-center" style="grid-column: span 2; opacity:0.6;">Search to fetch AI products...</p>
+                </div>
+            </div>
+        </div>
+
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','leads',this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','academy',this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem','ai',this)"><i class="fas fa-magic"></i><span>Unique AI</span></div>
         </div>
     </div>
 </div>
@@ -490,7 +508,7 @@
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
             toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
             toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3500);
         }
         
         static moveIndicator(element) {
@@ -640,6 +658,45 @@
             else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'ज़रा सोचिये, सिर्फ सोचने से बैलेंस नहीं बढ़ेगा। एक्शन लेने से होगा। आज ही शुरू करते हैं।'";
             else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
         }
+
+        // New Feature: Unique AI Gallery Fetcher
+        static async searchAIProducts() {
+            const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
+            const container = document.getElementById('ai-gallery-container');
+            container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> Scanning database...</p>';
+
+            try {
+                const snap = await db.collection('products').orderBy('timestamp', 'desc').get();
+                let results = [];
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    if(!query || d.category.toLowerCase().includes(query) || d.name.toLowerCase().includes(query)) {
+                        results.push(d);
+                    }
+                });
+
+                if(results.length === 0) {
+                    container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2; opacity:0.7;">No matches found for your search.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                results.forEach(item => {
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
+                            <h4>${item.name}</h4>
+                            <span class="tag-prof" style="margin-top:4px; display:inline-block;">${item.category}</span>
+                        </div>
+                    `;
+                });
+                UI.showToast(`Found ${results.length} products!`, 'success');
+            } catch(error) {
+                console.error("AI Search Error:", error);
+                UI.showToast('Error fetching data. Check connection.', 'error');
+            }
+        }
+
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
@@ -836,6 +893,7 @@
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
         
+        // Fixed Upload Logic with detailed error handler
         static async uploadBulkProducts() {
             const files = document.getElementById('bulk-images').files;
             const category = document.getElementById('bulk-category').value.trim() || 'General';
@@ -844,6 +902,7 @@
             if(files.length === 0) return UI.showToast('Please select at least one image.', 'warning');
             
             progressText.innerText = `Uploading 0 / ${files.length} ... Please wait`;
+            progressText.style.color = 'var(--primary)';
             let successCount = 0;
 
             for(let i = 0; i < files.length; i++) {
@@ -864,14 +923,23 @@
                     progressText.innerText = `Uploading ${successCount} / ${files.length} ...`;
                 } catch(error) {
                     console.error("Upload Error:", error);
-                    UI.showToast('Error uploading some files.', 'error');
+                    // Shows the exact error. If it's a rule issue, tells you exactly what to do.
+                    let msg = error.message;
+                    if(msg.includes('unauthorized')) msg = "Failed! Firebase Storage rules must allow Write access.";
+                    UI.showToast(msg, 'error');
                 }
             }
             
-            UI.showToast(`Successfully uploaded ${successCount} products!`, 'success');
-            progressText.innerText = 'Upload Complete! ✅';
-            document.getElementById('bulk-images').value = '';
-            setTimeout(() => progressText.innerText = '', 3000);
+            if(successCount > 0) {
+                UI.showToast(`Successfully uploaded ${successCount} products!`, 'success');
+                progressText.style.color = 'var(--success)';
+                progressText.innerText = 'Upload Complete! ✅';
+                document.getElementById('bulk-images').value = '';
+                setTimeout(() => progressText.innerText = '', 4000);
+            } else {
+                progressText.style.color = 'var(--danger)';
+                progressText.innerText = 'Upload Failed ❌';
+            }
         }
 
         static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
