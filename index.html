@@ -278,6 +278,18 @@
                 </div>
             </div>
 
+            <!-- Bulk Product Upload Card -->
+            <div class="card" style="border-top: 4px solid #10b981;">
+                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-boxes"></i> Bulk Product Upload</h4>
+                <p class="text-xs" style="margin-bottom:16px;">Select multiple images and push to database.</p>
+                <input type="text" id="bulk-category" placeholder="Category/Keyword (e.g. Jhumka, Watches)">
+                <input type="file" id="bulk-images" accept="image/*" multiple style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
+                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.uploadBulkProducts()">
+                    <i class="fas fa-cloud-upload-alt"></i> Upload All Products
+                </button>
+                <div id="upload-progress" class="text-sm" style="margin-top:12px; color:var(--success); font-weight:700; text-align:center;"></div>
+            </div>
+
             <div class="card" style="border-top: 4px solid #8b5cf6;">
                 <h4 style="margin-bottom:10px; color:#8b5cf6;"><i class="fas fa-graduation-cap"></i> Academy Manager</h4>
                 <p class="text-xs" style="margin-bottom:16px;">Push Live Zoom, Videos, or Daily Quiz to Member Academy Tab.</p>
@@ -386,7 +398,7 @@
                 <h4 style="margin-bottom:20px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
                 <div class="grid-2"><input type="text" id="lead-name" placeholder="Prospect Name"><input type="number" id="lead-phone" placeholder="Phone Number"></div>
                 <div class="grid-2">
-                    <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤️️ Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
+                    <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤 Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
                     <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
                 <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
@@ -460,6 +472,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
@@ -822,6 +835,45 @@
             exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
+        
+        static async uploadBulkProducts() {
+            const files = document.getElementById('bulk-images').files;
+            const category = document.getElementById('bulk-category').value.trim() || 'General';
+            const progressText = document.getElementById('upload-progress');
+            
+            if(files.length === 0) return UI.showToast('Please select at least one image.', 'warning');
+            
+            progressText.innerText = `Uploading 0 / ${files.length} ... Please wait`;
+            let successCount = 0;
+
+            for(let i = 0; i < files.length; i++) {
+                let file = files[i];
+                let fileName = `products/${Date.now()}_${file.name}`;
+                let storageRef = firebase.storage().ref().child(fileName);
+                
+                try {
+                    await storageRef.put(file);
+                    let downloadURL = await storageRef.getDownloadURL();
+                    await db.collection('products').add({
+                        name: file.name.split('.')[0],
+                        category: category.toLowerCase(),
+                        imageUrl: downloadURL,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    successCount++;
+                    progressText.innerText = `Uploading ${successCount} / ${files.length} ...`;
+                } catch(error) {
+                    console.error("Upload Error:", error);
+                    UI.showToast('Error uploading some files.', 'error');
+                }
+            }
+            
+            UI.showToast(`Successfully uploaded ${successCount} products!`, 'success');
+            progressText.innerText = 'Upload Complete! ✅';
+            document.getElementById('bulk-images').value = '';
+            setTimeout(() => progressText.innerText = '', 3000);
+        }
+
         static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
         static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
         static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
