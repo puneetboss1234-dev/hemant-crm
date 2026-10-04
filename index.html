@@ -19,6 +19,7 @@
             --bg-body: #f4f7fb;
         }
         
+        /* Dark Mode Variables */
         body.dark-mode {
             --bg-body: #0f172a; --text-main: #f8fafc; --text-muted: #94a3b8;
             --glass-bg: rgba(30, 41, 59, 0.85); --glass-border: rgba(255, 255, 255, 0.1);
@@ -105,12 +106,13 @@
         .flip-card-back p { color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.5; }
 
         /* AI Gallery Cards */
-        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: 0.3s; }
+        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: 0.3s; position: relative;}
         .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
         .product-card img { width: 100%; height: 120px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
         .product-card h4 { font-size: 13px; margin: 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;}
         body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
         
+        /* Sliding Glass Navigation */
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); transition: background 0.4s; box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         
@@ -282,17 +284,18 @@
                 </div>
             </div>
 
-            <!-- Bulk Product Upload Card with Error Rule Warning -->
+            <!-- Add Product via Direct URL (No Storage Rules Needed) -->
             <div class="card" style="border-top: 4px solid #10b981;">
-                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-boxes"></i> Bulk Product Upload</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Select multiple images and push to database.</p>
-                <input type="text" id="bulk-category" placeholder="Category/Keyword (e.g. Jhumka, Watches)">
-                <input type="file" id="bulk-images" accept="image/*" multiple style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
-                <p class="text-xs" style="color:var(--danger); margin-bottom:14px;"><strong>Note:</strong> Uploads fail if Firebase Storage Rules aren't set to <code>allow read, write: if true;</code></p>
-                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.uploadBulkProducts()">
-                    <i class="fas fa-cloud-upload-alt"></i> Upload All Products
+                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-link"></i> Add Product via URL</h4>
+                <p class="text-xs" style="margin-bottom:16px;">फोटो को कहीं भी (Imgur/Postimages) अपलोड करें और उसका डायरेक्ट लिंक यहाँ डालें।</p>
+                <div class="grid-2">
+                    <input type="text" id="prod-name" placeholder="Product Name (e.g. Red Jhumka)">
+                    <input type="text" id="prod-category" placeholder="Keyword (e.g. Jhumka)">
+                </div>
+                <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)" style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3);">
+                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.addProductURL()">
+                    <i class="fas fa-plus-circle"></i> Add to Database
                 </button>
-                <div id="upload-progress" class="text-sm" style="margin-top:12px; color:var(--success); font-weight:700; text-align:center;"></div>
             </div>
 
             <div class="card" style="border-top: 4px solid #8b5cf6;">
@@ -326,6 +329,7 @@
             <div id="admin-sales-container"></div>
         </div>
 
+        <!-- Glass Sliding Nav for Admin -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
@@ -357,6 +361,7 @@
         </div>
 
         <div id="mem-dash" class="tab-content">
+            
             <div id="mem-taskbox" class="card hidden" style="border-left: 5px solid #8b5cf6; background: rgba(139, 92, 246, 0.08);">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start;">
                     <h4 style="color: #8b5cf6; margin-bottom: 8px;"><i class="fas fa-thumbtack"></i> HQ Directive</h4>
@@ -444,10 +449,12 @@
             <div class="card" style="border-top: 4px solid #8b5cf6; box-shadow: 0 10px 30px rgba(139,92,246,0.1);">
                 <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
                 <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
+                
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3); flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
                 </div>
+                
                 <div id="ai-response" class="text-sm" style="margin-top:16px;"></div>
             </div>
 
@@ -461,7 +468,7 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height:140px;"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-link" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Ye chain system hai?"</h4></div><div class="flip-card-back"><p>"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai. Documents check kar lijiye."</p></div></div></div>
         </div>
 
-        <!-- NEW UNIQUE AI TAB -->
+        <!-- UNIQUE AI TAB (Products fetched via Direct URL) -->
         <div id="mem-ai" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid #ec4899;">
                 <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Unique AI Gallery</h4>
@@ -478,6 +485,7 @@
             </div>
         </div>
 
+        <!-- Glass Sliding Nav for Member -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
@@ -490,7 +498,6 @@
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 <script>
     const firebaseConfig = {
         apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
@@ -656,7 +663,7 @@
             else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Illegal pyramids don't have real products. Let me show you the documents.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, fake चीज़ें छुप कर होती हैं। हम प्रॉपर प्रोडक्ट बेस्ड रजिस्टर्ड कंपनी हैं। डाक्यूमेंट्स चेक कीजिये।'";
             else if(q.includes('papa') || q.includes('family') || q.includes('ask')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself!'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'फैमिली मना करेगी क्योंकि उन्होंने प्लान नहीं देखा। अगर सक्सेसफुल होना है तो डिसीजन आपका होना चाहिए।'";
             else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'ज़रा सोचिये, सिर्फ सोचने से बैलेंस नहीं बढ़ेगा। एक्शन लेने से होगा। आज ही शुरू करते हैं।'";
-            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
+            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन ক্ষমতায় नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
         }
 
         // New Feature: Unique AI Gallery Fetcher
@@ -893,52 +900,25 @@
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
         
-        // Fixed Upload Logic with detailed error handler
-        static async uploadBulkProducts() {
-            const files = document.getElementById('bulk-images').files;
-            const category = document.getElementById('bulk-category').value.trim() || 'General';
-            const progressText = document.getElementById('upload-progress');
-            
-            if(files.length === 0) return UI.showToast('Please select at least one image.', 'warning');
-            
-            progressText.innerText = `Uploading 0 / ${files.length} ... Please wait`;
-            progressText.style.color = 'var(--primary)';
-            let successCount = 0;
+        static async addProductURL() {
+            const name = document.getElementById('prod-name').value.trim();
+            const category = document.getElementById('prod-category').value.trim();
+            const url = document.getElementById('prod-url').value.trim();
 
-            for(let i = 0; i < files.length; i++) {
-                let file = files[i];
-                let fileName = `products/${Date.now()}_${file.name}`;
-                let storageRef = firebase.storage().ref().child(fileName);
-                
-                try {
-                    await storageRef.put(file);
-                    let downloadURL = await storageRef.getDownloadURL();
-                    await db.collection('products').add({
-                        name: file.name.split('.')[0],
-                        category: category.toLowerCase(),
-                        imageUrl: downloadURL,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    successCount++;
-                    progressText.innerText = `Uploading ${successCount} / ${files.length} ...`;
-                } catch(error) {
-                    console.error("Upload Error:", error);
-                    // Shows the exact error. If it's a rule issue, tells you exactly what to do.
-                    let msg = error.message;
-                    if(msg.includes('unauthorized')) msg = "Failed! Firebase Storage rules must allow Write access.";
-                    UI.showToast(msg, 'error');
-                }
-            }
-            
-            if(successCount > 0) {
-                UI.showToast(`Successfully uploaded ${successCount} products!`, 'success');
-                progressText.style.color = 'var(--success)';
-                progressText.innerText = 'Upload Complete! ✅';
-                document.getElementById('bulk-images').value = '';
-                setTimeout(() => progressText.innerText = '', 4000);
-            } else {
-                progressText.style.color = 'var(--danger)';
-                progressText.innerText = 'Upload Failed ❌';
+            if(!name || !category || !url) return UI.showToast('Please fill all fields', 'error');
+
+            try {
+                await db.collection('products').add({
+                    name: name,
+                    category: category.toLowerCase(),
+                    imageUrl: url,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                UI.showToast('Product added successfully!', 'success');
+                document.getElementById('prod-name').value = '';
+                document.getElementById('prod-url').value = '';
+            } catch(e) {
+                UI.showToast('Database Error', 'error');
             }
         }
 
