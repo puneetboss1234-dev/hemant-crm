@@ -167,15 +167,15 @@
 </head>
 <body>
 
-<!-- FULL SCREEN IMAGE VIEWER -->
+<!-- FULL SCREEN IMAGE VIEWER (Updated: No Double Tap) -->
 <div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.95); z-index: 100000; flex-direction: column; padding: 0;">
     <div style="width: 100%; display: flex; justify-content: flex-end; padding: 20px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
         <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
     </div>
-    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
-        <img id="viewer-image" src="" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
+    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
+        <!-- Image scales to fit screen seamlessly -->
+        <img id="viewer-image" src="" style="width: 100vw; height: 100vh; object-fit: contain;">
     </div>
-    <div style="position: absolute; bottom: 30px; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px; color: white; font-size: 12px; pointer-events: none; backdrop-filter: blur(5px);">Double-tap to Zoom</div>
 </div>
 
 <div id="welcome-splash" class="modal-overlay hidden">
@@ -295,18 +295,27 @@
                 </div>
             </div>
 
-            <!-- NEW BULK URL UPLOAD SECTION -->
+            <!-- BULK URL UPLOAD SECTION -->
             <div class="card" style="border-top: 4px solid #10b981;">
                 <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-layer-group"></i> Bulk Upload via URLs</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Postimages/ImgBB के कई सारे डायरेक्ट लिंक्स एक साथ पेस्ट करें (हर लाइन में एक लिंक)।</p>
+                <p class="text-xs" style="margin-bottom:16px;">एक ही बार में कई लिंक्स (URLs) पेस्ट करें (हर लिंक नई लाइन में)।</p>
                 <div class="grid-2">
                     <input type="text" id="bulk-url-name" placeholder="Base Name (e.g. Red Jhumka)">
                     <input type="text" id="bulk-url-category" placeholder="Keyword (e.g. Jhumka)">
                 </div>
-                <textarea id="bulk-url-list" placeholder="Paste multiple image URLs here...&#10;https://link1.jpg&#10;https://link2.jpg" style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3); min-height: 140px; font-family: monospace; font-size:12px; white-space: pre;"></textarea>
+                <textarea id="bulk-url-list" placeholder="Link 1&#10;Link 2&#10;Link 3..." style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3); min-height: 140px; font-family: monospace; font-size:12px; white-space: pre;"></textarea>
                 <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.addBulkURLs()">
                     <i class="fas fa-rocket"></i> Add All Products
                 </button>
+            </div>
+
+            <!-- NEW: MANAGE UPLOADED AI PRODUCTS -->
+            <div class="card" style="border-top: 4px solid #ec4899;">
+                <h4 style="margin-bottom:10px; color:#ec4899;"><i class="fas fa-edit"></i> Manage Uploaded Products</h4>
+                <p class="text-xs" style="margin-bottom:12px;">Edit or Delete pre-saved products from the AI Gallery.</p>
+                <div id="admin-products-container" style="max-height:300px; overflow-y:auto; padding-right:8px;">
+                    <p class="text-xs text-center" style="opacity:0.6;">Loading products...</p>
+                </div>
             </div>
 
             <div class="card" style="border-top: 4px solid #8b5cf6;">
@@ -571,7 +580,6 @@
         static openImageViewer(url) {
             const img = document.getElementById('viewer-image');
             img.src = url;
-            img.style.transform = 'scale(1)'; // Reset zoom
             document.getElementById('image-viewer-modal').classList.remove('hidden');
         }
         static closeImageViewer() {
@@ -689,7 +697,6 @@
             else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
         }
 
-        // New Feature: Unique AI Gallery Fetcher with Zoom Trigger
         static async searchAIProducts() {
             const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
             const container = document.getElementById('ai-gallery-container');
@@ -712,7 +719,6 @@
 
                 container.innerHTML = '';
                 results.forEach(item => {
-                    // Added onClick UI.openImageViewer(...)
                     container.innerHTML += `
                         <div class="product-card" onclick="UI.openImageViewer('${item.imageUrl}')">
                             <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
@@ -785,7 +791,7 @@
             filtered.forEach(d => {
                 const leadDate = d.timestamp ? d.timestamp.toDate() : now; const diffHours = (now - leadDate) / (1000 * 60 * 60); const diffDays = diffHours / 24;
                 let displayTemp = d.temp; let ghostAlert = "";
-                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤️️ Warm (Auto-Cooled)";
+                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤 Warm (Auto-Cooled)";
                 if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
                 const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
                 const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
@@ -799,7 +805,43 @@
 
     class Admin {
         static leadsVault = [];
-        static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
+        static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); this.streamProducts(); }
+        
+        static streamProducts() {
+            db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const c = document.getElementById('admin-products-container');
+                if(!c) return;
+                if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="padding:10px;">No uploaded products found.</p>'; return; }
+                c.innerHTML = '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    c.innerHTML += `
+                    <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); padding:10px; border-radius:12px; margin-bottom:10px; display:flex; gap:10px; align-items:center;">
+                        <img src="${d.imageUrl}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; background: rgba(0,0,0,0.05);">
+                        <div style="flex:1;">
+                            <strong style="font-size:13px; color:var(--text-main); display:block;">${d.name}</strong>
+                            <span class="text-xs" style="color:var(--primary);">${d.category}</span>
+                        </div>
+                        <button class="btn btn-outline btn-sm" onclick="Admin.editProduct('${doc.id}', '${d.name}', '${d.category}')" style="padding:8px;"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('products', '${doc.id}')" style="padding:8px;"><i class="fas fa-trash"></i></button>
+                    </div>`;
+                });
+            });
+        }
+
+        static async editProduct(id, currentName, currentCategory) {
+            const newName = prompt("Edit Product Name:", currentName);
+            if(newName === null) return;
+            const newCat = prompt("Edit Keyword/Category:", currentCategory);
+            if(newCat === null) return;
+            
+            await db.collection('products').doc(id).update({
+                name: newName.trim(),
+                category: newCat.trim().toLowerCase()
+            });
+            UI.showToast('Product updated successfully!', 'success');
+        }
+
         static async setTaskBox() {
             const msg = document.getElementById('admin-taskbox-input').value.trim();
             if(!msg) return UI.showToast('Task cannot be empty.', 'error');
