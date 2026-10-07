@@ -19,7 +19,6 @@
             --bg-body: #f4f7fb;
         }
         
-        /* Dark Mode Variables */
         body.dark-mode {
             --bg-body: #0f172a; --text-main: #f8fafc; --text-muted: #94a3b8;
             --glass-bg: rgba(30, 41, 59, 0.85); --glass-border: rgba(255, 255, 255, 0.1);
@@ -105,14 +104,13 @@
         .flip-card-back { background: var(--primary); border: none; transform: rotateY(180deg); text-align: left; align-items: flex-start; overflow-y: auto; color: white; }
         .flip-card-back p { color: rgba(255,255,255,0.9); font-size: 13px; line-height: 1.5; }
 
-        /* AI Gallery Cards */
-        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: 0.3s; position: relative; cursor: pointer;}
+        /* Enhanced AI Gallery Cards with Price & Stock */
+        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: 0.3s; position: relative; cursor: pointer; text-align: left;}
         .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-        .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
-        .product-card h4 { font-size: 13px; margin: 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;}
+        .product-card img { width: 100%; height: 130px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; background: rgba(0,0,0,0.05); }
+        .product-card h4 { font-size: 14px; margin: 0 0 4px 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700;}
         body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
         
-        /* Sliding Glass Navigation */
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); transition: background 0.4s; box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
         
@@ -137,7 +135,7 @@
         .btn-sos { position: fixed; bottom: 100px; right: 20px; width: 55px; height: 55px; border-radius: 28px; background: var(--danger); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px var(--danger-glow); z-index: 99; cursor: pointer; font-size: 20px; transition: 0.3s; }
         .btn-sos:hover { transform: scale(1.05); }
         
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none;}
         .toast { padding: 16px 20px; border-radius: 16px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); animation: slideDown 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; background: var(--glass-bg); backdrop-filter: blur(10px); color: var(--text-main); border: 1px solid var(--glass-border); }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         .toast.success { border-left: 5px solid var(--success); } .toast.error { border-left: 5px solid var(--danger); } .toast.warning { border-left: 5px solid var(--warning); }
@@ -167,13 +165,12 @@
 </head>
 <body>
 
-<!-- FULL SCREEN IMAGE VIEWER WITH NATIVE ZOOM -->
+<!-- FULL SCREEN IMAGE VIEWER -->
 <div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.95); z-index: 100000; flex-direction: column; padding: 0;">
     <div style="width: 100%; display: flex; justify-content: flex-end; padding: 20px; position: fixed; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
         <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
     </div>
     <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; position: relative;">
-        <!-- Native zoom is enabled, user can just pinch the screen -->
         <img id="viewer-image" src="" style="width: 100%; height: 100%; object-fit: contain;">
     </div>
 </div>
@@ -295,24 +292,39 @@
                 </div>
             </div>
 
-            <!-- BULK URL UPLOAD SECTION -->
+            <!-- NEW CSV BULK IMPORT -->
+            <div class="card" style="border-top: 4px solid #3b82f6;">
+                <h4 style="margin-bottom:10px; color:#3b82f6;"><i class="fas fa-file-csv"></i> Bulk Import via CSV</h4>
+                <p class="text-xs" style="margin-bottom:16px;">Format: <code>Name, Category, Price, Stock, ImageURL</code></p>
+                <input type="file" id="csv-file" accept=".csv" style="background: rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.3);">
+                <button class="btn btn-primary" style="background:#3b82f6; box-shadow: 0 6px 20px rgba(59,130,246,0.3);" onclick="Admin.importCSV()">
+                    <i class="fas fa-upload"></i> Upload CSV Data
+                </button>
+            </div>
+
+            <!-- SINGLE URL UPLOAD WITH PRICE & STOCK -->
             <div class="card" style="border-top: 4px solid #10b981;">
-                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-layer-group"></i> Bulk Upload via URLs</h4>
-                <p class="text-xs" style="margin-bottom:16px;">एक ही बार में कई लिंक्स (URLs) पेस्ट करें (हर लिंक नई लाइन में)।</p>
+                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-plus-circle"></i> Add Single Product</h4>
                 <div class="grid-2">
-                    <input type="text" id="bulk-url-name" placeholder="Base Name (e.g. Red Jhumka)">
-                    <input type="text" id="bulk-url-category" placeholder="Keyword (e.g. Jhumka)">
+                    <input type="text" id="prod-name" placeholder="Name (e.g. Red Jhumka)">
+                    <input type="text" id="prod-category" placeholder="Keyword (e.g. Jhumka)">
+                    <input type="number" id="prod-price" placeholder="Price (₹)">
+                    <select id="prod-stock">
+                        <option value="In Stock">In Stock</option>
+                        <option value="Hot">🔥 Hot Seller</option>
+                        <option value="Out of Stock">Out of Stock</option>
+                    </select>
                 </div>
-                <textarea id="bulk-url-list" placeholder="Link 1&#10;Link 2&#10;Link 3..." style="background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3); min-height: 140px; font-family: monospace; font-size:12px; white-space: pre;"></textarea>
-                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.addBulkURLs()">
-                    <i class="fas fa-rocket"></i> Add All Products
+                <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
+                <button class="btn btn-primary" style="background:#10b981; box-shadow: 0 6px 20px rgba(16,185,129,0.3);" onclick="Admin.addProductURL()">
+                    <i class="fas fa-save"></i> Save Product
                 </button>
             </div>
 
             <!-- MANAGE UPLOADED AI PRODUCTS -->
             <div class="card" style="border-top: 4px solid #ec4899;">
                 <h4 style="margin-bottom:10px; color:#ec4899;"><i class="fas fa-edit"></i> Manage AI Gallery</h4>
-                <p class="text-xs" style="margin-bottom:12px;">Edit or Delete pre-saved products from the AI Gallery.</p>
+                <p class="text-xs" style="margin-bottom:12px;">Edit Price, Stock or Delete pre-saved products.</p>
                 <div id="admin-products-container" style="max-height:300px; overflow-y:auto; padding-right:8px; scrollbar-width: none;">
                     <p class="text-xs text-center" style="opacity:0.6;">Loading products...</p>
                 </div>
@@ -349,7 +361,6 @@
             <div id="admin-sales-container"></div>
         </div>
 
-        <!-- Glass Sliding Nav for Admin -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
@@ -436,583 +447,4 @@
                 <h4 style="margin:0;"><i class="fas fa-id-badge text-primary"></i> Pipeline Leads</h4>
                 <div class="text-xs" style="color:var(--success); font-weight:700; background:rgba(16,185,129,0.1); padding:6px 10px; border-radius:8px; border: 1px solid rgba(16,185,129,0.3);" id="pipeline-potential">Potential: ₹0</div>
             </div>
-            <div style="display:flex; gap:10px; margin-bottom:16px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none;">
-                <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding:10px 14px; font-size:13px; min-width:140px;" oninput="Member.applyFilters()">
-                <button class="btn btn-outline btn-sm filter-pill active" id="flt-all" onclick="Member.setFilter('All')">All</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="flt-hot" onclick="Member.setFilter('Hot')">🔥 Hot</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="flt-today" onclick="Member.setFilter('Today')">📅 Today</button>
-            </div>
-            <div id="member-leads-container"></div>
-        </div>
-
-        <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom:24px;"><button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')"><i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE</button></div>
-            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4><div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div></div>
-            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4><button class="btn btn-outline" style="font-weight: 600;" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button></div>
-            
-            <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:24px;">
-                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> आज का सवाल (Daily Quiz)</h4>
-                <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
-                    <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight: 600; font-size: 14px; color: var(--text-main);">Loading...</p>
-                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
-                </div>
-            </div>
-
-            <h4 style="margin-bottom:16px;"><i class="fas fa-phone text-success"></i> इनविटेशन कॉलिंग स्क्रिप्ट</h4>
-            <div style="margin-bottom:28px;">
-                <div class="accordion-item" onclick="this.classList.toggle('active')"><div class="accordion-title"><span>Step 1: जल्दी में रहें (Urgency)</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content">"भाई मैं थोड़ा जल्दी में हूँ, लेकिन तुझसे एक ज़रूरी बात करनी थी..."</div></div>
-                <div class="accordion-item" onclick="this.classList.toggle('active')"><div class="accordion-title"><span>Step 2: हाल-चाल (Rapport)</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content">"काम कैसा चल रहा है? घर में सब कैसे हैं? (उसकी प्रॉब्लम ध्यान से सुनें)..."</div></div>
-                <div class="accordion-item" onclick="this.classList.toggle('active')"><div class="accordion-title"><span>Step 3: सस्पेंस (Curiosity)</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content">"अगर मैं तुझे एक ऐसा तरीका बताऊँ जिससे तू जॉब के साथ पार्ट-टाइम अर्निंग कर सके, तो क्या तू ओपन है प्लान देखने के लिए?"</div></div>
-                <div class="accordion-item" onclick="this.classList.toggle('active')"><div class="accordion-title"><span>Step 4: टाइम फिक्स (Commitment)</span><i class="fas fa-chevron-down"></i></div><div class="accordion-content">"ठीक है, आज शाम 7 बजे 30 मिनट के लिए ज़ूम पर मिलते हैं। टाइम पर आना।"</div></div>
-            </div>
-
-            <div class="card" style="border-top: 4px solid #8b5cf6; box-shadow: 0 10px 30px rgba(139,92,246,0.1);">
-                <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
-                <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
-                
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; box-shadow: 0 4px 15px rgba(139,92,246,0.3); flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
-                </div>
-                
-                <div id="ai-response" class="text-sm" style="margin-top:16px;"></div>
-            </div>
-
-            <h4 style="margin-bottom:16px;"><i class="fas fa-brain text-primary"></i> Field Flashcards</h4>
-            <div class="grid-2">
-                <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-wallet" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Paise nahi hain"</h4></div><div class="flip-card-back"><p>"Sir, agar aaj ₹X lagane ke liye paise nahi hain, toh aage chalkar problem badhegi. Yehi reason hai start karne ka, taaki paise ki kami hamesha ke liye khatam ho."</p></div></div></div>
-                <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-clock" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Time nahi hai"</h4></div><div class="flip-card-back"><p>"Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business 'Time Freedom' ke liye kar rahe हैं। Bas din ka 1-2 ghanta chahiye."</p></div></div></div>
-                <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-lightbulb" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Soch kar bataunga"</h4></div><div class="flip-card-back"><p>"Zaroor sir, par ek sawal hai—kya sochne se account balance badhega? Action lene se badhega. Sath milkar abhi shuru karte hain!"</p></div></div></div>
-                <div class="flip-card" onclick="this.classList.toggle('flipped')"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-users" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Family se poochna hai"</h4></div><div class="flip-card-back"><p>"Family mana karegi kyunki unhone plan nahi dekha. Agar aapko successful hona hai toh decision aapka hona chahiye, बाद में unhe result dikhana!"</p></div></div></div>
-            </div>
-            <div class="flip-card" onclick="this.classList.toggle('flipped')" style="height:140px;"><div class="flip-card-inner"><div class="flip-card-front"><i class="fas fa-link" style="font-size:28px; color:var(--primary); margin-bottom:12px;"></i><h4 style="margin:0; font-size:15px;">"Ye chain system hai?"</h4></div><div class="flip-card-back"><p>"Sir, illegal pyramid mein product nahi hota. Hum registered aur legitimate business build kar rahe hain jo hard work pe reward deta hai. Documents check kar lijiye."</p></div></div></div>
-        </div>
-
-        <!-- UNIQUE AI TAB -->
-        <div id="mem-ai" class="tab-content hidden">
-            <div class="card" style="border-top: 4px solid #ec4899;">
-                <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Unique AI Gallery</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Search for products uploaded by HQ (e.g., Jhumka, Suit, Watch).</p>
-                <div style="display:flex; gap:10px; margin-bottom: 20px;">
-                    <input type="text" id="ai-search-input" placeholder="Search..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#ec4899; box-shadow: 0 4px 15px rgba(236,72,153,0.3); padding:0 24px;" onclick="Member.searchAIProducts()">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div id="ai-gallery-container" class="grid-2">
-                    <p class="text-xs text-center" style="grid-column: span 2; opacity:0.6;">Search to fetch AI products...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Glass Sliding Nav for Member -->
-        <div class="floating-nav">
-            <div class="nav-indicator" id="mem-nav-indicator"></div>
-            <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','leads',this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','academy',this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','ai',this)"><i class="fas fa-magic"></i><span>Unique AI</span></div>
-        </div>
-    </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyAShdxZg9dn-t5_c5q8Kr_c0nsajkMRwU0",
-        authDomain: "hemant-team-management.firebaseapp.com",
-        projectId: "hemant-team-management",
-        storageBucket: "hemant-team-management.firebasestorage.app",
-        messagingSenderId: "975104255247",
-        appId: "1:975104255247:web:46fcb19955ba3e4ac20a7a"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    class UI {
-        static showToast(msg, type='success') {
-            const container = document.getElementById('toast-container'); const toast = document.createElement('div');
-            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
-            toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3500);
-        }
-        
-        static moveIndicator(element) {
-            if(!element) return;
-            const nav = element.parentElement;
-            let indicator = nav.querySelector('.nav-indicator');
-            if(indicator) {
-                indicator.style.left = element.offsetLeft + 'px';
-                indicator.style.width = element.offsetWidth + 'px';
-            }
-        }
-        
-        static switchTab(prefix, tabId, element) {
-            document.querySelectorAll(`#${prefix === 'admin' ? 'admin' : 'member'}-module .tab-content`).forEach(el => el.classList.add('hidden'));
-            element.parentElement.querySelectorAll('.nav-box').forEach(el => el.classList.remove('active'));
-            document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
-            this.moveIndicator(element);
-        }
-        
-        static showModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        static dismissModal(id) { document.getElementById(id).classList.add('hidden'); }
-        static dismissSplash() {
-            const splash = document.getElementById('welcome-splash'); splash.style.opacity = '0'; splash.style.transform = 'scale(1.05)';
-            setTimeout(() => { splash.classList.add('hidden'); }, 500); sessionStorage.setItem('htm_splash_seen', 'true');
-        }
-        static toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('htm_theme', isDark ? 'dark' : 'light');
-            document.querySelectorAll('.theme-icon').forEach(i => {
-                i.className = isDark ? 'fas fa-sun theme-icon text-warning' : 'fas fa-moon theme-icon text-muted';
-            });
-        }
-        static applySavedTheme() {
-            if(localStorage.getItem('htm_theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.querySelectorAll('.theme-icon').forEach(i => i.className = 'fas fa-sun theme-icon text-warning');
-            }
-        }
-        
-        // ZOOM IMAGE VIEWER CONTROLS (NATIVE PINCH-TO-ZOOM)
-        static openImageViewer(url) {
-            const img = document.getElementById('viewer-image');
-            img.src = url;
-            document.getElementById('image-viewer-modal').classList.remove('hidden');
-            // Allow native pinch to zoom by changing viewport
-            document.getElementById('app-viewport').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
-        }
-        static closeImageViewer() {
-            document.getElementById('image-viewer-modal').classList.add('hidden');
-            document.getElementById('viewer-image').src = '';
-            // Disable zoom again for app UI
-            document.getElementById('app-viewport').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-        }
-    }
-
-    window.addEventListener('resize', () => {
-        document.querySelectorAll('.floating-nav .nav-box.active').forEach(el => UI.moveIndicator(el));
-    });
-
-    window.addEventListener('DOMContentLoaded', () => { 
-        UI.applySavedTheme();
-        if (!sessionStorage.getItem('htm_splash_seen')) document.getElementById('welcome-splash').classList.remove('hidden'); 
-        setTimeout(() => { document.querySelectorAll('.floating-nav .nav-box.active').forEach(el => UI.moveIndicator(el)); }, 300);
-    });
-
-    class Auth {
-        static init() {
-            const role = localStorage.getItem('htm_role');
-            if (role === 'admin') { document.getElementById('admin-module').classList.remove('hidden'); Admin.initData(); setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); } 
-            else if (role === 'member' && localStorage.getItem('htm_id')) {
-                document.getElementById('member-module').classList.remove('hidden'); document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name')}`;
-                Member.initData(); if (localStorage.getItem('htm_tutorial_seen') !== 'true') setTimeout(() => { UI.showModal('tutorial-modal'); localStorage.setItem('htm_tutorial_seen', 'true'); }, 1000);
-                setTimeout(()=>UI.moveIndicator(document.querySelector('#member-module .nav-box.active')),300);
-            } else { document.getElementById('auth-module').classList.remove('hidden'); }
-        }
-        static async login() {
-            const id = document.getElementById('auth-id').value.trim(); const pass = document.getElementById('auth-pass').value.trim();
-            if (!id || !pass) return UI.showToast('Auth fields required.', 'error');
-            try {
-                const doc = await db.collection('users').doc(id).get();
-                if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
-                if (doc.data().suspended) throw new Error("Account Suspended by HQ."); 
-                let localToken = localStorage.getItem('htm_device') || ("DEV-" + Date.now());
-                if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken }); else if (doc.data().deviceToken !== localToken) throw new Error("Device mismatch.");
-                localStorage.setItem('htm_device', localToken); localStorage.setItem('htm_role', 'member'); localStorage.setItem('htm_id', id); localStorage.setItem('htm_name', doc.data().name); localStorage.setItem('htm_badge', doc.data().badge || ''); localStorage.setItem('htm_target', doc.data().target || 50000); 
-                window.location.reload();
-            } catch (err) { UI.showToast(err.message, 'error'); }
-        }
-        static logout() { 
-            let token = localStorage.getItem('htm_device'); let theme = localStorage.getItem('htm_theme');
-            localStorage.clear(); 
-            if(token) localStorage.setItem('htm_device', token); if(theme) localStorage.setItem('htm_theme', theme);
-            window.location.reload(); 
-        }
-    }
-
-    class Member {
-        static localLeads = []; static currentFilter = 'All'; static currentQuizAns = 0;
-        static initData() {
-            this.renderMemberBadges(); this.listenBroadcast(); this.listenSOSReplies(); this.listenAcademy();
-            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers(); this.listenTaskBox();
-            db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); if(doc.exists && doc.data().suspended) Auth.logout(); });
-        }
-        static renderMemberBadges() {
-            const b = localStorage.getItem('htm_badge'); const c = document.getElementById('mem-badges-container');
-            if (b === 'Closer') c.innerHTML = `<span class="gamification-badge badge-closer"><i class="fas fa-trophy"></i> Master Closer</span>`; else if (b === 'Starter') c.innerHTML = `<span class="gamification-badge badge-starter"><i class="fas fa-bolt"></i> Fast Starter</span>`;
-        }
-        static listenTaskBox() {
-            db.collection('system').doc('taskbox').onSnapshot(doc => {
-                const box = document.getElementById('mem-taskbox');
-                if(doc.exists && doc.data().message) {
-                    document.getElementById('mem-taskbox-text').innerText = doc.data().message; box.classList.remove('hidden');
-                } else { box.classList.add('hidden'); }
-            });
-        }
-        static listenBroadcast() {
-            db.collection('system').doc('broadcast').onSnapshot(doc => { if (doc.exists && doc.data().message && doc.data().message !== localStorage.getItem('htm_last_broadcast')) { document.getElementById('modal-broadcast-text').innerText = doc.data().message; UI.showModal('broadcast-modal'); localStorage.setItem('htm_last_broadcast', doc.data().message); }});
-        }
-        static listenAcademy() {
-            db.collection('system').doc('academy').onSnapshot(doc => {
-                if(!doc.exists) return; const d = doc.data(); const liveBtn = document.getElementById('btn-join-live');
-                if (d.liveLink) { liveBtn.setAttribute('onclick', `window.open('${d.liveLink}', '_blank')`); document.getElementById('live-training-container').classList.remove('hidden'); } else { document.getElementById('live-training-container').classList.add('hidden'); }
-                if (d.vid) { document.getElementById('mem-ac-iframe').src = d.vid; document.getElementById('mem-ac-video-box').classList.remove('hidden'); } else { document.getElementById('mem-ac-video-box').classList.add('hidden'); }
-                if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); } else { document.getElementById('mem-ac-pdf-box').classList.add('hidden'); }
-                if (d.q) { document.getElementById('quiz-q').innerText = d.q; document.getElementById('quiz-o1').innerText = d.o1; document.getElementById('quiz-o2').innerText = d.o2; this.currentQuizAns = parseInt(d.ans); document.getElementById('quiz-o1').className = "quiz-option"; document.getElementById('quiz-o2').className = "quiz-option"; document.getElementById('mem-ac-quiz-box').classList.remove('hidden'); } else { document.getElementById('mem-ac-quiz-box').classList.add('hidden'); }
-            });
-        }
-        static checkQuiz(choice) {
-            const o1 = document.getElementById('quiz-o1'); const o2 = document.getElementById('quiz-o2');
-            if(choice === this.currentQuizAns) { if(choice===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct'); UI.showToast('Correct Answer! 🎉', 'success'); } 
-            else { if(choice===1) o1.classList.add('quiz-wrong'); else o2.classList.add('quiz-wrong'); if(this.currentQuizAns===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct'); UI.showToast('Incorrect. Review scripts.', 'error'); }
-        }
-        static listenSOSReplies() {
-            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                const c = document.getElementById('mem-sos-history'); if(!c) return;
-                let msgs = []; snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
-                msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
-                c.innerHTML = ''; if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.6; padding: 10px;">No active whispers...</p>'; return; }
-                msgs.forEach(d => {
-                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;float:right;font-size:18px; transition:0.2s;" onmouseover="this.style.color='var(--danger)'" onmouseout="this.style.color='var(--text-muted)'" title="Clear Message"><i class="fas fa-times-circle"></i></button>` : '';
-                    c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-border); padding:12px 14px; border-radius:12px; margin-bottom:10px;">${clearBtn}<p class="text-xs" style="margin:0 0 8px 0; color: var(--text-main); padding-right:20px; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}</div>`;
-                    if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) { UI.showToast(`HQ Replied!`, 'success'); localStorage.setItem(`sos_seen_${d.id}`, d.reply); UI.showModal('sos-modal'); }
-                });
-            });
-        }
-        static async clearSOS(id) { await db.collection('sos_messages').doc(id).update({ clearedByMember: true }); }
-        static showQR() { const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; document.getElementById('qr-image').src = url; UI.showModal('qr-modal'); }
-        static async sendSOS() {
-            const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
-            await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
-            try { emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { agent_name: localStorage.getItem('htm_name'), message: msg }); } catch(e) {}
-        }
-        static askAI() {
-            const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
-            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
-            if(q.includes('paise') || q.includes('money') || q.includes('expensive')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If money is tight right now, isn't that exactly why you need this business?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, agar aaj shuru karne ke liye पैसे नहीं हैं, तो आगे भी नहीं होंगे। यही रीज़न है स्टार्ट करने का।'";
-            else if(q.includes('time') || q.includes('busy')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'We build this business exactly to earn Time Freedom. Just 1 hour a day is enough.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'आप सुबह से रात तक busy हैं, फिर भी freedom नहीं है। हम ये बिज़नेस Time Freedom के लिए कर रहे हैं।'";
-            else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Illegal pyramids don't have real products. Let me show you the documents.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, fake चीज़ें छुप कर होती हैं। हम प्रॉपर प्रोडक्ट बेस्ड रजिस्टर्ड कंपनी हैं। डाक्यूमेंट्स चेक कीजिये।'";
-            else if(q.includes('papa') || q.includes('family') || q.includes('ask')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself!'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'फैमिली मना करेगी क्योंकि उन्होंने प्लान नहीं देखा। अगर सक्सेसफुल होना है तो डिसीजन आपका होना चाहिए।'";
-            else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'ज़रा सोचिये, सिर्फ सोचने से बैलेंस नहीं बढ़ेगा। एक्शन लेने से होगा। आज ही शुरू करते हैं।'";
-            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
-        }
-
-        static async searchAIProducts() {
-            const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
-            const container = document.getElementById('ai-gallery-container');
-            container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> Scanning database...</p>';
-
-            try {
-                const snap = await db.collection('products').orderBy('timestamp', 'desc').get();
-                let results = [];
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    if(!query || d.category.toLowerCase().includes(query) || d.name.toLowerCase().includes(query)) {
-                        results.push(d);
-                    }
-                });
-
-                if(results.length === 0) {
-                    container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2; opacity:0.7;">No matches found for your search.</p>';
-                    return;
-                }
-
-                container.innerHTML = '';
-                results.forEach(item => {
-                    container.innerHTML += `
-                        <div class="product-card" onclick="UI.openImageViewer('${item.imageUrl}')">
-                            <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
-                            <h4>${item.name}</h4>
-                            <span class="tag-prof" style="margin-top:4px; display:inline-block;">${item.category}</span>
-                        </div>
-                    `;
-                });
-                UI.showToast(`Found ${results.length} products!`, 'success');
-            } catch(error) {
-                console.error("AI Search Error:", error);
-                UI.showToast('Error fetching data. Check connection.', 'error');
-            }
-        }
-
-        static evaluateUrgencyTriggers() {
-            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
-                let hasDD = false; let totalCollected = 0; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
-                const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
-                if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; banner.style.background = "rgba(16,185,129,0.1)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; desc.style.color = "var(--success)"; } else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; banner.style.background = "rgba(245,158,11,0.1)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "You have 0 closed conversions today."; desc.style.color = "var(--warning)"; }
-                const target = parseInt(localStorage.getItem('htm_target')) || 50000; document.getElementById('mem-target-label').innerText = `Monthly Target (₹${target.toLocaleString()})`;
-                const percentage = Math.min(Math.round((totalCollected / target) * 100), 100); document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()} (${percentage}%)`; document.getElementById('mem-target-bar').style.width = `${percentage}%`; if(percentage >= 100) document.getElementById('mem-target-bar').style.boxShadow = "0 0 15px var(--success)";
-            });
-        }
-        static setupOfflineMonitor() {
-            const updateStatus = () => { const badge = document.getElementById('mem-network-status'); if (navigator.onLine) { badge.className = "badge badge-success"; badge.innerText = "Online"; this.syncOfflineLeads(); } else { badge.className = "badge badge-warning"; badge.innerText = "Offline"; } }; window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
-        }
-        static async syncOfflineLeads() {
-            let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]');
-            if (offline.length > 0) { for (let lead of offline) { lead.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(lead); } localStorage.removeItem('htm_offline_leads'); UI.showToast('Local sync complete.', 'success'); }
-        }
-        static checkActivePlanState() {
-            const planId = localStorage.getItem("htm_active_plan");
-            if (planId) { document.getElementById('plan-init-state').classList.add('hidden'); document.getElementById('plan-active-state').classList.remove('hidden'); document.getElementById('active-prospect-display').innerText = localStorage.getItem("htm_active_prospect"); } else { document.getElementById('plan-init-state').classList.remove('hidden'); document.getElementById('plan-active-state').classList.add('hidden'); }
-        }
-        static startPlan() {
-            const prospect = document.getElementById('plan-prospect').value.trim(); const selfieInput = document.getElementById('plan-selfie');
-            if (!prospect) return UI.showToast('Designate prospect target.', 'error'); if (selfieInput.files.length === 0) return UI.showToast('Camera verification required.', 'error'); if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
-            UI.showToast('Obtaining fast coordinate lock...', 'warning');
-            navigator.geolocation.getCurrentPosition(async (pos) => {
-                const lat = pos.coords.latitude; const lng = pos.coords.longitude; let locName = "Coordinates Locked";
-                try { const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`); const data = await res.json(); if(data && data.display_name) locName = data.display_name.split(',').slice(0, 3).join(','); } catch(e) {}
-                const docRef = await db.collection("tracking").add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), prospect: prospect, type: document.getElementById('plan-type').value, status: "Active", lat: lat, lng: lng, locationName: locName, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-                localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect); document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); selfieInput.value = ""; UI.showToast('Run logged on active grid.', 'success');
-            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
-        }
-        static async endPlan() {
-            const planId = localStorage.getItem("htm_active_plan");
-            if (planId) { const remark = prompt("Meeting Remarks (e.g. Will join tomorrow):") || "No remarks provided."; await db.collection("tracking").doc(planId).update({ status: "Completed", remarks: remark }); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); UI.showToast('Concluded & Remarks Logged.', 'success'); }
-        }
-        static async cancelPlan() {
-            const planId = localStorage.getItem("htm_active_plan");
-            if (planId && confirm("Abort tracking record?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); }
-        }
-        static async addLead() {
-            const payload = { memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), name: document.getElementById('lead-name').value.trim(), phone: document.getElementById('lead-phone').value.trim(), temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value, followUp: document.getElementById('lead-date').value, ddClosed: false, ddAmount: 0 };
-            if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
-            if (!navigator.onLine) { let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload); localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline locally.', 'warning'); }
-            payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
-        }
-        static streamLeads() {
-            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => { this.localLeads = []; snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); }); const activeLeads = this.localLeads.filter(l => !l.ddClosed).length; document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`; this.applyFilters(); });
-            db.collection('leads').onSnapshot(snap => { let totals = {}; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; }); const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]).slice(0, 3); let html = ''; sorted.forEach((item, index) => { const rank = index === 0 ? '🏆' : (index === 1 ? '🥈' : '🥉'); html += `<div style="display:flex; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--glass-border); align-items:center;"><div><span style="margin-right:12px; font-size:18px;">${rank}</span><strong style="font-size:15px; color:var(--text-main);">${item[0]}</strong></div><span class="text-success" style="font-weight:800; font-size:15px;">₹${item[1].toLocaleString()}</span></div>`; }); document.getElementById('member-leaderboard-preview').innerHTML = html || '<p class="text-xs text-center" style="padding:20px;">No closed figures recorded.</p>'; });
-        }
-        static setFilter(type) { this.currentFilter = type; document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active')); if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active'); this.applyFilters(); }
-        static applyFilters() {
-            const container = document.getElementById('member-leads-container'); const searchTxt = document.getElementById('lead-search').value.toLowerCase(); const todayStr = new Date().toISOString().split('T')[0]; const now = new Date();
-            let filtered = this.localLeads.filter(d => { const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt); let matchType = true; if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot') && !d.ddClosed; if(this.currentFilter === 'Today') matchType = d.followUp === todayStr && !d.ddClosed; return matchSearch && matchType; });
-            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No leads match criteria.</p>' : '';
-            filtered.forEach(d => {
-                const leadDate = d.timestamp ? d.timestamp.toDate() : now; const diffHours = (now - leadDate) / (1000 * 60 * 60); const diffDays = diffHours / 24;
-                let displayTemp = d.temp; let ghostAlert = "";
-                if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤 Warm (Auto-Cooled)";
-                if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
-                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
-                const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
-            });
-        }
-        static async pushTomorrow(id, currentFollowUp) { let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp); next.setDate(next.getDate() + 1); const str = next.toISOString().split('T')[0]; await db.collection('leads').doc(id).update({ followUp: str }); UI.showToast('Follow-up shifted to tomorrow.', 'success'); }
-        static async requestUplinePush(leadName) { await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: `URGENT CLOSING HELP: Need upline intervention for prospect - ${leadName}.`, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Upline help requested.', 'success'); try { emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", { agent_name: localStorage.getItem('htm_name'), message: `Needs help closing: ${leadName}` }); } catch(e) {} }
-        static async closeDD(id) { const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify verifiable amount.', 'error'); if (confirm(`Authorize closure for ₹${amt}?`)) { await db.collection('leads').doc(id).update({ ddClosed: true, ddAmount: parseInt(amt) }); UI.showToast('DD closed.', 'success'); } }
-    }
-
-    class Admin {
-        static leadsVault = [];
-        static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); this.streamProducts(); }
-        
-        static streamProducts() {
-            db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const c = document.getElementById('admin-products-container');
-                if(!c) return;
-                if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="padding:10px;">No uploaded products found.</p>'; return; }
-                c.innerHTML = '';
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    c.innerHTML += `
-                    <div style="background: rgba(0,0,0,0.02); border: 1px solid var(--glass-border); padding:10px; border-radius:12px; margin-bottom:10px; display:flex; gap:10px; align-items:center;">
-                        <img src="${d.imageUrl}" style="width:50px; height:50px; object-fit:cover; border-radius:6px; background: rgba(0,0,0,0.05);">
-                        <div style="flex:1; min-width:0;">
-                            <strong style="font-size:13px; color:var(--text-main); display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${d.name}</strong>
-                            <span class="text-xs" style="color:var(--primary);">${d.category}</span>
-                        </div>
-                        <div style="display:flex; gap:6px;">
-                            <button class="btn btn-outline btn-sm" onclick="Admin.editProduct('${doc.id}', '${d.name}', '${d.category}')" style="padding:8px;"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('products', '${doc.id}')" style="padding:8px;"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>`;
-                });
-            });
-        }
-
-        static async editProduct(id, currentName, currentCategory) {
-            const newName = prompt("Edit Product Name:", currentName);
-            if(newName === null) return;
-            const newCat = prompt("Edit Keyword/Category:", currentCategory);
-            if(newCat === null) return;
-            
-            await db.collection('products').doc(id).update({
-                name: newName.trim(),
-                category: newCat.trim().toLowerCase()
-            });
-            UI.showToast('Product updated successfully!', 'success');
-        }
-
-        static async setTaskBox() {
-            const msg = document.getElementById('admin-taskbox-input').value.trim();
-            if(!msg) return UI.showToast('Task cannot be empty.', 'error');
-            await db.collection('system').doc('taskbox').set({ message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            UI.showToast('Task Box pinned to all agents.', 'success');
-        }
-        static async clearTaskBox() {
-            if(confirm("Remove current pinned task for everyone?")) {
-                await db.collection('system').doc('taskbox').delete();
-                document.getElementById('admin-taskbox-input').value = '';
-                UI.showToast('Task Box cleared.', 'success');
-            }
-        }
-        static async publishTask() { const msg = document.getElementById('admin-task-input').value.trim(); if (!msg) return UI.showToast('Directive cannot be blank.', 'error'); await db.collection('system').doc('broadcast').set({ message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success'); }
-        static async pushLiveLink() { const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Please enter a valid URL.', 'error'); await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); UI.showToast('Live Training dispatched!', 'success'); }
-        static async updateAcademy() {
-            let vid = document.getElementById('ac-vid').value.trim(); const pdf = document.getElementById('ac-pdf').value.trim(); const q = document.getElementById('ac-q').value.trim(); const o1 = document.getElementById('ac-o1').value.trim(); const o2 = document.getElementById('ac-o2').value.trim(); const ans = document.getElementById('ac-ans').value;
-            if (vid) { if (vid.includes('youtube.com/watch?v=')) { try { const videoId = new URL(vid).searchParams.get('v'); if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } catch(e) {} } else if (vid.includes('youtu.be/')) { const videoId = vid.split('youtu.be/')[1].split('?')[0]; if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } }
-            await db.collection('system').doc('academy').set({ vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
-            document.getElementById('ac-vid').value = ''; document.getElementById('ac-pdf').value = ''; UI.showToast('Academy Updated for all Agents!', 'success');
-        }
-        static listenSOS() {
-            db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const c = document.getElementById('admin-sos-container'); if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="padding: 10px;">No active distress signals.</p>'; return; } c.innerHTML = '';
-                let latestUnreplied = null;
-                snap.forEach(doc => {
-                    const d = doc.data(); if(!d.reply && !latestUnreplied) { latestUnreplied = {id: doc.id, ...d}; }
-                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 10px 0 0 0; font-weight: 600;">HQ Reply: ${d.reply}</p>` : `<div style="display:flex; gap:8px; margin-top:12px; align-items:center;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:10px; font-size:12px; margin:0; flex:1;"><button class="btn btn-sm btn-primary" style="flex-shrink:0;" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
-                    c.innerHTML += `<div style="background: rgba(239,68,68,0.05); border-left: 4px solid var(--danger); border-radius: 8px; padding: 14px; margin-bottom: 12px; position:relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02);"><button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:10px; top:12px; background:none; border:none; color:var(--danger); cursor:pointer; font-size: 16px;"><i class="fas fa-trash"></i></button><strong class="text-sm" style="color:var(--danger); font-size:14px;">${d.memberName}</strong><p style="margin: 6px 0 0 0; font-size: 13px; color:var(--text-main); padding-right: 25px; line-height: 1.4;">${d.message}</p>${replyUI}</div>`;
-                });
-                const alertBox = document.getElementById('global-sos-alert');
-                if(latestUnreplied) { document.getElementById('global-sos-text').innerText = `${latestUnreplied.memberName}: "${latestUnreplied.message}"`; document.getElementById('global-sos-id').value = latestUnreplied.id; alertBox.classList.add('show'); } else { alertBox.classList.remove('show'); }
-            });
-        }
-        static async quickReplySOS() { const id = document.getElementById('global-sos-id').value; await this.replySOS(id, 'global-sos-reply'); this.closeGlobalSOS(); document.getElementById('global-sos-reply').value = ''; }
-        static closeGlobalSOS() { document.getElementById('global-sos-alert').classList.remove('show'); }
-        static async replySOS(id, inputId) { const text = document.getElementById(inputId).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error'); await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success'); }
-        static async createUser() { const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); const badge = document.getElementById('new-badge').value; const target = parseInt(document.getElementById('new-target').value) || 50000; if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error'); await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target, suspended: false }); UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value=''; }
-        static async toggleSuspend(id, currentStatus) { await db.collection('users').doc(id).update({ suspended: !currentStatus }); UI.showToast(currentStatus ? 'Agent Activated' : 'Agent Suspended', currentStatus ? 'success' : 'warning'); }
-        
-        static async editTrackingAdmin(id, currName) {
-            const p = prompt("Edit Prospect Target Name:", currName);
-            if(p && p.trim()) {
-                await db.collection('tracking').doc(id).update({ prospect: p.trim() });
-                UI.showToast('Tracking record updated.', 'success');
-            }
-        }
-
-        static streamRadar() {
-            db.collection('tracking').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const container = document.getElementById('admin-radar-container'); const blipBox = document.getElementById('radar-blips'); container.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding: 10px;">No active field operatives detected.</p>' : ''; blipBox.innerHTML = ''; let count = 0;
-                snap.forEach((doc, idx) => {
-                    const d = doc.data(); if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
-                    const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
-                    const locText = d.locationName ? `<span style="display:block; margin-top:6px; color:var(--primary); font-weight: 500;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : ''; const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:8px 0 0 0; background: rgba(16,185,129,0.1); padding: 6px; border-radius: 6px;"><i>Note: ${d.remarks}</i></p>` : '';
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${remarkUI}</div><div>${badge}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editTrackingAdmin('${doc.id}', '${d.prospect}')"><i class="fas fa-edit"></i> Edit</button>${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
-                }); document.getElementById('admin-active-count').innerText = count;
-            });
-        }
-        
-        static async editUserAdmin(id, currName) {
-            const n = prompt("Edit Team Member Name:", currName);
-            if(n && n.trim()) {
-                await db.collection('users').doc(id).update({ name: n.trim() });
-                UI.showToast('Member profile updated.', 'success');
-            }
-        }
-
-        static streamTeam() {
-            db.collection('users').onSnapshot(snap => {
-                const container = document.getElementById('admin-team-container'); container.innerHTML = ''; const filterSelect = document.getElementById('vault-filter-agent'); if(filterSelect) filterSelect.innerHTML = '<option value="All">All Agents</option>';
-                snap.forEach(doc => {
-                    const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:rgba(0,0,0,0.05); color: var(--text-muted); border: 1px solid var(--glass-border);">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : ''; const suspendBadge = d.suspended ? `<span class="badge badge-suspended">Suspended</span>` : ''; const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
-                    let totalL = 0; let closedA = 0; this.leadsVault.forEach(l => { if(l.memberId === doc.id) { totalL++; if(l.ddClosed) closedA += l.ddAmount; }});
-                    if(filterSelect) filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs" style="font-weight: 400; opacity:0.7;">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:8px; font-weight: 600;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editUserAdmin('${doc.id}', '${d.name}')"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair</button><button class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger); background: rgba(239,68,68,0.05);" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
-                });
-            });
-        }
-        
-        static async editLeadAdmin(id) {
-            const lead = this.leadsVault.find(l => l.id === id);
-            if(!lead) return;
-            const newName = prompt("Edit Lead Name:", lead.name) || lead.name;
-            const newPhone = prompt("Edit Lead Phone:", lead.phone) || lead.phone;
-            const newDD = prompt("Edit DD Amount (0 for unclosed):", lead.ddAmount || 0) || lead.ddAmount;
-            const isClosed = parseInt(newDD) > 0;
-            if(confirm(`Save changes for Lead: ${newName}?`)) {
-                await db.collection('leads').doc(id).update({
-                    name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD) || 0, ddClosed: isClosed
-                });
-                UI.showToast('Lead entry updated.', 'success');
-            }
-        }
-
-        static streamSales() {
-            db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                let total = 0; let totalCount = 0; let hotCount = 0; let closedCount = 0; this.leadsVault = [];
-                snap.forEach(doc => { const d = doc.data(); this.leadsVault.push({id: doc.id, ...d}); totalCount++; if (d.temp === "🔥 Hot") hotCount++; if (d.ddClosed) { total += d.ddAmount; closedCount++; } });
-                document.getElementById('admin-dd-total').innerText = '₹' + total.toLocaleString(); document.getElementById('funnel-total').innerText = totalCount; document.getElementById('funnel-hot').innerText = hotCount; document.getElementById('funnel-closed').innerText = closedCount;
-                if(totalCount > 0) { document.getElementById('bar-hot').style.width = `${(hotCount/totalCount)*100}%`; document.getElementById('bar-closed').style.width = `${(closedCount/totalCount)*100}%`; }
-                this.renderVault();
-            });
-        }
-        static renderVault() {
-            const container = document.getElementById('admin-sales-container'); const agentFilter = document.getElementById('vault-filter-agent') ? document.getElementById('vault-filter-agent').value : 'All'; const statusFilter = document.getElementById('vault-filter-status') ? document.getElementById('vault-filter-status').value : 'All';
-            let filtered = this.leadsVault.filter(d => { let mAgent = (agentFilter === 'All' || d.memberName === agentFilter); let mStatus = true; if(statusFilter === 'Closed') mStatus = d.ddClosed; else if(statusFilter === '🔥 Hot') mStatus = (!d.ddClosed && d.temp === '🔥 Hot'); return mAgent && mStatus; });
-            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding: 10px;">No records match filters.</p>' : '';
-            filtered.forEach(d => { 
-                const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount.toLocaleString()}</span>` : `<span class="badge badge-warning">Unclosed</span>`; 
-                const act = `<div class="record-actions" style="margin-top:10px;"><button class="btn btn-outline btn-sm" onclick="Admin.editLeadAdmin('${d.id}')"><i class="fas fa-edit"></i> Edit Lead</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div>`;
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
-            });
-        }
-        static exportJPG() {
-            const agentFilter = document.getElementById('vault-filter-agent').value; const statusFilter = document.getElementById('vault-filter-status').value;
-            let exportData = this.leadsVault.filter(d => { return (agentFilter === 'All' || d.memberName === agentFilter) && (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); });
-            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); UI.showToast('Generating JPG...', 'warning');
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const rowHeight = 44; const headerHeight = 80; const width = 900; const height = headerHeight + (exportData.length + 1) * rowHeight + 40; canvas.width = width; canvas.height = height; ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('HTM Filtered Report', 30, 50); ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()} | Agent: ${agentFilter}`, 600, 45); ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4; ctx.fillRect(20, headerHeight, width - 40, rowHeight); ctx.shadowColor = 'transparent'; ctx.fillStyle = '#475569'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('Prospect Name', 40, headerHeight + 28); ctx.fillText('Contact', 280, headerHeight + 28); ctx.fillText('Agent', 480, headerHeight + 28); ctx.fillText('Status', 700, headerHeight + 28); ctx.font = '15px sans-serif'; ctx.fillStyle = '#0f172a';
-            exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
-            const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
-        }
-        
-        static async addBulkURLs() {
-            const baseName = document.getElementById('bulk-url-name').value.trim() || 'Product';
-            const category = document.getElementById('bulk-url-category').value.trim();
-            const urlsRaw = document.getElementById('bulk-url-list').value;
-
-            if(!category || !urlsRaw) return UI.showToast('Category and at least one URL required.', 'error');
-
-            const urls = urlsRaw.split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
-
-            if(urls.length === 0) return UI.showToast('No valid URLs found.', 'warning');
-
-            let successCount = 0;
-            UI.showToast(`Processing ${urls.length} links...`, 'warning');
-
-            for(let i = 0; i < urls.length; i++) {
-                try {
-                    await db.collection('products').add({
-                        name: urls.length > 1 ? `${baseName} ${i+1}` : baseName,
-                        category: category.toLowerCase(),
-                        imageUrl: urls[i],
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    successCount++;
-                } catch(e) {
-                    console.error("Bulk URL Error:", e);
-                }
-            }
-
-            UI.showToast(`Successfully added ${successCount} products!`, 'success');
-            document.getElementById('bulk-url-name').value = '';
-            document.getElementById('bulk-url-category').value = '';
-            document.getElementById('bulk-url-list').value = '';
-        }
-
-        static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
-        static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
-        static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
-        static async deleteDoc(col, id) { if (confirm('Purge document completely?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
-    }
-    function initAdminOverride() { if (prompt("HQ Passkey Authorization:") === "9999") { localStorage.setItem('htm_role', 'admin'); window.location.reload(); } }
-    Auth.init();
-</script>
-</body>
-</html>
+            <div style="display:flex; gap:10px; margin-bottom:
