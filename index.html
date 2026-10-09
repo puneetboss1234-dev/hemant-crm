@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HTM | Enterprise CRM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">(function(){emailjs.init("YOUR_PUBLIC_KEY");})();</script>
     <style>
         :root {
             --primary: #3b82f6; --primary-glow: rgba(59, 130, 246, 0.3);
@@ -81,6 +79,8 @@
         .badge-starter { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2)); color: #2563eb; border-color: rgba(59,130,246,0.4); } 
         .tag-prof { background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
         
+        .tag-stage { background: rgba(59,130,246,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.25); display: inline-block; }
+        
         .radar-screen { position: relative; height: 160px; border-radius: 16px; background: rgba(0,0,0,0.05); border: 1px solid var(--glass-border); overflow: hidden; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
         body.dark-mode .radar-screen { background: rgba(0,0,0,0.3); }
         .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(59,130,246,0.15) 1px, transparent 1px); background-size: 20px 20px; }
@@ -88,19 +88,11 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
-        .flip-card { background-color: transparent; height: 170px; perspective: 1000px; margin-bottom: 16px; cursor: pointer; }
-        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; border-radius: 20px; border: 1px solid var(--glass-border); background: var(--glass-bg); }
-        .flip-card-back { background: var(--primary); border: none; transform: rotateY(180deg); text-align: left; align-items: flex-start; overflow-y: auto; color: white; }
-        
-        /* AI Gallery Cards */
         .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer;}
         .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
         .product-card h4 { font-size: 13px; margin: 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;}
         body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
         
-        /* Glass Navigation */
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); }
         .nav-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; font-weight: 600; gap: 6px; padding: 12px 0; cursor: pointer; z-index: 2; position: relative; }
@@ -125,13 +117,7 @@
         .toast.success { border-left: 5px solid var(--success); } .toast.error { border-left: 5px solid var(--danger); } .toast.warning { border-left: 5px solid var(--warning); }
         
         .btn-live-pulse { background: linear-gradient(90deg, #ef4444, #dc2626); color: white; border: none; box-shadow: 0 0 20px rgba(239, 68, 68, 0.4); animation: pulseRed 2s infinite; font-weight: 700; }
-        
-        .accordion-item { border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; background: transparent; } 
-        .accordion-title { background: rgba(0,0,0,0.03); padding: 16px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; color: var(--text-main); } 
-        body.dark-mode .accordion-title { background: rgba(255,255,255,0.05); }
-        .accordion-content { padding: 16px; font-size: 13px; display: none; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--glass-border); } 
-        .accordion-item.active { border-color: var(--primary); }
-        .accordion-item.active .accordion-content { display: block; }
+        @keyframes pulseRed { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
         
         .quiz-option { background: rgba(0,0,0,0.03); border: 1.5px solid var(--glass-border); padding: 14px; border-radius: 12px; margin-bottom: 10px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--text-main); } 
         body.dark-mode .quiz-option { background: rgba(255,255,255,0.05); }
@@ -141,6 +127,35 @@
         #welcome-splash { z-index: 99999; } 
         .splash-logo { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 40px; color: white; margin: 0 auto 24px auto; }
         .theme-icon { font-size: 20px; cursor: pointer; padding: 8px; border-radius: 50%; background: var(--glass-bg); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+        #global-sos-alert.show { top: 20px !important; }
+
+        /* CIRCULAR PROGRESS RING CSS */
+        .ring-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .circular-chart {
+            width: 82px;
+            height: 82px;
+            transform: rotate(-90deg);
+        }
+        .circle-bg {
+            fill: none;
+            stroke: rgba(0, 0, 0, 0.06);
+            stroke-width: 3.8;
+        }
+        body.dark-mode .circle-bg {
+            stroke: rgba(255, 255, 255, 0.08);
+        }
+        .circle {
+            fill: none;
+            stroke-width: 3.8;
+            stroke-linecap: round;
+            stroke: var(--success);
+            transition: stroke-dasharray 0.6s ease;
+        }
     </style>
 </head>
 <body>
@@ -151,8 +166,7 @@
         <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
     </div>
     <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
-        <!-- Secure CSS transform zoom to prevent viewport crashes -->
-        <img id="viewer-image" src="" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
+        <img id="viewer-image" src="" alt="Viewer" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
     </div>
     <div style="position: absolute; bottom: 30px; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px; color: white; font-size: 12px; pointer-events: none; backdrop-filter: blur(5px);">Double-tap to Zoom</div>
 </div>
@@ -168,7 +182,8 @@
 
 <div id="toast-container"></div>
 
-<div id="global-sos-alert" style="position:fixed; top:-200px; left:50%; transform:translateX(-50%); width:92%; max-width:450px; z-index:10001; transition:top 0.4s; background: rgba(239, 68, 68, 0.95); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 20px; box-sizing: border-box;">
+<!-- GLOBAL SOS ALERT -->
+<div id="global-sos-alert" style="position:fixed; top:-250px; left:50%; transform:translateX(-50%); width:92%; max-width:450px; z-index:10001; transition:top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(239, 68, 68, 0.95); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 20px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);">
     <h4 style="margin:0 0 10px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
     <p class="text-sm" style="color: white; margin:0 0 16px 0;" id="global-sos-text">Loading...</p>
     <div style="display:flex; gap:10px; align-items: center; flex-wrap: wrap;">
@@ -179,6 +194,7 @@
     </div>
 </div>
 
+<!-- QR MODAL -->
 <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-box">
         <h3 style="margin-bottom:8px;">Digital Agent ID</h3>
@@ -188,13 +204,26 @@
     </div>
 </div>
 
+<!-- TUTORIAL MODAL -->
+<div id="tutorial-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+        <i class="fas fa-rocket text-primary" style="font-size: 38px; margin-bottom: 12px;"></i>
+        <h3 style="margin-bottom:8px;">Welcome to HTM OS</h3>
+        <p class="text-sm" style="margin-bottom:20px;">Manage pipeline, register GPS check-ins, access academy resources, and convert prospects effortlessly.</p>
+        <button class="btn btn-primary" onclick="UI.dismissModal('tutorial-modal')">Get Started</button>
+    </div>
+</div>
+
+<!-- SOS MODAL -->
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="text-align:left; border-top: 5px solid var(--danger);">
         <h3 style="margin-bottom:12px; color:var(--danger); text-align:center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
         <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:20px; border-bottom:1px solid var(--glass-border); padding-bottom:14px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
-        <div style="display:flex; gap:10px; align-items: center;">
-            <input type="text" id="sos-message" placeholder="Type situation..." style="margin:0; flex: 1;">
-            <button class="btn btn-primary btn-sm" style="background:var(--danger);" onclick="Member.sendSOS()">Send</button>
+        <div style="display:flex; gap:8px; align-items: center;">
+            <input type="text" id="sos-message" placeholder="Type or tap mic..." style="margin:0; flex: 1;">
+            <!-- VOICE MEMO BUTTON -->
+            <button class="btn btn-outline btn-sm" id="mic-sos-btn" style="color:var(--danger); border-color:var(--danger); padding:14px 16px;" onclick="VoiceHelper.startSpeech('sos-message', 'mic-sos-btn')"><i class="fas fa-microphone"></i></button>
+            <button class="btn btn-primary btn-sm" style="background:var(--danger); padding:14px 18px;" onclick="Member.sendSOS()">Send</button>
         </div>
         <button class="btn btn-outline" style="margin-top:16px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
     </div>
@@ -202,6 +231,7 @@
 
 <div class="container">
     
+    <!-- AUTH MODULE -->
     <div id="auth-module" class="hidden" style="margin-top:10vh;">
         <div style="text-align:center; margin-bottom:40px;">
             <i class="fas fa-crown text-primary" style="font-size:54px; cursor:pointer;" onclick="initAdminOverride()"></i>
@@ -264,10 +294,9 @@
                 <div id="admin-sos-container" style="max-height:280px; overflow-y:auto; padding-right: 8px;"></div>
             </div>
 
-            <!-- SINGLE URL UPLOAD FOR SAFE AI GALLERY -->
             <div class="card" style="border-top: 4px solid #10b981;">
                 <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-link"></i> Add Product via URL</h4>
-                <p class="text-xs" style="margin-bottom:16px;">फोटो को Postimages/ImgBB पर अपलोड करें और उसका डायरेक्ट लिंक यहाँ डालें।</p>
+                <p class="text-xs" style="margin-bottom:16px;">Postimages/ImgBB direct image URL paste karein.</p>
                 <div class="grid-2">
                     <input type="text" id="prod-name" placeholder="Product Name">
                     <input type="text" id="prod-category" placeholder="Keyword (e.g. Jhumka)">
@@ -304,7 +333,12 @@
                     <select id="vault-filter-agent" onchange="Admin.renderVault()"><option value="All">All Agents</option></select>
                     <select id="vault-filter-status" onchange="Admin.renderVault()"><option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option></select>
                 </div>
-                <button class="btn btn-outline" style="width:100%; border-color:#8b5cf6; color:#8b5cf6; margin-top:14px; font-weight:600;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export Filtered JPG</button>
+                
+                <!-- JPG & CSV EXPORT BUTTONS -->
+                <div class="grid-2" style="margin-top:14px;">
+                    <button class="btn btn-outline" style="border-color:#8b5cf6; color:#8b5cf6; font-weight:600;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
+                    <button class="btn btn-outline" style="border-color:var(--success); color:var(--success); font-weight:600;" onclick="Admin.exportCSV()"><i class="fas fa-file-excel"></i> Export CSV (Excel)</button>
+                </div>
             </div>
             <div id="admin-sales-container"></div>
         </div>
@@ -345,11 +379,28 @@
                 <div><strong style="font-size:14px;" id="urgency-title">Daily Quota Incomplete</strong><div class="text-xs" id="urgency-desc">Target DD pending. Field action required.</div></div>
             </div>
             
-            <div class="card" style="padding:24px 20px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px; align-items:flex-end;">
-                    <span class="text-sm font-weight-bold" id="mem-target-label">Monthly Target</span><strong id="mem-target-text" style="color:var(--success); font-size:16px;">₹0 (0%)</strong>
+            <!-- GAMIFIED CIRCULAR TARGET CARD -->
+            <div class="card" style="padding:22px 20px;">
+                <div class="ring-container">
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path class="circle" id="mem-target-circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    </svg>
+                    <div style="flex:1;">
+                        <span class="text-xs" id="mem-target-label" style="text-transform:uppercase; font-weight:700;">Monthly Target</span>
+                        <div id="mem-target-text" style="color:var(--text-main); font-size:20px; font-weight:800; margin:4px 0;">₹0</div>
+                        <span class="badge badge-success" id="mem-target-percent-badge" style="display:inline-block;">0% Achieved</span>
+                    </div>
                 </div>
-                <div style="background:rgba(0,0,0,0.05); height:10px; border-radius:5px; overflow:hidden;"><div id="mem-target-bar" style="width:0%; background:var(--success); height:100%;"></div></div>
+                <div style="background:rgba(0,0,0,0.05); height:8px; border-radius:4px; overflow:hidden; margin-top:16px;">
+                    <div id="mem-target-bar" style="width:0%; background:var(--success); height:100%; transition: width 0.6s ease;"></div>
+                </div>
+            </div>
+
+            <!-- LEADERBOARD CONTAINER -->
+            <div class="card" style="padding: 16px 20px;">
+                <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-trophy text-warning"></i> Network Leaderboard</h4>
+                <div id="member-leaderboard-preview"></div>
             </div>
             
             <h4 style="margin-bottom:16px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
@@ -377,7 +428,19 @@
                     <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤 Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
                     <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
-                <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
+                
+                <!-- NEW SMART STAGE TAG SELECTOR -->
+                <div class="grid-2">
+                    <select id="lead-stage">
+                        <option value="New Lead">📌 New Prospect</option>
+                        <option value="Token Given">💵 Token Given</option>
+                        <option value="Follow-up 2">🔄 Follow-up 2</option>
+                        <option value="Decision Maker">🧠 Decision Maker Meeting</option>
+                        <option value="Ready to Pay">⏳ Ready to Pay</option>
+                    </select>
+                    <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
+                </div>
+
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -417,7 +480,6 @@
             </div>
         </div>
 
-        <!-- SAFE UNIQUE AI TAB -->
         <div id="mem-ai" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid #ec4899;">
                 <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Unique AI Gallery</h4>
@@ -434,7 +496,6 @@
             </div>
         </div>
 
-        <!-- Glass Sliding Nav for Member -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
@@ -458,6 +519,41 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+
+    // SPEECH RECOGNITION (VOICE NOTE HELPER)
+    class VoiceHelper {
+        static startSpeech(targetInputId, btnId) {
+            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if(!SpeechRec) return UI.showToast("Voice input not supported on this browser.", "warning");
+            
+            const recognition = new SpeechRec();
+            recognition.lang = 'hi-IN'; // Recognizes Hindi/English naturally
+            recognition.interimResults = false;
+            
+            const btn = document.getElementById(btnId);
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            UI.showToast("Listening... Speak now.", "warning");
+
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                const input = document.getElementById(targetInputId);
+                if(input) {
+                    input.value = input.value ? `${input.value} ${text}` : text;
+                }
+                UI.showToast("Voice captured!", "success");
+            };
+
+            recognition.onerror = () => {
+                UI.showToast("Speech recognition stopped.", "error");
+            };
+
+            recognition.onend = () => {
+                if(btn) btn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+
+            recognition.start();
+        }
+    }
 
     class UI {
         static showToast(msg, type='success') {
@@ -484,8 +580,8 @@
             this.moveIndicator(element);
         }
         
-        static showModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        static dismissModal(id) { document.getElementById(id).classList.add('hidden'); }
+        static showModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }
+        static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
         static dismissSplash() {
             const splash = document.getElementById('welcome-splash'); splash.style.opacity = '0';
             setTimeout(() => { splash.classList.add('hidden'); }, 500); sessionStorage.setItem('htm_splash_seen', 'true');
@@ -505,11 +601,10 @@
             }
         }
         
-        // SAFE ZOOM (DOUBLE-TAP) IMAGE VIEWER
         static openImageViewer(url) {
             const img = document.getElementById('viewer-image');
             img.src = url;
-            img.style.transform = 'scale(1)'; // Reset zoom
+            img.style.transform = 'scale(1)';
             document.getElementById('image-viewer-modal').classList.remove('hidden');
         }
         static closeImageViewer() {
@@ -531,30 +626,51 @@
     class Auth {
         static init() {
             const role = localStorage.getItem('htm_role');
-            if (role === 'admin') { document.getElementById('admin-module').classList.remove('hidden'); Admin.initData(); setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); } 
-            else if (role === 'member' && localStorage.getItem('htm_id')) {
-                document.getElementById('member-module').classList.remove('hidden'); document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name')}`;
-                Member.initData(); if (localStorage.getItem('htm_tutorial_seen') !== 'true') setTimeout(() => { UI.showModal('tutorial-modal'); localStorage.setItem('htm_tutorial_seen', 'true'); }, 1000);
+            if (role === 'admin') { 
+                document.getElementById('admin-module').classList.remove('hidden'); 
+                Admin.initData(); 
+                setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); 
+            } else if (role === 'member' && localStorage.getItem('htm_id')) {
+                document.getElementById('member-module').classList.remove('hidden'); 
+                document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name')}`;
+                Member.initData(); 
+                if (localStorage.getItem('htm_tutorial_seen') !== 'true') {
+                    setTimeout(() => { 
+                        UI.showModal('tutorial-modal'); 
+                        localStorage.setItem('htm_tutorial_seen', 'true'); 
+                    }, 1000);
+                }
                 setTimeout(()=>UI.moveIndicator(document.querySelector('#member-module .nav-box.active')),300);
-            } else { document.getElementById('auth-module').classList.remove('hidden'); }
+            } else { 
+                document.getElementById('auth-module').classList.remove('hidden'); 
+            }
         }
         static async login() {
-            const id = document.getElementById('auth-id').value.trim(); const pass = document.getElementById('auth-pass').value.trim();
+            const id = document.getElementById('auth-id').value.trim(); 
+            const pass = document.getElementById('auth-pass').value.trim();
             if (!id || !pass) return UI.showToast('Auth fields required.', 'error');
             try {
                 const doc = await db.collection('users').doc(id).get();
                 if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
                 if (doc.data().suspended) throw new Error("Account Suspended by HQ."); 
                 let localToken = localStorage.getItem('htm_device') || ("DEV-" + Date.now());
-                if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken }); else if (doc.data().deviceToken !== localToken) throw new Error("Device mismatch.");
-                localStorage.setItem('htm_device', localToken); localStorage.setItem('htm_role', 'member'); localStorage.setItem('htm_id', id); localStorage.setItem('htm_name', doc.data().name); localStorage.setItem('htm_badge', doc.data().badge || ''); localStorage.setItem('htm_target', doc.data().target || 50000); 
+                if (!doc.data().deviceToken) await db.collection('users').doc(id).update({ deviceToken: localToken }); 
+                else if (doc.data().deviceToken !== localToken) throw new Error("Device mismatch. Ask admin to unpair.");
+                localStorage.setItem('htm_device', localToken); 
+                localStorage.setItem('htm_role', 'member'); 
+                localStorage.setItem('htm_id', id); 
+                localStorage.setItem('htm_name', doc.data().name); 
+                localStorage.setItem('htm_badge', doc.data().badge || ''); 
+                localStorage.setItem('htm_target', doc.data().target || 50000); 
                 window.location.reload();
             } catch (err) { UI.showToast(err.message, 'error'); }
         }
         static logout() { 
-            let token = localStorage.getItem('htm_device'); let theme = localStorage.getItem('htm_theme');
+            let token = localStorage.getItem('htm_device'); 
+            let theme = localStorage.getItem('htm_theme');
             localStorage.clear(); 
-            if(token) localStorage.setItem('htm_device', token); if(theme) localStorage.setItem('htm_theme', theme);
+            if(token) localStorage.setItem('htm_device', token); 
+            if(theme) localStorage.setItem('htm_theme', theme);
             window.location.reload(); 
         }
     }
@@ -564,10 +680,12 @@
         static initData() {
             this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
-            db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); if(doc.exists && doc.data().suspended) Auth.logout(); });
+            db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { 
+                if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); 
+                if(doc.exists && doc.data().suspended) Auth.logout(); 
+            });
         }
         
-        // SAFE AI GALLERY SEARCH
         static async searchAIProducts() {
             const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
             const container = document.getElementById('ai-gallery-container');
@@ -607,7 +725,8 @@
 
         static renderMemberBadges() {
             const b = localStorage.getItem('htm_badge'); const c = document.getElementById('mem-badges-container');
-            if (b === 'Closer') c.innerHTML = `<span class="gamification-badge badge-closer"><i class="fas fa-trophy"></i> Master Closer</span>`; else if (b === 'Starter') c.innerHTML = `<span class="gamification-badge badge-starter"><i class="fas fa-bolt"></i> Fast Starter</span>`;
+            if (b === 'Closer') c.innerHTML = `<span class="gamification-badge badge-closer"><i class="fas fa-trophy"></i> Master Closer</span>`; 
+            else if (b === 'Starter') c.innerHTML = `<span class="gamification-badge badge-starter"><i class="fas fa-bolt"></i> Fast Starter</span>`;
         }
         static listenAcademy() {
             db.collection('system').doc('academy').onSnapshot(doc => {
@@ -646,20 +765,30 @@
         static askAI() {
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
             resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
-            if(q.includes('paise') || q.includes('money') || q.includes('expensive')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If money is tight right now, isn't that exactly why you need this business?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, agar aaj shuru karne ke liye पैसे नहीं हैं, तो आगे भी नहीं होंगे। यही रीज़न है स्टार्ट करने का।'";
-            else if(q.includes('time') || q.includes('busy')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'We build this business exactly to earn Time Freedom. Just 1 hour a day is enough.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'आप सुबह से रात तक busy हैं, फिर भी freedom नहीं है। हम ये बिज़नेस Time Freedom के लिए कर रहे हैं।'";
-            else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Illegal pyramids don't have real products. Let me show you the documents.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, fake चीज़ें छुप कर होती हैं। हम प्रॉपर प्रोडक्ट बेस्ड रजिस्टर्ड कंपनी हैं। डाक्यूमेंट्स चेक कीजिये।'";
-            else if(q.includes('papa') || q.includes('family') || q.includes('ask')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself!'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'फैमिली मना करेगी क्योंकि उन्होंने प्लान नहीं देखा। अगर सक्सेसफुल होना है तो डिसीजन आपका होना चाहिए।'";
-            else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'ज़रा सोचिये, सिर्फ सोचने से बैलेंस नहीं बढ़ेगा। एक्शन लेने से होगा। आज ही शुरू करते हैं।'";
-            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'अगर आज एक्शन नहीं लिया, तो कल कुछ नहीं बदलेगा। हमारा सिस्टम आपको 100% सपोर्ट करेगा।'";
+            if(q.includes('paise') || q.includes('money') || q.includes('expensive')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If money is tight right now, isn't that exactly why you need this business?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, agar aaj shuru karne ke liye paise nahi hain, to aage bhi nahi honge. Yahi reason hai start karne ka.'";
+            else if(q.includes('time') || q.includes('busy')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'We build this business exactly to earn Time Freedom. Just 1 hour a day is enough.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business Time Freedom ke liye kar rahe hain.'";
+            else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Illegal pyramids don't have real products. Let me show you the documents.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, fake cheezein chup kar hoti hain. Hum proper product-based registered company hain. Documents check kijiye.'";
+            else if(q.includes('papa') || q.includes('family') || q.includes('ask')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself!'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Family mana karegi kyunki unhone plan nahi dekha. Agar successful hona hai to decision aapka hona chahiye.'";
+            else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sirf sochne se balance nahi badhega. Action lene se hoga. Aaj hi shuru karte hain.'";
+            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Agar aaj action nahi liya, to kal kuch nahi badlega. Humara system aapko 100% support karega.'";
         }
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
                 const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
                 if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; banner.style.background = "rgba(16,185,129,0.1)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; desc.style.color = "var(--success)"; } else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; banner.style.background = "rgba(245,158,11,0.1)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "You have 0 closed conversions today."; desc.style.color = "var(--warning)"; }
-                const target = parseInt(localStorage.getItem('htm_target')) || 50000; document.getElementById('mem-target-label').innerText = `Monthly Target (₹${target.toLocaleString()})`;
-                const percentage = Math.min(Math.round((totalCollected / target) * 100), 100); document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()} (${percentage}%)`; document.getElementById('mem-target-bar').style.width = `${percentage}%`;
+                
+                const target = parseInt(localStorage.getItem('htm_target')) || 50000; 
+                document.getElementById('mem-target-label').innerText = `Target: ₹${target.toLocaleString()}`;
+                const percentage = Math.min(Math.round((totalCollected / target) * 100), 100); 
+                
+                // UPDATE CIRCULAR RING & LINEAR BAR
+                document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()}`; 
+                document.getElementById('mem-target-percent-badge').innerText = `${percentage}% Achieved`;
+                document.getElementById('mem-target-bar').style.width = `${percentage}%`;
+                
+                const circleProgress = document.getElementById('mem-target-circle');
+                if(circleProgress) circleProgress.setAttribute('stroke-dasharray', `${percentage}, 100`);
             });
         }
         static setupOfflineMonitor() {
@@ -676,10 +805,28 @@
         static startPlan() {
             const prospect = document.getElementById('plan-prospect').value.trim();
             if (!prospect) return UI.showToast('Designate prospect target.', 'error'); if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
-            UI.showToast('Obtaining fast coordinate lock...', 'warning');
+            UI.showToast('Acquiring location lock...', 'warning');
             navigator.geolocation.getCurrentPosition(async (pos) => {
-                const lat = pos.coords.latitude; const lng = pos.coords.longitude; let locName = "Coordinates Locked";
-                const docRef = await db.collection("tracking").add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), prospect: prospect, type: document.getElementById('plan-type').value, status: "Active", lat: lat, lng: lng, locationName: locName, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+                const lat = pos.coords.latitude; const lng = pos.coords.longitude; let locName = "Location Coordinates Locked";
+                try {
+                    const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+                    const geoData = await geoRes.json();
+                    if(geoData && geoData.address) {
+                        locName = geoData.address.suburb || geoData.address.neighbourhood || geoData.address.city || geoData.address.state || "Active Field Spot";
+                    }
+                } catch(e) {}
+
+                const docRef = await db.collection("tracking").add({ 
+                    memberId: localStorage.getItem('htm_id'), 
+                    memberName: localStorage.getItem('htm_name'), 
+                    prospect: prospect, 
+                    type: document.getElementById('plan-type').value, 
+                    status: "Active", 
+                    lat: lat, 
+                    lng: lng, 
+                    locationName: locName, 
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                });
                 localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect); document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); UI.showToast('Run logged on active grid.', 'success');
             }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
         }
@@ -692,14 +839,43 @@
             if (planId && confirm("Abort tracking record?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); }
         }
         static async addLead() {
-            const payload = { memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), name: document.getElementById('lead-name').value.trim(), phone: document.getElementById('lead-phone').value.trim(), temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value, followUp: document.getElementById('lead-date').value, ddClosed: false, ddAmount: 0 };
+            const payload = { 
+                memberId: localStorage.getItem('htm_id'), 
+                memberName: localStorage.getItem('htm_name'), 
+                name: document.getElementById('lead-name').value.trim(), 
+                phone: document.getElementById('lead-phone').value.trim(), 
+                temp: document.getElementById('lead-temp').value, 
+                prof: document.getElementById('lead-prof').value, 
+                stage: document.getElementById('lead-stage').value, // Stage Tag Added
+                followUp: document.getElementById('lead-date').value, 
+                ddClosed: false, 
+                ddAmount: 0 
+            };
             if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
             if (!navigator.onLine) { let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload); localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline locally.', 'warning'); }
             payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
         }
         static streamLeads() {
-            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => { this.localLeads = []; snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); }); const activeLeads = this.localLeads.filter(l => !l.ddClosed).length; document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`; this.applyFilters(); });
-            db.collection('leads').onSnapshot(snap => { let totals = {}; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; }); const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]).slice(0, 3); let html = ''; sorted.forEach((item, index) => { const rank = index === 0 ? '🏆' : (index === 1 ? '🥈' : '🥉'); html += `<div style="display:flex; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--glass-border); align-items:center;"><div><span style="margin-right:12px; font-size:18px;">${rank}</span><strong style="font-size:15px; color:var(--text-main);">${item[0]}</strong></div><span class="text-success" style="font-weight:800; font-size:15px;">₹${item[1].toLocaleString()}</span></div>`; }); document.getElementById('member-leaderboard-preview').innerHTML = html || '<p class="text-xs text-center" style="padding:20px;">No closed figures recorded.</p>'; });
+            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => { 
+                this.localLeads = []; 
+                snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); }); 
+                const activeLeads = this.localLeads.filter(l => !l.ddClosed).length; 
+                document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`; 
+                this.applyFilters(); 
+            });
+
+            db.collection('leads').onSnapshot(snap => { 
+                let totals = {}; 
+                snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; }); 
+                const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]).slice(0, 3); 
+                let html = ''; 
+                sorted.forEach((item, index) => { 
+                    const rank = index === 0 ? '🏆' : (index === 1 ? '🥈' : '🥉'); 
+                    html += `<div style="display:flex; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--glass-border); align-items:center;"><div><span style="margin-right:10px; font-size:16px;">${rank}</span><strong style="font-size:14px; color:var(--text-main);">${item[0]}</strong></div><span class="text-success" style="font-weight:800; font-size:14px;">₹${item[1].toLocaleString()}</span></div>`; 
+                }); 
+                const leadPreviewBox = document.getElementById('member-leaderboard-preview');
+                if(leadPreviewBox) leadPreviewBox.innerHTML = html || '<p class="text-xs text-center" style="padding:15px; opacity:0.6;">No closed sales recorded yet.</p>'; 
+            });
         }
         static setFilter(type) { this.currentFilter = type; document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active')); if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active'); this.applyFilters(); }
         static applyFilters() {
@@ -712,8 +888,14 @@
                 if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤 Warm (Auto-Cooled)";
                 if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
                 const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
-                const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
+                
+                const waMessage = encodeURIComponent(`नमस्ते ${d.name} जी, आशा है आप सकुशल होंगे। हमारे बिज़नेस मॉडल के सम्बंध में आपसे बातचीत करनी थी। क्या हम 5 मिनट बात कर सकते हैं?`);
+                const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}?text=${waMessage}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
+                
+                // Pipeline Stage Tag View
+                const stageTag = d.stage ? `<span class="tag-stage" style="margin-left:6px;">${d.stage}</span>` : '';
+                
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span>${stageTag}<br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
             });
         }
         static async pushTomorrow(id, currentFollowUp) { let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp); next.setDate(next.getDate() + 1); const str = next.toISOString().split('T')[0]; await db.collection('leads').doc(id).update({ followUp: str }); UI.showToast('Follow-up shifted to tomorrow.', 'success'); }
@@ -724,7 +906,6 @@
     class Admin {
         static leadsVault = [];
         static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
-        static async publishTask() { const msg = document.getElementById('admin-task-input').value.trim(); if (!msg) return UI.showToast('Directive cannot be blank.', 'error'); await db.collection('system').doc('broadcast').set({ message: msg, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); document.getElementById('admin-task-input').value = ''; UI.showToast('Directives broadcasted.', 'success'); }
         static async pushLiveLink() { const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Please enter a valid URL.', 'error'); await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); UI.showToast('Live Training dispatched!', 'success'); }
         static async updateAcademy() {
             let vid = document.getElementById('ac-vid').value.trim(); const pdf = document.getElementById('ac-pdf').value.trim(); const q = document.getElementById('ac-q').value.trim(); const o1 = document.getElementById('ac-o1').value.trim(); const o2 = document.getElementById('ac-o2').value.trim(); const ans = document.getElementById('ac-ans').value;
@@ -777,7 +958,7 @@
             db.collection('users').onSnapshot(snap => {
                 const container = document.getElementById('admin-team-container'); container.innerHTML = ''; const filterSelect = document.getElementById('vault-filter-agent'); if(filterSelect) filterSelect.innerHTML = '<option value="All">All Agents</option>';
                 snap.forEach(doc => {
-                    const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:rgba(0,0,0,0.05); color: var(--text-muted); border: 1px solid var(--glass-border);">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : ''; const suspendBadge = d.suspended ? `<span class="badge badge-suspended">Suspended</span>` : ''; const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
+                    const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:rgba(0,0,0,0.05); color: var(--text-muted); border: 1px solid var(--glass-border);">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : ''; const suspendBadge = d.suspended ? `<span class="badge badge-warning">Suspended</span>` : ''; const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
                     let totalL = 0; let closedA = 0; this.leadsVault.forEach(l => { if(l.memberId === doc.id) { totalL++; if(l.ddClosed) closedA += l.ddAmount; }});
                     if(filterSelect) filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
                     container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs" style="font-weight: 400; opacity:0.7;">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:8px; font-weight: 600;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editUserAdmin('${doc.id}', '${d.name}')"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair</button><button class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger); background: rgba(239,68,68,0.05);" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
@@ -814,20 +995,65 @@
             filtered.forEach(d => { 
                 const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount.toLocaleString()}</span>` : `<span class="badge badge-warning">Unclosed</span>`; 
                 const act = `<div class="record-actions" style="margin-top:10px;"><button class="btn btn-outline btn-sm" onclick="Admin.editLeadAdmin('${d.id}')"><i class="fas fa-edit"></i> Edit Lead</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div>`;
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
+                const stg = d.stage ? `<span class="tag-stage" style="margin-left:6px;">${d.stage}</span>` : '';
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}${stg}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
             });
         }
+        
+        static getFilteredExportData() {
+            const agentFilter = document.getElementById('vault-filter-agent').value; 
+            const statusFilter = document.getElementById('vault-filter-status').value;
+            return this.leadsVault.filter(d => { 
+                return (agentFilter === 'All' || d.memberName === agentFilter) && 
+                       (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); 
+            });
+        }
+
         static exportJPG() {
-            const agentFilter = document.getElementById('vault-filter-agent').value; const statusFilter = document.getElementById('vault-filter-status').value;
-            let exportData = this.leadsVault.filter(d => { return (agentFilter === 'All' || d.memberName === agentFilter) && (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); });
-            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); UI.showToast('Generating JPG...', 'warning');
+            const exportData = this.getFilteredExportData();
+            const agentFilter = document.getElementById('vault-filter-agent').value;
+            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); 
+            UI.showToast('Generating JPG...', 'warning');
+            
             const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const rowHeight = 44; const headerHeight = 80; const width = 900; const height = headerHeight + (exportData.length + 1) * rowHeight + 40; canvas.width = width; canvas.height = height; ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, width, height);
             ctx.fillStyle = '#0f172a'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('HTM Filtered Report', 30, 50); ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()} | Agent: ${agentFilter}`, 600, 45); ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4; ctx.fillRect(20, headerHeight, width - 40, rowHeight); ctx.shadowColor = 'transparent'; ctx.fillStyle = '#475569'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('Prospect Name', 40, headerHeight + 28); ctx.fillText('Contact', 280, headerHeight + 28); ctx.fillText('Agent', 480, headerHeight + 28); ctx.fillText('Status', 700, headerHeight + 28); ctx.font = '15px sans-serif'; ctx.fillStyle = '#0f172a';
             exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
+
+        // NEW 1-CLICK CSV / EXCEL EXPORTER
+        static exportCSV() {
+            const exportData = this.getFilteredExportData();
+            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning');
+            
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Prospect Name,Phone Number,Stage Tag,Agent,Class,Status,DD Amount (INR),Follow Up Date\r\n";
+            
+            exportData.forEach(lead => {
+                const statusStr = lead.ddClosed ? "DD Closed" : "Open";
+                const row = [
+                    `"${lead.name || ''}"`,
+                    `"${lead.phone || ''}"`,
+                    `"${lead.stage || 'General'}"`,
+                    `"${lead.memberName || ''}"`,
+                    `"${lead.temp || ''}"`,
+                    `"${statusStr}"`,
+                    `"${lead.ddAmount || 0}"`,
+                    `"${lead.followUp || ''}"`
+                ].join(",");
+                csvContent += row + "\r\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `HTM_Leads_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            UI.showToast('CSV Exported Successfully!', 'success');
+        }
         
-        // SAFE SINGLE URL UPLOAD (Tested)
         static async addProductURL() {
             const name = document.getElementById('prod-name').value.trim();
             const category = document.getElementById('prod-category').value.trim();
@@ -847,7 +1073,13 @@
         static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
         static async deleteDoc(col, id) { if (confirm('Purge document completely?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
     }
-    function initAdminOverride() { if (prompt("HQ Passkey Authorization:") === "9999") { localStorage.setItem('htm_role', 'admin'); window.location.reload(); } }
+
+    function initAdminOverride() { 
+        if (prompt("HQ Passkey Authorization:") === "9999") { 
+            localStorage.setItem('htm_role', 'admin'); 
+            window.location.reload(); 
+        } 
+    }
     Auth.init();
 </script>
 </body>
