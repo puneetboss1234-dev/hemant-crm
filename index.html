@@ -78,7 +78,6 @@
         .badge-closer { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); color: #d97706; border-color: rgba(245,158,11,0.4); } 
         .badge-starter { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.2)); color: #2563eb; border-color: rgba(59,130,246,0.4); } 
         .tag-prof { background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
-        
         .tag-stage { background: rgba(59,130,246,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.25); display: inline-block; }
         
         .radar-screen { position: relative; height: 160px; border-radius: 16px; background: rgba(0,0,0,0.05); border: 1px solid var(--glass-border); overflow: hidden; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
@@ -130,32 +129,16 @@
 
         #global-sos-alert.show { top: 20px !important; }
 
-        /* CIRCULAR PROGRESS RING CSS */
-        .ring-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .circular-chart {
-            width: 82px;
-            height: 82px;
-            transform: rotate(-90deg);
-        }
-        .circle-bg {
-            fill: none;
-            stroke: rgba(0, 0, 0, 0.06);
-            stroke-width: 3.8;
-        }
-        body.dark-mode .circle-bg {
-            stroke: rgba(255, 255, 255, 0.08);
-        }
-        .circle {
-            fill: none;
-            stroke-width: 3.8;
-            stroke-linecap: round;
-            stroke: var(--success);
-            transition: stroke-dasharray 0.6s ease;
-        }
+        .ring-container { display: flex; align-items: center; gap: 20px; }
+        .circular-chart { width: 82px; height: 82px; transform: rotate(-90deg); }
+        .circle-bg { fill: none; stroke: rgba(0, 0, 0, 0.06); stroke-width: 3.8; }
+        body.dark-mode .circle-bg { stroke: rgba(255, 255, 255, 0.08); }
+        .circle { fill: none; stroke-width: 3.8; stroke-linecap: round; stroke: var(--success); transition: stroke-dasharray 0.6s ease; }
+
+        .lead-notes-list { margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.02); border-radius: 10px; border: 1px dashed var(--glass-border); }
+        body.dark-mode .lead-notes-list { background: rgba(255,255,255,0.03); }
+        .script-box { background: rgba(0,0,0,0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+        body.dark-mode .script-box { background: rgba(255,255,255,0.04); }
     </style>
 </head>
 <body>
@@ -221,7 +204,6 @@
         <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:20px; border-bottom:1px solid var(--glass-border); padding-bottom:14px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
         <div style="display:flex; gap:8px; align-items: center;">
             <input type="text" id="sos-message" placeholder="Type or tap mic..." style="margin:0; flex: 1;">
-            <!-- VOICE MEMO BUTTON -->
             <button class="btn btn-outline btn-sm" id="mic-sos-btn" style="color:var(--danger); border-color:var(--danger); padding:14px 16px;" onclick="VoiceHelper.startSpeech('sos-message', 'mic-sos-btn')"><i class="fas fa-microphone"></i></button>
             <button class="btn btn-primary btn-sm" style="background:var(--danger); padding:14px 18px;" onclick="Member.sendSOS()">Send</button>
         </div>
@@ -334,7 +316,6 @@
                     <select id="vault-filter-status" onchange="Admin.renderVault()"><option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option></select>
                 </div>
                 
-                <!-- JPG & CSV EXPORT BUTTONS -->
                 <div class="grid-2" style="margin-top:14px;">
                     <button class="btn btn-outline" style="border-color:#8b5cf6; color:#8b5cf6; font-weight:600;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
                     <button class="btn btn-outline" style="border-color:var(--success); color:var(--success); font-weight:600;" onclick="Admin.exportCSV()"><i class="fas fa-file-excel"></i> Export CSV (Excel)</button>
@@ -379,7 +360,6 @@
                 <div><strong style="font-size:14px;" id="urgency-title">Daily Quota Incomplete</strong><div class="text-xs" id="urgency-desc">Target DD pending. Field action required.</div></div>
             </div>
             
-            <!-- GAMIFIED CIRCULAR TARGET CARD -->
             <div class="card" style="padding:22px 20px;">
                 <div class="ring-container">
                     <svg viewBox="0 0 36 36" class="circular-chart">
@@ -397,7 +377,6 @@
                 </div>
             </div>
 
-            <!-- LEADERBOARD CONTAINER -->
             <div class="card" style="padding: 16px 20px;">
                 <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-trophy text-warning"></i> Network Leaderboard</h4>
                 <div id="member-leaderboard-preview"></div>
@@ -407,10 +386,15 @@
             <div id="plan-init-state" class="card" style="border-top: 4px solid var(--primary);">
                 <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
                 <select id="plan-type"><option value="1-on-1 Plan">1-on-1 Business Plan</option><option value="Venue Plan">Venue Seminar</option><option value="Follow-up Close">Follow-up Close</option></select>
+                
                 <label class="btn btn-outline" style="font-size:13px; padding:14px; margin-bottom:16px; color:var(--warning); border-color:var(--warning);">
-                    <i class="fas fa-camera"></i> Mandatory Check-in Selfie
-                    <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="UI.showToast('Selfie Verified locally.','success')">
+                    <i class="fas fa-camera"></i> <span id="selfie-status-text">Mandatory Check-in Selfie</span>
+                    <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="Member.handleSelfieUpload(this)">
                 </label>
+                <div id="selfie-preview-box" class="hidden" style="margin-bottom:16px; text-align:center;">
+                    <img id="selfie-preview-img" src="" alt="Selfie Preview" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--success);">
+                </div>
+
                 <button class="btn btn-primary" onclick="Member.startPlan()"><i class="fas fa-map-marker-alt"></i> Initiate Check-in (GPS)</button>
             </div>
             
@@ -429,7 +413,6 @@
                     <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
                 
-                <!-- NEW SMART STAGE TAG SELECTOR -->
                 <div class="grid-2">
                     <select id="lead-stage">
                         <option value="New Lead">📌 New Prospect</option>
@@ -458,6 +441,36 @@
 
         <div id="mem-academy" class="tab-content hidden">
             <div id="live-training-container" class="hidden" style="margin-bottom:24px;"><button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')"><i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE</button></div>
+            
+            <div class="card" style="border-top: 4px solid var(--primary); margin-bottom:20px;">
+                <h4 style="margin-bottom:14px; color:var(--primary); font-size:16px;"><i class="fas fa-phone-volume"></i> 1-Tap Invitation Scripts</h4>
+                <p class="text-xs" style="margin-bottom:16px;">कॉलिंग करते वक्त इन स्क्रिप्ट्स का इस्तेमाल करें और 1-टैप में कॉपी करें।</p>
+                
+                <div class="script-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong class="text-sm"><i class="fas fa-user-graduate text-primary"></i> For Students</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('student-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <p class="text-xs" id="student-scr" style="margin:0; line-height:1.5;">"भाई, कॉलेज और पढ़ाई के साथ-साथ क्या तू अपने खाली 1-2 घंटे में खुद के खर्चे और डिजिटल स्किल्स सीखने के लिए पार्ट-टाइम इनकम में इंटरेस्टेड है? आज शाम 6 बजे एक ज़बरदस्त प्रेजेंटेशन है।"</p>
+                </div>
+
+                <div class="script-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Working Employee</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <p class="text-xs" id="job-scr" style="margin:0; line-height:1.5;">"सर, अपनी जॉब को बिना डिस्टर्ब किए, क्या आप वीकेंड्स या शाम के समय में एक पैरेलल सेकेंडरी इनकम सोर्स बिल्ड करना चाहेंगे? हमारे पास एक प्रूवेन ई-कॉमर्स प्रोजेक्ट है।"</p>
+                </div>
+
+                <div class="script-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong class="text-sm"><i class="fas fa-home text-success"></i> For Housewives / Females</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('housewife-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <p class="text-xs" id="housewife-scr" style="margin:0; line-height:1.5;">"नमस्ते, घर के काम-काज को संभालते हुए अपने स्मार्टफोन से वर्क-फ्रॉम-होम के ज़रिए इंडिपेंडेंट होने का एक शानदार मौका है। 15 मिनट में समझें कैसे।"</p>
+                </div>
+            </div>
+
             <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4><div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div></div>
             <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4><button class="btn btn-outline" style="font-weight: 600;" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button></div>
             
@@ -520,14 +533,13 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // SPEECH RECOGNITION (VOICE NOTE HELPER)
     class VoiceHelper {
         static startSpeech(targetInputId, btnId) {
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
             if(!SpeechRec) return UI.showToast("Voice input not supported on this browser.", "warning");
             
             const recognition = new SpeechRec();
-            recognition.lang = 'hi-IN'; // Recognizes Hindi/English naturally
+            recognition.lang = 'hi-IN';
             recognition.interimResults = false;
             
             const btn = document.getElementById(btnId);
@@ -676,7 +688,7 @@
     }
 
     class Member {
-        static localLeads = []; static currentFilter = 'All'; static currentQuizAns = 0;
+        static localLeads = []; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
         static initData() {
             this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
@@ -686,6 +698,43 @@
             });
         }
         
+        static handleSelfieUpload(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        const maxDim = 300;
+                        let w = img.width, h = img.height;
+                        if(w > h) { if(w > maxDim) { h *= maxDim / w; w = maxDim; } }
+                        else { if(h > maxDim) { w *= maxDim / h; h = maxDim; } }
+                        canvas.width = w; canvas.height = h;
+                        ctx.drawImage(img, 0, 0, w, h);
+                        Member.cachedSelfieBase64 = canvas.toDataURL('image/jpeg', 0.6);
+                        
+                        document.getElementById('selfie-status-text').innerText = "Selfie Verified ✓";
+                        document.getElementById('selfie-preview-img').src = Member.cachedSelfieBase64;
+                        document.getElementById('selfie-preview-box').classList.remove('hidden');
+                        UI.showToast('Selfie verified & ready for HQ transmission.', 'success');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        static copyScript(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                UI.showToast("Script copied to clipboard!", "success");
+            }).catch(() => {
+                UI.showToast("Failed to copy", "error");
+            });
+        }
+
         static async searchAIProducts() {
             const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
             const container = document.getElementById('ai-gallery-container');
@@ -782,7 +831,6 @@
                 document.getElementById('mem-target-label').innerText = `Target: ₹${target.toLocaleString()}`;
                 const percentage = Math.min(Math.round((totalCollected / target) * 100), 100); 
                 
-                // UPDATE CIRCULAR RING & LINEAR BAR
                 document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()}`; 
                 document.getElementById('mem-target-percent-badge').innerText = `${percentage}% Achieved`;
                 document.getElementById('mem-target-bar').style.width = `${percentage}%`;
@@ -804,7 +852,8 @@
         }
         static startPlan() {
             const prospect = document.getElementById('plan-prospect').value.trim();
-            if (!prospect) return UI.showToast('Designate prospect target.', 'error'); if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
+            if (!prospect) return UI.showToast('Designate prospect target.', 'error'); 
+            if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
             UI.showToast('Acquiring location lock...', 'warning');
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude; const lng = pos.coords.longitude; let locName = "Location Coordinates Locked";
@@ -825,9 +874,17 @@
                     lat: lat, 
                     lng: lng, 
                     locationName: locName, 
+                    selfieUrl: Member.cachedSelfieBase64 || "",
                     timestamp: firebase.firestore.FieldValue.serverTimestamp() 
                 });
-                localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect); document.getElementById('plan-prospect').value = ''; this.checkActivePlanState(); UI.showToast('Run logged on active grid.', 'success');
+                localStorage.setItem("htm_active_plan", docRef.id); 
+                localStorage.setItem("htm_active_prospect", prospect); 
+                document.getElementById('plan-prospect').value = ''; 
+                Member.cachedSelfieBase64 = "";
+                document.getElementById('selfie-preview-box').classList.add('hidden');
+                document.getElementById('selfie-status-text').innerText = "Mandatory Check-in Selfie";
+                this.checkActivePlanState(); 
+                UI.showToast('Run logged on active grid.', 'success');
             }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
         }
         static async endPlan() {
@@ -846,15 +903,34 @@
                 phone: document.getElementById('lead-phone').value.trim(), 
                 temp: document.getElementById('lead-temp').value, 
                 prof: document.getElementById('lead-prof').value, 
-                stage: document.getElementById('lead-stage').value, // Stage Tag Added
+                stage: document.getElementById('lead-stage').value, 
                 followUp: document.getElementById('lead-date').value, 
                 ddClosed: false, 
-                ddAmount: 0 
+                ddAmount: 0,
+                notes: []
             };
             if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
             if (!navigator.onLine) { let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload); localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline locally.', 'warning'); }
             payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
         }
+
+        static async addLeadNote(leadId) {
+            const noteText = prompt("Add Quick Meeting Note / Objection:");
+            if(!noteText || !noteText.trim()) return;
+            const noteEntry = {
+                text: noteText.trim(),
+                time: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' })
+            };
+            try {
+                await db.collection('leads').doc(leadId).update({
+                    notes: firebase.firestore.FieldValue.arrayUnion(noteEntry)
+                });
+                UI.showToast("Note attached to prospect file.", "success");
+            } catch(e) {
+                UI.showToast("Error saving note", "error");
+            }
+        }
+
         static streamLeads() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => { 
                 this.localLeads = []; 
@@ -890,12 +966,27 @@
                 const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
                 
                 const waMessage = encodeURIComponent(`नमस्ते ${d.name} जी, आशा है आप सकुशल होंगे। हमारे बिज़नेस मॉडल के सम्बंध में आपसे बातचीत करनी थी। क्या हम 5 मिनट बात कर सकते हैं?`);
-                const actionTray = d.ddClosed ? '' : `<div class="action-tray"><a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a><a href="https://wa.me/91${d.phone}?text=${waMessage}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a><div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div><div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div></div>`;
                 
-                // Pipeline Stage Tag View
+                const actionTray = d.ddClosed ? '' : `<div class="action-tray">
+                    <a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a>
+                    <a href="https://wa.me/91${d.phone}?text=${waMessage}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a>
+                    <div class="action-btn" style="background: rgba(139,92,246,0.1); color: #8b5cf6;" onclick="Member.addLeadNote('${d.id}')"><i class="fas fa-edit"></i> Note</div>
+                    <div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div>
+                    <div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div>
+                </div>`;
+                
                 const stageTag = d.stage ? `<span class="tag-stage" style="margin-left:6px;">${d.stage}</span>` : '';
                 
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span>${stageTag}<br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${actionTray}<div class="record-actions">${ddUI}</div></div>`;
+                let notesUI = "";
+                if(d.notes && d.notes.length > 0) {
+                    notesUI = `<div class="lead-notes-list"><strong class="text-xs" style="color:var(--primary);"><i class="fas fa-clipboard-list"></i> Meeting Log:</strong>`;
+                    d.notes.slice(-2).forEach(n => {
+                        notesUI += `<p class="text-xs" style="margin:4px 0 0 0; color:var(--text-muted);"><span style="color:var(--text-main); font-weight:600;">[${n.time}]</span> ${n.text}</p>`;
+                    });
+                    notesUI += `</div>`;
+                }
+
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span>${stageTag}<br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${notesUI}${actionTray}<div class="record-actions">${ddUI}</div></div>`;
             });
         }
         static async pushTomorrow(id, currentFollowUp) { let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp); next.setDate(next.getDate() + 1); const str = next.toISOString().split('T')[0]; await db.collection('leads').doc(id).update({ followUp: str }); UI.showToast('Follow-up shifted to tomorrow.', 'success'); }
@@ -944,7 +1035,15 @@
                     const d = doc.data(); if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
                     const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
                     const locText = d.locationName ? `<span style="display:block; margin-top:6px; color:var(--primary); font-weight: 500;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : ''; const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:8px 0 0 0; background: rgba(16,185,129,0.1); padding: 6px; border-radius: 6px;"><i>Note: ${d.remarks}</i></p>` : '';
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${remarkUI}</div><div>${badge}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editTrackingAdmin('${doc.id}', '${d.prospect}')"><i class="fas fa-edit"></i> Edit</button>${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+                    
+                    const selfieThumb = d.selfieUrl ? `
+                        <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
+                            <img src="${d.selfieUrl}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1px solid var(--glass-border); cursor:pointer;" onclick="UI.openImageViewer('${d.selfieUrl}')" title="Tap to expand selfie">
+                            <span class="text-xs" style="color:var(--text-muted);"><i class="fas fa-check-circle text-success"></i> Field Selfie Verified</span>
+                        </div>
+                    ` : '';
+
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${selfieThumb}${remarkUI}</div><div>${badge}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editTrackingAdmin('${doc.id}', '${d.prospect}')"><i class="fas fa-edit"></i> Edit</button>${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
                 }); document.getElementById('admin-active-count').innerText = count;
             });
         }
@@ -1021,7 +1120,6 @@
             const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
         }
 
-        // NEW 1-CLICK CSV / EXCEL EXPORTER
         static exportCSV() {
             const exportData = this.getFilteredExportData();
             if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning');
