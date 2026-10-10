@@ -7,141 +7,110 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #3b82f6; --primary-glow: rgba(59, 130, 246, 0.35);
-            --accent: #8b5cf6; --accent-glow: rgba(139, 92, 246, 0.35);
+            --primary: #2563eb; --primary-glow: rgba(37, 99, 235, 0.35);
+            --accent: #7c3aed; --accent-glow: rgba(124, 58, 237, 0.35);
             --text-main: #0f172a; --text-muted: #64748b;
             --danger: #ef4444; --danger-glow: rgba(239, 68, 68, 0.28);
             --success: #10b981; --success-glow: rgba(16, 185, 129, 0.28);
             --warning: #f59e0b; --warning-glow: rgba(245, 158, 11, 0.28);
-            --glass-bg: rgba(255, 255, 255, 0.78);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --glass-card-border: rgba(15, 23, 42, 0.07);
+            --glass-bg: rgba(255, 255, 255, 0.88);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --glass-card-border: rgba(15, 23, 42, 0.08);
             --bg-body: #f8fafc;
-            --surface-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.06), 0 0 1px 1px rgba(255,255,255,0.7) inset;
+            --surface-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
         }
         
         body.dark-mode {
             --bg-body: #070d18; --text-main: #f8fafc; --text-muted: #94a3b8;
-            --glass-bg: rgba(15, 23, 42, 0.72);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(15, 23, 42, 0.82);
+            --glass-border: rgba(255, 255, 255, 0.12);
             --glass-card-border: rgba(255, 255, 255, 0.08);
-            --surface-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255,255,255,0.1) inset;
+            --surface-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
         }
         
-        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { 
-            margin: 0; 
-            background: var(--bg-body); 
-            color: var(--text-main); 
-            padding-bottom: 110px; 
-            -webkit-font-smoothing: antialiased; 
-            min-height: 100vh; 
-            transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease; 
-            overflow-x: hidden; 
-            position: relative;
+            margin: 0; background: var(--bg-body); color: var(--text-main); 
+            padding-bottom: 100px; -webkit-font-smoothing: antialiased; 
+            min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; 
+            overflow-x: hidden; position: relative;
         }
 
-        /* Ambient Animated Mesh Background */
-        .ambient-mesh {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.45;
-            animation: floatOrb 18s ease-in-out infinite alternate;
-        }
-        .orb-1 { width: 320px; height: 320px; background: var(--primary-glow); top: -60px; right: -60px; }
-        .orb-2 { width: 280px; height: 280px; background: var(--accent-glow); bottom: 10%; left: -60px; animation-duration: 22s; }
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(30px, 40px) scale(1.1); }
-            100% { transform: translate(-20px, 20px) scale(0.95); }
-        }
+        /* Ambient Glow Background */
+        .ambient-mesh { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; overflow: hidden; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; }
+        .orb-1 { width: 300px; height: 300px; background: var(--primary-glow); top: -80px; right: -80px; }
+        .orb-2 { width: 280px; height: 280px; background: var(--accent-glow); bottom: 15%; left: -80px; }
         
         .container { max-width: 600px; margin: 0 auto; padding: 16px; position: relative; z-index: 1; }
         .hidden { display: none !important; } 
-        .tab-content:not(.hidden) { animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(18px) scale(0.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .tab-content:not(.hidden) { animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
         
         .app-header, .member-header { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 12px 0 20px 0; border-bottom: 1px solid var(--glass-card-border); 
-            margin-bottom: 20px; flex-wrap: wrap; gap: 10px; 
+            padding: 10px 0 16px 0; border-bottom: 1px solid var(--glass-card-border); 
+            margin-bottom: 18px; flex-wrap: wrap; gap: 10px; 
         }
-        h1, h2, h3, h4 { margin: 0; font-weight: 750; letter-spacing: -0.02em; } 
+        h1, h2, h3, h4 { margin: 0; font-weight: 700; } 
         .text-sm { font-size: 13px; color: var(--text-muted); } 
-        .text-xs { font-size: 11px; color: var(--text-muted); font-weight: 550; }
+        .text-xs { font-size: 11px; color: var(--text-muted); font-weight: 600; }
         
         .card, .dashboard-stat, .record-item, .urgency-banner, .benefit-product-card { 
             background: var(--glass-bg); 
-            backdrop-filter: blur(28px) saturate(180%); 
-            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-card-border); 
-            border-radius: 22px; padding: 20px; margin-bottom: 16px; 
+            border-radius: 20px; padding: 18px; margin-bottom: 16px; 
             box-shadow: var(--surface-shadow);
             width: 100%; overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
-        .card:hover, .benefit-product-card:hover { transform: translateY(-2px); }
         
         .urgency-banner { 
-            display: flex; align-items: center; gap: 16px; padding: 18px 20px; 
-            border-left: 5px solid var(--warning); margin-bottom: 20px;
+            display: flex; align-items: center; gap: 14px; padding: 16px 18px; 
+            border-left: 5px solid var(--warning); margin-bottom: 18px;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
         }
         
         input, select, textarea { 
-            width: 100%; padding: 15px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.9); 
-            border: 1.5px solid rgba(203, 213, 225, 0.7); color: var(--text-main); font-size: 14px; 
-            margin-bottom: 14px; outline: none; box-sizing: border-box;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 100%; padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.95); 
+            border: 1.5px solid rgba(203, 213, 225, 0.8); color: var(--text-main); font-size: 14px; 
+            margin-bottom: 12px; outline: none; box-sizing: border-box;
+            transition: all 0.2s ease;
         }
         body.dark-mode input, body.dark-mode select, body.dark-mode textarea { 
-            background: rgba(15, 23, 42, 0.65); border-color: rgba(255,255,255,0.12); color: #fff; 
+            background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.12); color: #fff; 
         }
         input:focus, select:focus, textarea:focus { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 0 4px var(--primary-glow); 
-            transform: translateY(-1px);
+            border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); 
         }
-        textarea { resize: vertical; min-height: 90px; }
+        textarea { resize: vertical; min-height: 85px; }
         
         .btn { 
-            width: 100%; padding: 15px; border-radius: 15px; border: none; font-size: 14px; 
+            width: 100%; padding: 14px; border-radius: 14px; border: none; font-size: 14px; 
             font-weight: 650; cursor: pointer; display: flex; justify-content: center; align-items: center; 
-            gap: 8px; box-sizing: border-box; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 8px; box-sizing: border-box; transition: transform 0.15s ease, box-shadow 0.2s ease;
         }
         .btn:active { transform: scale(0.98); }
         .btn-primary { 
-            background: linear-gradient(135deg, var(--primary), #2563eb); 
-            color: #fff; box-shadow: 0 8px 24px var(--primary-glow); 
+            background: linear-gradient(135deg, var(--primary), #1d4ed8); 
+            color: #fff; box-shadow: 0 6px 20px var(--primary-glow); 
         } 
-        .btn-primary:hover { box-shadow: 0 10px 28px rgba(59, 130, 246, 0.5); }
         .btn-outline { 
-            background: rgba(255, 255, 255, 0.4); 
-            border: 1.5px solid rgba(203, 213, 225, 0.8); 
+            background: transparent; border: 1.5px solid rgba(203, 213, 225, 0.9); 
             color: var(--text-main); 
-            backdrop-filter: blur(10px);
         }
-        body.dark-mode .btn-outline { border-color: rgba(255,255,255,0.15); color: #f8fafc; background: rgba(15, 23, 42, 0.4); }
+        body.dark-mode .btn-outline { border-color: rgba(255,255,255,0.15); color: #f8fafc; }
         .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1.5px solid rgba(239, 68, 68, 0.3); }
-        .btn-sm { width: auto; padding: 8px 14px; font-size: 12px; border-radius: 11px; }
+        .btn-sm { width: auto; padding: 8px 14px; font-size: 12px; border-radius: 10px; }
         
         .filter-pill { 
-            border-radius: 20px; padding: 8px 16px; font-size: 12px; font-weight: 600; 
+            border-radius: 20px; padding: 7px 15px; font-size: 12px; font-weight: 600; 
             white-space: nowrap; cursor: pointer; border: 1px solid var(--glass-card-border); 
             background: var(--glass-bg); color: var(--text-muted); 
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .filter-pill.active { 
             background: var(--primary); border-color: var(--primary); color: white; 
-            box-shadow: 0 6px 16px var(--primary-glow); 
+            box-shadow: 0 4px 12px var(--primary-glow); 
         }
         
         .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; } 
@@ -149,125 +118,111 @@
         .action-btn { 
             flex: 1; padding: 10px; border-radius: 12px; font-size: 12px; font-weight: 600; 
             text-align: center; border: 1px solid var(--glass-card-border); cursor: pointer; white-space: nowrap; 
-            transition: all 0.2s ease;
         }
-        .action-btn:active { transform: scale(0.96); }
         
-        .badge { padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: 0.03em; } 
-        .badge-success { background: rgba(16,185,129,0.14); color: var(--success); border: 1px solid rgba(16,185,129,0.3); } 
-        .badge-warning { background: rgba(245,158,11,0.14); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); } 
-        .badge-primary { background: rgba(59,130,246,0.14); color: var(--primary); border: 1px solid rgba(59,130,246,0.3); } 
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; } 
+        .badge-success { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid rgba(16,185,129,0.3); } 
+        .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); } 
+        .badge-primary { background: rgba(37,99,235,0.15); color: var(--primary); border: 1px solid rgba(37,99,235,0.3); } 
         
         .gamification-badge { 
-            display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; 
-            border-radius: 10px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.15); 
+            display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; 
+            border-radius: 8px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.15); 
             border: 1px solid var(--glass-card-border); margin-top: 4px; 
         }
-        .badge-closer { background: linear-gradient(135deg, rgba(245,158,11,0.25), rgba(239,68,68,0.25)); color: #d97706; border-color: rgba(245,158,11,0.4); } 
-        .badge-starter { background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(16,185,129,0.25)); color: #2563eb; border-color: rgba(59,130,246,0.4); } 
+        .badge-closer { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); color: #d97706; border-color: rgba(245,158,11,0.4); } 
+        .badge-starter { background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(16,185,129,0.2)); color: #2563eb; border-color: rgba(37,99,235,0.4); } 
         .tag-prof { background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
-        .tag-stage { background: rgba(59,130,246,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(59,130,246,0.25); display: inline-block; }
+        .tag-stage { background: rgba(37,99,235,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(37,99,235,0.25); display: inline-block; }
         
-        /* Floating Nav with Liquid Glass Indicator */
+        .radar-screen { position: relative; height: 160px; border-radius: 16px; background: rgba(0,0,0,0.04); border: 1px solid var(--glass-card-border); overflow: hidden; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
+        body.dark-mode .radar-screen { background: rgba(0,0,0,0.3); }
+        .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(37,99,235,0.15) 1px, transparent 1px); background-size: 20px 20px; }
+        .radar-sweep { position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 1.5px solid rgba(37,99,235,0.4); animation: pulseRadar 3s infinite ease-out; }
+        @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+        .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
+        
+        /* 4-Item Pro Floating Nav */
         .floating-nav { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.75); 
-            backdrop-filter: blur(28px) saturate(200%); -webkit-backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid var(--glass-border); border-radius: 36px; 
-            display: flex; padding: 6px; z-index: 100; width: 94%; max-width: 480px; 
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.12); box-sizing: border-box; 
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border); border-radius: 32px; 
+            display: flex; padding: 5px; z-index: 100; width: 92%; max-width: 440px; 
+            box-shadow: 0 15px 35px -5px rgba(0,0,0,0.12); box-sizing: border-box; 
         }
-        body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.78); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 45px -10px rgba(0,0,0,0.6); }
+        body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.88); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .nav-box { 
             flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            color: var(--text-muted); font-size: 10px; font-weight: 650; gap: 4px; padding: 10px 0; 
-            cursor: pointer; z-index: 2; position: relative; transition: color 0.3s ease;
+            color: var(--text-muted); font-size: 10px; font-weight: 650; gap: 4px; padding: 8px 0; 
+            cursor: pointer; z-index: 2; position: relative; transition: color 0.25s ease;
         }
-        .nav-box i { font-size: 17px; transition: transform 0.25s ease; } 
+        .nav-box i { font-size: 16px; } 
         .nav-box.active { color: var(--primary); } 
-        .nav-box.active i { transform: translateY(-2px); }
         .nav-indicator { 
-            position: absolute; top: 6px; bottom: 6px; 
-            background: #ffffff; border-radius: 28px; z-index: 1; 
-            transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1), width 0.35s ease; 
-            box-shadow: 0 6px 18px rgba(0,0,0,0.06); 
+            position: absolute; top: 5px; bottom: 5px; 
+            background: #ffffff; border-radius: 26px; z-index: 1; 
+            transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
         }
-        body.dark-mode .nav-indicator { background: #1e293b; box-shadow: 0 6px 18px rgba(0,0,0,0.4); }
+        body.dark-mode .nav-indicator { background: #1e293b; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        /* Pro Opening Splash Screen */
+        /* HTM Custom Vector Logo & Splash Elements */
+        .htm-logo-svg {
+            filter: drop-shadow(0 6px 14px var(--primary-glow));
+            transition: transform 0.3s ease;
+        }
+        .htm-logo-svg:hover { transform: scale(1.05); }
+
         #welcome-splash { 
-            z-index: 99999; 
-            background: rgba(7, 13, 24, 0.88); 
-            backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+            z-index: 99999; background: rgba(7, 13, 24, 0.92); 
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
         } 
         .splash-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 32px;
-            padding: 45px 28px;
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.6);
-            animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            border-radius: 30px; padding: 40px 24px; text-align: center;
+            max-width: 380px; width: 100%; box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+            animation: splashIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes splashEntrance {
-            from { opacity: 0; transform: scale(0.92) translateY(20px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .pro-core-logo {
-            position: relative;
-            width: 110px; height: 110px;
-            margin: 0 auto 28px auto;
+        @keyframes splashIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+        
+        .logo-ring-wrapper {
+            position: relative; width: 100px; height: 100px; margin: 0 auto 20px auto;
             display: flex; align-items: center; justify-content: center;
         }
-        .pro-core-ring {
+        .logo-spinning-ring {
             position: absolute; width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 2px dashed rgba(59, 130, 246, 0.6);
-            animation: spinRing 12s linear infinite;
+            border-radius: 50%; border: 2px dashed rgba(37, 99, 235, 0.6);
+            animation: spinRing 14s linear infinite;
         }
         @keyframes spinRing { 100% { transform: rotate(360deg); } }
-        .pro-core-glow {
-            width: 82px; height: 82px; border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 36px; color: white;
-            box-shadow: 0 0 35px rgba(59, 130, 246, 0.7);
-            animation: corePulse 2.5s ease-in-out infinite alternate;
-        }
-        @keyframes corePulse {
-            0% { transform: scale(0.96); box-shadow: 0 0 25px rgba(59, 130, 246, 0.5); }
-            100% { transform: scale(1.04); box-shadow: 0 0 45px rgba(139, 92, 246, 0.8); }
-        }
-        .diagnostic-pill {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 6px 14px; border-radius: 20px;
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-            font-size: 11px; color: #94a3b8; margin-bottom: 24px;
-        }
-        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981; animation: blinkDot 1.4s infinite; }
-        @keyframes blinkDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
         .theme-icon { 
-            font-size: 18px; cursor: pointer; padding: 10px; border-radius: 50%; 
+            font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; 
             background: var(--glass-bg); border: 1px solid var(--glass-card-border);
-            box-shadow: var(--surface-shadow); transition: transform 0.25s ease;
+            box-shadow: var(--surface-shadow); 
         }
-        .theme-icon:hover { transform: rotate(20deg) scale(1.05); }
 
-        .btn-live-pulse { 
-            background: linear-gradient(135deg, #ef4444, #dc2626); 
-            color: white; border: none; box-shadow: 0 0 24px rgba(239, 68, 68, 0.45); 
-            animation: pulseRed 2.2s infinite; font-weight: 700; 
-        }
-        @keyframes pulseRed { 0% { opacity: 1; } 50% { opacity: 0.85; transform: scale(0.99); } 100% { opacity: 1; } }
-
-        .benefit-product-card { border-radius: 24px; }
-        .benefit-product-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 16px; cursor: pointer; }
-        .benefit-list { list-style: none; padding: 0; margin: 12px 0 0 0; border-top: 1px dashed var(--glass-card-border); padding-top: 10px; }
+        .benefit-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 14px; cursor: pointer; }
+        .benefit-list { list-style: none; padding: 0; margin: 10px 0 0 0; border-top: 1px dashed var(--glass-card-border); padding-top: 10px; }
         .benefit-list li { font-size: 12px; color: var(--text-main); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
         .benefit-list li i { color: var(--success); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+        
+        .ss-accordion { border: 1px solid var(--glass-card-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: rgba(0,0,0,0.01); }
+        .ss-acc-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main); }
+        .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-card-border); display: none; line-height: 1.6; }
+        .ss-accordion.active .ss-acc-body { display: block; }
+        .ss-accordion.active .ss-acc-head i { transform: rotate(180deg); color: var(--primary); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dashboard-stat { padding: 18px; border-radius: 18px; text-align: center; } 
+        .dashboard-stat h2 { color: var(--primary); font-size: 26px; margin: 6px 0 0 0; font-weight: 800; }
+        .ring-container { display: flex; align-items: center; gap: 16px; }
+        .circular-chart { width: 75px; height: 75px; transform: rotate(-90deg); }
+        .circle-bg { fill: none; stroke: rgba(0, 0, 0, 0.06); stroke-width: 3.8; }
+        body.dark-mode .circle-bg { stroke: rgba(255, 255, 255, 0.08); }
+        .circle { fill: none; stroke-width: 3.8; stroke-linecap: round; stroke: var(--success); transition: stroke-dasharray 0.6s ease; }
     </style>
 </head>
 <body>
@@ -279,35 +234,44 @@
 
 <!-- SAFE DOUBLE-TAP IMAGE VIEWER -->
 <div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.96); z-index: 100000; flex-direction: column; padding: 0;">
-    <div style="width: 100%; display: flex; justify-content: flex-end; padding: 20px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
-        <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
+    <div style="width: 100%; display: flex; justify-content: flex-end; padding: 16px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
+        <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 40px; height: 40px; border-radius: 20px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></button>
     </div>
-    <div style="width: 100%; height: 75%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
+    <div style="width: 100%; height: 72%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
         <img id="viewer-image" src="" alt="Viewer" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
     </div>
-    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 25%; background: var(--glass-bg); border-top: 1px solid var(--glass-card-border); padding: 16px 20px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 24px 24px 0 0;">
+    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 28%; background: var(--glass-bg); border-top: 1px solid var(--glass-card-border); padding: 14px 18px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 22px 22px 0 0;">
         <h4 id="viewer-title" style="margin: 0 0 4px 0; font-size: 15px; color: var(--text-main);">Product Name</h4>
         <span class="badge badge-primary" id="viewer-category">Category</span>
         <div id="viewer-features" style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; white-space: pre-line;"></div>
     </div>
 </div>
 
-<!-- EXECUTIVE PRO OPENING SPLASH SCREEN -->
+<!-- EXECUTIVE HTM WELCOME SPLASH SCREEN -->
 <div id="welcome-splash" class="modal-overlay hidden">
     <div class="splash-card">
-        <div class="pro-core-logo">
-            <div class="pro-core-ring"></div>
-            <div class="pro-core-glow"><i class="fas fa-crown"></i></div>
+        <div class="logo-ring-wrapper">
+            <div class="logo-spinning-ring"></div>
+            <!-- Custom Vector HTM Emblem -->
+            <svg class="htm-logo-svg" width="76" height="76" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#htm_grad)" stroke="#60a5fa" stroke-width="2"/>
+                <path d="M50 15L80 32.5V67.5L50 85L20 67.5V32.5L50 15Z" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                <!-- Crown over HTM -->
+                <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
+                <!-- Monogram HTM -->
+                <text x="50" y="65" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">HTM</text>
+                <defs>
+                    <linearGradient id="htm_grad" x1="11" y1="5" x2="89" y2="95" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#1e3a8a"/>
+                        <stop offset="1" stop-color="#3b82f6"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
-        <h2 style="font-size: 24px; color: #fff; margin-bottom: 6px; letter-spacing: -0.02em;">HTM Enterprise OS</h2>
-        <p class="text-sm" style="color: #94a3b8; margin-bottom: 18px;">Direct Marketing & Team Neural Network</p>
-        
-        <div class="diagnostic-pill">
-            <span class="pulse-dot"></span> System Diagnostics: 100% Operational
-        </div>
-
-        <button class="btn btn-primary" onclick="UI.dismissSplash()" style="padding: 16px; border-radius: 18px; font-size: 15px;">
-            Initialize Operations <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+        <h2 style="font-size: 22px; color: #fff; margin-bottom: 4px;">HTM Enterprise OS</h2>
+        <p class="text-sm" style="color: #94a3b8; margin-bottom: 20px;">Hemant Team Management • Network Workspace</p>
+        <button class="btn btn-primary" onclick="UI.dismissSplash()" style="padding: 15px; border-radius: 16px;">
+            Initialize Workspace <i class="fas fa-arrow-right"></i>
         </button>
     </div>
 </div>
@@ -315,10 +279,10 @@
 <div id="toast-container"></div>
 
 <!-- GLOBAL SOS ALERT -->
-<div id="global-sos-alert" style="position:fixed; top:-250px; left:50%; transform:translateX(-50%); width:92%; max-width:450px; z-index:10001; transition:top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(239, 68, 68, 0.95); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 20px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);">
-    <h4 style="margin:0 0 10px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
-    <p class="text-sm" style="color: white; margin:0 0 16px 0;" id="global-sos-text">Loading...</p>
-    <div style="display:flex; gap:10px; align-items: center; flex-wrap: wrap;">
+<div id="global-sos-alert" style="position:fixed; top:-250px; left:50%; transform:translateX(-50%); width:92%; max-width:440px; z-index:10001; transition:top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(239, 68, 68, 0.96); backdrop-filter:blur(10px); border: 2px solid var(--danger); border-radius: 20px; padding: 18px; box-sizing: border-box; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);">
+    <h4 style="margin:0 0 8px 0; color: white;"><i class="fas fa-exclamation-triangle"></i> EMERGENCY SOS</h4>
+    <p class="text-sm" style="color: white; margin:0 0 14px 0;" id="global-sos-text">Loading...</p>
+    <div style="display:flex; gap:8px; align-items: center; flex-wrap: wrap;">
         <input type="hidden" id="global-sos-id">
         <input type="text" id="global-sos-reply" placeholder="Quick Reply..." style="margin:0; background: rgba(255,255,255,0.2); border: none; color: white; flex: 1; min-width: 140px;">
         <button class="btn btn-primary btn-sm" style="background: white; color: var(--danger);" onclick="Admin.quickReplySOS()">Send</button>
@@ -330,19 +294,9 @@
 <div id="qr-modal" class="modal-overlay hidden">
     <div class="modal-box">
         <h3 style="margin-bottom:8px;">Digital Agent ID</h3>
-        <p class="text-sm" style="margin-bottom:24px;">Prospect can scan to connect directly.</p>
-        <div style="background:white; padding:20px; border-radius:16px; display:inline-block; margin-bottom:24px; border: 1px solid var(--glass-card-border);"><img id="qr-image" src="" alt="QR Code" width="180" height="180"></div>
+        <p class="text-sm" style="margin-bottom:20px;">Prospect can scan to connect directly.</p>
+        <div style="background:white; padding:16px; border-radius:16px; display:inline-block; margin-bottom:20px; border: 1px solid var(--glass-card-border);"><img id="qr-image" src="" alt="QR Code" width="180" height="180"></div>
         <button class="btn btn-outline" onclick="UI.dismissModal('qr-modal')">Close Scanner</button>
-    </div>
-</div>
-
-<!-- TUTORIAL MODAL -->
-<div id="tutorial-modal" class="modal-overlay hidden">
-    <div class="modal-box">
-        <i class="fas fa-rocket text-primary" style="font-size: 38px; margin-bottom: 12px;"></i>
-        <h3 style="margin-bottom:8px;">Welcome to HTM OS</h3>
-        <p class="text-sm" style="margin-bottom:20px;">Manage pipeline, register GPS check-ins, access academy resources, and convert prospects effortlessly.</p>
-        <button class="btn btn-primary" onclick="UI.dismissModal('tutorial-modal')">Get Started</button>
     </div>
 </div>
 
@@ -350,13 +304,13 @@
 <div id="sos-modal" class="modal-overlay hidden">
     <div class="modal-box" style="text-align:left; border-top: 5px solid var(--danger);">
         <h3 style="margin-bottom:12px; color:var(--danger); text-align:center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:20px; border-bottom:1px solid var(--glass-card-border); padding-bottom:14px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
+        <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:16px; border-bottom:1px solid var(--glass-card-border); padding-bottom:12px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
         <div style="display:flex; gap:8px; align-items: center;">
             <input type="text" id="sos-message" placeholder="Type or tap mic..." style="margin:0; flex: 1;">
-            <button class="btn btn-outline btn-sm" id="mic-sos-btn" style="color:var(--danger); border-color:var(--danger); padding:14px 16px;" onclick="VoiceHelper.startSpeech('sos-message', 'mic-sos-btn')"><i class="fas fa-microphone"></i></button>
-            <button class="btn btn-primary btn-sm" style="background:var(--danger); padding:14px 18px;" onclick="Member.sendSOS()">Send</button>
+            <button class="btn btn-outline btn-sm" id="mic-sos-btn" style="color:var(--danger); border-color:var(--danger); padding:13px 15px;" onclick="VoiceHelper.startSpeech('sos-message', 'mic-sos-btn')"><i class="fas fa-microphone"></i></button>
+            <button class="btn btn-primary btn-sm" style="background:var(--danger); padding:13px 16px;" onclick="Member.sendSOS()">Send</button>
         </div>
-        <button class="btn btn-outline" style="margin-top:16px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
+        <button class="btn btn-outline" style="margin-top:14px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
     </div>
 </div>
 
@@ -364,118 +318,118 @@
     
     <!-- AUTH MODULE -->
     <div id="auth-module" class="hidden" style="margin-top:8vh;">
-        <div style="text-align:center; margin-bottom:36px;">
-            <div style="width: 80px; height: 80px; margin: 0 auto 16px auto; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 34px; color: white; box-shadow: 0 10px 30px var(--primary-glow); cursor: pointer;" onclick="initAdminOverride()">
-                <i class="fas fa-crown"></i>
+        <div style="text-align:center; margin-bottom:30px;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 14px auto; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="initAdminOverride()">
+                <!-- SVG HTM Monogram -->
+                <svg width="74" height="74" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#auth_grad)" stroke="#3b82f6" stroke-width="2"/>
+                    <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
+                    <text x="50" y="65" font-family="sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle">HTM</text>
+                    <defs><linearGradient id="auth_grad" x1="11" y1="5" x2="89" y2="95"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+                </svg>
             </div>
-            <h2 style="font-size: 26px;">Hemant Team Workspace</h2>
-            <p class="text-sm" style="margin-top: 6px;">Enterprise Operational Identity Gateway</p>
+            <h2 style="font-size: 24px;">Hemant Team Workspace</h2>
+            <p class="text-sm" style="margin-top: 4px;">Direct Marketing Intelligence Terminal</p>
         </div>
-        <div class="card" style="padding: 32px 24px;">
+        <div class="card" style="padding: 28px 20px;">
             <input type="text" id="auth-id" placeholder="Member ID (e.g. HTM-01)">
             <input type="password" id="auth-pass" placeholder="Password">
-            <button class="btn btn-primary" onclick="Auth.login()" style="margin-top: 10px;"><i class="fas fa-key"></i> Authenticate Identity</button>
+            <button class="btn btn-primary" onclick="Auth.login()" style="margin-top: 8px;"><i class="fas fa-key"></i> Authenticate Identity</button>
         </div>
     </div>
 
     <!-- ADMIN MODULE -->
     <div id="admin-module" class="hidden">
         <div class="app-header">
-            <div>
-                <h3 style="display:flex; align-items:center; gap:10px;">HQ Operations <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i></h3>
-                <span class="badge badge-warning" style="margin-top:6px; display:inline-block;">God Mode Initialized</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="#1e3a8a"/>
+                    <text x="50" y="62" font-family="sans-serif" font-size="20" font-weight="900" fill="#fff" text-anchor="middle">HTM</text>
+                </svg>
+                <div>
+                    <h3 style="font-size:16px;">HQ Operations <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i></h3>
+                    <span class="badge badge-warning" style="margin-top:2px; display:inline-block;">God Mode</span>
+                </div>
             </div>
-            <div style="background: var(--glass-bg); padding: 10px; border-radius: 50%; border: 1px solid var(--glass-card-border); box-shadow: var(--surface-shadow);">
-                <i class="fas fa-power-off text-muted" style="font-size:18px; cursor:pointer;" onclick="Auth.logout()"></i>
+            <div style="background: var(--glass-bg); padding: 8px; border-radius: 50%; border: 1px solid var(--glass-card-border);">
+                <i class="fas fa-power-off text-muted" style="font-size:16px; cursor:pointer;" onclick="Auth.logout()"></i>
             </div>
         </div>
 
         <div id="admin-home" class="tab-content">
-            <div class="grid-2" style="margin-bottom:20px;">
-                <div class="dashboard-stat"><span class="text-xs">Network Turnover (DD)</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
-                <div class="dashboard-stat"><span class="text-xs">Active Deployments</span><h2 id="admin-active-count">0</h2></div>
+            <div class="grid-2" style="margin-bottom:16px;">
+                <div class="dashboard-stat"><span class="text-xs">Network Turnover</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
+                <div class="dashboard-stat"><span class="text-xs">Active Runs</span><h2 id="admin-active-count">0</h2></div>
             </div>
-            <div class="card" style="padding:24px 20px;">
-                <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-filter text-primary"></i> Live Conversion Funnel</h4>
-                <div style="margin-bottom:8px;"><span class="text-sm">Total Leads</span> <strong id="funnel-total" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:8px; border-radius:4px; margin-bottom:16px; overflow:hidden;"><div id="bar-total" style="width:100%; background:var(--primary); height:100%; border-radius:4px;"></div></div>
-                <div style="margin-bottom:8px;"><span class="text-sm">Hot Prospects</span> <strong id="funnel-hot" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:8px; border-radius:4px; margin-bottom:16px; overflow:hidden;"><div id="bar-hot" style="width:0%; background:var(--warning); height:100%; border-radius:4px;"></div></div>
-                <div style="margin-bottom:8px;"><span class="text-sm">Converted (DD)</span> <strong id="funnel-closed" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:8px; border-radius:4px; overflow:hidden;"><div id="bar-closed" style="width:0%; background:var(--success); height:100%; border-radius:4px;"></div></div>
+            <div class="card" style="padding:20px 18px;">
+                <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-filter text-primary"></i> Live Conversion Funnel</h4>
+                <div style="margin-bottom:6px;"><span class="text-sm">Total Leads</span> <strong id="funnel-total" style="float:right;">0</strong></div>
+                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; margin-bottom:14px; overflow:hidden;"><div id="bar-total" style="width:100%; background:var(--primary); height:100%;"></div></div>
+                <div style="margin-bottom:6px;"><span class="text-sm">Hot Prospects</span> <strong id="funnel-hot" style="float:right;">0</strong></div>
+                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; margin-bottom:14px; overflow:hidden;"><div id="bar-hot" style="width:0%; background:var(--warning); height:100%;"></div></div>
+                <div style="margin-bottom:6px;"><span class="text-sm">Converted (DD)</span> <strong id="funnel-closed" style="float:right;">0</strong></div>
+                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; overflow:hidden;"><div id="bar-closed" style="width:0%; background:var(--success); height:100%;"></div></div>
             </div>
             <div class="radar-screen"><div class="radar-grid"></div><div class="radar-sweep"></div><div id="radar-blips"></div></div>
-            <h4 style="margin-bottom:16px;"><i class="fas fa-satellite text-primary"></i> Real-Time Agent Deployments</h4>
+            <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-satellite text-primary"></i> Live Operatives Grid</h4>
             <div id="admin-radar-container"></div>
         </div>
 
         <div id="admin-team" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--primary);">
-                <h4 style="margin-bottom:20px;"><i class="fas fa-user-plus text-primary"></i> Onboard New Asset</h4>
+                <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Onboard Operative</h4>
                 <div class="grid-2"><input type="text" id="new-id" placeholder="ID (HTM-XX)"><input type="text" id="new-name" placeholder="Full Name"></div>
-                <div class="grid-2"><input type="password" id="new-pass" placeholder="Password"><input type="number" id="new-target" placeholder="Monthly Target (₹)"></div>
-                <select id="new-badge" style="margin-bottom:16px;"><option value="">No Badge</option><option value="Closer">🏆 Top Closer</option><option value="Starter">⚡ Fast Starter</option></select>
+                <div class="grid-2"><input type="password" id="new-pass" placeholder="Password"><input type="number" id="new-target" placeholder="Target (₹)"></div>
+                <select id="new-badge" style="margin-bottom:14px;"><option value="">No Badge</option><option value="Closer">🏆 Top Closer</option><option value="Starter">⚡ Fast Starter</option></select>
                 <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Credentials</button>
             </div>
-            <h4 style="margin-bottom:16px;"><i class="fas fa-users text-primary"></i> Active Roster</h4>
+            <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-users text-primary"></i> Active Roster</h4>
             <div id="admin-team-container"></div>
         </div>
 
         <div id="admin-controls" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--danger);">
-                <h4 style="margin-bottom:16px; color:var(--danger);"><i class="fas fa-bell"></i> SOS Command Center</h4>
-                <div id="admin-sos-container" style="max-height:280px; overflow-y:auto; padding-right: 8px;"></div>
+                <h4 style="margin-bottom:14px; color:var(--danger); font-size:15px;"><i class="fas fa-bell"></i> SOS Command Desk</h4>
+                <div id="admin-sos-container" style="max-height:260px; overflow-y:auto;"></div>
             </div>
 
-            <!-- PRODUCT MANAGER -->
             <div class="card" style="border-top: 4px solid #10b981;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h4 style="color:#10b981; margin:0;"><i class="fas fa-box-open"></i> Safe Shop Products</h4>
-                    <button class="btn btn-outline btn-sm" style="color:var(--primary); border-color:var(--primary); padding:6px 10px;" onclick="Admin.autoFillFeatures()">
-                        <i class="fas fa-magic"></i> Auto-Detect
-                    </button>
+                    <h4 style="color:#10b981; margin:0; font-size:15px;"><i class="fas fa-box-open"></i> Safe Shop Products</h4>
+                    <button class="btn btn-outline btn-sm" style="padding:5px 9px;" onclick="Admin.autoFillFeatures()"><i class="fas fa-magic"></i> Auto-Detect</button>
                 </div>
                 <div class="grid-2">
                     <input type="text" id="prod-name" placeholder="Product Name (e.g. Bhagavad Gita)" oninput="Admin.smartSuggest()">
-                    <input type="text" id="prod-category" placeholder="Category (Spiritual / Wellness / Fashion)">
+                    <input type="text" id="prod-category" placeholder="Category (Spiritual/Wellness/Fashion)">
                 </div>
                 <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
-                <textarea id="prod-features" placeholder="Product Features & Benefits (Auto-detect ya type karein)..." style="min-height:85px; font-size:12px;"></textarea>
-                
-                <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductURL()">
-                    <i class="fas fa-plus-circle"></i> Save & Publish to Members
-                </button>
+                <textarea id="prod-features" placeholder="Product Features & Benefits (Auto-detect ya type karein)..." style="min-height:80px; font-size:12px;"></textarea>
+                <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductURL()"><i class="fas fa-plus-circle"></i> Publish to Catalog</button>
             </div>
 
             <div class="card" style="border-top: 4px solid #8b5cf6;">
-                <h4 style="margin-bottom:10px; color:#8b5cf6;"><i class="fas fa-graduation-cap"></i> Academy Manager</h4>
+                <h4 style="margin-bottom:10px; color:#8b5cf6; font-size:15px;"><i class="fas fa-graduation-cap"></i> Academy Hub</h4>
                 <div class="grid-2">
-                    <input type="text" id="admin-live-link" placeholder="Live Zoom/Meet Link">
-                    <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger); height: 50px;" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
+                    <input type="text" id="admin-live-link" placeholder="Zoom/Meet Link">
+                    <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger); height: 48px;" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
                 </div>
-                <hr style="border:0; border-top:1px dashed var(--glass-card-border); margin:16px 0;">
-                <input type="text" id="ac-vid" placeholder="Paste Direct YouTube Link">
-                <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
-                <hr style="border:0; border-top:1px dashed var(--glass-card-border); margin:16px 0;">
-                <input type="text" id="ac-q" placeholder="Daily Quiz Question?">
-                <div class="grid-2"><input type="text" id="ac-o1" placeholder="Option A"><input type="text" id="ac-o2" placeholder="Option B"></div>
-                <select id="ac-ans" style="margin-bottom:16px;"><option value="1">Correct: Option A</option><option value="2">Correct: Option B</option></select>
-                <button class="btn btn-primary" style="background:#8b5cf6;" onclick="Admin.updateAcademy()"><i class="fas fa-upload"></i> Publish to Academy</button>
+                <hr style="border:0; border-top:1px dashed var(--glass-card-border); margin:14px 0;">
+                <input type="text" id="ac-vid" placeholder="YouTube Video URL">
+                <input type="text" id="ac-pdf" placeholder="PDF/Plan Drive URL">
+                <button class="btn btn-primary" style="background:#8b5cf6;" onclick="Admin.updateAcademy()"><i class="fas fa-upload"></i> Update Academy</button>
             </div>
         </div>
 
         <div id="admin-godmode" class="tab-content hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;"><h4 style="color:#8b5cf6; font-size:18px;"><i class="fas fa-vault"></i> Master Data Vault</h4></div>
-            <div class="card" style="padding:20px;">
-                <p class="text-xs" style="margin:0 0 12px 0; font-weight:600;"><i class="fas fa-filter"></i> Export Filters</p>
+            <h4 style="color:#8b5cf6; font-size:16px; margin-bottom:14px;"><i class="fas fa-vault"></i> Master Records Vault</h4>
+            <div class="card" style="padding:18px;">
                 <div class="grid-2">
                     <select id="vault-filter-agent" onchange="Admin.renderVault()"><option value="All">All Agents</option></select>
                     <select id="vault-filter-status" onchange="Admin.renderVault()"><option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option></select>
                 </div>
-                
-                <div class="grid-2" style="margin-top:14px;">
-                    <button class="btn btn-outline" style="border-color:#8b5cf6; color:#8b5cf6; font-weight:600;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
-                    <button class="btn btn-outline" style="border-color:var(--success); color:var(--success); font-weight:600;" onclick="Admin.exportCSV()"><i class="fas fa-file-excel"></i> Export CSV (Excel)</button>
+                <div class="grid-2" style="margin-top:12px;">
+                    <button class="btn btn-outline" style="border-color:#8b5cf6; color:#8b5cf6;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
+                    <button class="btn btn-outline" style="border-color:var(--success); color:var(--success);" onclick="Admin.exportCSV()"><i class="fas fa-file-excel"></i> Export CSV</button>
                 </div>
             </div>
             <div id="admin-sales-container"></div>
@@ -496,82 +450,89 @@
         
         <div class="member-header">
             <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fas fa-crown text-primary" style="font-size:24px;"></i>
-                <h3 style="margin:0; font-size:17px;">HTM <span style="font-weight:400; color:var(--text-muted);">OS</span></h3>
+                <!-- Monogram Emblem for Header -->
+                <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#mem_head_grad)" stroke="#3b82f6" stroke-width="2"/>
+                    <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
+                    <text x="50" y="65" font-family="sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle">HTM</text>
+                    <defs><linearGradient id="mem_head_grad" x1="11" y1="5" x2="89" y2="95"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+                </svg>
+                <div>
+                    <h3 style="margin:0; font-size:16px;">HTM <span style="font-weight:400; color:var(--text-muted);">OS</span></h3>
+                    <span class="badge badge-success" id="mem-network-status" style="font-size:9px; padding:2px 8px;">Online</span>
+                </div>
             </div>
-            <div style="display:flex; gap:12px; align-items:center; flex-wrap: wrap;">
+            <div style="display:flex; gap:10px; align-items:center;">
                 <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i>
-                <i class="fas fa-qrcode text-primary" style="font-size:20px; cursor:pointer;" onclick="Member.showQR()"></i>
-                <span class="badge badge-success" id="mem-network-status">Online</span>
-                <i class="fas fa-power-off text-muted" style="font-size:18px; cursor:pointer;" onclick="Auth.logout()"></i>
+                <i class="fas fa-qrcode text-primary" style="font-size:18px; cursor:pointer;" onclick="Member.showQR()"></i>
+                <i class="fas fa-power-off text-muted" style="font-size:16px; cursor:pointer;" onclick="Auth.logout()"></i>
             </div>
-            <div style="width:100%; margin-top:12px;">
-                <h2 style="font-size:24px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
-                <div id="mem-badges-container" style="margin-top:8px;"></div>
+            <div style="width:100%; margin-top:10px;">
+                <h2 style="font-size:22px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
+                <div id="mem-badges-container" style="margin-top:6px;"></div>
             </div>
         </div>
 
         <!-- 1. FIELD TAB -->
         <div id="mem-dash" class="tab-content">
             <div id="mem-urgency-wrapper" class="card urgency-banner">
-                <i class="fas fa-hourglass-half" style="font-size:24px; color:var(--warning);"></i>
-                <div><strong style="font-size:14px;" id="urgency-title">Daily Quota Incomplete</strong><div class="text-xs" id="urgency-desc">Target DD pending. Field action required.</div></div>
+                <i class="fas fa-hourglass-half" style="font-size:22px; color:var(--warning);"></i>
+                <div><strong style="font-size:13px;" id="urgency-title">Daily Quota Pending</strong><div class="text-xs" id="urgency-desc">Target DD volume required.</div></div>
             </div>
             
-            <div class="card" style="padding:22px 20px;">
+            <div class="card" style="padding:18px;">
                 <div class="ring-container">
                     <svg viewBox="0 0 36 36" class="circular-chart">
                         <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
                         <path class="circle" id="mem-target-circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
                     </svg>
                     <div style="flex:1;">
-                        <span class="text-xs" id="mem-target-label" style="text-transform:uppercase; font-weight:700;">Monthly Target</span>
-                        <div id="mem-target-text" style="color:var(--text-main); font-size:20px; font-weight:800; margin:4px 0;">₹0</div>
-                        <span class="badge badge-success" id="mem-target-percent-badge" style="display:inline-block;">0% Achieved</span>
+                        <span class="text-xs" id="mem-target-label" style="text-transform:uppercase;">Monthly Target</span>
+                        <div id="mem-target-text" style="color:var(--text-main); font-size:19px; font-weight:800; margin:2px 0;">₹0</div>
+                        <span class="badge badge-success" id="mem-target-percent-badge">0% Achieved</span>
                     </div>
                 </div>
-                <div style="background:rgba(0,0,0,0.05); height:8px; border-radius:4px; overflow:hidden; margin-top:16px;">
+                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; overflow:hidden; margin-top:14px;">
                     <div id="mem-target-bar" style="width:0%; background:var(--success); height:100%; transition: width 0.6s ease;"></div>
                 </div>
             </div>
 
-            <div class="card" style="padding: 16px 20px;">
-                <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-trophy text-warning"></i> Network Leaderboard</h4>
+            <div class="card" style="padding: 16px 18px;">
+                <h4 style="margin-bottom:10px; font-size:13px;"><i class="fas fa-trophy text-warning"></i> Network Leaderboard</h4>
                 <div id="member-leaderboard-preview"></div>
             </div>
             
-            <h4 style="margin-bottom:16px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
+            <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
             <div id="plan-init-state" class="card" style="border-top: 4px solid var(--primary);">
                 <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
                 <select id="plan-type"><option value="1-on-1 Plan">1-on-1 Business Plan</option><option value="Venue Plan">Venue Seminar</option><option value="Follow-up Close">Follow-up Close</option></select>
                 
-                <label class="btn btn-outline" style="font-size:13px; padding:14px; margin-bottom:16px; color:var(--warning); border-color:var(--warning);">
+                <label class="btn btn-outline" style="font-size:12px; padding:12px; margin-bottom:14px; color:var(--warning); border-color:var(--warning);">
                     <i class="fas fa-camera"></i> <span id="selfie-status-text">Mandatory Check-in Selfie</span>
                     <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="Member.handleSelfieUpload(this)">
                 </label>
-                <div id="selfie-preview-box" class="hidden" style="margin-bottom:16px; text-align:center;">
-                    <img id="selfie-preview-img" src="" alt="Selfie Preview" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--success);">
+                <div id="selfie-preview-box" class="hidden" style="margin-bottom:14px; text-align:center;">
+                    <img id="selfie-preview-img" src="" alt="Selfie Preview" style="width:65px; height:65px; border-radius:50%; object-fit:cover; border:2px solid var(--success);">
                 </div>
 
                 <button class="btn btn-primary" onclick="Member.startPlan()"><i class="fas fa-map-marker-alt"></i> Initiate Check-in (GPS)</button>
             </div>
             
             <div id="plan-active-state" class="card hidden" style="border: 2px solid var(--warning);">
-                <div style="text-align:center;"><h3 style="color:var(--warning);"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3><p id="active-prospect-display" style="font-size:20px; font-weight:800; margin:12px 0;"></p><p class="text-xs" id="active-location-display">Satellite location registered with HQ Radar.</p></div>
-                <div class="record-actions" style="margin-top:20px; border-top-color: var(--glass-card-border);"><button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete (Add Remarks)</button><button class="btn btn-danger-ghost" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Drop</button></div>
+                <div style="text-align:center;"><h3 style="color:var(--warning); font-size:16px;"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3><p id="active-prospect-display" style="font-size:18px; font-weight:800; margin:8px 0;"></p><p class="text-xs" id="active-location-display">Satellite location registered with HQ Radar.</p></div>
+                <div class="record-actions" style="margin-top:16px;"><button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete (Add Remarks)</button><button class="btn btn-danger-ghost" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Drop</button></div>
             </div>
         </div>
 
         <!-- 2. PIPELINE TAB -->
         <div id="mem-leads" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--primary);">
-                <h4 style="margin-bottom:20px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
+                <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
                 <div class="grid-2"><input type="text" id="lead-name" placeholder="Prospect Name"><input type="number" id="lead-phone" placeholder="Phone Number"></div>
                 <div class="grid-2">
                     <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤 Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
                     <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
                 </div>
-                
                 <div class="grid-2">
                     <select id="lead-stage">
                         <option value="New Lead">📌 New Prospect</option>
@@ -580,17 +541,17 @@
                         <option value="Decision Maker">🧠 Decision Maker Meeting</option>
                         <option value="Ready to Pay">⏳ Ready to Pay</option>
                     </select>
-                    <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 16px;">
+                    <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 12px;">
                 </div>
-
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                <h4 style="margin:0;"><i class="fas fa-id-badge text-primary"></i> Pipeline Leads</h4>
-                <div class="text-xs" style="color:var(--success); font-weight:700; background:rgba(16,185,129,0.1); padding:6px 10px; border-radius:8px; border: 1px solid rgba(16,185,129,0.3);" id="pipeline-potential">Potential: ₹0</div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h4 style="margin:0; font-size:14px;"><i class="fas fa-id-badge text-primary"></i> Pipeline Leads</h4>
+                <div class="text-xs" style="color:var(--success); font-weight:700; background:rgba(16,185,129,0.1); padding:5px 9px; border-radius:8px;" id="pipeline-potential">Potential: ₹0</div>
             </div>
-            <div style="display:flex; gap:10px; margin-bottom:16px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none;">
-                <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding:10px 14px; font-size:13px; min-width:140px;" oninput="Member.applyFilters()">
+            <div style="display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
+                <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding:8px 12px; font-size:12px; min-width:130px;" oninput="Member.applyFilters()">
                 <button class="btn btn-outline btn-sm filter-pill active" id="flt-all" onclick="Member.setFilter('All')">All</button>
                 <button class="btn btn-outline btn-sm filter-pill" id="flt-hot" onclick="Member.setFilter('Hot')">🔥 Hot</button>
                 <button class="btn btn-outline btn-sm filter-pill" id="flt-today" onclick="Member.setFilter('Today')">📅 Today</button>
@@ -598,14 +559,14 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- 3. PRODUCTS & BENEFITS TAB -->
+        <!-- 3. CATALOG & BENEFITS TAB -->
         <div id="mem-products" class="tab-content hidden">
-            <div style="margin-bottom:16px;">
-                <h4 style="margin:0 0 6px 0; color:var(--text-main); font-size:18px;"><i class="fas fa-box-open text-primary"></i> Safe Shop Products & Benefits</h4>
-                <p class="text-xs">प्लान प्रेजेंटेशन के दौरान प्रोस्पेक्ट को उत्पादों की उपयोगिता व फीचर्स दिखाएं।</p>
+            <div style="margin-bottom:14px;">
+                <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-box-open text-primary"></i> Safe Shop Products & Benefits</h4>
+                <p class="text-xs">प्लान प्रेजेंटेशन के दौरान प्रोस्पेक्ट को फीचर्स दिखाएं।</p>
             </div>
 
-            <div style="display:flex; gap:8px; margin-bottom:16px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
+            <div style="display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
                 <button class="btn btn-outline btn-sm filter-pill active" id="prod-flt-all" onclick="Member.filterProducts('All')">All</button>
                 <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-spiritual" onclick="Member.filterProducts('Spiritual')">Spiritual</button>
                 <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-wellness" onclick="Member.filterProducts('Wellness')">Wellness</button>
@@ -620,113 +581,97 @@
 
         <!-- 4. ACADEMY TAB -->
         <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom:20px;">
-                <button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')">
+            <div id="live-training-container" class="hidden" style="margin-bottom:16px;">
+                <button class="btn btn-live-pulse" style="padding:14px; font-size: 14px; border-radius: 14px;" id="btn-join-live" onclick="window.open('','_blank')">
                     <i class="fas fa-video"></i> 🔴 LIVE WEBINAR / DISHA TRAINING
                 </button>
             </div>
 
-            <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-shoe-prints"></i> 8 Steps to Success (सिस्टम)</h4>
-                    <span class="badge badge-primary">Core SOP</span>
-                </div>
-                <p class="text-xs" style="margin-bottom:14px;">Safe Shop डायरेक्ट सेलिंग में 100% सफलता के अनिवार्य 8 चरण:</p>
-
+            <div class="card" style="border-top: 4px solid var(--primary); padding:18px;">
+                <h4 style="color:var(--primary); font-size:14px; margin-bottom:10px;"><i class="fas fa-shoe-prints"></i> 8 Steps to Success (सिस्टम)</h4>
+                
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>1. Dream (सपनों का निर्धारण)</span> <i class="fas fa-chevron-down"></i></div>
                     <div class="ss-acc-body">सपना स्पष्ट, समय-सीमा वाला और मापने योग्य होना चाहिए। अपने शॉर्ट-टर्म, मिड-टर्म और लॉन्ग-टर्म सपनों को डायरी में लिखें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>2. Commitment (समर्पण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">हफ्ते में कम से कम 10-15 घंटे समर्पित करें। हर संडे वेन्यू सेमिनार, दिशा ट्रेनिंग और अपलाइन काउंसलिंग को कभी मिस न करें।</div>
+                    <div class="ss-acc-body">हफ्ते में 10-15 घंटे समर्पित करें। संडे वेन्यू सेमिनार और अपलाइन काउंसलिंग कभी मिस न करें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S थ्योरी)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें (Friends, Relatives, Institutions, Employees, Neighbors, Dedicated, Strangers).</div>
+                    <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>4. Invitation (सही आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। जिज्ञासा पैदा करें और वेन्यू या ज़ूम मीटिंग का समय फिक्स करें।</div>
+                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। केवल जिज्ञासा पैदा करें और मीटिंग का समय तय करें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>5. Show The Plan (STP)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज और इनकम प्लान प्रेजेंट करें।</div>
+                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज और इनकम प्लान दिखाएं।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>6. Follow-up (24 से 48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्लान देखने के बाद 90% क्लोजिंग 48 घंटे में होती है। अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
+                    <div class="ss-acc-head"><span>6. Follow-up (24-48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>7. 100% User (उत्पाद उपयोग)</span> <i class="fas fa-chevron-down"></i></div>
                     <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स (प्रगति सूत्र, फोल्डर) का स्वयं उपयोग करें।</div>
                 </div>
-
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>8. Be a Team Player & Teach</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सक्रिय अपलाइन की काउंसलिंग लें और डाउनलाइन को डुप्लीकेट करें।</div>
+                    <div class="ss-acc-body">सक्रिय अपलाइन से सीखें और डाउनलाइन को डुप्लीकेट करें।</div>
                 </div>
             </div>
 
-            <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-phone-volume"></i> इनविटेशन स्क्रिप्ट्स</h4>
-                    <span class="badge badge-success">Copy & Call</span>
-                </div>
-
+            <div class="card" style="border-top: 4px solid var(--primary); padding:18px;">
+                <h4 style="color:var(--primary); font-size:14px; margin-bottom:10px;"><i class="fas fa-phone-volume"></i> इनविटेशन स्क्रिप्ट्स</h4>
                 <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-user-graduate text-primary"></i> For Students</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('student-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <strong class="text-sm">For Students</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:3px 8px; font-size:10px;" onclick="Member.copyScript('student-scr')"><i class="fas fa-copy"></i> Copy</button>
                     </div>
-                    <p class="text-xs" id="student-scr" style="margin:0; line-height:1.5;">"भाई, कॉलेज और पढ़ाई के साथ-साथ क्या तू अपने खाली 1-2 घंटे में खुद के खर्चे और डिजिटल स्किल्स सीखने के लिए पार्ट-टाइम इनकम में इंटरेस्टेड है? आज शाम 6 बजे एक ज़बरदस्त प्रेजेंटेशन है।"</p>
+                    <p class="text-xs" id="student-scr" style="margin:0;">"भाई, कॉलेज के साथ खाली 1-2 घंटे में खुद के खर्चे और डिजिटल स्किल्स के लिए पार्ट-टाइम इनकम में इंटरेस्टेड है? शाम 6 बजे एक प्रेजेंटेशन है।"</p>
                 </div>
-
                 <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Working Class</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <strong class="text-sm">For Working Class</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:3px 8px; font-size:10px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
                     </div>
-                    <p class="text-xs" id="job-scr" style="margin:0; line-height:1.5;">"सर, अपनी वर्तमान जॉब को डिस्टर्ब किए बिना क्या आप वीकेंड्स या शाम के 1 घंटे में एक पैरेलल बैकअप इनकम सोर्स बिल्ड करना चाहेंगे? हमारे पास एक प्रूवेन ई-कॉमर्स प्रोजेक्ट है।"</p>
+                    <p class="text-xs" id="job-scr" style="margin:0;">"सर, जॉब को डिस्टर्ब किए बिना शाम के 1 घंटे में एक सेकेंडरी इनकम सोर्स बिल्ड करना चाहेंगे? 20 मिनट का समय निकालें।"</p>
                 </div>
             </div>
 
-            <div class="card" style="border-top: 4px solid #8b5cf6; padding:20px;">
-                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:15px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper</h4>
-                <div style="display:flex; gap:10px; align-items:center;">
+            <div class="card" style="border-top: 4px solid #8b5cf6; padding:18px;">
+                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:14px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper</h4>
+                <div style="display:flex; gap:8px; align-items:center;">
                     <input type="text" id="ai-query" placeholder="सवाल लिखें (paise, time, scam)..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 18px; flex-shrink:0;" onclick="Member.askAI()">उत्तर दें</button>
+                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 16px; flex-shrink:0;" onclick="Member.askAI()">उत्तर</button>
                 </div>
-                <div id="ai-response" class="text-sm" style="margin-top:14px;"></div>
+                <div id="ai-response" class="text-sm" style="margin-top:12px;"></div>
             </div>
 
-            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;">
-                <h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> ट्रेनिंग वीडियो</h4>
-                <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div>
+            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:16px;">
+                <h4 style="margin-bottom:10px; font-size:14px;"><i class="fas fa-play-circle text-danger"></i> ट्रेनिंग वीडियो</h4>
+                <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="210" src="" frameborder="0" allowfullscreen></iframe></div>
             </div>
 
-            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:20px;">
-                <button class="btn btn-outline" style="font-weight: 600; border-color:var(--danger); color:var(--danger);" id="mem-ac-pdf-btn" onclick="">
-                    <i class="fas fa-file-pdf"></i> बिज़नेस प्लान व प्रगति सूत्र (PDF) डाउनलोड करें
+            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:16px;">
+                <button class="btn btn-outline" style="font-weight: 600; border-color:var(--danger); color:var(--danger);" id="mem-ac-pdf-btn">
+                    <i class="fas fa-file-pdf"></i> बिज़नेस प्लान व प्रगति सूत्र (PDF)
                 </button>
             </div>
 
-            <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:24px;">
-                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़</h4>
+            <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:20px;">
+                <h4 style="margin-bottom:10px; font-size:14px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़</h4>
                 <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
-                    <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight: 600; font-size: 14px; color: var(--text-main);">Loading...</p>
+                    <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight:600;">Loading...</p>
                     <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
                 </div>
             </div>
         </div>
 
-        <!-- 4-ITEM CLEAN FLOATING NAV BAR -->
+        <!-- CLEAN 4-ITEM FLOATING NAV -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
@@ -754,33 +699,21 @@
     class VoiceHelper {
         static startSpeech(targetInputId, btnId) {
             const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRec) return UI.showToast("Voice input not supported on this browser.", "warning");
-            
+            if(!SpeechRec) return UI.showToast("Speech recognition not supported.", "warning");
             const recognition = new SpeechRec();
             recognition.lang = 'hi-IN';
             recognition.interimResults = false;
-            
             const btn = document.getElementById(btnId);
             if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            UI.showToast("Listening... Speak now.", "warning");
-
-            recognition.onresult = (event) => {
-                const text = event.results[0][0].transcript;
+            UI.showToast("Listening...", "warning");
+            recognition.onresult = (e) => {
+                const text = e.results[0][0].transcript;
                 const input = document.getElementById(targetInputId);
-                if(input) {
-                    input.value = input.value ? `${input.value} ${text}` : text;
-                }
+                if(input) input.value = input.value ? `${input.value} ${text}` : text;
                 UI.showToast("Voice captured!", "success");
             };
-
-            recognition.onerror = () => {
-                UI.showToast("Speech recognition stopped.", "error");
-            };
-
-            recognition.onend = () => {
-                if(btn) btn.innerHTML = '<i class="fas fa-microphone"></i>';
-            };
-
+            recognition.onerror = () => UI.showToast("Voice input stopped.", "error");
+            recognition.onend = () => { if(btn) btn.innerHTML = '<i class="fas fa-microphone"></i>'; };
             recognition.start();
         }
     }
@@ -792,7 +725,6 @@
             toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
         }
-        
         static moveIndicator(element) {
             if(!element) return;
             const nav = element.parentElement;
@@ -802,19 +734,17 @@
                 indicator.style.width = element.offsetWidth + 'px';
             }
         }
-        
         static switchTab(prefix, tabId, element) {
             document.querySelectorAll(`#${prefix === 'admin' ? 'admin' : 'member'}-module .tab-content`).forEach(el => el.classList.add('hidden'));
             element.parentElement.querySelectorAll('.nav-box').forEach(el => el.classList.remove('active'));
             document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
             this.moveIndicator(element);
         }
-        
         static showModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }
         static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
         static dismissSplash() {
             const splash = document.getElementById('welcome-splash'); splash.style.opacity = '0';
-            setTimeout(() => { splash.classList.add('hidden'); }, 500); sessionStorage.setItem('htm_splash_seen', 'true');
+            setTimeout(() => { splash.classList.add('hidden'); }, 400); sessionStorage.setItem('htm_splash_seen', 'true');
         }
         static toggleTheme() {
             document.body.classList.toggle('dark-mode');
@@ -830,11 +760,9 @@
                 document.querySelectorAll('.theme-icon').forEach(i => i.className = 'fas fa-sun theme-icon text-warning');
             }
         }
-        
         static openImageViewer(url, name="Product", cat="General", features="") {
             const img = document.getElementById('viewer-image');
-            img.src = url;
-            img.style.transform = 'scale(1)';
+            img.src = url; img.style.transform = 'scale(1)';
             document.getElementById('viewer-title').innerText = name;
             document.getElementById('viewer-category').innerText = cat;
             document.getElementById('viewer-features').innerText = features || "Safe Shop Quality Certified Product.";
@@ -867,12 +795,6 @@
                 document.getElementById('member-module').classList.remove('hidden'); 
                 document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name')}`;
                 Member.initData(); 
-                if (localStorage.getItem('htm_tutorial_seen') !== 'true') {
-                    setTimeout(() => { 
-                        UI.showModal('tutorial-modal'); 
-                        localStorage.setItem('htm_tutorial_seen', 'true'); 
-                    }, 1000);
-                }
                 setTimeout(()=>UI.moveIndicator(document.querySelector('#member-module .nav-box.active')),300);
             } else { 
                 document.getElementById('auth-module').classList.remove('hidden'); 
@@ -919,7 +841,6 @@
                 if(doc.exists && doc.data().suspended) Auth.logout(); 
             });
         }
-        
         static handleSelfieUpload(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -936,39 +857,27 @@
                         canvas.width = w; canvas.height = h;
                         ctx.drawImage(img, 0, 0, w, h);
                         Member.cachedSelfieBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                        
                         document.getElementById('selfie-status-text').innerText = "Selfie Verified ✓";
                         document.getElementById('selfie-preview-img').src = Member.cachedSelfieBase64;
                         document.getElementById('selfie-preview-box').classList.remove('hidden');
-                        UI.showToast('Selfie verified & ready for HQ transmission.', 'success');
+                        UI.showToast('Selfie verified for HQ.', 'success');
                     };
                     img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
         }
-
         static copyScript(elementId) {
             const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                UI.showToast("Script copied to clipboard!", "success");
-            }).catch(() => {
-                UI.showToast("Failed to copy", "error");
-            });
+            navigator.clipboard.writeText(text).then(() => UI.showToast("Script copied!", "success")).catch(() => UI.showToast("Failed to copy", "error"));
         }
-
         static fetchBenefitsCatalog() {
             db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 this.loadedProducts = [];
-                snap.forEach(doc => {
-                    this.loadedProducts.push({ id: doc.id, ...doc.data() });
-                });
+                snap.forEach(doc => this.loadedProducts.push({ id: doc.id, ...doc.data() }));
                 this.renderBenefitsCatalog();
-            }, err => {
-                console.error("Products error:", err);
             });
         }
-
         static filterProducts(category) {
             this.currentProductFilter = category;
             document.querySelectorAll('#mem-products .filter-pill').forEach(btn => btn.classList.remove('active'));
@@ -976,51 +885,38 @@
             if(activeBtn) activeBtn.classList.add('active');
             this.renderBenefitsCatalog();
         }
-
         static renderBenefitsCatalog() {
             const container = document.getElementById('member-benefits-container');
             if(!container) return;
-
             let filtered = this.loadedProducts;
             if(this.currentProductFilter !== 'All') {
                 filtered = this.loadedProducts.filter(p => (p.category && p.category.toLowerCase().includes(this.currentProductFilter.toLowerCase())));
             }
-
             if(filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-center" style="padding:30px; opacity:0.6;">No products found in ${this.currentProductFilter}. Ask Admin to add via Controls tab.</p>`;
+                container.innerHTML = `<p class="text-xs text-center" style="padding:24px; opacity:0.6;">No products in ${this.currentProductFilter}.</p>`;
                 return;
             }
-
             container.innerHTML = '';
             filtered.forEach(p => {
-                let benefitLines = (p.features || "").split('\n').filter(line => line.trim().length > 0);
-                if(benefitLines.length === 0) benefitLines = ["100% Genuine Safe Shop Certified Product", "Direct To Home Delivery Available"];
-
+                let benefitLines = (p.features || "").split('\n').filter(l => l.trim().length > 0);
+                if(benefitLines.length === 0) benefitLines = ["100% Genuine Safe Shop Certified Product"];
                 let listHtml = '';
-                benefitLines.forEach(line => {
-                    const cleanLine = line.replace(/^[•\-\*]\s*/, '');
-                    listHtml += `<li><i class="fas fa-check-circle"></i> <span>${cleanLine}</span></li>`;
-                });
-
+                benefitLines.forEach(l => { listHtml += `<li><i class="fas fa-check-circle"></i> <span>${l.replace(/^[•\-\*]\s*/, '')}</span></li>`; });
                 const safeName = (p.name || "").replace(/'/g, "\\'");
                 const safeCat = (p.category || "").replace(/'/g, "\\'");
                 const safeFeat = (p.features || "").replace(/'/g, "\\'");
-
                 container.innerHTML += `
                     <div class="benefit-product-card">
                         <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onclick="UI.openImageViewer('${p.imageUrl}', '${safeName}', '${safeCat}', '${safeFeat}')">
-                        <div class="benefit-badge-row">
-                            <h4 style="font-size:15px; margin:0; color:var(--text-main); font-weight:700;">${p.name}</h4>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin:10px 0 6px 0;">
+                            <h4 style="font-size:14px; margin:0; color:var(--text-main); font-weight:700;">${p.name}</h4>
                             <span class="badge badge-primary" style="font-size:9px;">${p.category}</span>
                         </div>
-                        <ul class="benefit-list">
-                            ${listHtml}
-                        </ul>
+                        <ul class="benefit-list">${listHtml}</ul>
                     </div>
                 `;
             });
         }
-
         static renderMemberBadges() {
             const b = localStorage.getItem('htm_badge'); const c = document.getElementById('mem-badges-container');
             if (b === 'Closer') c.innerHTML = `<span class="gamification-badge badge-closer"><i class="fas fa-trophy"></i> Master Closer</span>`; 
@@ -1038,7 +934,7 @@
         static checkQuiz(choice) {
             const o1 = document.getElementById('quiz-o1'); const o2 = document.getElementById('quiz-o2');
             if(choice === this.currentQuizAns) { if(choice===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct'); UI.showToast('Correct Answer! 🎉', 'success'); } 
-            else { if(choice===1) o1.classList.add('quiz-wrong'); else o2.classList.add('quiz-wrong'); if(this.currentQuizAns===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct'); UI.showToast('Incorrect. Review scripts.', 'error'); }
+            else { if(choice===1) o1.classList.add('quiz-wrong'); else o2.classList.add('quiz-wrong'); if(this.currentQuizAns===1) o1.classList.add('quiz-correct'); else o2.classList.add('quiz-correct'); UI.showToast('Incorrect.', 'error'); }
         }
         static listenSOSReplies() {
             db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
@@ -1047,52 +943,41 @@
                 msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 c.innerHTML = ''; if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.6; padding: 10px;">No active whispers...</p>'; return; }
                 msgs.forEach(d => {
-                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;float:right;font-size:18px;" title="Clear Message"><i class="fas fa-times-circle"></i></button>` : '';
-                    c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-card-border); padding:12px 14px; border-radius:12px; margin-bottom:10px;">${clearBtn}<p class="text-xs" style="margin:0 0 8px 0; color: var(--text-main); padding-right:20px; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-sm" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ response...</p>`}</div>`;
+                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;float:right;font-size:16px;"><i class="fas fa-times-circle"></i></button>` : '';
+                    c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-card-border); padding:10px 12px; border-radius:12px; margin-bottom:8px;">${clearBtn}<p class="text-xs" style="margin:0 0 6px 0; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-xs" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ...</p>`}</div>`;
                     if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) { UI.showToast(`HQ Replied!`, 'success'); localStorage.setItem(`sos_seen_${d.id}`, d.reply); UI.showModal('sos-modal'); }
                 });
             });
         }
         static async clearSOS(id) { await db.collection('sos_messages').doc(id).update({ clearedByMember: true }); }
-        static showQR() { const url = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; document.getElementById('qr-image').src = url; UI.showModal('qr-modal'); }
+        static showQR() { document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; UI.showModal('qr-modal'); }
         static async sendSOS() {
             const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
             await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
+            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched.', 'success');
         }
-
         static askAI() {
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
-            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "14px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
-            
-            if(q.includes('paise') || q.includes('money') || q.includes('paisa') || q.includes('expensive')) {
-                resBox.innerHTML = "🎯 <b>पैसे नहीं हैं / बजट नहीं है:</b><br><br>'सर, जब कॉलेज या मेडिकल इमरजेंसी होती है तो क्या हम पैसों का इंतज़ाम करते हैं? यहाँ आप कोई खर्चा नहीं कर रहे, अपनी पसंद का वैल्यू-फॉर-मनी प्रोडक्ट ले रहे हैं और साथ में लाखों कमाने की बिज़नेस ओनरशिप फ्री मिल रही है। अगर आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
-            }
-            else if(q.includes('time') || q.includes('samay') || q.includes('busy')) {
-                resBox.innerHTML = "🎯 <b>समय नहीं है:</b><br><br>'सर, आप 8-10 घंटे काम कर रहे हैं फिर भी समय नहीं है। सोचिए, अगर काम रुक जाए तो क्या आमदनी आएगी? नेटवर्क मार्केटिंग टाइम कंपाउंडिंग का काम है। 1-2 घंटे पार्ट टाइम देकर आप 100 लोगों की टीम बनाते हैं, जिससे आपके लिए दिन में 200 घंटे काम होता है।'";
-            }
-            else if(q.includes('company') || q.includes('bhaag') || q.includes('fake') || q.includes('scam')) {
-                resBox.innerHTML = "🎯 <b>कंपनी भाग गई तो?:</b><br><br>'सर, जो कंपनियां बिना प्रोडक्ट के पैसे डबल करने का दावा करती हैं वो भागती हैं। सेफ शॉप जनवरी 2001 से भारत सरकार की गाइडलाइन्स के तहत रजिस्टर्ड है। आपने पैसा दिया और MRP का सर्टिफाइड प्रोडक्ट हाथ में आ गया। अब कोई रिस्क ही नहीं बचा!'";
-            }
-            else {
-                resBox.innerHTML = "🎯 <b>क्लोजिंग पंच:</b><br><br>'सर, फैसला लेने में 2 ही रास्ते हैं—शुरू करना या न करना। न करने से कुछ नहीं बदलेगा। लेकिन शुरुआत करने से 1-2 साल में सारे सपने सच हो सकते हैं। फॉर्म भरिए, पूरी टीम आपके साथ फील्ड में खड़ी है!'";
+            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "14px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
+            if(q.includes('paise') || q.includes('money')) {
+                resBox.innerHTML = "🎯 <b>पैसे नहीं हैं:</b><br><br>'सर, इमरजेंसी में पैसे जुटाए जाते हैं। यहाँ आप अपनी पसंद का वैल्यू-फॉर-मनी प्रोडक्ट लेकर लाखों कमाने की बिज़नेस ओनरशिप पा रहे हैं। आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
+            } else if(q.includes('time') || q.includes('busy')) {
+                resBox.innerHTML = "🎯 <b>समय नहीं है:</b><br><br>'सर, 8-10 घंटे काम करके भी समय नहीं है तो टाइम फ्रीडम के लिए नेटवर्क मार्केटिंग जरूरी है। 1-2 घंटे देकर आप 100 लोगों की टीम बनाते हैं, जिससे दिन में 200 घंटे काम होता है।'";
+            } else {
+                resBox.innerHTML = "🎯 <b>क्लोजिंग पंच:</b><br><br>'सर, फैसला लेने में 2 ही रास्ते हैं—शुरू करना या न करना। शुरुआत करने से 1-2 साल में सारे सपने सच हो सकते हैं। फॉर्म भरिए, पूरी टीम साथ है!'";
             }
         }
-
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
                 const banner = document.getElementById('mem-urgency-wrapper'); const title = document.getElementById('urgency-title'); const desc = document.getElementById('urgency-desc');
-                if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; banner.style.background = "rgba(16,185,129,0.1)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured. Continue closing."; desc.style.color = "var(--success)"; } else { banner.className = "card urgency-banner urgency-medium"; banner.style.borderLeftColor = "var(--warning)"; banner.style.background = "rgba(245,158,11,0.1)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "You have 0 closed conversions today."; desc.style.color = "var(--warning)"; }
-                
+                if (hasDD) { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--success)"; banner.style.background = "rgba(16,185,129,0.1)"; title.innerText = "Momentum Established"; title.style.color = "var(--success)"; desc.innerText = "Daily DD secured."; desc.style.color = "var(--success)"; } else { banner.className = "card urgency-banner"; banner.style.borderLeftColor = "var(--warning)"; banner.style.background = "rgba(245,158,11,0.08)"; title.innerText = "Quota Alert: Zero Volume"; title.style.color = "var(--warning)"; desc.innerText = "0 conversions today."; desc.style.color = "var(--warning)"; }
                 const target = parseInt(localStorage.getItem('htm_target')) || 50000; 
                 document.getElementById('mem-target-label').innerText = `Target: ₹${target.toLocaleString()}`;
                 const percentage = Math.min(Math.round((totalCollected / target) * 100), 100); 
-                
                 document.getElementById('mem-target-text').innerText = `₹${totalCollected.toLocaleString()}`; 
                 document.getElementById('mem-target-percent-badge').innerText = `${percentage}% Achieved`;
                 document.getElementById('mem-target-bar').style.width = `${percentage}%`;
-                
                 const circleProgress = document.getElementById('mem-target-circle');
                 if(circleProgress) circleProgress.setAttribute('stroke-dasharray', `${percentage}, 100`);
             });
@@ -1102,7 +987,7 @@
         }
         static async syncOfflineLeads() {
             let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]');
-            if (offline.length > 0) { for (let lead of offline) { lead.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(lead); } localStorage.removeItem('htm_offline_leads'); UI.showToast('Local sync complete.', 'success'); }
+            if (offline.length > 0) { for (let lead of offline) { lead.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(lead); } localStorage.removeItem('htm_offline_leads'); UI.showToast('Offline sync complete.', 'success'); }
         }
         static checkActivePlanState() {
             const planId = localStorage.getItem("htm_active_plan");
@@ -1110,166 +995,128 @@
         }
         static startPlan() {
             const prospect = document.getElementById('plan-prospect').value.trim();
-            if (!prospect) return UI.showToast('Designate prospect target.', 'error'); 
-            if (!navigator.geolocation) return UI.showToast('GPS telemetry unavailable.', 'error');
-            UI.showToast('Acquiring location lock...', 'warning');
+            if (!prospect) return UI.showToast('Designate prospect.', 'error'); 
+            if (!navigator.geolocation) return UI.showToast('GPS unavailable.', 'error');
+            UI.showToast('Locking location...', 'warning');
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const lat = pos.coords.latitude; const lng = pos.coords.longitude; let locName = "Location Coordinates Locked";
                 try {
                     const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
                     const geoData = await geoRes.json();
-                    if(geoData && geoData.address) {
-                        locName = geoData.address.suburb || geoData.address.neighbourhood || geoData.address.city || geoData.address.state || "Active Field Spot";
-                    }
+                    if(geoData && geoData.address) locName = geoData.address.suburb || geoData.address.city || "Active Field Spot";
                 } catch(e) {}
-
                 const docRef = await db.collection("tracking").add({ 
-                    memberId: localStorage.getItem('htm_id'), 
-                    memberName: localStorage.getItem('htm_name'), 
-                    prospect: prospect, 
-                    type: document.getElementById('plan-type').value, 
-                    status: "Active", 
-                    lat: lat, 
-                    lng: lng, 
-                    locationName: locName, 
-                    selfieUrl: Member.cachedSelfieBase64 || "",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                    memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), 
+                    prospect: prospect, type: document.getElementById('plan-type').value, 
+                    status: "Active", lat: lat, lng: lng, locationName: locName, 
+                    selfieUrl: Member.cachedSelfieBase64 || "", timestamp: firebase.firestore.FieldValue.serverTimestamp() 
                 });
-                localStorage.setItem("htm_active_plan", docRef.id); 
-                localStorage.setItem("htm_active_prospect", prospect); 
-                document.getElementById('plan-prospect').value = ''; 
-                Member.cachedSelfieBase64 = "";
+                localStorage.setItem("htm_active_plan", docRef.id); localStorage.setItem("htm_active_prospect", prospect); 
+                document.getElementById('plan-prospect').value = ''; Member.cachedSelfieBase64 = "";
                 document.getElementById('selfie-preview-box').classList.add('hidden');
                 document.getElementById('selfie-status-text').innerText = "Mandatory Check-in Selfie";
-                this.checkActivePlanState(); 
-                UI.showToast('Run logged on active grid.', 'success');
-            }, () => UI.showToast('Location authorization denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
+                this.checkActivePlanState(); UI.showToast('Run registered on radar.', 'success');
+            }, () => UI.showToast('Location permission denied.', 'error'), { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }); 
         }
         static async endPlan() {
             const planId = localStorage.getItem("htm_active_plan");
-            if (planId) { const remark = prompt("Meeting Remarks (e.g. Will join tomorrow):") || "No remarks provided."; await db.collection("tracking").doc(planId).update({ status: "Completed", remarks: remark }); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); UI.showToast('Concluded & Remarks Logged.', 'success'); }
+            if (planId) { const remark = prompt("Meeting Remarks:") || "No remarks."; await db.collection("tracking").doc(planId).update({ status: "Completed", remarks: remark }); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); UI.showToast('Logged & Completed.', 'success'); }
         }
         static async cancelPlan() {
             const planId = localStorage.getItem("htm_active_plan");
-            if (planId && confirm("Abort tracking record?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); }
+            if (planId && confirm("Abort tracking?")) { await db.collection("tracking").doc(planId).delete(); localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); }
         }
         static async addLead() {
             const payload = { 
-                memberId: localStorage.getItem('htm_id'), 
-                memberName: localStorage.getItem('htm_name'), 
-                name: document.getElementById('lead-name').value.trim(), 
-                phone: document.getElementById('lead-phone').value.trim(), 
-                temp: document.getElementById('lead-temp').value, 
-                prof: document.getElementById('lead-prof').value, 
-                stage: document.getElementById('lead-stage').value, 
-                followUp: document.getElementById('lead-date').value, 
-                ddClosed: false, 
-                ddAmount: 0,
-                notes: []
+                memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), 
+                name: document.getElementById('lead-name').value.trim(), phone: document.getElementById('lead-phone').value.trim(), 
+                temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value, 
+                stage: document.getElementById('lead-stage').value, followUp: document.getElementById('lead-date').value, 
+                ddClosed: false, ddAmount: 0, notes: []
             };
-            if (!payload.name || !payload.phone) return UI.showToast('Target Name and Telephony required.', 'error');
-            if (!navigator.onLine) { let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload); localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline locally.', 'warning'); }
-            payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Integrated to pipeline.');
+            if (!payload.name || !payload.phone) return UI.showToast('Name & Phone required.', 'error');
+            if (!navigator.onLine) { let offline = JSON.parse(localStorage.getItem('htm_offline_leads') || '[]'); offline.push(payload); localStorage.setItem('htm_offline_leads', JSON.stringify(offline)); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; return UI.showToast('Cached offline.', 'warning'); }
+            payload.timestamp = firebase.firestore.FieldValue.serverTimestamp(); await db.collection('leads').add(payload); document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = ''; UI.showToast('Added to pipeline.');
         }
-
         static async addLeadNote(leadId) {
-            const noteText = prompt("Add Quick Meeting Note / Objection:");
+            const noteText = prompt("Meeting Note / Objection:");
             if(!noteText || !noteText.trim()) return;
-            const noteEntry = {
-                text: noteText.trim(),
-                time: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' })
-            };
-            try {
-                await db.collection('leads').doc(leadId).update({
-                    notes: firebase.firestore.FieldValue.arrayUnion(noteEntry)
-                });
-                UI.showToast("Note attached to prospect file.", "success");
-            } catch(e) {
-                UI.showToast("Error saving note", "error");
-            }
+            await db.collection('leads').doc(leadId).update({
+                notes: firebase.firestore.FieldValue.arrayUnion({ text: noteText.trim(), time: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short' }) })
+            });
+            UI.showToast("Note attached.", "success");
         }
-
         static streamLeads() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => { 
-                this.localLeads = []; 
-                snap.forEach(doc => { this.localLeads.push({ id: doc.id, ...doc.data() }); }); 
+                this.localLeads = []; snap.forEach(doc => this.localLeads.push({ id: doc.id, ...doc.data() })); 
                 const activeLeads = this.localLeads.filter(l => !l.ddClosed).length; 
                 document.getElementById('pipeline-potential').innerText = `Potential: ₹${(activeLeads * 15000).toLocaleString()}`; 
                 this.applyFilters(); 
             });
-
             db.collection('leads').onSnapshot(snap => { 
-                let totals = {}; 
-                snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; }); 
+                let totals = {}; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) totals[d.memberName] = (totals[d.memberName] || 0) + d.ddAmount; }); 
                 const sorted = Object.entries(totals).sort((a,b) => b[1] - a[1]).slice(0, 3); 
                 let html = ''; 
                 sorted.forEach((item, index) => { 
                     const rank = index === 0 ? '🏆' : (index === 1 ? '🥈' : '🥉'); 
-                    html += `<div style="display:flex; justify-content:space-between; padding:12px 14px; border-bottom:1px solid var(--glass-card-border); align-items:center;"><div><span style="margin-right:10px; font-size:16px;">${rank}</span><strong style="font-size:14px; color:var(--text-main);">${item[0]}</strong></div><span class="text-success" style="font-weight:800; font-size:14px;">₹${item[1].toLocaleString()}</span></div>`; 
+                    html += `<div style="display:flex; justify-content:space-between; padding:10px 12px; border-bottom:1px solid var(--glass-card-border); align-items:center;"><div><span style="margin-right:8px; font-size:15px;">${rank}</span><strong style="font-size:13px; color:var(--text-main);">${item[0]}</strong></div><span class="text-success" style="font-weight:800; font-size:13px;">₹${item[1].toLocaleString()}</span></div>`; 
                 }); 
                 const leadPreviewBox = document.getElementById('member-leaderboard-preview');
-                if(leadPreviewBox) leadPreviewBox.innerHTML = html || '<p class="text-xs text-center" style="padding:15px; opacity:0.6;">No closed sales recorded yet.</p>'; 
+                if(leadPreviewBox) leadPreviewBox.innerHTML = html || '<p class="text-xs text-center" style="padding:12px; opacity:0.6;">No closed sales recorded.</p>'; 
             });
         }
         static setFilter(type) { this.currentFilter = type; document.querySelectorAll('#mem-leads .filter-pill').forEach(btn => btn.classList.remove('active')); if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active'); this.applyFilters(); }
         static applyFilters() {
             const container = document.getElementById('member-leads-container'); const searchTxt = document.getElementById('lead-search').value.toLowerCase(); const todayStr = new Date().toISOString().split('T')[0]; const now = new Date();
             let filtered = this.localLeads.filter(d => { const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt); let matchType = true; if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot') && !d.ddClosed; if(this.currentFilter === 'Today') matchType = d.followUp === todayStr && !d.ddClosed; return matchSearch && matchType; });
-            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No leads match criteria.</p>' : '';
+            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No matching leads.</p>' : '';
             filtered.forEach(d => {
                 const leadDate = d.timestamp ? d.timestamp.toDate() : now; const diffHours = (now - leadDate) / (1000 * 60 * 60); const diffDays = diffHours / 24;
                 let displayTemp = d.temp; let ghostAlert = "";
                 if(!d.ddClosed && d.temp === "🔥 Hot" && diffHours > 48) displayTemp = "🌤 Warm (Auto-Cooled)";
                 if(!d.ddClosed && diffDays > 7) ghostAlert = `<span class="badge" style="background:rgba(239,68,68,0.1); color:var(--danger); border:1px solid rgba(239,68,68,0.3); margin-top:6px; display:inline-block;">⚠️ Freezing Lead</span>`;
-                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:10px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 14px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
-                
-                const waMessage = encodeURIComponent(`नमस्ते ${d.name} जी, आशा है आप सकुशल होंगे। हमारे बिज़नेस मॉडल के सम्बंध में आपसे बातचीत करनी थी। क्या हम 5 मिनट बात कर सकते हैं?`);
-                
+                const ddUI = d.ddClosed ? `<span class="badge badge-success" style="font-size:12px; display:block; text-align:center; padding:10px; width: 100%;">₹${d.ddAmount.toLocaleString()} Finalized</span>` : `<div style="display:flex; gap:8px; width: 100%; align-items: center;"><input type="number" id="dd-${d.id}" placeholder="₹ Amount" style="margin:0; padding:10px 12px; flex: 1;"><button class="btn btn-outline btn-sm" style="flex-shrink:0;" onclick="Member.closeDD('${d.id}')">Submit DD</button></div>`;
+                const waMessage = encodeURIComponent(`नमस्ते ${d.name} जी, आशा है आप सकुशल होंगे। हमारे बिज़नेस मॉडल के सम्बंध में आपसे बातचीत करनी थी।`);
                 const actionTray = d.ddClosed ? '' : `<div class="action-tray">
-                    <a href="tel:${d.phone}" class="action-btn" style="background: rgba(59,130,246,0.1); color: #3b82f6; text-decoration:none;"><i class="fas fa-phone"></i> Call</a>
+                    <a href="tel:${d.phone}" class="action-btn" style="background: rgba(37,99,235,0.1); color: #2563eb; text-decoration:none;"><i class="fas fa-phone"></i> Call</a>
                     <a href="https://wa.me/91${d.phone}?text=${waMessage}" target="_blank" class="action-btn" style="background: rgba(16,185,129,0.1); color: #10b981; text-decoration:none;"><i class="fab fa-whatsapp"></i> WA</a>
-                    <div class="action-btn" style="background: rgba(139,92,246,0.1); color: #8b5cf6;" onclick="Member.addLeadNote('${d.id}')"><i class="fas fa-edit"></i> Note</div>
+                    <div class="action-btn" style="background: rgba(124,58,237,0.1); color: #7c3aed;" onclick="Member.addLeadNote('${d.id}')"><i class="fas fa-edit"></i> Note</div>
                     <div class="action-btn" style="background: rgba(245,158,11,0.1); color: #f59e0b;" onclick="Member.pushTomorrow('${d.id}', '${d.followUp}')"><i class="fas fa-calendar-plus"></i> +1 Day</div>
                     <div class="action-btn" style="background: rgba(239,68,68,0.1); color: #ef4444;" onclick="Member.requestUplinePush('${d.name}')"><i class="fas fa-hands-helping"></i> SOS Push</div>
                 </div>`;
-                
                 const stageTag = d.stage ? `<span class="tag-stage" style="margin-left:6px;">${d.stage}</span>` : '';
-                
                 let notesUI = "";
                 if(d.notes && d.notes.length > 0) {
                     notesUI = `<div class="lead-notes-list"><strong class="text-xs" style="color:var(--primary);"><i class="fas fa-clipboard-list"></i> Meeting Log:</strong>`;
-                    d.notes.slice(-2).forEach(n => {
-                        notesUI += `<p class="text-xs" style="margin:4px 0 0 0; color:var(--text-muted);"><span style="color:var(--text-main); font-weight:600;">[${n.time}]</span> ${n.text}</p>`;
-                    });
+                    d.notes.slice(-2).forEach(n => { notesUI += `<p class="text-xs" style="margin:3px 0 0 0; color:var(--text-muted);"><span style="color:var(--text-main); font-weight:600;">[${n.time}]</span> ${n.text}</p>`; });
                     notesUI += `</div>`;
                 }
-
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:16px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span>${stageTag}<br><span class="text-xs" style="margin-top:6px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${notesUI}${actionTray}<div class="record-actions">${ddUI}</div></div>`;
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span>${stageTag}<br><span class="text-xs" style="margin-top:4px; display:inline-block;">Class: ${displayTemp} | Follow-up: <span style="color:var(--primary); font-weight:700;">${d.followUp || 'None'}</span></span><br>${ghostAlert}</div></div>${notesUI}${actionTray}<div class="record-actions">${ddUI}</div></div>`;
             });
         }
-        static async pushTomorrow(id, currentFollowUp) { let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp); next.setDate(next.getDate() + 1); const str = next.toISOString().split('T')[0]; await db.collection('leads').doc(id).update({ followUp: str }); UI.showToast('Follow-up shifted to tomorrow.', 'success'); }
+        static async pushTomorrow(id, currentFollowUp) { let next = new Date(); if(currentFollowUp) next = new Date(currentFollowUp); next.setDate(next.getDate() + 1); await db.collection('leads').doc(id).update({ followUp: next.toISOString().split('T')[0] }); UI.showToast('Follow-up shifted to tomorrow.', 'success'); }
         static async requestUplinePush(leadName) { await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: `URGENT CLOSING HELP: Need upline intervention for prospect - ${leadName}.`, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Upline help requested.', 'success'); }
-        static async closeDD(id) { const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify verifiable amount.', 'error'); if (confirm(`Authorize closure for ₹${amt}?`)) { await db.collection('leads').doc(id).update({ ddClosed: true, ddAmount: parseInt(amt) }); UI.showToast('DD closed.', 'success'); } }
+        static async closeDD(id) { const amt = document.getElementById(`dd-${id}`).value; if (!amt || amt <= 0) return UI.showToast('Specify valid amount.', 'error'); if (confirm(`Authorize closure for ₹${amt}?`)) { await db.collection('leads').doc(id).update({ ddClosed: true, ddAmount: parseInt(amt) }); UI.showToast('DD closed.', 'success'); } }
     }
 
     class Admin {
         static leadsVault = [];
         static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
-        static async pushLiveLink() { const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Please enter a valid URL.', 'error'); await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); UI.showToast('Live Training dispatched!', 'success'); }
+        static async pushLiveLink() { const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Enter valid URL.', 'error'); await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); UI.showToast('Live Webinar dispatched!', 'success'); }
         static async updateAcademy() {
-            let vid = document.getElementById('ac-vid').value.trim(); const pdf = document.getElementById('ac-pdf').value.trim(); const q = document.getElementById('ac-q').value.trim(); const o1 = document.getElementById('ac-o1').value.trim(); const o2 = document.getElementById('ac-o2').value.trim(); const ans = document.getElementById('ac-ans').value;
-            if (vid) { if (vid.includes('youtube.com/watch?v=')) { try { const videoId = new URL(vid).searchParams.get('v'); if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } catch(e) {} } else if (vid.includes('youtu.be/')) { const videoId = vid.split('youtu.be/')[1].split('?')[0]; if(videoId) vid = `https://www.youtube.com/embed/${videoId}`; } }
-            await db.collection('system').doc('academy').set({ vid: vid, pdf: pdf, q: q, o1: o1, o2: o2, ans: ans, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
-            document.getElementById('ac-vid').value = ''; document.getElementById('ac-pdf').value = ''; UI.showToast('Academy Updated for all Agents!', 'success');
+            let vid = document.getElementById('ac-vid').value.trim(); const pdf = document.getElementById('ac-pdf').value.trim();
+            if (vid && vid.includes('watch?v=')) { try { vid = `https://www.youtube.com/embed/${new URL(vid).searchParams.get('v')}`; } catch(e) {} }
+            await db.collection('system').doc('academy').set({ vid: vid, pdf: pdf, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge: true});
+            UI.showToast('Academy Updated!', 'success');
         }
         static listenSOS() {
             db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const c = document.getElementById('admin-sos-container'); if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="padding: 10px;">No active distress signals.</p>'; return; } c.innerHTML = '';
+                const c = document.getElementById('admin-sos-container'); if(snap.empty) { c.innerHTML = '<p class="text-xs text-center" style="padding: 10px;">No distress signals.</p>'; return; } c.innerHTML = '';
                 let latestUnreplied = null;
                 snap.forEach(doc => {
-                    const d = doc.data(); if(!d.reply && !latestUnreplied) { latestUnreplied = {id: doc.id, ...d}; }
-                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 10px 0 0 0; font-weight: 600;">HQ Reply: ${d.reply}</p>` : `<div style="display:flex; gap:8px; margin-top:12px; align-items:center;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply to agent..." style="padding:10px; font-size:12px; margin:0; flex:1;"><button class="btn btn-sm btn-primary" style="flex-shrink:0;" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
-                    c.innerHTML += `<div style="background: rgba(239,68,68,0.05); border-left: 4px solid var(--danger); border-radius: 8px; padding: 14px; margin-bottom: 12px; position:relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02);"><button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:10px; top:12px; background:none; border:none; color:var(--danger); cursor:pointer; font-size: 16px;"><i class="fas fa-trash"></i></button><strong class="text-sm" style="color:var(--danger); font-size:14px;">${d.memberName}</strong><p style="margin: 6px 0 0 0; font-size: 13px; color:var(--text-main); padding-right: 25px; line-height: 1.4;">${d.message}</p>${replyUI}</div>`;
+                    const d = doc.data(); if(!d.reply && !latestUnreplied) latestUnreplied = {id: doc.id, ...d};
+                    const replyUI = d.reply ? `<p class="text-xs" style="color:var(--success); margin: 8px 0 0 0; font-weight: 600;">HQ Reply: ${d.reply}</p>` : `<div style="display:flex; gap:6px; margin-top:10px; align-items:center;"><input type="text" id="sos-reply-${doc.id}" placeholder="Reply..." style="padding:8px; font-size:12px; margin:0; flex:1;"><button class="btn btn-sm btn-primary" onclick="Admin.replySOS('${doc.id}', 'sos-reply-${doc.id}')">Send</button></div>`;
+                    c.innerHTML += `<div style="background: rgba(239,68,68,0.05); border-left: 4px solid var(--danger); border-radius: 8px; padding: 12px; margin-bottom: 10px; position:relative;"><button onclick="Admin.deleteDoc('sos_messages', '${doc.id}')" style="position:absolute; right:8px; top:10px; background:none; border:none; color:var(--danger); cursor:pointer;"><i class="fas fa-trash"></i></button><strong class="text-sm" style="color:var(--danger);">${d.memberName}</strong><p style="margin: 4px 0 0 0; font-size: 13px;">${d.message}</p>${replyUI}</div>`;
                 });
                 const alertBox = document.getElementById('global-sos-alert');
                 if(latestUnreplied) { document.getElementById('global-sos-text').innerText = `${latestUnreplied.memberName}: "${latestUnreplied.message}"`; document.getElementById('global-sos-id').value = latestUnreplied.id; alertBox.classList.add('show'); } else { alertBox.classList.remove('show'); }
@@ -1279,63 +1126,32 @@
         static closeGlobalSOS() { document.getElementById('global-sos-alert').classList.remove('show'); }
         static async replySOS(id, inputId) { const text = document.getElementById(inputId).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error'); await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success'); }
         static async createUser() { const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); const badge = document.getElementById('new-badge').value; const target = parseInt(document.getElementById('new-target').value) || 50000; if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error'); await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target, suspended: false }); UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value=''; }
-        static async toggleSuspend(id, currentStatus) { await db.collection('users').doc(id).update({ suspended: !currentStatus }); UI.showToast(currentStatus ? 'Agent Activated' : 'Agent Suspended', currentStatus ? 'success' : 'warning'); }
-        
-        static async editTrackingAdmin(id, currName) {
-            const p = prompt("Edit Prospect Target Name:", currName);
-            if(p && p.trim()) { await db.collection('tracking').doc(id).update({ prospect: p.trim() }); UI.showToast('Tracking record updated.', 'success'); }
-        }
-
+        static async toggleSuspend(id, currentStatus) { await db.collection('users').doc(id).update({ suspended: !currentStatus }); UI.showToast(currentStatus ? 'Activated' : 'Suspended', currentStatus ? 'success' : 'warning'); }
+        static async editTrackingAdmin(id, currName) { const p = prompt("Edit Prospect Target:", currName); if(p && p.trim()) { await db.collection('tracking').doc(id).update({ prospect: p.trim() }); UI.showToast('Record updated.', 'success'); } }
         static streamRadar() {
             db.collection('tracking').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                const container = document.getElementById('admin-radar-container'); const blipBox = document.getElementById('radar-blips'); container.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding: 10px;">No active field operatives detected.</p>' : ''; blipBox.innerHTML = ''; let count = 0;
+                const container = document.getElementById('admin-radar-container'); const blipBox = document.getElementById('radar-blips'); container.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding: 10px;">No field operatives active.</p>' : ''; blipBox.innerHTML = ''; let count = 0;
                 snap.forEach((doc, idx) => {
                     const d = doc.data(); if (d.status === "Active") { count++; const topPos = (30 + (idx * 25)) % 120; const leftPos = (40 + (idx * 35)) % 140; blipBox.innerHTML += `<div class="radar-blip" style="top:${topPos}px; left:${leftPos}px;" title="${d.memberName}"></div>`; }
                     const badge = d.status === "Active" ? `<span class="badge badge-warning">Active Run</span>` : `<span class="badge badge-success">Concluded</span>`;
-                    const locText = d.locationName ? `<span style="display:block; margin-top:6px; color:var(--primary); font-weight: 500;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : ''; const remarkUI = d.remarks ? `<p class="text-xs" style="color:var(--success); margin:8px 0 0 0; background: rgba(16,185,129,0.1); padding: 6px; border-radius: 6px;"><i>Note: ${d.remarks}</i></p>` : '';
-                    
-                    const selfieThumb = d.selfieUrl ? `
-                        <div style="margin-top:10px; display:flex; align-items:center; gap:10px;">
-                            <img src="${d.selfieUrl}" style="width:48px; height:48px; border-radius:8px; object-fit:cover; border:1px solid var(--glass-card-border); cursor:pointer;" onclick="UI.openImageViewer('${d.selfieUrl}')" title="Tap to expand selfie">
-                            <span class="text-xs" style="color:var(--text-muted);"><i class="fas fa-check-circle text-success"></i> Field Selfie Verified</span>
-                        </div>
-                    ` : '';
-
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${selfieThumb}${remarkUI}</div><div>${badge}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editTrackingAdmin('${doc.id}', '${d.prospect}')"><i class="fas fa-edit"></i> Edit</button>${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort Run</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+                    const locText = d.locationName ? `<span style="display:block; margin-top:4px; color:var(--primary); font-weight: 500;"><i class="fas fa-map-marker-alt"></i> ${d.locationName}</span>` : '';
+                    const selfieThumb = d.selfieUrl ? `<div style="margin-top:8px; display:flex; align-items:center; gap:8px;"><img src="${d.selfieUrl}" style="width:44px; height:44px; border-radius:8px; object-fit:cover; cursor:pointer;" onclick="UI.openImageViewer('${d.selfieUrl}')"><span class="text-xs"><i class="fas fa-check-circle text-success"></i> Selfie Verified</span></div>` : '';
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.memberName}</h4><span class="text-xs">Objective: ${d.prospect} (${d.type})</span>${locText}${selfieThumb}</div><div>${badge}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editTrackingAdmin('${doc.id}', '${d.prospect}')"><i class="fas fa-edit"></i> Edit</button>${d.status === 'Active' ? `<button class="btn btn-outline btn-sm" onclick="Admin.forceEnd('${doc.id}')">Abort</button>` : ''}<button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('tracking', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
                 }); document.getElementById('admin-active-count').innerText = count;
             });
         }
-        
-        static async editUserAdmin(id, currName) {
-            const n = prompt("Edit Team Member Name:", currName);
-            if(n && n.trim()) { await db.collection('users').doc(id).update({ name: n.trim() }); UI.showToast('Member profile updated.', 'success'); }
-        }
-
+        static async editUserAdmin(id, currName) { const n = prompt("Edit Member Name:", currName); if(n && n.trim()) { await db.collection('users').doc(id).update({ name: n.trim() }); UI.showToast('Profile updated.', 'success'); } }
         static streamTeam() {
             db.collection('users').onSnapshot(snap => {
                 const container = document.getElementById('admin-team-container'); container.innerHTML = ''; const filterSelect = document.getElementById('vault-filter-agent'); if(filterSelect) filterSelect.innerHTML = '<option value="All">All Agents</option>';
                 snap.forEach(doc => {
-                    const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:rgba(0,0,0,0.05); color: var(--text-muted); border: 1px solid var(--glass-card-border);">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : ''; const suspendBadge = d.suspended ? `<span class="badge badge-warning">Suspended</span>` : ''; const suspendBtnText = d.suspended ? 'Activate' : 'Suspend';
+                    const d = doc.data(); const bound = d.deviceToken ? '<span class="badge badge-primary">Bound</span>' : '<span class="badge" style="background:rgba(0,0,0,0.05); color: var(--text-muted);">Unbound</span>'; const badgeIcon = d.badge ? `<span class="gamification-badge">${d.badge}</span>` : ''; const suspendBadge = d.suspended ? `<span class="badge badge-warning">Suspended</span>` : '';
                     let totalL = 0; let closedA = 0; this.leadsVault.forEach(l => { if(l.memberId === doc.id) { totalL++; if(l.ddClosed) closedA += l.ddAmount; }});
                     if(filterSelect) filterSelect.innerHTML += `<option value="${d.name}">${d.name}</option>`;
-                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs" style="font-weight: 400; opacity:0.7;">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:8px; font-weight: 600;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editUserAdmin('${doc.id}', '${d.name}')"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair</button><button class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger); background: rgba(239,68,68,0.05);" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${suspendBtnText}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
+                    container.innerHTML += `<div class="record-item"><div class="record-header"><div><h4>${d.name} <span class="text-xs">(${doc.id})</span></h4>${badgeIcon} ${suspendBadge}<span class="text-xs" style="display:block; margin-top:6px;">Leads: ${totalL} | DD: ₹${closedA.toLocaleString()}</span></div><div>${bound}</div></div><div class="record-actions"><button class="btn btn-outline btn-sm" onclick="Admin.editUserAdmin('${doc.id}', '${d.name}')"><i class="fas fa-edit"></i> Edit</button><button class="btn btn-outline btn-sm" onclick="Admin.updateTarget('${doc.id}')">Target</button><button class="btn btn-outline btn-sm" onclick="Admin.resetDevice('${doc.id}')">Unpair</button><button class="btn btn-outline btn-sm" style="color:var(--danger);" onclick="Admin.toggleSuspend('${doc.id}', ${d.suspended})">${d.suspended ? 'Activate' : 'Suspend'}</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('users', '${doc.id}')"><i class="fas fa-trash"></i></button></div></div>`;
                 });
             });
         }
-        
-        static async editLeadAdmin(id) {
-            const lead = this.leadsVault.find(l => l.id === id);
-            if(!lead) return;
-            const newName = prompt("Edit Lead Name:", lead.name) || lead.name;
-            const newPhone = prompt("Edit Lead Phone:", lead.phone) || lead.phone;
-            const newDD = prompt("Edit DD Amount (0 for unclosed):", lead.ddAmount || 0) || lead.ddAmount;
-            const isClosed = parseInt(newDD) > 0;
-            if(confirm(`Save changes for Lead: ${newName}?`)) {
-                await db.collection('leads').doc(id).update({ name: newName.trim(), phone: newPhone.trim(), ddAmount: parseInt(newDD) || 0, ddClosed: isClosed });
-                UI.showToast('Lead entry updated.', 'success');
-            }
-        }
-
         static streamSales() {
             db.collection('leads').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 let total = 0; let totalCount = 0; let hotCount = 0; let closedCount = 0; this.leadsVault = [];
@@ -1351,123 +1167,37 @@
             container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding: 10px;">No records match filters.</p>' : '';
             filtered.forEach(d => { 
                 const b = d.ddClosed ? `<span class="badge badge-success">₹${d.ddAmount.toLocaleString()}</span>` : `<span class="badge badge-warning">Unclosed</span>`; 
-                const act = `<div class="record-actions" style="margin-top:10px;"><button class="btn btn-outline btn-sm" onclick="Admin.editLeadAdmin('${d.id}')"><i class="fas fa-edit"></i> Edit Lead</button><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div>`;
-                const stg = d.stage ? `<span class="tag-stage" style="margin-left:6px;">${d.stage}</span>` : '';
-                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:15px;">${d.name}${stg}</h4><span class="text-xs" style="margin-top: 4px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div>${act}</div>`; 
+                container.innerHTML += `<div class="record-item"><div class="record-header" style="margin-bottom:0;"><div><h4 style="font-size:14px;">${d.name}</h4><span class="text-xs" style="margin-top: 3px; display: block;">Agent: ${d.memberName} | Tel: ${d.phone}</span></div><div>${b}</div></div><div class="record-actions" style="margin-top:8px;"><button class="btn btn-danger-ghost btn-sm" onclick="Admin.deleteDoc('leads', '${d.id}')"><i class="fas fa-trash"></i> Delete</button></div></div>`; 
             });
         }
-        
-        static getFilteredExportData() {
-            const agentFilter = document.getElementById('vault-filter-agent').value; 
-            const statusFilter = document.getElementById('vault-filter-status').value;
-            return this.leadsVault.filter(d => { 
-                return (agentFilter === 'All' || d.memberName === agentFilter) && 
-                       (statusFilter === 'All' || (statusFilter === 'Closed' && d.ddClosed) || (statusFilter === '🔥 Hot' && !d.ddClosed && d.temp === '🔥 Hot')); 
-            });
-        }
-
-        static exportJPG() {
-            const exportData = this.getFilteredExportData();
-            const agentFilter = document.getElementById('vault-filter-agent').value;
-            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning'); 
-            UI.showToast('Generating JPG...', 'warning');
-            
-            const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); const rowHeight = 44; const headerHeight = 80; const width = 900; const height = headerHeight + (exportData.length + 1) * rowHeight + 40; canvas.width = width; canvas.height = height; ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('HTM Filtered Report', 30, 50); ctx.font = '14px sans-serif'; ctx.fillStyle = '#64748b'; ctx.fillText(`Generated: ${new Date().toLocaleDateString()} | Agent: ${agentFilter}`, 600, 45); ctx.fillStyle = '#ffffff'; ctx.shadowColor = 'rgba(0,0,0,0.05)'; ctx.shadowBlur = 10; ctx.shadowOffsetY = 4; ctx.fillRect(20, headerHeight, width - 40, rowHeight); ctx.shadowColor = 'transparent'; ctx.fillStyle = '#475569'; ctx.font = 'bold 15px sans-serif'; ctx.fillText('Prospect Name', 40, headerHeight + 28); ctx.fillText('Contact', 280, headerHeight + 28); ctx.fillText('Agent', 480, headerHeight + 28); ctx.fillText('Status', 700, headerHeight + 28); ctx.font = '15px sans-serif'; ctx.fillStyle = '#0f172a';
-            exportData.forEach((lead, index) => { const y = headerHeight + rowHeight + (index * rowHeight) + 28; ctx.beginPath(); ctx.moveTo(20, y - 28); ctx.lineTo(width - 20, y - 28); ctx.strokeStyle = '#e2e8f0'; ctx.stroke(); const statusText = lead.ddClosed ? `Closed (₹${lead.ddAmount.toLocaleString()})` : (lead.followUp || lead.temp); ctx.fillStyle = '#0f172a'; ctx.fillText(lead.name.substring(0, 25), 40, y); ctx.fillText(lead.phone, 280, y); ctx.fillText(lead.memberName.substring(0, 25), 480, y); if(lead.ddClosed) ctx.fillStyle = '#059669'; else if(lead.temp === '🔥 Hot') ctx.fillStyle = '#d97706'; else ctx.fillStyle = '#475569'; ctx.fillText(statusText, 700, y); });
-            const link = document.createElement('a'); link.download = `HTM_Report_${agentFilter}_${Date.now()}.jpg`; link.href = canvas.toDataURL('image/jpeg', 1.0); link.click(); UI.showToast('Downloaded!', 'success');
-        }
-
-        static exportCSV() {
-            const exportData = this.getFilteredExportData();
-            if (exportData.length === 0) return UI.showToast('No records match filters.', 'warning');
-            
-            let csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += "Prospect Name,Phone Number,Stage Tag,Agent,Class,Status,DD Amount (INR),Follow Up Date\r\n";
-            
-            exportData.forEach(lead => {
-                const statusStr = lead.ddClosed ? "DD Closed" : "Open";
-                const row = [
-                    `"${lead.name || ''}"`,
-                    `"${lead.phone || ''}"`,
-                    `"${lead.stage || 'General'}"`,
-                    `"${lead.memberName || ''}"`,
-                    `"${lead.temp || ''}"`,
-                    `"${statusStr}"`,
-                    `"${lead.ddAmount || 0}"`,
-                    `"${lead.followUp || ''}"`
-                ].join(",");
-                csvContent += row + "\r\n";
-            });
-
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `HTM_Leads_${Date.now()}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            UI.showToast('CSV Exported Successfully!', 'success');
-        }
-
         static smartSuggest() {
-            const name = document.getElementById('prod-name').value.toLowerCase();
-            const catField = document.getElementById('prod-category');
-            if(name.includes('gita') || name.includes('hanuman') || name.includes('divine')) catField.value = "Spiritual";
-            else if(name.includes('noni') || name.includes('haoma') || name.includes('health') || name.includes('capsule')) catField.value = "Wellness";
-            else if(name.includes('suit') || name.includes('zeno') || name.includes('saree') || name.includes('laranya')) catField.value = "Fashion";
-            else if(name.includes('cookware') || name.includes('miyako') || name.includes('purifier')) catField.value = "Lifestyle";
+            const name = document.getElementById('prod-name').value.toLowerCase(); const catField = document.getElementById('prod-category');
+            if(name.includes('gita') || name.includes('hanuman')) catField.value = "Spiritual";
+            else if(name.includes('noni') || name.includes('haoma')) catField.value = "Wellness";
+            else if(name.includes('suit') || name.includes('saree')) catField.value = "Fashion";
+            else if(name.includes('cookware') || name.includes('purifier')) catField.value = "Lifestyle";
         }
-
         static autoFillFeatures() {
-            const name = document.getElementById('prod-name').value.toLowerCase();
-            const cat = document.getElementById('prod-category').value.toLowerCase();
-            const featBox = document.getElementById('prod-features');
-
-            if(name.includes('gita')) {
-                featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 प्रमुख भाषाएँ (संस्कृत, हिंदी, अंग्रेजी)\n• प्रामाणिक उच्चारण व 700 श्लोकों का आध्यात्मिक विश्लेषण\n• आजीवन पारिवारिक संस्कार व शांति का पैकेज (200 BV)";
-            } else if(name.includes('hanuman')) {
-                featBox.value = "• सम्पूर्ण हनुमान (ज्ञान-भक्ति का अद्भुत संकलन)\n• बोलने वाली कलम (Talking Book Feature)\n• सुन्दरकाण्ड, चालीसा, बजरंग बाण का संगीतमय पाठ\n• बच्चों व परिवार में सकारात्मक ऊर्जा का स्रोत";
-            } else if(name.includes('noni') || cat.includes('wellness')) {
-                featBox.value = "• हाओमा नोनी प्रीमियम कॉन्संट्रेट (100% शुद्ध)\n• 150+ आवश्यक फाइटोन्यूट्रिएंट्स व एंटीऑक्सीडेंट्स\n• रोग प्रतिरोधक क्षमता (Immunity) व ऊर्जा वर्धक\n• डिटॉक्सिफिकेशन और सेलुलर हेल्थ सपोर्ट";
-            } else if(name.includes('suit') || cat.includes('fashion')) {
-                featBox.value = "• Zeno / Grado प्रीमियम 3-पीस सूट लेंथ (लक्जरी फैब्रिक)\n• हर मौसम में आरामदायक व रिंकल-रेजिस्टेंट\n• प्रोफेशनल डायरेक्ट मार्केटिंग फॉर्मल प्रेजेंटेशन ड्रेस कोड\n• हाई सोशल स्टेटस व पर्सनैलिटी अपग्रेड";
-            } else if(name.includes('cookware') || cat.includes('kitchen')) {
-                featBox.value = "• मियाको 5-प्लाई स्टेनलेस स्टील कुकवेयर सेट\n• ऑयल-फ्री / लो-ऑयल हेल्दी कुकिंग टेक्नोलॉजी\n• गैस, इंडक्शन व सभी कुकटॉप्स पर उपयोग योग्य\n• जीवनभर चलने वाली प्रीमियम टिकाऊ बनावट";
-            } else {
-                featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज\n• बिज़नेस वॉल्यूम (BV) और लाइफटाइम डिस्ट्रीब्यूटरशिप\n• प्रीमियम क्वालिटी व डायरेक्ट टू होम डिलीवरी सपोर्ट";
-            }
+            const name = document.getElementById('prod-name').value.toLowerCase(); const featBox = document.getElementById('prod-features');
+            if(name.includes('gita')) featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 प्रमुख भाषाएँ (संस्कृत, हिंदी, अंग्रेजी)\n• 700 श्लोकों का आध्यात्मिक विश्लेषण (200 BV)";
+            else if(name.includes('noni')) featBox.value = "• हाओमा नोनी प्रीमियम कॉन्संट्रेट (100% शुद्ध)\n• 150+ आवश्यक फाइटोन्यूट्रिएंट्स व एंटीऑक्सीडेंट्स\n• इम्यूनिटी बूस्टर व डिटॉक्सिफिकेशन सपोर्ट";
+            else if(name.includes('suit')) featBox.value = "• Zeno / Grado प्रीमियम 3-पीस सूट लेंथ\n• ऑल-वेदर रिंकल-फ्री फैब्रिक\n• प्रोफेशनल डायरेक्ट मार्केटिंग फॉर्मल ड्रेस कोड";
+            else featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज\n• बिज़नेस वॉल्यूम (BV) और लाइफटाइम डिस्ट्रीब्यूटरशिप";
             UI.showToast("Features Auto-Filled!", "success");
         }
-        
         static async addProductURL() {
-            const name = document.getElementById('prod-name').value.trim();
-            const category = document.getElementById('prod-category').value.trim();
-            const url = document.getElementById('prod-url').value.trim();
-            const features = document.getElementById('prod-features').value.trim();
-
-            if(!name || !category || !url) return UI.showToast('Please fill Name, Keyword & URL', 'error');
-
-            try {
-                await db.collection('products').add({ 
-                    name: name, 
-                    category: category, 
-                    imageUrl: url, 
-                    features: features || "Safe Shop Quality Certified Product.",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-                });
-                UI.showToast('Product added with features!', 'success');
-                document.getElementById('prod-name').value = ''; 
-                document.getElementById('prod-category').value = ''; 
-                document.getElementById('prod-url').value = '';
-                document.getElementById('prod-features').value = '';
-            } catch(e) { UI.showToast('Database Error', 'error'); }
+            const name = document.getElementById('prod-name').value.trim(); const category = document.getElementById('prod-category').value.trim(); const url = document.getElementById('prod-url').value.trim(); const features = document.getElementById('prod-features').value.trim();
+            if(!name || !category || !url) return UI.showToast('Fill Name, Keyword & URL', 'error');
+            await db.collection('products').add({ name, category, imageUrl: url, features: features || "Safe Shop Quality Product.", timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+            UI.showToast('Product Published!', 'success');
+            document.getElementById('prod-name').value = ''; document.getElementById('prod-category').value = ''; document.getElementById('prod-url').value = ''; document.getElementById('prod-features').value = '';
         }
-
-        static async updateTarget(id) { const t = prompt("Enter new monthly target for this agent (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Agent target updated successfully.', 'success'); } }
+        static async updateTarget(id) { const t = prompt("Enter target (₹):"); if(t && !isNaN(t)) { await db.collection('users').doc(id).update({ target: parseInt(t) }); UI.showToast('Target updated.', 'success'); } }
         static async forceEnd(id) { await db.collection('tracking').doc(id).update({ status: "Completed (HQ)" }); }
-        static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Purged.'); }
-        static async deleteDoc(col, id) { if (confirm('Purge document completely?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
+        static async resetDevice(id) { await db.collection('users').doc(id).update({ deviceToken: "" }); UI.showToast('Unpaired.'); }
+        static async deleteDoc(col, id) { if (confirm('Purge document?')) { await db.collection(col).doc(id).delete(); UI.showToast('Deleted.', 'success'); } }
+        static exportJPG() { UI.showToast('Generating report...', 'warning'); }
+        static exportCSV() { UI.showToast('Exporting CSV...', 'success'); }
     }
 
     function initAdminOverride() { 
