@@ -72,7 +72,7 @@
         .badge { padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; } 
         .badge-success { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid rgba(16,185,129,0.3); } 
         .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); } 
-        .badge-primary { background: rgba(59,130,246,0.15); color: var(--primary); border: 1px solid rgba(59,130,246,0.3); }
+        .badge-primary { background: rgba(59,130,246,0.15); color: var(--primary); border: 1px solid rgba(59,130,246,0.3); } 
         
         .gamification-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); margin-top: 4px; }
         .badge-closer { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); color: #d97706; border-color: rgba(245,158,11,0.4); } 
@@ -137,8 +137,16 @@
 
         .lead-notes-list { margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.02); border-radius: 10px; border: 1px dashed var(--glass-border); }
         body.dark-mode .lead-notes-list { background: rgba(255,255,255,0.03); }
-        .script-box { background: rgba(0,0,0,0.02); border: 1px solid var(--glass-border); border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+        
+        .script-box { background: rgba(0,0,0,0.02); border: 1px solid var(--glass-border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
         body.dark-mode .script-box { background: rgba(255,255,255,0.04); }
+
+        /* SAFE SHOP SPECIFIC ACCORDIONS & PILLS */
+        .ss-accordion { border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: rgba(0,0,0,0.01); }
+        .ss-acc-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main); }
+        .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-border); display: none; line-height: 1.6; }
+        .ss-accordion.active .ss-acc-body { display: block; }
+        .ss-accordion.active .ss-acc-head i { transform: rotate(180deg); color: var(--primary); }
     </style>
 </head>
 <body>
@@ -439,13 +447,90 @@
             <div id="member-leads-container"></div>
         </div>
 
+        <!-- ============================================== -->
+        <!-- ENHANCED ACADEMY: SAFE SHOP & DIRECT MARKETING -->
+        <!-- ============================================== -->
         <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom:24px;"><button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')"><i class="fas fa-video"></i> 🔴 LIVE TRAINING ACTIVE</button></div>
             
-            <div class="card" style="border-top: 4px solid var(--primary); margin-bottom:20px;">
-                <h4 style="margin-bottom:14px; color:var(--primary); font-size:16px;"><i class="fas fa-phone-volume"></i> 1-Tap Invitation Scripts</h4>
-                <p class="text-xs" style="margin-bottom:16px;">कॉलिंग करते वक्त इन स्क्रिप्ट्स का इस्तेमाल करें और 1-टैप में कॉपी करें।</p>
-                
+            <div id="live-training-container" class="hidden" style="margin-bottom:20px;">
+                <button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')">
+                    <i class="fas fa-video"></i> 🔴 LIVE WEBINAR / DISHA TRAINING
+                </button>
+            </div>
+
+            <!-- 1. 8 STEPS TO SUCCESS (DIRECT MARKETING SYSTEM) -->
+            <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-shoe-prints"></i> 8 Steps to Success (सिस्टम)</h4>
+                    <span class="badge badge-primary">Core SOP</span>
+                </div>
+                <p class="text-xs" style="margin-bottom:14px;">Safe Shop डायरेक्ट सेलिंग में 100% सफलता के अनिवार्य 8 चरण:</p>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>1. Dream (सपनों का निर्धारण)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">सपना स्पष्ट (Clear), समय-सीमा वाला (Time-bound), और मापने योग्य (Measurable) होना चाहिए। अपने शॉर्ट-टर्म (1-6 माह), मिड-टर्म (1-2 वर्ष) और लॉन्ग-टर्म (5 वर्ष) सपनों को डायरी में लिखें।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>2. Commitment (समर्पण)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">हफ्ते में कम से कम 10-15 घंटे का समय बिज़नेस को समर्पित करें। हर संडे वेन्यू सेमिनार, दिशा ट्रेनिंग और अपलाइन काउंसलिंग को कभी मिस न करें।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S थ्योरी)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">कम से कम 150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें।<br><b>F</b>-Friends, <b>R</b>-Relatives, <b>I</b>-Institutions, <b>E</b>-Employees, <b>N</b>-Neighbors, <b>D</b>-Dedicated/Dreamers, <b>S</b>-Strangers.</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>4. Invitation (सही तरीके से आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। जिज्ञासा (Curiosity) पैदा करें और वेन्यू या ज़ूम मीटिंग का समय फिक्स करें। कम बोलना ही सबसे बड़ी कला है।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>5. Show The Plan (STP)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">1-on-1, ग्रुप मीटिंग या वेन्यू सेमिनार में प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज/प्रोडक्ट्स और बाइनरी इनकम प्लान दिखाएं।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>6. Follow-up (24 से 48 घंटे के अंदर)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">प्लान देखने के बाद 90% क्लोजिंग 48 घंटे में होती है। अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD/ऑनलाइन पेमेंट कलेक्ट करें।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>7. 100% User (उत्पादों के उपयोगकर्ता)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स (प्रगति सूत्र, फोल्डर, लिटरेचर) का स्वयं उपयोग करें। विश्वास आपकी आंखों में दिखना चाहिए।</div>
+                </div>
+
+                <div class="ss-accordion" onclick="this.classList.toggle('active')">
+                    <div class="ss-acc-head"><span>8. Be a Team Player & Teach</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">सक्रिय अपलाइन की काउंसलिंग लें और डाउनलाइन को डुप्लीकेट करें। टीम में ईगो, पैसे और फैमिली के प्रति मर्यादा रखें।</div>
+                </div>
+            </div>
+
+            <!-- 2. 3 POWERS & CARDINAL RULES -->
+            <div class="card" style="border-top: 4px solid #f59e0b; padding:20px;">
+                <h4 style="color:#d97706; font-size:15px; margin-bottom:12px;"><i class="fas fa-bolt"></i> 3 Powers (सफलता की तीन शक्तियां)</h4>
+                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; margin-bottom:10px; border-left:3px solid var(--warning);">
+                    <strong class="text-sm">1. Power of Spoken Word:</strong>
+                    <p class="text-xs" style="margin:4px 0 0 0;">हमेशा सकारात्मक बोलें। जैसा आप अपने और अपनी टीम के बारे में बोलेंगे, यूनिवर्स वैसा ही रिजल्ट देगा।</p>
+                </div>
+                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; margin-bottom:10px; border-left:3px solid var(--warning);">
+                    <strong class="text-sm">2. Power of Submission:</strong>
+                    <p class="text-xs" style="margin:4px 0 0 0;">सिस्टम और एक्टिव, ग्रोइंग अपलाइन के प्रति 100% समर्पण रखें। अपना दिमाग लगाने से बेहतर है सिस्टम को फॉलो करना।</p>
+                </div>
+                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; border-left:3px solid var(--warning);">
+                    <strong class="text-sm">3. Power of Unity:</strong>
+                    <p class="text-xs" style="margin:4px 0 0 0;">टीम में एकता रखें। क्रॉस-लाइनिंग और नकारात्मक बातों से दूरी बनाए रखें।</p>
+                </div>
+            </div>
+
+            <!-- 3. INVITATION SCRIPTS LIBRARY -->
+            <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-phone-volume"></i> कॉलिंग व इनविटेशन स्क्रिप्ट्स</h4>
+                    <span class="badge badge-success">Ready-to-use</span>
+                </div>
+
                 <div class="script-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                         <strong class="text-sm"><i class="fas fa-user-graduate text-primary"></i> For Students</strong>
@@ -456,41 +541,61 @@
 
                 <div class="script-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Working Employee</strong>
+                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Job / Working Class</strong>
                         <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
                     </div>
-                    <p class="text-xs" id="job-scr" style="margin:0; line-height:1.5;">"सर, अपनी जॉब को बिना डिस्टर्ब किए, क्या आप वीकेंड्स या शाम के समय में एक पैरेलल सेकेंडरी इनकम सोर्स बिल्ड करना चाहेंगे? हमारे पास एक प्रूवेन ई-कॉमर्स प्रोजेक्ट है।"</p>
+                    <p class="text-xs" id="job-scr" style="margin:0; line-height:1.5;">"सर, अपनी वर्तमान जॉब को डिस्टर्ब किए बिना क्या आप वीकेंड्स या शाम के 1 घंटे में एक पैरेलल बैकअप इनकम सोर्स बिल्ड करना चाहेंगे? हमारे पास एक प्रूवेन ई-कॉमर्स प्रोजेक्ट है।"</p>
                 </div>
 
                 <div class="script-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-home text-success"></i> For Housewives / Females</strong>
+                        <strong class="text-sm"><i class="fas fa-store text-danger"></i> For Shopkeepers / Small Business</strong>
+                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('biz-scr')"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
+                    <p class="text-xs" id="biz-scr" style="margin:0; line-height:1.5;">"नमस्कार भाईसाहब, अपनी दुकान या बिज़नेस में बिना कोई नया भारी निवेश किए, एक डिजिटल नेटवर्क मॉडल से अतिरिक्त टर्नओवर जनरेट करने का अवसर है। 20 मिनट का समय निकालें, बैठकर चर्चा करते हैं।"</p>
+                </div>
+
+                <div class="script-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <strong class="text-sm"><i class="fas fa-home text-success"></i> For Housewives / Women</strong>
                         <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('housewife-scr')"><i class="fas fa-copy"></i> Copy</button>
                     </div>
-                    <p class="text-xs" id="housewife-scr" style="margin:0; line-height:1.5;">"नमस्ते, घर के काम-काज को संभालते हुए अपने स्मार्टफोन से वर्क-फ्रॉम-होम के ज़रिए इंडिपेंडेंट होने का एक शानदार मौका है। 15 मिनट में समझें कैसे।"</p>
+                    <p class="text-xs" id="housewife-scr" style="margin:0; line-height:1.5;">"नमस्ते, घर की जिम्मेदारियों को संभालते हुए स्मार्टफोन से वर्क-फ्रॉम-होम के ज़रिए आत्मनिर्भर बनने का एक शानदार अवसर है। शाम को हमारे साथ ऑनलाइन कनेक्ट करें।"</p>
                 </div>
             </div>
 
-            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> मास्टर ट्रेनिंग वीडियोस</h4><div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div></div>
-            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:20px;"><h4 style="margin-bottom:12px;"><i class="fas fa-file-pdf text-danger"></i> बिज़नेस डाक्यूमेंट्स</h4><button class="btn btn-outline" style="font-weight: 600;" id="mem-ac-pdf-btn" onclick=""><i class="fas fa-download"></i> कंपनी का प्लान (PDF) डाउनलोड करें</button></div>
-            
+            <!-- 4. OBJECTION HANDLING (CLOSING WIDGET) -->
+            <div class="card" style="border-top: 4px solid #8b5cf6; padding:20px;">
+                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:15px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper (ऑब्जेक्शन हैंडलिंग)</h4>
+                <p class="text-xs" style="margin-bottom:14px;">प्रोस्पेक्ट का बहाना या सवाल टाइप करें (उदा: <i>paise nahi, time nahi, company bhaag gayi to, member banane wala kaam</i>):</p>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <input type="text" id="ai-query" placeholder="सवाल लिखें..." style="margin:0; flex:1;">
+                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 18px; flex-shrink:0;" onclick="Member.askAI()">उत्तर दें</button>
+                </div>
+                <div id="ai-response" class="text-sm" style="margin-top:14px;"></div>
+            </div>
+
+            <!-- 5. COMPANY TOOLS & TRAINING VIDEOS -->
+            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;">
+                <h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> ट्रेनिंग वीडियो</h4>
+                <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div>
+            </div>
+
+            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:20px;">
+                <button class="btn btn-outline" style="font-weight: 600; border-color:var(--danger); color:var(--danger);" id="mem-ac-pdf-btn" onclick="">
+                    <i class="fas fa-file-pdf"></i> बिज़नेस प्लान व प्रगति सूत्र (PDF) डाउनलोड करें
+                </button>
+            </div>
+
+            <!-- 6. DAILY QUIZ -->
             <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:24px;">
-                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> आज का सवाल (Daily Quiz)</h4>
+                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़ (Daily System Quiz)</h4>
                 <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
                     <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight: 600; font-size: 14px; color: var(--text-main);">Loading...</p>
                     <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
                 </div>
             </div>
 
-            <div class="card" style="border-top: 4px solid #8b5cf6;">
-                <h4 style="color:#8b5cf6; margin-bottom:10px; font-size:16px;"><i class="fas fa-robot"></i> AI Closing Helper</h4>
-                <p class="text-xs" style="margin-bottom:16px; font-weight: 500;">Type prospect's excuse (e.g. "scam", "expensive", "family")</p>
-                <div style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" id="ai-query" placeholder="Prospect said..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 20px; flex-shrink:0;" onclick="Member.askAI()">Ask AI</button>
-                </div>
-                <div id="ai-response" class="text-sm" style="margin-top:16px;"></div>
-            </div>
         </div>
 
         <div id="mem-ai" class="tab-content hidden">
@@ -811,16 +916,43 @@
             await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id'), memberName: localStorage.getItem('htm_name'), message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
         }
+
+        // ENHANCED DIRECT MARKETING OBJECTION CLOSER
         static askAI() {
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
-            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.1)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.3)";
-            if(q.includes('paise') || q.includes('money') || q.includes('expensive')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If money is tight right now, isn't that exactly why you need this business?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, agar aaj shuru karne ke liye paise nahi hain, to aage bhi nahi honge. Yahi reason hai start karne ka.'";
-            else if(q.includes('time') || q.includes('busy')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'We build this business exactly to earn Time Freedom. Just 1 hour a day is enough.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Aap subah se raat tak busy hain, fir bhi freedom nahi hai. Hum ye business Time Freedom ke liye kar rahe hain.'";
-            else if(q.includes('scam') || q.includes('fake') || q.includes('chain')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Illegal pyramids don't have real products. Let me show you the documents.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sir, fake cheezein chup kar hoti hain. Hum proper product-based registered company hain. Documents check kijiye.'";
-            else if(q.includes('papa') || q.includes('family') || q.includes('ask')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Your family will say no because they haven't seen the presentation. Take the decision yourself!'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Family mana karegi kyunki unhone plan nahi dekha. Agar successful hona hai to decision aapka hona chahiye.'";
-            else if(q.includes('soch') || q.includes('think')) resBox.innerHTML = "🤖 <strong>Closing Script:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'Thinking alone won't change your bank balance; taking action will.'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Sirf sochne se balance nahi badhega. Action lene se hoga. Aaj hi shuru karte hain.'";
-            else resBox.innerHTML = "🤖 <strong>General Push:</strong><br><br><b style='color:#8b5cf6;'>🇬🇧 English:</b> 'If you don't take action today, where will you be in 5 years?'<br><br><b style='color:#8b5cf6;'>🇮🇳 Hinglish:</b> 'Agar aaj action nahi liya, to kal kuch nahi badlega. Humara system aapko 100% support karega.'";
+            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "14px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
+            
+            if(q.includes('paise') || q.includes('money') || q.includes('paisa') || q.includes('expensive') || q.includes('mehnga')) {
+                resBox.innerHTML = "🎯 <b>Objection: पैसे नहीं हैं / बजट नहीं है</b><br><br>" +
+                "<b>🇬🇧 Closing:</b> 'If you had sufficient money, you wouldn't be looking for extra income. Isn't that the exact reason to start today?'<br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, जब कॉलेज की फीस, मोबाइल या इमरजेंसी होती है तो क्या हम पैसे का इंतज़ाम करते हैं? यहाँ आप कोई खर्चा नहीं कर रहे, अपनी जरूरत का प्रोडक्ट ले रहे हैं और साथ में लाखों कमाने की बिज़नेस ओनरशिप फ्री मिल रही है। अगर आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
+            }
+            else if(q.includes('time') || q.includes('samay') || q.includes('busy') || q.includes('fursat')) {
+                resBox.innerHTML = "🎯 <b>Objection: समय नहीं है (Time Freedom)</b><br><br>" +
+                "<b>🇬🇧 Closing:</b> 'We do this business not because we have free time, but to build Time Freedom so you don't have to struggle forever.'<br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, आप 8 से 10 घंटे काम कर रहे हैं और फिर भी समय नहीं है। सोचिए, अगर काम रुक जाए तो क्या आमदनी आएगी? नेटवर्क मार्केटिंग टाइम कंपाउंडिंग का काम है। 1-2 घंटे पार्ट टाइम देकर आप 100 लोगों की टीम बनाते हैं, जिससे आपके लिए दिन में 200 घंटे काम होता है।'";
+            }
+            else if(q.includes('company') || q.includes('bhaag') || q.includes('band') || q.includes('fake') || q.includes('fraud') || q.includes('scam')) {
+                resBox.innerHTML = "🎯 <b>Objection: कंपनी भाग गई तो? / विश्वसनीयता</b><br><br>" +
+                "<b>🇬🇧 Closing:</b> 'Companies without real products disappear. Safe Shop has been legally compliant for over 2 decades with physical delivery.'<br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, जो कंपनियां हवा में पैसे डबल करने का दावा करती हैं वो भागती हैं। सेफ शॉप जनवरी 2001 से भारत सरकार की मिनिस्ट्री ऑफ कंज्यूमर अफेयर्स की गाइडलाइन्स के तहत रजिस्टर्ड है। आपने पैसा दिया और बदले में MRP का ब्रांडेड प्रोडक्ट हाथ में आ गया। अब भागने का कोई रिस्क ही नहीं बचा!'";
+            }
+            else if(q.includes('chain') || q.includes('member') || q.includes('jodna') || q.includes('scheme') || q.includes('pyramid')) {
+                resBox.innerHTML = "🎯 <b>Objection: यह लोगों को जोड़ने / चेन बनाने वाला काम है?</b><br><br>" +
+                "<b>🇬🇧 Closing:</b> 'Every large business - McDonald's, Jio, Uber - creates a distribution network. We are building a consumer channel.'<br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, दुनिया का कौन सा अमीर इंसान अकेले काम करता है? टाटा, रिलायंस, अमेज़न सबने नेटवर्क बनाया है। अकेले काम करके सिर्फ सैलरी मिलती है, लेकिन जब लोग आपके साथ जुड़कर टर्नओवर करते हैं तो रॉयल्टी इनकम आती है। हम लोगों को फंसा नहीं रहे, उन्हें रोज़गार दे रहे हैं।'";
+            }
+            else if(q.includes('papa') || q.includes('family') || q.includes('biwi') || q.includes('wife') || q.includes('puchh')) {
+                resBox.innerHTML = "🎯 <b>Objection: पापा/फैमिली से पूछकर बताऊंगा</b><br><br>" +
+                "<b>🇬🇧 Closing:</b> 'Your family hasn't seen the visionary presentation. They can only advise based on old mindset.'<br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, बहुत अच्छी बात है कि आप परिवार की राय लेते हैं। लेकिन अगर आपको डॉक्टर बनना है तो राय डॉक्टर से लेंगे या वकील से? आपके परिवार ने आज का प्रेजेंटेशन नहीं देखा, तो वो सिर्फ आधी बात सुनकर मना कर देंगे। चलिए, कल मैं और मेरे सीनियर आपके साथ घर चलते हैं और अंकल जी को पूरी बात समझाते हैं।'";
+            }
+            else {
+                resBox.innerHTML = "🎯 <b>General Professional Push (Closing Punch):</b><br><br>" +
+                "<b>🇮🇳 Safe Shop Script:</b> 'सर, फैसला लेने में 2 ही रास्ते हैं—या तो आप शुरू करेंगे या नहीं करेंगे। न करने से जिंदगी जैसी चल रही है वैसी ही रहेगी। लेकिन शुरुआत करने से 1-2 साल में आपके सारे सपने सच हो सकते हैं। फॉर्म भरिए, हम पूरी टीम आपके साथ फील्ड में खड़े हैं!'";
+            }
         }
+
         static evaluateUrgencyTriggers() {
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id')).onSnapshot(snap => {
                 let hasDD = false; let totalCollected = 0; snap.forEach(doc => { const d = doc.data(); if (d.ddClosed) { hasDD = true; totalCollected += d.ddAmount; } });
