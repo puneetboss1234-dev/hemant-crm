@@ -28,7 +28,6 @@
             --surface-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
         }
 
-        /* Distinct Command Center Style for Admin Mode */
         body.admin-view-active {
             --bg-body: #030712;
             --text-main: #f3f4f6;
@@ -159,6 +158,7 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
+        /* Floating Nav */
         .floating-nav { 
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
             background: rgba(255, 255, 255, 0.88); 
@@ -243,6 +243,7 @@
             box-shadow: 0 4px 10px rgba(217,119,6,0.3);
         }
 
+        /* PYRAMID TREE CSS */
         .tree-scroll-wrapper {
             overflow-x: auto;
             padding: 10px 0 20px 0;
@@ -374,7 +375,7 @@
                 <path d="M50 15L80 32.5V67.5L50 85L20 67.5V32.5L50 15Z" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
                 <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
                 <text x="50" y="65" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">HTM</text>
-                <defs><linearGradient id="htm_grad" x1="11" y1="5" x2="89" y2="95" gradientUnits="userSpaceOnUse"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+                <defs><linearGradient id="htm_grad" x1="11" y1="5" x2="89" y2="95"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
             </svg>
         </div>
         <h2 style="font-size: 22px; color: #fff; margin-bottom: 4px;">HTM Enterprise OS</h2>
@@ -446,13 +447,13 @@
         </div>
     </div>
 
-    <!-- ADMIN MODULE (DISTINCT COMMAND CENTER THEME) -->
+    <!-- ADMIN MODULE -->
     <div id="admin-module" class="hidden">
         <div class="app-header">
             <div style="display:flex; align-items:center; gap:8px;">
                 <svg width="34" height="34" viewBox="0 0 100 100" fill="none">
-                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="#1e3a8a"/>
-                    <text x="50" y="62" font-family="sans-serif" font-size="20" font-weight="900" fill="#fff" text-anchor="middle">HTM</text>
+                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="#f59e0b"/>
+                    <text x="50" y="62" font-family="sans-serif" font-size="20" font-weight="900" fill="#000" text-anchor="middle">HTM</text>
                 </svg>
                 <div>
                     <h3 style="font-size:16px;">HQ Command Core <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i></h3>
@@ -464,6 +465,7 @@
             </div>
         </div>
 
+        <!-- ADMIN TAB 1: HOME -->
         <div id="admin-home" class="tab-content">
             <div class="grid-2" style="margin-bottom:16px;">
                 <div class="dashboard-stat"><span class="text-xs">Network Turnover</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
@@ -483,6 +485,7 @@
             <div id="admin-radar-container"></div>
         </div>
 
+        <!-- ADMIN TAB 2: TEAM -->
         <div id="admin-team" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--primary);">
                 <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Onboard Operative</h4>
@@ -504,27 +507,48 @@
             <div id="admin-team-container"></div>
         </div>
 
-        <div id="admin-controls" class="tab-content hidden">
-            <!-- NEW ADMIN EDIT TREE NODE & LEG OVERRIDE TOOL -->
-            <div class="card" style="border-top: 4px solid #f59e0b;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h4 style="color:#f59e0b; margin:0; font-size:15px;"><i class="fas fa-sitemap"></i> Tree & Placement Editor</h4>
-                    <span class="badge badge-warning">Admin Override</span>
+        <!-- ADMIN TAB 3: TREE (NEW DEDICATED ADMIN TREE TAB) -->
+        <div id="admin-tree" class="tab-content hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <div>
+                    <h4 style="margin:0 0 2px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Master Network Tree Control</h4>
+                    <span class="text-xs" id="admin-tree-focus-label">Viewing: HTM Root</span>
                 </div>
-                <p class="text-xs" style="margin-bottom:14px;">किसी भी मेंबर की स्पॉन्सरशिप या लेग पोजीशन (Left/Right) तुरंत बदलें:</p>
-                <input type="text" id="tree-edit-target-id" placeholder="Member ID to Edit (e.g. HTM-02)">
+                <button class="btn btn-outline btn-sm" onclick="Admin.resetAdminTree()"><i class="fas fa-undo"></i> Reset Root</button>
+            </div>
+
+            <!-- SEARCH / JUMP TO ANY MEMBER SUB-TREE -->
+            <div class="card" style="padding:14px; margin-bottom:14px; border-top:3px solid var(--primary);">
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="admin-tree-search-input" placeholder="Jump to Member ID (e.g. HTM-02)..." style="margin:0; flex:1;">
+                    <button class="btn btn-primary btn-sm" style="flex-shrink:0; padding:0 14px;" onclick="Admin.jumpToMemberTree()"><i class="fas fa-search"></i> Inspect</button>
+                </div>
+            </div>
+
+            <!-- DIRECT TREE NODE EDIT & PLACEMENT -->
+            <div class="card" style="border-top: 4px solid var(--primary); padding:16px; margin-bottom:14px;">
+                <h4 style="color:var(--primary); margin:0 0 10px 0; font-size:14px;"><i class="fas fa-exchange-alt"></i> Re-assign Member Leg / Sponsor</h4>
+                <input type="text" id="admin-tree-edit-target" placeholder="Target Member ID (e.g. HTM-03)">
                 <div class="grid-2">
-                    <input type="text" id="tree-edit-new-sponsor" placeholder="New Sponsor ID">
-                    <select id="tree-edit-new-pos">
+                    <input type="text" id="admin-tree-edit-sponsor" placeholder="New Sponsor ID">
+                    <select id="admin-tree-edit-pos">
                         <option value="left">Left Leg (Team A)</option>
                         <option value="right">Right Leg (Team B)</option>
                     </select>
                 </div>
-                <button class="btn btn-primary" style="background:#f59e0b; color:#000;" onclick="Admin.overrideTreeNode()">
-                    <i class="fas fa-save"></i> Save Tree Placement
-                </button>
+                <button class="btn btn-primary" onclick="Admin.overrideTreeNodeFromTreeTab()"><i class="fas fa-save"></i> Update Node Placement</button>
             </div>
 
+            <!-- VISUAL DRILL-DOWN PYRAMID FOR ADMIN -->
+            <div class="card" style="padding: 18px 10px; overflow-x: auto;">
+                <div class="tree-scroll-wrapper" id="admin-pyramid-container">
+                    <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Master Network Tree...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN TAB 4: CONTROLS -->
+        <div id="admin-controls" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--danger);">
                 <h4 style="margin-bottom:14px; color:var(--danger); font-size:15px;"><i class="fas fa-bell"></i> SOS Command Desk</h4>
                 <div id="admin-sos-container" style="max-height:260px; overflow-y:auto;"></div>
@@ -536,7 +560,7 @@
                     <button class="btn btn-outline btn-sm" style="padding:5px 9px;" onclick="Admin.autoFillFeatures()"><i class="fas fa-magic"></i> Auto-Detect</button>
                 </div>
                 <div class="grid-2">
-                    <input type="text" id="prod-name" placeholder="Product Name (e.g. Bhagavad Gita)" oninput="Admin.smartSuggest()">
+                    <input type="text" id="prod-name" placeholder="Product Name" oninput="Admin.smartSuggest()">
                     <input type="text" id="prod-category" placeholder="Category (Spiritual/Wellness/Fashion)">
                 </div>
                 <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
@@ -557,6 +581,7 @@
             </div>
         </div>
 
+        <!-- ADMIN TAB 5: GOD MODE -->
         <div id="admin-godmode" class="tab-content hidden">
             <h4 style="color:#8b5cf6; font-size:16px; margin-bottom:14px;"><i class="fas fa-vault"></i> Master Records Vault</h4>
             <div class="card" style="padding:18px;">
@@ -572,16 +597,18 @@
             <div id="admin-sales-container"></div>
         </div>
 
+        <!-- ADMIN 5-ITEM FLOATING NAV WITH TREE TAB -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin','team',this)"><i class="fas fa-users-cog"></i><span>Team</span></div>
+            <div class="nav-box" onclick="UI.switchTab('admin','tree',this)"><i class="fas fa-sitemap"></i><span>Tree</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin','controls',this)"><i class="fas fa-sliders-h"></i><span>Controls</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin','godmode',this)"><i class="fas fa-bolt"></i><span>God Mode</span></div>
         </div>
     </div>
 
-    <!-- MEMBER MODULE (CLEAN 5 TABS) -->
+    <!-- MEMBER MODULE -->
     <div id="member-module" class="hidden">
         <div class="btn-sos" onclick="UI.showModal('sos-modal')"><i class="fas fa-headset"></i></div>
         
@@ -696,7 +723,7 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- 3. UNLIMITED BINARY PYRAMID TREE TAB -->
+        <!-- 3. BINARY PYRAMID TREE TAB -->
         <div id="mem-tree" class="tab-content hidden">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                 <div>
@@ -706,7 +733,6 @@
                 <button class="btn btn-outline btn-sm" onclick="Member.resetTreeRoot()"><i class="fas fa-undo"></i> Reset to Me</button>
             </div>
 
-            <!-- CSV IMPORT TOOL -->
             <div class="card" style="padding:14px; margin-bottom:16px; border-top:3px solid var(--primary);">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div>
@@ -722,7 +748,7 @@
 
             <div class="card" style="padding: 20px 10px; overflow-x: auto;">
                 <p class="text-xs" style="text-align:center; margin-top:0; color:var(--text-muted);">
-                    <i class="fas fa-info-circle"></i> किसी भी नोड पर टैप करके उसके असीमित लेवल्स (Unlimited Depth) देखें।
+                    <i class="fas fa-info-circle"></i> किसी भी नोड पर टैप करके उसके असीमित लेवल्स देखें।
                 </p>
                 <div class="tree-scroll-wrapper" id="binary-pyramid-container">
                     <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Pyramid Tree...</p>
@@ -912,6 +938,7 @@
             document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
             this.moveIndicator(element);
             if(prefix === 'member' && tabId === 'tree') Member.renderPyramidTree();
+            if(prefix === 'admin' && tabId === 'tree') Admin.renderAdminTree();
         }
         static showModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }
         static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
@@ -1042,6 +1069,9 @@
                 this.networkUsers = [];
                 snap.forEach(doc => this.networkUsers.push({ id: doc.id, ...doc.data() }));
                 this.renderPyramidTree();
+                if(document.getElementById('admin-module') && !document.getElementById('admin-module').classList.contains('hidden')) {
+                    Admin.renderAdminTree();
+                }
             });
         }
 
@@ -1243,7 +1273,7 @@
                 msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 c.innerHTML = ''; if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.6; padding: 10px;">No active whispers...</p>'; return; }
                 msgs.forEach(d => {
-                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;float:right;font-size:16px;"><i class="fas fa-times-circle"></i></button>` : '';
+                    const clearBtn = d.reply ? `<button onclick="Member.clearSOS('${d.id}')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;float:right;font-size:18px;" title="Clear Message"><i class="fas fa-times-circle"></i></button>` : '';
                     c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-card-border); padding:10px 12px; border-radius:12px; margin-bottom:8px;">${clearBtn}<p class="text-xs" style="margin:0 0 6px 0; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-xs" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ...</p>`}</div>`;
                     if(d.reply && !d.clearedByMember && d.reply !== localStorage.getItem(`sos_seen_${d.id}`)) { UI.showToast(`HQ Replied!`, 'success'); localStorage.setItem(`sos_seen_${d.id}`, d.reply); UI.showModal('sos-modal'); }
                 });
@@ -1400,8 +1430,120 @@
     }
 
     class Admin {
-        static leadsVault = [];
-        static initData() { this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); }
+        static leadsVault = []; static adminTreeRootId = "";
+        static initData() { 
+            this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); 
+            Member.fetchNetworkUsers();
+        }
+        
+        static resetAdminTree() {
+            this.adminTreeRootId = "";
+            this.renderAdminTree();
+        }
+
+        static jumpToMemberTree() {
+            const id = document.getElementById('admin-tree-search-input').value.trim();
+            if(!id) return UI.showToast("Enter Member ID", "warning");
+            const user = Member.networkUsers.find(u => u.id === id);
+            if(!user) return UI.showToast("Member ID not found in network", "error");
+            this.adminTreeRootId = id;
+            this.renderAdminTree();
+            UI.showToast("Jumped to " + id, "success");
+        }
+
+        static drillDownAdminTree(nodeId) {
+            this.adminTreeRootId = nodeId;
+            this.renderAdminTree();
+            UI.showToast("Inspecting sub-tree of " + nodeId, "success");
+        }
+
+        static renderAdminTree() {
+            const container = document.getElementById('admin-pyramid-container');
+            if(!container) return;
+
+            let rootUser = null;
+            if(this.adminTreeRootId) {
+                rootUser = Member.networkUsers.find(u => u.id === this.adminTreeRootId);
+            }
+            if(!rootUser) {
+                // Find top-most root node (without sponsor or first created)
+                rootUser = Member.networkUsers.find(u => !u.sponsorId || u.sponsorId === "") || Member.networkUsers[0] || { id: "HTM-01", name: "HQ Root" };
+            }
+
+            const labelEl = document.getElementById('admin-tree-focus-label');
+            if(labelEl) labelEl.innerText = `Viewing: ${rootUser.name} (${rootUser.id})`;
+
+            const leftChild = Member.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'left');
+            const rightChild = Member.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'right');
+
+            const leftLeft = leftChild ? Member.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'left') : null;
+            const leftRight = leftChild ? Member.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'right') : null;
+            const rightLeft = rightChild ? Member.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'left') : null;
+            const rightRight = rightChild ? Member.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'right') : null;
+
+            const renderNode = (user, sideLabel, isRoot = false) => {
+                if(!user) return `<div class="empty-slot"><i class="fas fa-plus-circle"></i><br>Empty ${sideLabel}</div>`;
+                return `
+                    <div class="tree-node ${isRoot ? 'root-node' : ''}" onclick="Admin.drillDownAdminTree('${user.id}')" title="Tap to expand levels">
+                        <i class="fas fa-user-shield text-warning" style="font-size:16px;"></i>
+                        <h5 style="margin:4px 0 2px 0; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${user.name}</h5>
+                        <span class="text-xs" style="color:var(--text-muted); font-size:10px;">${user.id}</span>
+                        ${sideLabel ? `<span class="badge ${sideLabel === 'Left' ? 'badge-primary' : 'badge-warning'}" style="display:block; font-size:8px; margin-top:4px;">${sideLabel}</span>` : ''}
+                    </div>
+                `;
+            };
+
+            container.innerHTML = `
+                <div>
+                    ${renderNode(rootUser, "", true)}
+                    <div class="tree-connector-line"></div>
+                </div>
+                <div class="tree-branch-container">
+                    <div>
+                        ${renderNode(leftChild, "Left")}
+                        <div class="tree-connector-line"></div>
+                        <div class="tree-branch-container" style="gap:10px;">
+                            ${renderNode(leftLeft, "L")}
+                            ${renderNode(leftRight, "R")}
+                        </div>
+                    </div>
+                    <div>
+                        ${renderNode(rightChild, "Right")}
+                        <div class="tree-connector-line"></div>
+                        <div class="tree-branch-container" style="gap:10px;">
+                            ${renderNode(rightLeft, "L")}
+                            ${renderNode(rightRight, "R")}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        static async overrideTreeNodeFromTreeTab() {
+            const targetId = document.getElementById('admin-tree-edit-target').value.trim();
+            const newSponsor = document.getElementById('admin-tree-edit-sponsor').value.trim();
+            const newPos = document.getElementById('admin-tree-edit-pos').value;
+
+            if(!targetId) return UI.showToast('Enter Member ID to edit.', 'error');
+
+            try {
+                const userDoc = await db.collection('users').doc(targetId).get();
+                if(!userDoc.exists) return UI.showToast('Member ID not found.', 'error');
+
+                await db.collection('users').doc(targetId).update({
+                    sponsorId: newSponsor,
+                    position: newPos
+                });
+
+                UI.showToast(`Updated! ${targetId} now under ${newSponsor || 'Root'} (${newPos.toUpperCase()})`, 'success');
+                document.getElementById('admin-tree-edit-target').value = '';
+                document.getElementById('admin-tree-edit-sponsor').value = '';
+                Member.fetchNetworkUsers();
+            } catch(e) {
+                UI.showToast('Error updating placement.', 'error');
+            }
+        }
+
         static async pushLiveLink() { const link = document.getElementById('admin-live-link').value.trim(); if (!link) return UI.showToast('Enter valid URL.', 'error'); await db.collection('system').doc('academy').set({ liveLink: link, timestamp: firebase.firestore.FieldValue.serverTimestamp() }, {merge:true}); UI.showToast('Live Webinar dispatched!', 'success'); }
         static async updateAcademy() {
             let vid = document.getElementById('ac-vid').value.trim(); const pdf = document.getElementById('ac-pdf').value.trim();
@@ -1443,29 +1585,6 @@
             document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; 
             document.getElementById('new-pass').value=''; document.getElementById('new-target').value=''; 
             document.getElementById('new-sponsor').value='';
-        }
-        static async overrideTreeNode() {
-            const targetId = document.getElementById('tree-edit-target-id').value.trim();
-            const newSponsor = document.getElementById('tree-edit-new-sponsor').value.trim();
-            const newPos = document.getElementById('tree-edit-new-pos').value;
-
-            if(!targetId) return UI.showToast('Enter Member ID to edit.', 'error');
-
-            try {
-                const userDoc = await db.collection('users').doc(targetId).get();
-                if(!userDoc.exists) return UI.showToast('Member ID not found.', 'error');
-
-                await db.collection('users').doc(targetId).update({
-                    sponsorId: newSponsor,
-                    position: newPos
-                });
-
-                UI.showToast(`Node ${targetId} placed under ${newSponsor || 'Root'} (${newPos.toUpperCase()})`, 'success');
-                document.getElementById('tree-edit-target-id').value = '';
-                document.getElementById('tree-edit-new-sponsor').value = '';
-            } catch(e) {
-                UI.showToast('Error updating placement.', 'error');
-            }
         }
         static async toggleSuspend(id, currentStatus) { await db.collection('users').doc(id).update({ suspended: !currentStatus }); UI.showToast(currentStatus ? 'Activated' : 'Suspended', currentStatus ? 'success' : 'warning'); }
         static async editTrackingAdmin(id, currName) { const p = prompt("Edit Prospect Target:", currName); if(p && p.trim()) { await db.collection('tracking').doc(id).update({ prospect: p.trim() }); UI.showToast('Record updated.', 'success'); } }
