@@ -31,12 +31,11 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; background: var(--bg-body); color: var(--text-main); 
-            padding-bottom: 100px; -webkit-font-smoothing: antialiased; 
+            padding-bottom: 105px; -webkit-font-smoothing: antialiased; 
             min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; 
             overflow-x: hidden; position: relative;
         }
 
-        /* Ambient Glow Background */
         .ambient-mesh { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; overflow: hidden; }
         .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35; }
         .orb-1 { width: 300px; height: 300px; background: var(--primary-glow); top: -80px; right: -80px; }
@@ -142,66 +141,46 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
-        /* 4-Item Pro Floating Nav */
+        /* 5-Item Responsive Floating Nav */
         .floating-nav { 
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.88); 
             backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border); border-radius: 32px; 
-            display: flex; padding: 5px; z-index: 100; width: 92%; max-width: 440px; 
+            border: 1px solid var(--glass-border); border-radius: 34px; 
+            display: flex; padding: 5px; z-index: 100; width: 94%; max-width: 480px; 
             box-shadow: 0 15px 35px -5px rgba(0,0,0,0.12); box-sizing: border-box; 
         }
-        body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.88); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.9); border-color: rgba(255,255,255,0.12); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .nav-box { 
             flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; 
             color: var(--text-muted); font-size: 10px; font-weight: 650; gap: 4px; padding: 8px 0; 
             cursor: pointer; z-index: 2; position: relative; transition: color 0.25s ease;
         }
-        .nav-box i { font-size: 16px; } 
+        .nav-box i { font-size: 15px; } 
         .nav-box.active { color: var(--primary); } 
         .nav-indicator { 
             position: absolute; top: 5px; bottom: 5px; 
-            background: #ffffff; border-radius: 26px; z-index: 1; 
+            background: #ffffff; border-radius: 28px; z-index: 1; 
             transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s ease; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.06); 
         }
         body.dark-mode .nav-indicator { background: #1e293b; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
 
-        /* HTM Custom Vector Logo & Splash Elements */
-        .htm-logo-svg {
-            filter: drop-shadow(0 6px 14px var(--primary-glow));
-            transition: transform 0.3s ease;
-        }
-        .htm-logo-svg:hover { transform: scale(1.05); }
-
-        #welcome-splash { 
-            z-index: 99999; background: rgba(7, 13, 24, 0.92); 
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-        } 
+        /* Custom HTM Logo */
+        .htm-logo-svg { filter: drop-shadow(0 6px 14px var(--primary-glow)); }
+        #welcome-splash { z-index: 99999; background: rgba(7, 13, 24, 0.94); backdrop-filter: blur(30px); } 
         .splash-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 30px; padding: 40px 24px; text-align: center;
             max-width: 380px; width: 100%; box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-            animation: splashIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        @keyframes splashIn { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
-        
-        .logo-ring-wrapper {
-            position: relative; width: 100px; height: 100px; margin: 0 auto 20px auto;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .logo-spinning-ring {
-            position: absolute; width: 100%; height: 100%;
-            border-radius: 50%; border: 2px dashed rgba(37, 99, 235, 0.6);
-            animation: spinRing 14s linear infinite;
-        }
+        .logo-ring-wrapper { position: relative; width: 100px; height: 100px; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; }
+        .logo-spinning-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; border: 2px dashed rgba(37, 99, 235, 0.6); animation: spinRing 14s linear infinite; }
         @keyframes spinRing { 100% { transform: rotate(360deg); } }
 
         .theme-icon { 
             font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; 
             background: var(--glass-bg); border: 1px solid var(--glass-card-border);
-            box-shadow: var(--surface-shadow); 
         }
 
         .benefit-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 14px; cursor: pointer; }
@@ -223,6 +202,94 @@
         .circle-bg { fill: none; stroke: rgba(0, 0, 0, 0.06); stroke-width: 3.8; }
         body.dark-mode .circle-bg { stroke: rgba(255, 255, 255, 0.08); }
         .circle { fill: none; stroke-width: 3.8; stroke-linecap: round; stroke: var(--success); transition: stroke-dasharray 0.6s ease; }
+
+        /* 3D LUXURY DIGITAL VISITING CARD CSS */
+        .vcard-3d-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(240,249,255,0.7));
+            backdrop-filter: blur(25px);
+            border: 1.5px solid rgba(255,255,255,0.8);
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: 0 20px 50px rgba(37,99,235,0.18);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+        body.dark-mode .vcard-3d-box {
+            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,58,138,0.4));
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        }
+        .vcard-chip {
+            width: 40px; height: 30px;
+            background: linear-gradient(135deg, #d97706, #fbbf24);
+            border-radius: 6px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 10px rgba(217,119,6,0.3);
+        }
+
+        /* BINARY PYRAMID TREE CSS */
+        .tree-scroll-wrapper {
+            overflow-x: auto;
+            padding: 10px 0 20px 0;
+            text-align: center;
+            scrollbar-width: none;
+        }
+        .tree-scroll-wrapper::-webkit-scrollbar { display: none; }
+        .tree-node {
+            display: inline-block;
+            background: var(--glass-bg);
+            border: 1.5px solid var(--glass-card-border);
+            border-radius: 16px;
+            padding: 10px 14px;
+            min-width: 120px;
+            max-width: 145px;
+            box-shadow: var(--surface-shadow);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .tree-node:hover {
+            transform: scale(1.04);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+        .tree-node.root-node {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.02));
+        }
+        .tree-connector-line {
+            width: 2px; height: 16px;
+            background: var(--primary);
+            margin: 0 auto;
+            opacity: 0.5;
+        }
+        .tree-branch-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            margin-top: 10px;
+        }
+        .tree-branch-container::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: var(--primary);
+            opacity: 0.5;
+        }
+        .empty-slot {
+            border: 1.5px dashed var(--glass-card-border);
+            border-radius: 14px;
+            padding: 12px;
+            min-width: 110px;
+            font-size: 11px;
+            color: var(--text-muted);
+            background: transparent;
+        }
     </style>
 </head>
 <body>
@@ -230,6 +297,43 @@
 <div class="ambient-mesh">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
+</div>
+
+<!-- 3D LUXURY DIGITAL VISITING CARD MODAL -->
+<div id="vcard-modal" class="modal-overlay hidden">
+    <div class="modal-box" style="padding: 0; background: transparent; border: none; max-width: 380px;">
+        <div class="vcard-3d-box">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                <div class="vcard-chip"></div>
+                <!-- Custom HTM Logo -->
+                <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#vc_htm_grad)" stroke="#60a5fa" stroke-width="2"/>
+                    <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
+                    <text x="50" y="65" font-family="sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle">HTM</text>
+                    <defs><linearGradient id="vc_htm_grad" x1="11" y1="5" x2="89" y2="95"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
+                </svg>
+            </div>
+            
+            <h3 id="vcard-name" style="font-size:20px; color:var(--text-main); margin:10px 0 2px 0;">Advisor Name</h3>
+            <span class="badge badge-primary" style="font-size:10px; letter-spacing:0.04em;">Safe Shop Certified Advisor</span>
+            
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px; padding-top:14px; border-top:1px dashed var(--glass-card-border);">
+                <div>
+                    <span class="text-xs" style="text-transform:uppercase; display:block;">Digital Agent ID</span>
+                    <strong id="vcard-id" style="font-size:15px; color:var(--primary);">HTM-01</strong>
+                    <span class="text-xs" style="display:block; margin-top:4px;">Team: Hemant Team Mgmt</span>
+                </div>
+                <div style="background:white; padding:6px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.06);">
+                    <img id="vcard-qr" src="" alt="QR" width="60" height="60">
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:16px;">
+            <button class="btn btn-primary" onclick="Member.shareVisitingCardWhatsApp()"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
+            <button class="btn btn-outline" style="width: auto; padding:0 20px;" onclick="UI.dismissModal('vcard-modal')">Close</button>
+        </div>
+    </div>
 </div>
 
 <!-- SAFE DOUBLE-TAP IMAGE VIEWER -->
@@ -252,20 +356,12 @@
     <div class="splash-card">
         <div class="logo-ring-wrapper">
             <div class="logo-spinning-ring"></div>
-            <!-- Custom Vector HTM Emblem -->
             <svg class="htm-logo-svg" width="76" height="76" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#htm_grad)" stroke="#60a5fa" stroke-width="2"/>
                 <path d="M50 15L80 32.5V67.5L50 85L20 67.5V32.5L50 15Z" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-                <!-- Crown over HTM -->
                 <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
-                <!-- Monogram HTM -->
                 <text x="50" y="65" font-family="-apple-system, sans-serif" font-size="18" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="1">HTM</text>
-                <defs>
-                    <linearGradient id="htm_grad" x1="11" y1="5" x2="89" y2="95" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#1e3a8a"/>
-                        <stop offset="1" stop-color="#3b82f6"/>
-                    </linearGradient>
-                </defs>
+                <defs><linearGradient id="htm_grad" x1="11" y1="5" x2="89" y2="95"><stop stop-color="#1e3a8a"/><stop offset="1" stop-color="#3b82f6"/></linearGradient></defs>
             </svg>
         </div>
         <h2 style="font-size: 22px; color: #fff; margin-bottom: 4px;">HTM Enterprise OS</h2>
@@ -320,7 +416,6 @@
     <div id="auth-module" class="hidden" style="margin-top:8vh;">
         <div style="text-align:center; margin-bottom:30px;">
             <div style="width: 80px; height: 80px; margin: 0 auto 14px auto; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="initAdminOverride()">
-                <!-- SVG HTM Monogram -->
                 <svg width="74" height="74" viewBox="0 0 100 100" fill="none">
                     <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#auth_grad)" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
@@ -380,6 +475,16 @@
                 <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Onboard Operative</h4>
                 <div class="grid-2"><input type="text" id="new-id" placeholder="ID (HTM-XX)"><input type="text" id="new-name" placeholder="Full Name"></div>
                 <div class="grid-2"><input type="password" id="new-pass" placeholder="Password"><input type="number" id="new-target" placeholder="Target (₹)"></div>
+                
+                <!-- Sponsor & Tree Position Inputs for Pyramid -->
+                <div class="grid-2">
+                    <input type="text" id="new-sponsor" placeholder="Sponsor ID (e.g. HTM-01)">
+                    <select id="new-pos">
+                        <option value="left">Left Leg (Team A)</option>
+                        <option value="right">Right Leg (Team B)</option>
+                    </select>
+                </div>
+
                 <select id="new-badge" style="margin-bottom:14px;"><option value="">No Badge</option><option value="Closer">🏆 Top Closer</option><option value="Starter">⚡ Fast Starter</option></select>
                 <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Credentials</button>
             </div>
@@ -450,7 +555,6 @@
         
         <div class="member-header">
             <div style="display:flex; align-items:center; gap:10px;">
-                <!-- Monogram Emblem for Header -->
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
                     <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#mem_head_grad)" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
@@ -463,6 +567,8 @@
                 </div>
             </div>
             <div style="display:flex; gap:10px; align-items:center;">
+                <!-- FEATURE 3: 3D DIGITAL VISITING CARD BUTTON -->
+                <i class="fas fa-id-card text-primary" style="font-size:18px; cursor:pointer;" onclick="Member.showVisitingCard()" title="My 3D Visiting Card"></i>
                 <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i>
                 <i class="fas fa-qrcode text-primary" style="font-size:18px; cursor:pointer;" onclick="Member.showQR()"></i>
                 <i class="fas fa-power-off text-muted" style="font-size:16px; cursor:pointer;" onclick="Auth.logout()"></i>
@@ -559,7 +665,42 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- 3. CATALOG & BENEFITS TAB -->
+        <!-- 3. UNLIMITED BINARY PYRAMID TREE TAB (NEW) -->
+        <div id="mem-tree" class="tab-content hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <div>
+                    <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Binary Genealogy Pyramid</h4>
+                    <span class="text-xs" id="tree-focus-label">Root: You (HTM-01)</span>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="Member.resetTreeRoot()"><i class="fas fa-undo"></i> Reset to Me</button>
+            </div>
+
+            <!-- CSV UPLOAD / BULK IMPORT TOOL FOR SAFE SHOP GENEALOGY -->
+            <div class="card" style="padding:14px; margin-bottom:16px; border-top:3px solid var(--primary);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong class="text-xs" style="color:var(--text-main);"><i class="fas fa-file-csv text-success"></i> Import Safe Shop Tree</strong>
+                        <p class="text-xs" style="margin:2px 0 0 0;">Upload Downline CSV (ID, Name, Sponsor, Pos, Volume)</p>
+                    </div>
+                    <label class="btn btn-primary btn-sm" style="width:auto; padding:6px 12px; font-size:11px;">
+                        <i class="fas fa-upload"></i> Upload CSV
+                        <input type="file" id="tree-csv-file" accept=".csv" class="hidden" onchange="Member.importSafeShopCSV(this)">
+                    </label>
+                </div>
+            </div>
+
+            <!-- VISUAL DRILL-DOWN PYRAMID CANVAS -->
+            <div class="card" style="padding: 20px 10px; overflow-x: auto;">
+                <p class="text-xs" style="text-align:center; margin-top:0; color:var(--text-muted);">
+                    <i class="fas fa-info-circle"></i> किसी भी नोड पर टैप करके उसके असीमित लेवल्स (Unlimited Depth) देखें।
+                </p>
+                <div class="tree-scroll-wrapper" id="binary-pyramid-container">
+                    <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Pyramid Tree...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. CATALOG & BENEFITS TAB -->
         <div id="mem-products" class="tab-content hidden">
             <div style="margin-bottom:14px;">
                 <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-box-open text-primary"></i> Safe Shop Products & Benefits</h4>
@@ -579,7 +720,7 @@
             </div>
         </div>
 
-        <!-- 4. ACADEMY TAB -->
+        <!-- 5. ACADEMY TAB -->
         <div id="mem-academy" class="tab-content hidden">
             <div id="live-training-container" class="hidden" style="margin-bottom:16px;">
                 <button class="btn btn-live-pulse" style="padding:14px; font-size: 14px; border-radius: 14px;" id="btn-join-live" onclick="window.open('','_blank')">
@@ -671,11 +812,12 @@
             </div>
         </div>
 
-        <!-- CLEAN 4-ITEM FLOATING NAV -->
+        <!-- 5-ITEM PERFECT FLOATING NAVIGATION -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','leads',this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem','tree',this)"><i class="fas fa-sitemap"></i><span>Tree</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','products',this)"><i class="fas fa-box-open"></i><span>Catalog</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','academy',this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
         </div>
@@ -739,6 +881,7 @@
             element.parentElement.querySelectorAll('.nav-box').forEach(el => el.classList.remove('active'));
             document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
             this.moveIndicator(element);
+            if(prefix === 'member' && tabId === 'tree') Member.renderPyramidTree();
         }
         static showModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }
         static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
@@ -832,15 +975,150 @@
 
     class Member {
         static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
+        static currentTreeRootId = ""; static networkUsers = [];
+
         static initData() {
+            this.currentTreeRootId = localStorage.getItem('htm_id');
             this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
-            this.fetchBenefitsCatalog();
+            this.fetchBenefitsCatalog(); this.fetchNetworkUsers();
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { 
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); 
                 if(doc.exists && doc.data().suspended) Auth.logout(); 
             });
         }
+
+        // FEATURE 3: 3D DIGITAL VISITING CARD LOGIC
+        static showVisitingCard() {
+            const name = localStorage.getItem('htm_name') || 'Field Advisor';
+            const id = localStorage.getItem('htm_id') || 'HTM-01';
+            document.getElementById('vcard-name').innerText = name;
+            document.getElementById('vcard-id').innerText = id;
+            document.getElementById('vcard-qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=SafeShop_Advisor:${name}_ID:${id}`;
+            UI.showModal('vcard-modal');
+        }
+
+        static shareVisitingCardWhatsApp() {
+            const name = localStorage.getItem('htm_name');
+            const id = localStorage.getItem('htm_id');
+            const text = encodeURIComponent(`*नमस्ते!*\n\nमैं *${name}*, Safe Shop Direct Selling & HTM Enterprise का ऑथराइज़्ड एडवाइज़र हूँ (ID: *${id}*)।\n\nयदि आप भी अपने स्मार्टफोन से पार्ट-टाइम ई-कॉमर्स बिज़नेस शुरू करना चाहते हैं, तो मुझसे सीधे संपर्क करें।`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+
+        // GENEALOGY PYRAMID DATA & UNLIMITED DRILL-DOWN LOGIC
+        static fetchNetworkUsers() {
+            db.collection('users').onSnapshot(snap => {
+                this.networkUsers = [];
+                snap.forEach(doc => this.networkUsers.push({ id: doc.id, ...doc.data() }));
+                this.renderPyramidTree();
+            });
+        }
+
+        static resetTreeRoot() {
+            this.currentTreeRootId = localStorage.getItem('htm_id');
+            this.renderPyramidTree();
+        }
+
+        static drillDownTree(nodeId) {
+            this.currentTreeRootId = nodeId;
+            this.renderPyramidTree();
+            UI.showToast("Viewing sub-network of " + nodeId, "success");
+        }
+
+        static renderPyramidTree() {
+            const container = document.getElementById('binary-pyramid-container');
+            if(!container) return;
+
+            const rootUser = this.networkUsers.find(u => u.id === this.currentTreeRootId) || {
+                id: localStorage.getItem('htm_id'),
+                name: localStorage.getItem('htm_name')
+            };
+
+            document.getElementById('tree-focus-label').innerText = `Root: ${rootUser.name} (${rootUser.id})`;
+
+            // Find direct children (Left & Right)
+            const leftChild = this.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'left');
+            const rightChild = this.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'right');
+
+            // Find Level 2 Sub-children
+            const leftLeft = leftChild ? this.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'left') : null;
+            const leftRight = leftChild ? this.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'right') : null;
+            const rightLeft = rightChild ? this.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'left') : null;
+            const rightRight = rightChild ? this.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'right') : null;
+
+            const renderNode = (user, sideLabel, isRoot = false) => {
+                if(!user) return `<div class="empty-slot"><i class="fas fa-plus-circle"></i><br>Empty ${sideLabel}</div>`;
+                return `
+                    <div class="tree-node ${isRoot ? 'root-node' : ''}" onclick="Member.drillDownTree('${user.id}')" title="Tap to expand levels">
+                        <i class="fas fa-user-tie text-primary" style="font-size:16px;"></i>
+                        <h5 style="margin:4px 0 2px 0; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${user.name}</h5>
+                        <span class="text-xs" style="color:var(--text-muted); font-size:10px;">${user.id}</span>
+                        ${sideLabel ? `<span class="badge ${sideLabel === 'Left' ? 'badge-primary' : 'badge-warning'}" style="display:block; font-size:8px; margin-top:4px;">${sideLabel}</span>` : ''}
+                    </div>
+                `;
+            };
+
+            container.innerHTML = `
+                <!-- LEVEL 0: ROOT NODE -->
+                <div>
+                    ${renderNode(rootUser, "", true)}
+                    <div class="tree-connector-line"></div>
+                </div>
+
+                <!-- LEVEL 1: LEFT & RIGHT LEGS -->
+                <div class="tree-branch-container">
+                    <div>
+                        ${renderNode(leftChild, "Left")}
+                        <div class="tree-connector-line"></div>
+                        <!-- LEVEL 2 SUB-BRANCHES -->
+                        <div class="tree-branch-container" style="gap:10px;">
+                            ${renderNode(leftLeft, "L")}
+                            ${renderNode(leftRight, "R")}
+                        </div>
+                    </div>
+                    <div>
+                        ${renderNode(rightChild, "Right")}
+                        <div class="tree-connector-line"></div>
+                        <!-- LEVEL 2 SUB-BRANCHES -->
+                        <div class="tree-branch-container" style="gap:10px;">
+                            ${renderNode(rightLeft, "L")}
+                            ${renderNode(rightRight, "R")}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 1-CLICK SAFE SHOP CSV BULK IMPORT
+        static async importSafeShopCSV(input) {
+            const file = input.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const text = e.target.result;
+                const rows = text.split('\n').filter(r => r.trim().length > 0);
+                let imported = 0;
+                UI.showToast("Importing Safe Shop tree...", "warning");
+                // Expected CSV Header: ID,Name,Password,SponsorID,Position
+                for(let i = 1; i < rows.length; i++) {
+                    const cols = rows[i].split(',').map(c => c.trim().replace(/"/g, ''));
+                    if(cols.length >= 2 && cols[0]) {
+                        await db.collection('users').doc(cols[0]).set({
+                            name: cols[1] || 'Advisor',
+                            password: cols[2] || '12345',
+                            sponsorId: cols[3] || localStorage.getItem('htm_id'),
+                            position: (cols[4] && cols[4].toLowerCase().includes('r')) ? 'right' : 'left',
+                            target: 50000,
+                            suspended: false
+                        }, {merge: true});
+                        imported++;
+                    }
+                }
+                UI.showToast(`Imported ${imported} Safe Shop Members!`, "success");
+            };
+            reader.readAsText(file);
+        }
+
         static handleSelfieUpload(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -1125,7 +1403,25 @@
         static async quickReplySOS() { const id = document.getElementById('global-sos-id').value; await this.replySOS(id, 'global-sos-reply'); this.closeGlobalSOS(); document.getElementById('global-sos-reply').value = ''; }
         static closeGlobalSOS() { document.getElementById('global-sos-alert').classList.remove('show'); }
         static async replySOS(id, inputId) { const text = document.getElementById(inputId).value.trim(); if(!text) return UI.showToast('Reply cannot be empty', 'error'); await db.collection('sos_messages').doc(id).update({ reply: text, repliedAt: firebase.firestore.FieldValue.serverTimestamp() }); UI.showToast('Reply dispatched.', 'success'); }
-        static async createUser() { const id = document.getElementById('new-id').value.trim(); const name = document.getElementById('new-name').value.trim(); const pass = document.getElementById('new-pass').value.trim(); const badge = document.getElementById('new-badge').value; const target = parseInt(document.getElementById('new-target').value) || 50000; if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error'); await db.collection('users').doc(id).set({ name, password: pass, deviceToken: "", badge: badge, target: target, suspended: false }); UI.showToast(`Asset ${id} registered.`); document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; document.getElementById('new-pass').value=''; document.getElementById('new-target').value=''; }
+        static async createUser() { 
+            const id = document.getElementById('new-id').value.trim(); 
+            const name = document.getElementById('new-name').value.trim(); 
+            const pass = document.getElementById('new-pass').value.trim(); 
+            const badge = document.getElementById('new-badge').value; 
+            const target = parseInt(document.getElementById('new-target').value) || 50000;
+            const sponsorId = document.getElementById('new-sponsor').value.trim();
+            const position = document.getElementById('new-pos').value;
+
+            if (!id || !name || !pass) return UI.showToast('Provide credentials completely.', 'error'); 
+            await db.collection('users').doc(id).set({ 
+                name, password: pass, deviceToken: "", badge: badge, target: target, 
+                sponsorId: sponsorId, position: position, suspended: false 
+            }); 
+            UI.showToast(`Asset ${id} registered.`); 
+            document.getElementById('new-id').value=''; document.getElementById('new-name').value=''; 
+            document.getElementById('new-pass').value=''; document.getElementById('new-target').value=''; 
+            document.getElementById('new-sponsor').value='';
+        }
         static async toggleSuspend(id, currentStatus) { await db.collection('users').doc(id).update({ suspended: !currentStatus }); UI.showToast(currentStatus ? 'Activated' : 'Suspended', currentStatus ? 'success' : 'warning'); }
         static async editTrackingAdmin(id, currName) { const p = prompt("Edit Prospect Target:", currName); if(p && p.trim()) { await db.collection('tracking').doc(id).update({ prospect: p.trim() }); UI.showToast('Record updated.', 'success'); } }
         static streamRadar() {
