@@ -87,10 +87,12 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
-        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); cursor: pointer;}
+        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px; text-align: left; box-shadow: 0 4px 14px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s;}
+        .product-card:active { transform: scale(0.98); }
         .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
-        .product-card h4 { font-size: 13px; margin: 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;}
+        .product-card h4 { font-size: 13px; margin: 0 0 4px 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700;}
         body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
+        .prod-features-mini { font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--glass-border); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
         .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); }
@@ -141,7 +143,6 @@
         .script-box { background: rgba(0,0,0,0.02); border: 1px solid var(--glass-border); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
         body.dark-mode .script-box { background: rgba(255,255,255,0.04); }
 
-        /* SAFE SHOP SPECIFIC ACCORDIONS & PILLS */
         .ss-accordion { border: 1px solid var(--glass-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: rgba(0,0,0,0.01); }
         .ss-acc-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main); }
         .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-border); display: none; line-height: 1.6; }
@@ -151,15 +152,19 @@
 </head>
 <body>
 
-<!-- SAFE DOUBLE-TAP IMAGE VIEWER -->
+<!-- SAFE DOUBLE-TAP IMAGE VIEWER WITH PRODUCT DETAILS DRAWER -->
 <div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.95); z-index: 100000; flex-direction: column; padding: 0;">
     <div style="width: 100%; display: flex; justify-content: flex-end; padding: 20px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
         <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
     </div>
-    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
+    <div style="width: 100%; height: 65%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
         <img id="viewer-image" src="" alt="Viewer" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
     </div>
-    <div style="position: absolute; bottom: 30px; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 20px; color: white; font-size: 12px; pointer-events: none; backdrop-filter: blur(5px);">Double-tap to Zoom</div>
+    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 35%; background: var(--glass-bg); border-top: 1px solid var(--glass-border); padding: 16px 20px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 24px 24px 0 0;">
+        <h4 id="viewer-title" style="margin: 0 0 6px 0; font-size: 16px; color: var(--text-main);">Product Name</h4>
+        <div style="margin-bottom: 8px;"><span class="badge badge-primary" id="viewer-category">Category</span></div>
+        <div id="viewer-features" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; white-space: pre-line;">Features will be shown here...</div>
+    </div>
 </div>
 
 <div id="welcome-splash" class="modal-overlay hidden">
@@ -284,16 +289,26 @@
                 <div id="admin-sos-container" style="max-height:280px; overflow-y:auto; padding-right: 8px;"></div>
             </div>
 
+            <!-- ENHANCED PRODUCT UPLOAD WITH AUTOMATED FEATURES BOX -->
             <div class="card" style="border-top: 4px solid #10b981;">
-                <h4 style="margin-bottom:10px; color:#10b981;"><i class="fas fa-link"></i> Add Product via URL</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Postimages/ImgBB direct image URL paste karein.</p>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="color:#10b981; margin:0;"><i class="fas fa-box-open"></i> Safe Shop Product Manager</h4>
+                    <button class="btn btn-outline btn-sm" style="color:var(--primary); border-color:var(--primary); padding:6px 10px;" onclick="Admin.autoFillFeatures()">
+                        <i class="fas fa-magic"></i> Auto-Detect Features
+                    </button>
+                </div>
+                <p class="text-xs" style="margin-bottom:16px;">Product ka naam aur category chunne ke baad features auto-generate karein ya customize karein.</p>
                 <div class="grid-2">
-                    <input type="text" id="prod-name" placeholder="Product Name">
-                    <input type="text" id="prod-category" placeholder="Keyword (e.g. Jhumka)">
+                    <input type="text" id="prod-name" placeholder="Product Name (e.g. Bhagavad Gita)" oninput="Admin.smartSuggest()">
+                    <input type="text" id="prod-category" placeholder="Category (e.g. Spiritual / Wellness)">
                 </div>
                 <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
+                
+                <!-- AUTOMATED FEATURES TEXTAREA -->
+                <textarea id="prod-features" placeholder="Product Features & Selling Points (Auto-fills on detection)..." style="min-height:85px; font-size:12px;"></textarea>
+                
                 <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductURL()">
-                    <i class="fas fa-plus-circle"></i> Save Product
+                    <i class="fas fa-plus-circle"></i> Save & Publish Product
                 </button>
             </div>
 
@@ -447,18 +462,14 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- ============================================== -->
-        <!-- ENHANCED ACADEMY: SAFE SHOP & DIRECT MARKETING -->
-        <!-- ============================================== -->
+        <!-- ACADEMY MODULE -->
         <div id="mem-academy" class="tab-content hidden">
-            
             <div id="live-training-container" class="hidden" style="margin-bottom:20px;">
                 <button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')">
                     <i class="fas fa-video"></i> 🔴 LIVE WEBINAR / DISHA TRAINING
                 </button>
             </div>
 
-            <!-- 1. 8 STEPS TO SUCCESS (DIRECT MARKETING SYSTEM) -->
             <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-shoe-prints"></i> 8 Steps to Success (सिस्टम)</h4>
@@ -507,7 +518,6 @@
                 </div>
             </div>
 
-            <!-- 2. 3 POWERS & CARDINAL RULES -->
             <div class="card" style="border-top: 4px solid #f59e0b; padding:20px;">
                 <h4 style="color:#d97706; font-size:15px; margin-bottom:12px;"><i class="fas fa-bolt"></i> 3 Powers (सफलता की तीन शक्तियां)</h4>
                 <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; margin-bottom:10px; border-left:3px solid var(--warning);">
@@ -524,7 +534,6 @@
                 </div>
             </div>
 
-            <!-- 3. INVITATION SCRIPTS LIBRARY -->
             <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                     <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-phone-volume"></i> कॉलिंग व इनविटेशन स्क्रिप्ट्स</h4>
@@ -564,10 +573,9 @@
                 </div>
             </div>
 
-            <!-- 4. OBJECTION HANDLING (CLOSING WIDGET) -->
             <div class="card" style="border-top: 4px solid #8b5cf6; padding:20px;">
                 <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:15px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper (ऑब्जेक्शन हैंडलिंग)</h4>
-                <p class="text-xs" style="margin-bottom:14px;">प्रोस्पेक्ट का बहाना या सवाल टाइप करें (उदा: <i>paise nahi, time nahi, company bhaag gayi to, member banane wala kaam</i>):</p>
+                <p class="text-xs" style="margin-bottom:14px;">प्रोस्पेक्ट का बहाना या सवाल टाइप करें:</p>
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="text" id="ai-query" placeholder="सवाल लिखें..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 18px; flex-shrink:0;" onclick="Member.askAI()">उत्तर दें</button>
@@ -575,7 +583,6 @@
                 <div id="ai-response" class="text-sm" style="margin-top:14px;"></div>
             </div>
 
-            <!-- 5. COMPANY TOOLS & TRAINING VIDEOS -->
             <div id="mem-ac-video-box" class="hidden" style="margin-bottom:20px;">
                 <h4 style="margin-bottom:12px;"><i class="fas fa-play-circle text-danger"></i> ट्रेनिंग वीडियो</h4>
                 <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="220" src="" frameborder="0" allowfullscreen></iframe></div>
@@ -587,7 +594,6 @@
                 </button>
             </div>
 
-            <!-- 6. DAILY QUIZ -->
             <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:24px;">
                 <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़ (Daily System Quiz)</h4>
                 <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
@@ -595,13 +601,13 @@
                     <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
                 </div>
             </div>
-
         </div>
 
+        <!-- AI GALLERY MODULE WITH FEATURE DRAWER -->
         <div id="mem-ai" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid #ec4899;">
-                <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Unique AI Gallery</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Search for products uploaded by HQ (e.g., Jhumka, Suit).</p>
+                <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Safe Shop Product Catalog</h4>
+                <p class="text-xs" style="margin-bottom:16px;">Search flagship products (Gita, Noni, Suit, Cookware) with automated selling features.</p>
                 <div style="display:flex; gap:10px; margin-bottom: 20px;">
                     <input type="text" id="ai-search-input" placeholder="Search keyword..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#ec4899; padding:0 24px;" onclick="Member.searchAIProducts()">
@@ -718,10 +724,14 @@
             }
         }
         
-        static openImageViewer(url) {
+        // UPDATED VIEWER WITH PRODUCT DETAILS
+        static openImageViewer(url, name="Product", cat="General", features="") {
             const img = document.getElementById('viewer-image');
             img.src = url;
             img.style.transform = 'scale(1)';
+            document.getElementById('viewer-title').innerText = name;
+            document.getElementById('viewer-category').innerText = cat;
+            document.getElementById('viewer-features').innerText = features || "Standard Safe Shop Quality Certification. Highly Recommended for Personal & Family Wellness.";
             document.getElementById('image-viewer-modal').classList.remove('hidden');
         }
         static closeImageViewer() {
@@ -862,11 +872,16 @@
 
                 container.innerHTML = '';
                 results.forEach(item => {
+                    const safeFeatures = (item.features || "High Value Safe Shop Product").replace(/'/g, "\\'");
+                    const safeName = (item.name || "").replace(/'/g, "\\'");
+                    const safeCategory = (item.category || "").replace(/'/g, "\\'");
+                    
                     container.innerHTML += `
-                        <div class="product-card" onclick="UI.openImageViewer('${item.imageUrl}')">
+                        <div class="product-card" onclick="UI.openImageViewer('${item.imageUrl}', '${safeName}', '${safeCategory}', '${safeFeatures}')">
                             <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
                             <h4>${item.name}</h4>
-                            <span class="tag-prof" style="margin-top:4px; display:inline-block;">${item.category}</span>
+                            <span class="tag-prof">${item.category}</span>
+                            <div class="prod-features-mini">${item.features || 'Tap to view full selling points.'}</div>
                         </div>
                     `;
                 });
@@ -917,7 +932,6 @@
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched. Waiting for HQ...', 'success');
         }
 
-        // ENHANCED DIRECT MARKETING OBJECTION CLOSER
         static askAI() {
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
             resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "14px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
@@ -1283,18 +1297,59 @@
             document.body.removeChild(link);
             UI.showToast('CSV Exported Successfully!', 'success');
         }
+
+        // AUTOMATED FEATURES DETECTION LOGIC
+        static smartSuggest() {
+            const name = document.getElementById('prod-name').value.toLowerCase();
+            const catField = document.getElementById('prod-category');
+            if(name.includes('gita') || name.includes('hanuman') || name.includes('divine')) catField.value = "Spiritual";
+            else if(name.includes('noni') || name.includes('haoma') || name.includes('health') || name.includes('capsule')) catField.value = "Wellness";
+            else if(name.includes('suit') || name.includes('zeno') || name.includes('saree') || name.includes('laranya')) catField.value = "Fashion";
+            else if(name.includes('cookware') || name.includes('miyako') || name.includes('purifier')) catField.value = "Lifestyle";
+        }
+
+        static autoFillFeatures() {
+            const name = document.getElementById('prod-name').value.toLowerCase();
+            const cat = document.getElementById('prod-category').value.toLowerCase();
+            const featBox = document.getElementById('prod-features');
+
+            if(name.includes('gita')) {
+                featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 प्रमुख भाषाएँ (संस्कृत, हिंदी, अंग्रेजी)\n• प्रामाणिक उच्चारण व 700 श्लोकों का आध्यात्मिक विश्लेषण\n• आजीवन पारिवारिक संस्कार व शांति का पैकेज (200 BV)";
+            } else if(name.includes('hanuman')) {
+                featBox.value = "• सम्पूर्ण हनुमान (ज्ञान-भक्ति का अद्भुत संकलन)\n• बोलने वाली कलम (Talking Book Feature)\n• सुन्दरकाण्ड, चालीसा, बजरंग बाण का संगीतमय पाठ\n• बच्चों व परिवार में सकारात्मक ऊर्जा का स्रोत";
+            } else if(name.includes('noni') || cat.includes('wellness')) {
+                featBox.value = "• हाओमा नोनी प्रीमियम कॉन्संट्रेट (100% शुद्ध)\n• 150+ आवश्यक फाइटोन्यूट्रिएंट्स व एंटीऑक्सीडेंट्स\n• रोग प्रतिरोधक क्षमता (Immunity) व ऊर्जा वर्धक\n• डिटॉक्सिफिकेशन और सेलुलर हेल्थ सपोर्ट";
+            } else if(name.includes('suit') || cat.includes('fashion')) {
+                featBox.value = "• Zeno / Grado प्रीमियम 3-पीस सूट लेंथ (लक्जरी फैब्रिक)\n• हर मौसम में आरामदायक व रिंकल-रेजिस्टेंट\n• प्रोफेशनल डायरेक्ट मार्केटिंग फॉर्मल प्रेजेंटेशन ड्रेस कोड\n• हाई सोशल स्टेटस व पर्सनैलिटी अपग्रेड";
+            } else if(name.includes('cookware') || cat.includes('kitchen')) {
+                featBox.value = "• मियाको 5-प्लाई स्टेनलेस स्टील कुकवेयर सेट\n• ऑयल-फ्री / लो-ऑयल हेल्दी कुकिंग टेक्नोलॉजी\n• गैस, इंडक्शन व सभी कुकटॉप्स पर उपयोग योग्य\n• जीवनभर चलने वाली प्रीमियम टिकाऊ बनावट";
+            } else {
+                featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज\n• बिज़नेस वॉल्यूम (BV) और लाइफटाइम डिस्ट्रीब्यूटरशिप\n• प्रीमियम क्वालिटी व डायरेक्ट टू होम डिलीवरी सपोर्ट";
+            }
+            UI.showToast("Features Auto-Filled!", "success");
+        }
         
         static async addProductURL() {
             const name = document.getElementById('prod-name').value.trim();
             const category = document.getElementById('prod-category').value.trim();
             const url = document.getElementById('prod-url').value.trim();
+            const features = document.getElementById('prod-features').value.trim();
 
             if(!name || !category || !url) return UI.showToast('Please fill Name, Keyword & URL', 'error');
 
             try {
-                await db.collection('products').add({ name: name, category: category.toLowerCase(), imageUrl: url, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-                UI.showToast('Product added successfully!', 'success');
-                document.getElementById('prod-name').value = ''; document.getElementById('prod-category').value = ''; document.getElementById('prod-url').value = '';
+                await db.collection('products').add({ 
+                    name: name, 
+                    category: category.toLowerCase(), 
+                    imageUrl: url, 
+                    features: features || "Safe Shop Quality Certified Product.",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() 
+                });
+                UI.showToast('Product added with features!', 'success');
+                document.getElementById('prod-name').value = ''; 
+                document.getElementById('prod-category').value = ''; 
+                document.getElementById('prod-url').value = '';
+                document.getElementById('prod-features').value = '';
             } catch(e) { UI.showToast('Database Error', 'error'); }
         }
 
