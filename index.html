@@ -87,17 +87,10 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
-        .product-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 12px; text-align: left; box-shadow: 0 4px 14px rgba(0,0,0,0.03); cursor: pointer; transition: transform 0.2s;}
-        .product-card:active { transform: scale(0.98); }
-        .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.05); }
-        .product-card h4 { font-size: 13px; margin: 0 0 4px 0; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700;}
-        body.dark-mode .product-card img { background: rgba(255,255,255,0.05); }
-        .prod-features-mini { font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--glass-border); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 92%; max-width: 480px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); box-sizing: border-box; }
+        .floating-nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.4); border-radius: 32px; display: flex; padding: 6px; z-index: 100; width: 94%; max-width: 500px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); box-sizing: border-box; }
         body.dark-mode .floating-nav { background: rgba(15, 23, 42, 0.7); border-color: rgba(255,255,255,0.1); }
-        .nav-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; font-weight: 600; gap: 6px; padding: 12px 0; cursor: pointer; z-index: 2; position: relative; }
-        .nav-box i { font-size: 18px; } 
+        .nav-box { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 10px; font-weight: 600; gap: 4px; padding: 10px 0; cursor: pointer; z-index: 2; position: relative; }
+        .nav-box i { font-size: 17px; } 
         .nav-box.active { color: var(--primary); } 
         .nav-indicator { position: absolute; top: 6px; bottom: 6px; background: #ffffff; border-radius: 26px; z-index: 1; transition: left 0.3s ease, width 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         body.dark-mode .nav-indicator { background: #334155; }
@@ -148,22 +141,69 @@
         .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-border); display: none; line-height: 1.6; }
         .ss-accordion.active .ss-acc-body { display: block; }
         .ss-accordion.active .ss-acc-head i { transform: rotate(180deg); color: var(--primary); }
+
+        /* PRODUCT WITH BENEFITS CARD STYLES */
+        .benefit-product-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        .benefit-product-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 14px;
+            background: rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+        .benefit-badge-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0 6px 0;
+        }
+        .benefit-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            border-top: 1px dashed var(--glass-border);
+            padding-top: 10px;
+        }
+        .benefit-list li {
+            font-size: 12px;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.4;
+        }
+        .benefit-list li i {
+            color: var(--success);
+            font-size: 12px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
 
-<!-- SAFE DOUBLE-TAP IMAGE VIEWER WITH PRODUCT DETAILS DRAWER -->
+<!-- SAFE DOUBLE-TAP IMAGE VIEWER -->
 <div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.95); z-index: 100000; flex-direction: column; padding: 0;">
     <div style="width: 100%; display: flex; justify-content: flex-end; padding: 20px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
         <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); color: white; width: 44px; height: 44px; border-radius: 22px; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);"><i class="fas fa-times"></i></button>
     </div>
-    <div style="width: 100%; height: 65%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
+    <div style="width: 100%; height: 75%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
         <img id="viewer-image" src="" alt="Viewer" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
     </div>
-    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 35%; background: var(--glass-bg); border-top: 1px solid var(--glass-border); padding: 16px 20px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 24px 24px 0 0;">
-        <h4 id="viewer-title" style="margin: 0 0 6px 0; font-size: 16px; color: var(--text-main);">Product Name</h4>
-        <div style="margin-bottom: 8px;"><span class="badge badge-primary" id="viewer-category">Category</span></div>
-        <div id="viewer-features" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; white-space: pre-line;">Features will be shown here...</div>
+    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 25%; background: var(--glass-bg); border-top: 1px solid var(--glass-border); padding: 14px 20px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 24px 24px 0 0;">
+        <h4 id="viewer-title" style="margin: 0 0 4px 0; font-size: 15px; color: var(--text-main);">Product Name</h4>
+        <span class="badge badge-primary" id="viewer-category">Category</span>
+        <div id="viewer-features" style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; white-space: pre-line;"></div>
     </div>
 </div>
 
@@ -289,38 +329,34 @@
                 <div id="admin-sos-container" style="max-height:280px; overflow-y:auto; padding-right: 8px;"></div>
             </div>
 
-            <!-- ENHANCED PRODUCT UPLOAD WITH AUTOMATED FEATURES BOX -->
+            <!-- ADMIN SAFE SHOP PRODUCT UPLOAD -->
             <div class="card" style="border-top: 4px solid #10b981;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h4 style="color:#10b981; margin:0;"><i class="fas fa-box-open"></i> Safe Shop Product Manager</h4>
+                    <h4 style="color:#10b981; margin:0;"><i class="fas fa-box-open"></i> Safe Shop Products</h4>
                     <button class="btn btn-outline btn-sm" style="color:var(--primary); border-color:var(--primary); padding:6px 10px;" onclick="Admin.autoFillFeatures()">
-                        <i class="fas fa-magic"></i> Auto-Detect Features
+                        <i class="fas fa-magic"></i> Auto-Detect
                     </button>
                 </div>
-                <p class="text-xs" style="margin-bottom:16px;">Product ka naam aur category chunne ke baad features auto-generate karein ya customize karein.</p>
                 <div class="grid-2">
                     <input type="text" id="prod-name" placeholder="Product Name (e.g. Bhagavad Gita)" oninput="Admin.smartSuggest()">
-                    <input type="text" id="prod-category" placeholder="Category (e.g. Spiritual / Wellness)">
+                    <input type="text" id="prod-category" placeholder="Category (Spiritual / Wellness / Fashion)">
                 </div>
                 <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
-                
-                <!-- AUTOMATED FEATURES TEXTAREA -->
-                <textarea id="prod-features" placeholder="Product Features & Selling Points (Auto-fills on detection)..." style="min-height:85px; font-size:12px;"></textarea>
+                <textarea id="prod-features" placeholder="Product Features & Benefits (Auto-detect ya type karein)..." style="min-height:85px; font-size:12px;"></textarea>
                 
                 <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductURL()">
-                    <i class="fas fa-plus-circle"></i> Save & Publish Product
+                    <i class="fas fa-plus-circle"></i> Save & Publish to Members
                 </button>
             </div>
 
             <div class="card" style="border-top: 4px solid #8b5cf6;">
                 <h4 style="margin-bottom:10px; color:#8b5cf6;"><i class="fas fa-graduation-cap"></i> Academy Manager</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Push Live Zoom, Videos, or Daily Quiz to Member Academy Tab.</p>
                 <div class="grid-2">
                     <input type="text" id="admin-live-link" placeholder="Live Zoom/Meet Link">
                     <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger); height: 50px;" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
                 </div>
                 <hr style="border:0; border-top:1px dashed var(--glass-border); margin:16px 0;">
-                <input type="text" id="ac-vid" placeholder="Paste Direct YouTube Link (e.g. https://youtu.be/...)">
+                <input type="text" id="ac-vid" placeholder="Paste Direct YouTube Link">
                 <input type="text" id="ac-pdf" placeholder="PDF/Drive Link">
                 <hr style="border:0; border-top:1px dashed var(--glass-border); margin:16px 0;">
                 <input type="text" id="ac-q" placeholder="Daily Quiz Question?">
@@ -377,6 +413,7 @@
             </div>
         </div>
 
+        <!-- 1. FIELD DASHBOARD -->
         <div id="mem-dash" class="tab-content">
             <div id="mem-urgency-wrapper" class="card urgency-banner">
                 <i class="fas fa-hourglass-half" style="font-size:24px; color:var(--warning);"></i>
@@ -427,6 +464,7 @@
             </div>
         </div>
 
+        <!-- 2. PIPELINE TAB -->
         <div id="mem-leads" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--primary);">
                 <h4 style="margin-bottom:20px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
@@ -462,7 +500,28 @@
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- ACADEMY MODULE -->
+        <!-- 3. NEW: DEDICATED PRODUCTS & BENEFITS TAB -->
+        <div id="mem-products" class="tab-content hidden">
+            <div style="margin-bottom:16px;">
+                <h4 style="margin:0 0 6px 0; color:var(--text-main); font-size:18px;"><i class="fas fa-box-open text-primary"></i> Safe Shop Products & Benefits</h4>
+                <p class="text-xs">प्लान प्रेजेंटेशन के दौरान प्रोस्पेक्ट को उत्पादों की उपयोगिता व फीचर्स दिखाएं।</p>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div style="display:flex; gap:8px; margin-bottom:16px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
+                <button class="btn btn-outline btn-sm filter-pill active" id="prod-flt-all" onclick="Member.filterProducts('All')">All</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-spiritual" onclick="Member.filterProducts('Spiritual')">Spiritual</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-wellness" onclick="Member.filterProducts('Wellness')">Wellness</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-fashion" onclick="Member.filterProducts('Fashion')">Fashion</button>
+                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-lifestyle" onclick="Member.filterProducts('Lifestyle')">Lifestyle</button>
+            </div>
+
+            <div id="member-benefits-container">
+                <p class="text-xs text-center" style="padding:20px; opacity:0.7;"><i class="fas fa-spinner fa-spin"></i> Loading Products & Benefits...</p>
+            </div>
+        </div>
+
+        <!-- 4. ACADEMY TAB -->
         <div id="mem-academy" class="tab-content hidden">
             <div id="live-training-container" class="hidden" style="margin-bottom:20px;">
                 <button class="btn btn-live-pulse" style="padding:16px; font-size: 15px; border-radius: 16px;" id="btn-join-live" onclick="window.open('','_blank')">
@@ -479,65 +538,49 @@
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>1. Dream (सपनों का निर्धारण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सपना स्पष्ट (Clear), समय-सीमा वाला (Time-bound), और मापने योग्य (Measurable) होना चाहिए। अपने शॉर्ट-टर्म (1-6 माह), मिड-टर्म (1-2 वर्ष) और लॉन्ग-टर्म (5 वर्ष) सपनों को डायरी में लिखें।</div>
+                    <div class="ss-acc-body">सपना स्पष्ट, समय-सीमा वाला और मापने योग्य होना चाहिए। अपने शॉर्ट-टर्म, मिड-टर्म और लॉन्ग-टर्म सपनों को डायरी में लिखें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>2. Commitment (समर्पण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">हफ्ते में कम से कम 10-15 घंटे का समय बिज़नेस को समर्पित करें। हर संडे वेन्यू सेमिनार, दिशा ट्रेनिंग और अपलाइन काउंसलिंग को कभी मिस न करें।</div>
+                    <div class="ss-acc-body">हफ्ते में कम से कम 10-15 घंटे समर्पित करें। हर संडे वेन्यू सेमिनार, दिशा ट्रेनिंग और अपलाइन काउंसलिंग को कभी मिस न करें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S थ्योरी)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">कम से कम 150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें।<br><b>F</b>-Friends, <b>R</b>-Relatives, <b>I</b>-Institutions, <b>E</b>-Employees, <b>N</b>-Neighbors, <b>D</b>-Dedicated/Dreamers, <b>S</b>-Strangers.</div>
+                    <div class="ss-acc-body">150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें (Friends, Relatives, Institutions, Employees, Neighbors, Dedicated, Strangers).</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>4. Invitation (सही तरीके से आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। जिज्ञासा (Curiosity) पैदा करें और वेन्यू या ज़ूम मीटिंग का समय फिक्स करें। कम बोलना ही सबसे बड़ी कला है।</div>
+                    <div class="ss-acc-head"><span>4. Invitation (सही आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। जिज्ञासा पैदा करें और वेन्यू या ज़ूम मीटिंग का समय फिक्स करें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>5. Show The Plan (STP)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">1-on-1, ग्रुप मीटिंग या वेन्यू सेमिनार में प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज/प्रोडक्ट्स और बाइनरी इनकम प्लान दिखाएं।</div>
+                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज और इनकम प्लान प्रेजेंट करें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>6. Follow-up (24 से 48 घंटे के अंदर)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्लान देखने के बाद 90% क्लोजिंग 48 घंटे में होती है। अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD/ऑनलाइन पेमेंट कलेक्ट करें।</div>
+                    <div class="ss-acc-head"><span>6. Follow-up (24 से 48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">प्लान देखने के बाद 90% क्लोजिंग 48 घंटे में होती है। अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>7. 100% User (उत्पादों के उपयोगकर्ता)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स (प्रगति सूत्र, फोल्डर, लिटरेचर) का स्वयं उपयोग करें। विश्वास आपकी आंखों में दिखना चाहिए।</div>
+                    <div class="ss-acc-head"><span>7. 100% User (उत्पाद उपयोग)</span> <i class="fas fa-chevron-down"></i></div>
+                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स (प्रगति सूत्र, फोल्डर) का स्वयं उपयोग करें।</div>
                 </div>
 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>8. Be a Team Player & Teach</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सक्रिय अपलाइन की काउंसलिंग लें और डाउनलाइन को डुप्लीकेट करें। टीम में ईगो, पैसे और फैमिली के प्रति मर्यादा रखें।</div>
-                </div>
-            </div>
-
-            <div class="card" style="border-top: 4px solid #f59e0b; padding:20px;">
-                <h4 style="color:#d97706; font-size:15px; margin-bottom:12px;"><i class="fas fa-bolt"></i> 3 Powers (सफलता की तीन शक्तियां)</h4>
-                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; margin-bottom:10px; border-left:3px solid var(--warning);">
-                    <strong class="text-sm">1. Power of Spoken Word:</strong>
-                    <p class="text-xs" style="margin:4px 0 0 0;">हमेशा सकारात्मक बोलें। जैसा आप अपने और अपनी टीम के बारे में बोलेंगे, यूनिवर्स वैसा ही रिजल्ट देगा।</p>
-                </div>
-                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; margin-bottom:10px; border-left:3px solid var(--warning);">
-                    <strong class="text-sm">2. Power of Submission:</strong>
-                    <p class="text-xs" style="margin:4px 0 0 0;">सिस्टम और एक्टिव, ग्रोइंग अपलाइन के प्रति 100% समर्पण रखें। अपना दिमाग लगाने से बेहतर है सिस्टम को फॉलो करना।</p>
-                </div>
-                <div style="background:rgba(245,158,11,0.08); padding:12px; border-radius:10px; border-left:3px solid var(--warning);">
-                    <strong class="text-sm">3. Power of Unity:</strong>
-                    <p class="text-xs" style="margin:4px 0 0 0;">टीम में एकता रखें। क्रॉस-लाइनिंग और नकारात्मक बातों से दूरी बनाए रखें।</p>
+                    <div class="ss-acc-body">सक्रिय अपलाइन की काउंसलिंग लें और डाउनलाइन को डुप्लीकेट करें।</div>
                 </div>
             </div>
 
             <div class="card" style="border-top: 4px solid var(--primary); padding:20px;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-phone-volume"></i> कॉलिंग व इनविटेशन स्क्रिप्ट्स</h4>
-                    <span class="badge badge-success">Ready-to-use</span>
+                    <h4 style="color:var(--primary); font-size:15px;"><i class="fas fa-phone-volume"></i> इनविटेशन स्क्रिप्ट्स</h4>
+                    <span class="badge badge-success">Copy & Call</span>
                 </div>
 
                 <div class="script-box">
@@ -550,34 +593,17 @@
 
                 <div class="script-box">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Job / Working Class</strong>
+                        <strong class="text-sm"><i class="fas fa-briefcase text-warning"></i> For Working Class</strong>
                         <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
                     </div>
                     <p class="text-xs" id="job-scr" style="margin:0; line-height:1.5;">"सर, अपनी वर्तमान जॉब को डिस्टर्ब किए बिना क्या आप वीकेंड्स या शाम के 1 घंटे में एक पैरेलल बैकअप इनकम सोर्स बिल्ड करना चाहेंगे? हमारे पास एक प्रूवेन ई-कॉमर्स प्रोजेक्ट है।"</p>
                 </div>
-
-                <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-store text-danger"></i> For Shopkeepers / Small Business</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('biz-scr')"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                    <p class="text-xs" id="biz-scr" style="margin:0; line-height:1.5;">"नमस्कार भाईसाहब, अपनी दुकान या बिज़नेस में बिना कोई नया भारी निवेश किए, एक डिजिटल नेटवर्क मॉडल से अतिरिक्त टर्नओवर जनरेट करने का अवसर है। 20 मिनट का समय निकालें, बैठकर चर्चा करते हैं।"</p>
-                </div>
-
-                <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong class="text-sm"><i class="fas fa-home text-success"></i> For Housewives / Women</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:4px 10px; font-size:11px;" onclick="Member.copyScript('housewife-scr')"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                    <p class="text-xs" id="housewife-scr" style="margin:0; line-height:1.5;">"नमस्ते, घर की जिम्मेदारियों को संभालते हुए स्मार्टफोन से वर्क-फ्रॉम-होम के ज़रिए आत्मनिर्भर बनने का एक शानदार अवसर है। शाम को हमारे साथ ऑनलाइन कनेक्ट करें।"</p>
-                </div>
             </div>
 
             <div class="card" style="border-top: 4px solid #8b5cf6; padding:20px;">
-                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:15px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper (ऑब्जेक्शन हैंडलिंग)</h4>
-                <p class="text-xs" style="margin-bottom:14px;">प्रोस्पेक्ट का बहाना या सवाल टाइप करें:</p>
+                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:15px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper</h4>
                 <div style="display:flex; gap:10px; align-items:center;">
-                    <input type="text" id="ai-query" placeholder="सवाल लिखें..." style="margin:0; flex:1;">
+                    <input type="text" id="ai-query" placeholder="सवाल लिखें (paise, time, scam)..." style="margin:0; flex:1;">
                     <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 18px; flex-shrink:0;" onclick="Member.askAI()">उत्तर दें</button>
                 </div>
                 <div id="ai-response" class="text-sm" style="margin-top:14px;"></div>
@@ -595,7 +621,7 @@
             </div>
 
             <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:24px;">
-                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़ (Daily System Quiz)</h4>
+                <h4 style="margin-bottom:12px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़</h4>
                 <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
                     <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight: 600; font-size: 14px; color: var(--text-main);">Loading...</p>
                     <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
@@ -603,29 +629,13 @@
             </div>
         </div>
 
-        <!-- AI GALLERY MODULE WITH FEATURE DRAWER -->
-        <div id="mem-ai" class="tab-content hidden">
-            <div class="card" style="border-top: 4px solid #ec4899;">
-                <h4 style="margin-bottom:12px; color:#ec4899;"><i class="fas fa-magic"></i> Safe Shop Product Catalog</h4>
-                <p class="text-xs" style="margin-bottom:16px;">Search flagship products (Gita, Noni, Suit, Cookware) with automated selling features.</p>
-                <div style="display:flex; gap:10px; margin-bottom: 20px;">
-                    <input type="text" id="ai-search-input" placeholder="Search keyword..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#ec4899; padding:0 24px;" onclick="Member.searchAIProducts()">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div id="ai-gallery-container" class="grid-2">
-                    <p class="text-xs text-center" style="grid-column: span 2; opacity:0.6;">Search to fetch AI products...</p>
-                </div>
-            </div>
-        </div>
-
+        <!-- 5-BUTTON FLOATING NAVIGATION BAR -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','leads',this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem','products',this)"><i class="fas fa-box-open"></i><span>Catalog</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','academy',this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','ai',this)"><i class="fas fa-magic"></i><span>AI Gallery</span></div>
         </div>
     </div>
 </div>
@@ -724,14 +734,13 @@
             }
         }
         
-        // UPDATED VIEWER WITH PRODUCT DETAILS
         static openImageViewer(url, name="Product", cat="General", features="") {
             const img = document.getElementById('viewer-image');
             img.src = url;
             img.style.transform = 'scale(1)';
             document.getElementById('viewer-title').innerText = name;
             document.getElementById('viewer-category').innerText = cat;
-            document.getElementById('viewer-features').innerText = features || "Standard Safe Shop Quality Certification. Highly Recommended for Personal & Family Wellness.";
+            document.getElementById('viewer-features').innerText = features || "Safe Shop Quality Certified Product.";
             document.getElementById('image-viewer-modal').classList.remove('hidden');
         }
         static closeImageViewer() {
@@ -803,10 +812,11 @@
     }
 
     class Member {
-        static localLeads = []; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
+        static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
         static initData() {
             this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
+            this.fetchBenefitsCatalog();
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { 
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); 
                 if(doc.exists && doc.data().suspended) Auth.logout(); 
@@ -850,46 +860,69 @@
             });
         }
 
-        static async searchAIProducts() {
-            const query = document.getElementById('ai-search-input').value.toLowerCase().trim();
-            const container = document.getElementById('ai-gallery-container');
-            container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2;"><i class="fas fa-spinner fa-spin"></i> Scanning database...</p>';
-
-            try {
-                const snap = await db.collection('products').orderBy('timestamp', 'desc').get();
-                let results = [];
+        // FETCH CATALOG PRODUCTS WITH BENEFITS
+        static fetchBenefitsCatalog() {
+            db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                this.loadedProducts = [];
                 snap.forEach(doc => {
-                    const d = doc.data();
-                    if(!query || (d.category && d.category.toLowerCase().includes(query)) || (d.name && d.name.toLowerCase().includes(query))) {
-                        results.push(d);
-                    }
+                    this.loadedProducts.push({ id: doc.id, ...doc.data() });
                 });
+                this.renderBenefitsCatalog();
+            }, err => {
+                console.error("Products error:", err);
+            });
+        }
 
-                if(results.length === 0) {
-                    container.innerHTML = '<p class="text-xs text-center" style="grid-column: span 2; opacity:0.7;">No matches found for your search.</p>';
-                    return;
-                }
+        static filterProducts(category) {
+            this.currentProductFilter = category;
+            document.querySelectorAll('#mem-products .filter-pill').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById(`prod-flt-${category.toLowerCase()}`);
+            if(activeBtn) activeBtn.classList.add('active');
+            this.renderBenefitsCatalog();
+        }
 
-                container.innerHTML = '';
-                results.forEach(item => {
-                    const safeFeatures = (item.features || "High Value Safe Shop Product").replace(/'/g, "\\'");
-                    const safeName = (item.name || "").replace(/'/g, "\\'");
-                    const safeCategory = (item.category || "").replace(/'/g, "\\'");
-                    
-                    container.innerHTML += `
-                        <div class="product-card" onclick="UI.openImageViewer('${item.imageUrl}', '${safeName}', '${safeCategory}', '${safeFeatures}')">
-                            <img src="${item.imageUrl}" alt="${item.name}" loading="lazy">
-                            <h4>${item.name}</h4>
-                            <span class="tag-prof">${item.category}</span>
-                            <div class="prod-features-mini">${item.features || 'Tap to view full selling points.'}</div>
-                        </div>
-                    `;
-                });
-                UI.showToast(`Found ${results.length} products!`, 'success');
-            } catch(error) {
-                console.error("AI Search Error:", error);
-                UI.showToast('Error fetching data. Check connection.', 'error');
+        static renderBenefitsCatalog() {
+            const container = document.getElementById('member-benefits-container');
+            if(!container) return;
+
+            let filtered = this.loadedProducts;
+            if(this.currentProductFilter !== 'All') {
+                filtered = this.loadedProducts.filter(p => (p.category && p.category.toLowerCase().includes(this.currentProductFilter.toLowerCase())));
             }
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<p class="text-xs text-center" style="padding:30px; opacity:0.6;">No products found in ${this.currentProductFilter}. Ask Admin to add via Controls tab.</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            filtered.forEach(p => {
+                let benefitLines = (p.features || "").split('\n').filter(line => line.trim().length > 0);
+                if(benefitLines.length === 0) benefitLines = ["100% Genuine Safe Shop Certified Product", "Direct To Home Delivery Available"];
+
+                let listHtml = '';
+                benefitLines.forEach(line => {
+                    const cleanLine = line.replace(/^[•\-\*]\s*/, '');
+                    listHtml += `<li><i class="fas fa-check-circle"></i> <span>${cleanLine}</span></li>`;
+                });
+
+                const safeName = (p.name || "").replace(/'/g, "\\'");
+                const safeCat = (p.category || "").replace(/'/g, "\\'");
+                const safeFeat = (p.features || "").replace(/'/g, "\\'");
+
+                container.innerHTML += `
+                    <div class="benefit-product-card">
+                        <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onclick="UI.openImageViewer('${p.imageUrl}', '${safeName}', '${safeCat}', '${safeFeat}')">
+                        <div class="benefit-badge-row">
+                            <h4 style="font-size:15px; margin:0; color:var(--text-main); font-weight:700;">${p.name}</h4>
+                            <span class="badge badge-primary" style="font-size:9px;">${p.category}</span>
+                        </div>
+                        <ul class="benefit-list">
+                            ${listHtml}
+                        </ul>
+                    </div>
+                `;
+            });
         }
 
         static renderMemberBadges() {
@@ -936,34 +969,17 @@
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
             resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "16px"; resBox.style.borderRadius = "14px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
             
-            if(q.includes('paise') || q.includes('money') || q.includes('paisa') || q.includes('expensive') || q.includes('mehnga')) {
-                resBox.innerHTML = "🎯 <b>Objection: पैसे नहीं हैं / बजट नहीं है</b><br><br>" +
-                "<b>🇬🇧 Closing:</b> 'If you had sufficient money, you wouldn't be looking for extra income. Isn't that the exact reason to start today?'<br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, जब कॉलेज की फीस, मोबाइल या इमरजेंसी होती है तो क्या हम पैसे का इंतज़ाम करते हैं? यहाँ आप कोई खर्चा नहीं कर रहे, अपनी जरूरत का प्रोडक्ट ले रहे हैं और साथ में लाखों कमाने की बिज़नेस ओनरशिप फ्री मिल रही है। अगर आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
+            if(q.includes('paise') || q.includes('money') || q.includes('paisa') || q.includes('expensive')) {
+                resBox.innerHTML = "🎯 <b>पैसे नहीं हैं / बजट नहीं है:</b><br><br>'सर, जब कॉलेज या मेडिकल इमरजेंसी होती है तो क्या हम पैसों का इंतज़ाम करते हैं? यहाँ आप कोई खर्चा नहीं कर रहे, अपनी पसंद का वैल्यू-फॉर-मनी प्रोडक्ट ले रहे हैं और साथ में लाखों कमाने की बिज़नेस ओनरशिप फ्री मिल रही है। अगर आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
             }
-            else if(q.includes('time') || q.includes('samay') || q.includes('busy') || q.includes('fursat')) {
-                resBox.innerHTML = "🎯 <b>Objection: समय नहीं है (Time Freedom)</b><br><br>" +
-                "<b>🇬🇧 Closing:</b> 'We do this business not because we have free time, but to build Time Freedom so you don't have to struggle forever.'<br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, आप 8 से 10 घंटे काम कर रहे हैं और फिर भी समय नहीं है। सोचिए, अगर काम रुक जाए तो क्या आमदनी आएगी? नेटवर्क मार्केटिंग टाइम कंपाउंडिंग का काम है। 1-2 घंटे पार्ट टाइम देकर आप 100 लोगों की टीम बनाते हैं, जिससे आपके लिए दिन में 200 घंटे काम होता है।'";
+            else if(q.includes('time') || q.includes('samay') || q.includes('busy')) {
+                resBox.innerHTML = "🎯 <b>समय नहीं है:</b><br><br>'सर, आप 8-10 घंटे काम कर रहे हैं फिर भी समय नहीं है। सोचिए, अगर काम रुक जाए तो क्या आमदनी आएगी? नेटवर्क मार्केटिंग टाइम कंपाउंडिंग का काम है। 1-2 घंटे पार्ट टाइम देकर आप 100 लोगों की टीम बनाते हैं, जिससे आपके लिए दिन में 200 घंटे काम होता है।'";
             }
-            else if(q.includes('company') || q.includes('bhaag') || q.includes('band') || q.includes('fake') || q.includes('fraud') || q.includes('scam')) {
-                resBox.innerHTML = "🎯 <b>Objection: कंपनी भाग गई तो? / विश्वसनीयता</b><br><br>" +
-                "<b>🇬🇧 Closing:</b> 'Companies without real products disappear. Safe Shop has been legally compliant for over 2 decades with physical delivery.'<br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, जो कंपनियां हवा में पैसे डबल करने का दावा करती हैं वो भागती हैं। सेफ शॉप जनवरी 2001 से भारत सरकार की मिनिस्ट्री ऑफ कंज्यूमर अफेयर्स की गाइडलाइन्स के तहत रजिस्टर्ड है। आपने पैसा दिया और बदले में MRP का ब्रांडेड प्रोडक्ट हाथ में आ गया। अब भागने का कोई रिस्क ही नहीं बचा!'";
-            }
-            else if(q.includes('chain') || q.includes('member') || q.includes('jodna') || q.includes('scheme') || q.includes('pyramid')) {
-                resBox.innerHTML = "🎯 <b>Objection: यह लोगों को जोड़ने / चेन बनाने वाला काम है?</b><br><br>" +
-                "<b>🇬🇧 Closing:</b> 'Every large business - McDonald's, Jio, Uber - creates a distribution network. We are building a consumer channel.'<br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, दुनिया का कौन सा अमीर इंसान अकेले काम करता है? टाटा, रिलायंस, अमेज़न सबने नेटवर्क बनाया है। अकेले काम करके सिर्फ सैलरी मिलती है, लेकिन जब लोग आपके साथ जुड़कर टर्नओवर करते हैं तो रॉयल्टी इनकम आती है। हम लोगों को फंसा नहीं रहे, उन्हें रोज़गार दे रहे हैं।'";
-            }
-            else if(q.includes('papa') || q.includes('family') || q.includes('biwi') || q.includes('wife') || q.includes('puchh')) {
-                resBox.innerHTML = "🎯 <b>Objection: पापा/फैमिली से पूछकर बताऊंगा</b><br><br>" +
-                "<b>🇬🇧 Closing:</b> 'Your family hasn't seen the visionary presentation. They can only advise based on old mindset.'<br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, बहुत अच्छी बात है कि आप परिवार की राय लेते हैं। लेकिन अगर आपको डॉक्टर बनना है तो राय डॉक्टर से लेंगे या वकील से? आपके परिवार ने आज का प्रेजेंटेशन नहीं देखा, तो वो सिर्फ आधी बात सुनकर मना कर देंगे। चलिए, कल मैं और मेरे सीनियर आपके साथ घर चलते हैं और अंकल जी को पूरी बात समझाते हैं।'";
+            else if(q.includes('company') || q.includes('bhaag') || q.includes('fake') || q.includes('scam')) {
+                resBox.innerHTML = "🎯 <b>कंपनी भाग गई तो?:</b><br><br>'सर, जो कंपनियां बिना प्रोडक्ट के पैसे डबल करने का दावा करती हैं वो भागती हैं। सेफ शॉप जनवरी 2001 से भारत सरकार की गाइडलाइन्स के तहत रजिस्टर्ड है। आपने पैसा दिया और MRP का सर्टिफाइड प्रोडक्ट हाथ में आ गया। अब कोई रिस्क ही नहीं बचा!'";
             }
             else {
-                resBox.innerHTML = "🎯 <b>General Professional Push (Closing Punch):</b><br><br>" +
-                "<b>🇮🇳 Safe Shop Script:</b> 'सर, फैसला लेने में 2 ही रास्ते हैं—या तो आप शुरू करेंगे या नहीं करेंगे। न करने से जिंदगी जैसी चल रही है वैसी ही रहेगी। लेकिन शुरुआत करने से 1-2 साल में आपके सारे सपने सच हो सकते हैं। फॉर्म भरिए, हम पूरी टीम आपके साथ फील्ड में खड़े हैं!'";
+                resBox.innerHTML = "🎯 <b>क्लोजिंग पंच:</b><br><br>'सर, फैसला लेने में 2 ही रास्ते हैं—शुरू करना या न करना। न करने से कुछ नहीं बदलेगा। लेकिन शुरुआत करने से 1-2 साल में सारे सपने सच हो सकते हैं। फॉर्म भरिए, पूरी टीम आपके साथ फील्ड में खड़ी है!'";
             }
         }
 
@@ -1099,7 +1115,7 @@
                 if(leadPreviewBox) leadPreviewBox.innerHTML = html || '<p class="text-xs text-center" style="padding:15px; opacity:0.6;">No closed sales recorded yet.</p>'; 
             });
         }
-        static setFilter(type) { this.currentFilter = type; document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active')); if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active'); this.applyFilters(); }
+        static setFilter(type) { this.currentFilter = type; document.querySelectorAll('#mem-leads .filter-pill').forEach(btn => btn.classList.remove('active')); if(type === 'All') document.getElementById('flt-all').classList.add('active'); if(type === 'Hot') document.getElementById('flt-hot').classList.add('active'); if(type === 'Today') document.getElementById('flt-today').classList.add('active'); this.applyFilters(); }
         static applyFilters() {
             const container = document.getElementById('member-leads-container'); const searchTxt = document.getElementById('lead-search').value.toLowerCase(); const todayStr = new Date().toISOString().split('T')[0]; const now = new Date();
             let filtered = this.localLeads.filter(d => { const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt); let matchType = true; if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot') && !d.ddClosed; if(this.currentFilter === 'Today') matchType = d.followUp === todayStr && !d.ddClosed; return matchSearch && matchType; });
@@ -1298,7 +1314,6 @@
             UI.showToast('CSV Exported Successfully!', 'success');
         }
 
-        // AUTOMATED FEATURES DETECTION LOGIC
         static smartSuggest() {
             const name = document.getElementById('prod-name').value.toLowerCase();
             const catField = document.getElementById('prod-category');
@@ -1314,15 +1329,15 @@
             const featBox = document.getElementById('prod-features');
 
             if(name.includes('gita')) {
-                featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 प्रमुख भाषाएँ (संस्कृत, हिंदी, अंग्रेजी)\n• प्रामाणिक उच्चारण व 700 श्लोकों का आध्यात्मिक विश्लेषण\n• आजीवन पारिवारिक संस्कार व शांति का पैकेज (200 BV)";
+                featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 भाषाएँ (संस्कृत, हिंदी, अंग्रेजी) व प्रामाणिक उच्चारण\n• 700 श्लोकों का आध्यात्मिक विश्लेषण\n• पारिवारिक संस्कार व शांति का संपूर्ण पैकेज (200 BV)";
             } else if(name.includes('hanuman')) {
-                featBox.value = "• सम्पूर्ण हनुमान (ज्ञान-भक्ति का अद्भुत संकलन)\n• बोलने वाली कलम (Talking Book Feature)\n• सुन्दरकाण्ड, चालीसा, बजरंग बाण का संगीतमय पाठ\n• बच्चों व परिवार में सकारात्मक ऊर्जा का स्रोत";
+                featBox.value = "• सम्पूर्ण हनुमान (ज्ञान-भक्ति का अद्भुत संकलन)\n• बोलने वाली कलम से संगीतबद्ध चौपाई पाठ\n• सुन्दरकाण्ड, चालीसा, बजरंग बाण का संगीतमय पाठ\n• बच्चों व परिवार में सकारात्मक ऊर्जा का स्रोत";
             } else if(name.includes('noni') || cat.includes('wellness')) {
                 featBox.value = "• हाओमा नोनी प्रीमियम कॉन्संट्रेट (100% शुद्ध)\n• 150+ आवश्यक फाइटोन्यूट्रिएंट्स व एंटीऑक्सीडेंट्स\n• रोग प्रतिरोधक क्षमता (Immunity) व ऊर्जा वर्धक\n• डिटॉक्सिफिकेशन और सेलुलर हेल्थ सपोर्ट";
             } else if(name.includes('suit') || cat.includes('fashion')) {
-                featBox.value = "• Zeno / Grado प्रीमियम 3-पीस सूट लेंथ (लक्जरी फैब्रिक)\n• हर मौसम में आरामदायक व रिंकल-रेजिस्टेंट\n• प्रोफेशनल डायरेक्ट मार्केटिंग फॉर्मल प्रेजेंटेशन ड्रेस कोड\n• हाई सोशल स्टेटस व पर्सनैलिटी अपग्रेड";
-            } else if(name.includes('cookware') || cat.includes('kitchen')) {
-                featBox.value = "• मियाको 5-प्लाई स्टेनलेस स्टील कुकवेयर सेट\n• ऑयल-फ्री / लो-ऑयल हेल्दी कुकिंग टेक्नोलॉजी\n• गैस, इंडक्शन व सभी कुकटॉप्स पर उपयोग योग्य\n• जीवनभर चलने वाली प्रीमियम टिकाऊ बनावट";
+                featBox.value = "• Zeno / Grado प्रीमियम 3-पीस सूट लेंथ\n• हर मौसम में आरामदायक व रिंकल-रेजिस्टेंट\n• प्रोफेशनल डायरेक्ट मार्केटिंग फॉर्मल प्रेजेंटेशन ड्रेस कोड\n• हाई सोशल स्टेटस व पर्सनैलिटी अपग्रेड";
+            } else if(name.includes('cookware') || cat.includes('lifestyle') || cat.includes('kitchen')) {
+                featBox.value = "• मियाको 5-प्लाई स्टेनलेस स्टील कुकवेयर सेट\n• ऑयल-फ्री / लो-ऑयल हेल्दी कुकिंग टेक्नोलॉजी\n• गैस व इंडक्शन सभी कुकटॉप्स पर उपयोग योग्य\n• जीवनभर चलने वाली प्रीमियम टिकाऊ बनावट";
             } else {
                 featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज\n• बिज़नेस वॉल्यूम (BV) और लाइफटाइम डिस्ट्रीब्यूटरशिप\n• प्रीमियम क्वालिटी व डायरेक्ट टू होम डिलीवरी सपोर्ट";
             }
@@ -1340,7 +1355,7 @@
             try {
                 await db.collection('products').add({ 
                     name: name, 
-                    category: category.toLowerCase(), 
+                    category: category, 
                     imageUrl: url, 
                     features: features || "Safe Shop Quality Certified Product.",
                     timestamp: firebase.firestore.FieldValue.serverTimestamp() 
