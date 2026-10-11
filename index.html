@@ -158,7 +158,6 @@
         @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
         .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
         
-        /* Floating Nav */
         .floating-nav { 
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
             background: rgba(255, 255, 255, 0.88); 
@@ -243,7 +242,6 @@
             box-shadow: 0 4px 10px rgba(217,119,6,0.3);
         }
 
-        /* PYRAMID TREE CSS */
         .tree-scroll-wrapper {
             overflow-x: auto;
             padding: 10px 0 20px 0;
@@ -305,6 +303,76 @@
             color: var(--text-muted);
             background: transparent;
         }
+
+        /* 🚨 HQ WAR ROOM FLASH TICKER & COUNTDOWN BAR STYLES */
+        .war-room-ticker {
+            background: linear-gradient(90deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
+            border: 1px solid var(--glass-card-border);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        .war-room-ticker.priority-urgent {
+            background: linear-gradient(90deg, rgba(245,158,11,0.15), rgba(239,68,68,0.15));
+            border-color: rgba(245,158,11,0.4);
+        }
+        .war-room-ticker.priority-siren {
+            background: linear-gradient(90deg, rgba(239,68,68,0.2), rgba(185,28,28,0.25));
+            border-color: var(--danger);
+            animation: pulseRedBorder 2s infinite;
+        }
+        @keyframes pulseRedBorder {
+            0%, 100% { box-shadow: 0 0 15px rgba(239,68,68,0.2); }
+            50% { box-shadow: 0 0 25px rgba(239,68,68,0.45); }
+        }
+        .ticker-marquee {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .ticker-marquee span {
+            display: inline-block;
+            animation: marquee 16s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .countdown-chip {
+            background: rgba(0,0,0,0.06);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--primary);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        body.dark-mode .countdown-chip { background: rgba(255,255,255,0.08); }
+        .btn-fire-react {
+            background: rgba(245,158,11,0.15);
+            border: 1px solid rgba(245,158,11,0.3);
+            color: #d97706;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: transform 0.15s;
+        }
+        .btn-fire-react:active { transform: scale(0.92); }
     </style>
 </head>
 <body>
@@ -312,6 +380,27 @@
 <div class="ambient-mesh">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
+</div>
+
+<!-- 🚨 HIGH ALERT SIREN SCREEN-LOCK MODAL -->
+<div id="war-room-siren-modal" class="modal-overlay hidden" style="z-index: 100002; background: rgba(15,23,42,0.95); backdrop-filter: blur(30px);">
+    <div class="modal-box" style="border: 2px solid var(--danger); box-shadow: 0 0 50px rgba(239,68,68,0.4); text-align:center;">
+        <div style="width: 70px; height: 70px; margin: 0 auto 16px auto; border-radius: 50%; background: rgba(239,68,68,0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--danger); animation: pulseRed 1.8s infinite;">
+            <i class="fas fa-bullhorn"></i>
+        </div>
+        <span class="badge" style="background: rgba(239,68,68,0.2); color: var(--danger); font-size:11px; margin-bottom:10px; display:inline-block;">HQ EMERGENCY BROADCAST</span>
+        <h3 id="siren-headline" style="color: #fff; font-size: 20px; margin-bottom: 10px;">Closing War-Room Directive</h3>
+        <p id="siren-message" class="text-sm" style="color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">Notice loading...</p>
+        
+        <div style="background: rgba(255,255,255,0.06); padding: 12px; border-radius: 14px; margin-bottom: 20px;">
+            <span class="text-xs" style="color: #94a3b8; display:block; margin-bottom: 4px;">Time Remaining To Action:</span>
+            <strong id="siren-timer" style="font-size: 20px; color: #fbbf24; font-family: monospace;">00h : 00m : 00s</strong>
+        </div>
+
+        <button class="btn btn-primary" style="background: var(--danger); font-size: 15px; padding: 15px;" onclick="Member.acknowledgeWarRoomAlert()">
+            <i class="fas fa-check-circle"></i> I Acknowledge / देखा
+        </button>
+    </div>
 </div>
 
 <!-- 3D LUXURY DIGITAL VISITING CARD MODAL -->
@@ -507,7 +596,7 @@
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- ADMIN TAB 3: TREE (NEW DEDICATED ADMIN TREE TAB) -->
+        <!-- ADMIN TAB 3: TREE -->
         <div id="admin-tree" class="tab-content hidden">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                 <div>
@@ -517,7 +606,6 @@
                 <button class="btn btn-outline btn-sm" onclick="Admin.resetAdminTree()"><i class="fas fa-undo"></i> Reset Root</button>
             </div>
 
-            <!-- SEARCH / JUMP TO ANY MEMBER SUB-TREE -->
             <div class="card" style="padding:14px; margin-bottom:14px; border-top:3px solid var(--primary);">
                 <div style="display:flex; gap:8px;">
                     <input type="text" id="admin-tree-search-input" placeholder="Jump to Member ID (e.g. HTM-02)..." style="margin:0; flex:1;">
@@ -525,7 +613,6 @@
                 </div>
             </div>
 
-            <!-- DIRECT TREE NODE EDIT & PLACEMENT -->
             <div class="card" style="border-top: 4px solid var(--primary); padding:16px; margin-bottom:14px;">
                 <h4 style="color:var(--primary); margin:0 0 10px 0; font-size:14px;"><i class="fas fa-exchange-alt"></i> Re-assign Member Leg / Sponsor</h4>
                 <input type="text" id="admin-tree-edit-target" placeholder="Target Member ID (e.g. HTM-03)">
@@ -539,7 +626,6 @@
                 <button class="btn btn-primary" onclick="Admin.overrideTreeNodeFromTreeTab()"><i class="fas fa-save"></i> Update Node Placement</button>
             </div>
 
-            <!-- VISUAL DRILL-DOWN PYRAMID FOR ADMIN -->
             <div class="card" style="padding: 18px 10px; overflow-x: auto;">
                 <div class="tree-scroll-wrapper" id="admin-pyramid-container">
                     <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Master Network Tree...</p>
@@ -547,8 +633,42 @@
             </div>
         </div>
 
-        <!-- ADMIN TAB 4: CONTROLS -->
+        <!-- ADMIN TAB 4: CONTROLS (WITH WAR-ROOM FLASH BROADCAST STUDIO) -->
         <div id="admin-controls" class="tab-content hidden">
+            
+            <!-- 🚨 FEATURE 5: HQ WAR-ROOM BROADCAST STUDIO -->
+            <div class="card" style="border-top: 4px solid var(--danger);">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <h4 style="color:var(--danger); margin:0; font-size:15px;"><i class="fas fa-satellite-dish"></i> HQ War-Room Flash Broadcaster</h4>
+                    <span class="badge" style="background:rgba(239,68,68,0.15); color:var(--danger);">Live Ticker</span>
+                </div>
+                <p class="text-xs" style="margin-bottom:14px;">पूरी टीम के डैशबोर्ड पर टिकर, काउंटडाउन ऑफर टाइमर या स्क्रीन-लॉक हाई अलर्ट भेजें:</p>
+                
+                <input type="text" id="war-msg-input" placeholder="Flash Announcement (e.g. आज रात 9 बजे तक 2 DD पर स्पेशल रिवॉर्ड!)">
+                
+                <div class="grid-2">
+                    <select id="war-priority">
+                        <option value="normal">Normal Alert (चलने वाला टिकर)</option>
+                        <option value="urgent">Urgent Action (ऑरेंज वार्निंग)</option>
+                        <option value="siren">🚨 High Alert Siren (स्क्रीन लॉक)</option>
+                    </select>
+                    <input type="number" id="war-hours" placeholder="Countdown Hours (e.g. 4)" min="1">
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top:4px;">
+                    <button class="btn btn-primary" style="background:var(--danger); color:#fff; flex:1;" onclick="Admin.publishWarRoomNotice()">
+                        <i class="fas fa-paper-plane"></i> Dispatch Flash Notice
+                    </button>
+                    <button class="btn btn-outline btn-sm" style="color:var(--text-muted); width:auto; padding:0 14px;" onclick="Admin.clearWarRoomNotice()" title="Clear Active Notice">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+
+                <div id="admin-war-status" class="text-xs" style="margin-top:10px; color:var(--text-muted);">
+                    Live Reactions: <strong id="admin-war-reacts" style="color:#d97706;">0 🔥 Advisors Fired Up</strong>
+                </div>
+            </div>
+
             <div class="card" style="border-top: 4px solid var(--danger);">
                 <h4 style="margin-bottom:14px; color:var(--danger); font-size:15px;"><i class="fas fa-bell"></i> SOS Command Desk</h4>
                 <div id="admin-sos-container" style="max-height:260px; overflow-y:auto;"></div>
@@ -597,7 +717,7 @@
             <div id="admin-sales-container"></div>
         </div>
 
-        <!-- ADMIN 5-ITEM FLOATING NAV WITH TREE TAB -->
+        <!-- ADMIN 5-ITEM FLOATING NAV -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
             <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
@@ -637,8 +757,21 @@
             </div>
         </div>
 
-        <!-- 1. FIELD TAB -->
+        <!-- 1. FIELD TAB (WITH HQ WAR ROOM FLASH TICKER & COUNTDOWN) -->
         <div id="mem-dash" class="tab-content">
+            
+            <!-- 🚨 LIVE WAR ROOM TICKER & COUNTDOWN -->
+            <div id="mem-war-ticker-box" class="war-room-ticker hidden">
+                <i class="fas fa-satellite-dish text-danger fa-pulse" style="font-size:16px;"></i>
+                <div class="ticker-marquee">
+                    <span id="mem-war-marquee-text">HQ Flash Notice Loading...</span>
+                </div>
+                <div class="countdown-chip" id="mem-war-countdown-chip">
+                    <i class="fas fa-stopwatch"></i> <span id="mem-war-timer-val">--:--:--</span>
+                </div>
+                <button class="btn-fire-react" onclick="Member.reactWarRoomFire()">🔥 <span id="mem-war-react-count">0</span></button>
+            </div>
+
             <div id="mem-urgency-wrapper" class="card urgency-banner">
                 <i class="fas fa-hourglass-half" style="font-size:22px; color:var(--warning);"></i>
                 <div><strong style="font-size:13px;" id="urgency-title">Daily Quota Pending</strong><div class="text-xs" id="urgency-desc">Target DD volume required.</div></div>
@@ -789,11 +922,11 @@
                 
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>1. Dream (सपनों का निर्धारण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सपना स्पष्ट, समय-सीमा वाला और मापने योग्य होना चाहिए। अपने शॉर्ट-टर्म, मिड-टर्म और लॉन्ग-टर्म सपनों को डायरी में लिखें।</div>
+                    <div class="ss-acc-body">सपना स्पष्ट, समय-सीमा वाला और मापने योग्य होना चाहिए। अपने सपनों को डायरी में लिखें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>2. Commitment (समर्पण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">हफ्ते में 10-15 घंटे समर्पित करें। संडे वेन्यू सेमिनार और अपलाइन काउंसलिंग कभी मिस न करें।</div>
+                    <div class="ss-acc-body">हफ्ते में 10-15 घंटे समर्पित करें। संडे वेन्यू सेमिनार कभी मिस न करें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S)</span> <i class="fas fa-chevron-down"></i></div>
@@ -801,19 +934,19 @@
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>4. Invitation (सही आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। केवल जिज्ञासा पैदा करें और मीटिंग का समय तय करें।</div>
+                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। केवल जिज्ञासा पैदा करें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>5. Show The Plan (STP)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल, पैकेज और इनकम प्लान दिखाएं।</div>
+                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल और इनकम प्लान दिखाएं।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>6. Follow-up (24-48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर अपलाइन के साथ जाकर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
+                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>7. 100% User (उत्पाद उपयोग)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स (प्रगति सूत्र, फोल्डर) का स्वयं उपयोग करें।</div>
+                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स का स्वयं उपयोग करें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>8. Be a Team Player & Teach</span> <i class="fas fa-chevron-down"></i></div>
@@ -1035,17 +1168,86 @@
 
     class Member {
         static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
-        static currentTreeRootId = ""; static networkUsers = [];
+        static currentTreeRootId = ""; static networkUsers = []; static warCountdownTimer = null;
 
         static initData() {
             this.currentTreeRootId = localStorage.getItem('htm_id');
             this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
             this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
-            this.fetchBenefitsCatalog(); this.fetchNetworkUsers();
+            this.fetchBenefitsCatalog(); this.fetchNetworkUsers(); this.listenWarRoomBroadcast();
             db.collection('users').doc(localStorage.getItem('htm_id')).onSnapshot(doc => { 
                 if(doc.exists && doc.data().target) localStorage.setItem('htm_target', doc.data().target); 
                 if(doc.exists && doc.data().suspended) Auth.logout(); 
             });
+        }
+
+        // 🚨 LISTEN TO HQ WAR-ROOM BROADCAST (TICKER, TIMER, SIREN)
+        static listenWarRoomBroadcast() {
+            db.collection('system').doc('war_room').onSnapshot(doc => {
+                const tickerBox = document.getElementById('mem-war-ticker-box');
+                if(!doc.exists || !doc.data().active) {
+                    if(tickerBox) tickerBox.classList.add('hidden');
+                    return;
+                }
+
+                const d = doc.data();
+                if(tickerBox) {
+                    tickerBox.classList.remove('hidden', 'priority-urgent', 'priority-siren');
+                    if(d.priority === 'urgent') tickerBox.classList.add('priority-urgent');
+                    if(d.priority === 'siren') tickerBox.classList.add('priority-siren');
+                }
+
+                document.getElementById('mem-war-marquee-text').innerText = d.message || "Active War-Room Directive";
+                document.getElementById('mem-war-react-count').innerText = d.reactions || 0;
+
+                // Handle Live Countdown Timer
+                if(d.deadline) {
+                    const targetMs = d.deadline.toMillis ? d.deadline.toMillis() : d.deadline;
+                    if(this.warCountdownTimer) clearInterval(this.warCountdownTimer);
+                    
+                    const updateTimer = () => {
+                        const now = Date.now();
+                        const diff = targetMs - now;
+                        if(diff <= 0) {
+                            document.getElementById('mem-war-timer-val').innerText = "00:00:00";
+                            document.getElementById('siren-timer').innerText = "EXPIRED";
+                            clearInterval(this.warCountdownTimer);
+                            return;
+                        }
+                        const hrs = Math.floor(diff / (1000 * 60 * 60));
+                        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                        const str = `${hrs.toString().padStart(2,'0')}h : ${mins.toString().padStart(2,'0')}m : ${secs.toString().padStart(2,'0')}s`;
+                        document.getElementById('mem-war-timer-val').innerText = str;
+                        document.getElementById('siren-timer').innerText = str;
+                    };
+                    updateTimer();
+                    this.warCountdownTimer = setInterval(updateTimer, 1000);
+                }
+
+                // If Priority is SIREN & not acknowledged yet by this user: trigger screen lock
+                const lastAck = localStorage.getItem('war_ack_timestamp');
+                if(d.priority === 'siren' && (!lastAck || parseInt(lastAck) < (d.timestamp?.toMillis() || 0))) {
+                    document.getElementById('siren-message').innerText = d.message;
+                    document.getElementById('war-room-siren-modal').classList.remove('hidden');
+                }
+            });
+        }
+
+        static acknowledgeWarRoomAlert() {
+            localStorage.setItem('war_ack_timestamp', Date.now().toString());
+            document.getElementById('war-room-siren-modal').classList.add('hidden');
+            this.reactWarRoomFire();
+            UI.showToast("Directive Acknowledged! Go Close Deals!", "success");
+        }
+
+        static async reactWarRoomFire() {
+            try {
+                await db.collection('system').doc('war_room').update({
+                    reactions: firebase.firestore.FieldValue.increment(1)
+                });
+                UI.showToast("You're Fired Up! 🔥", "success");
+            } catch(e) {}
         }
 
         static showVisitingCard() {
@@ -1433,9 +1635,51 @@
         static leadsVault = []; static adminTreeRootId = "";
         static initData() { 
             this.streamRadar(); this.streamTeam(); this.streamSales(); this.listenSOS(); 
-            Member.fetchNetworkUsers();
+            Member.fetchNetworkUsers(); this.listenWarRoomAdmin();
         }
         
+        // 🚨 PUBLISH WAR-ROOM NOTICE
+        static async publishWarRoomNotice() {
+            const msg = document.getElementById('war-msg-input').value.trim();
+            const priority = document.getElementById('war-priority').value;
+            const hours = parseFloat(document.getElementById('war-hours').value) || 3;
+
+            if(!msg) return UI.showToast("Please enter an announcement.", "error");
+
+            const deadlineDate = new Date(Date.now() + (hours * 60 * 60 * 1000));
+            try {
+                await db.collection('system').doc('war_room').set({
+                    message: msg,
+                    priority: priority,
+                    active: true,
+                    reactions: 0,
+                    deadline: firebase.firestore.Timestamp.fromDate(deadlineDate),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                UI.showToast("War-Room Flash Published to Network!", "success");
+                document.getElementById('war-msg-input').value = '';
+            } catch(e) {
+                UI.showToast("Failed to broadcast.", "error");
+            }
+        }
+
+        static async clearWarRoomNotice() {
+            if(confirm("Clear active War-Room ticker for all?")) {
+                await db.collection('system').doc('war_room').set({ active: false }, {merge: true});
+                UI.showToast("Broadcast dismissed.", "success");
+            }
+        }
+
+        static listenWarRoomAdmin() {
+            db.collection('system').doc('war_room').onSnapshot(doc => {
+                if(doc.exists && doc.data().active) {
+                    document.getElementById('admin-war-reacts').innerText = `${doc.data().reactions || 0} 🔥 Advisors Fired Up`;
+                } else {
+                    document.getElementById('admin-war-reacts').innerText = `No Active Broadcast`;
+                }
+            });
+        }
+
         static resetAdminTree() {
             this.adminTreeRootId = "";
             this.renderAdminTree();
@@ -1466,7 +1710,6 @@
                 rootUser = Member.networkUsers.find(u => u.id === this.adminTreeRootId);
             }
             if(!rootUser) {
-                // Find top-most root node (without sponsor or first created)
                 rootUser = Member.networkUsers.find(u => !u.sponsorId || u.sponsorId === "") || Member.networkUsers[0] || { id: "HTM-01", name: "HQ Root" };
             }
 
