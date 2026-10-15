@@ -28,7 +28,6 @@
             --surface-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
         }
 
-        /* HATKE ADMIN WAR-ROOM THEME */
         body.admin-view-active {
             --bg-body: #020617 !important;
             --text-main: #f8fafc !important;
@@ -43,7 +42,7 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; background: var(--bg-body); color: var(--text-main); 
-            padding-bottom: 110px; -webkit-font-smoothing: antialiased; 
+            padding-bottom: 105px; -webkit-font-smoothing: antialiased; 
             min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; 
             overflow-x: hidden; position: relative;
         }
@@ -67,19 +66,13 @@
         .text-sm { font-size: 13px; color: var(--text-muted); } 
         .text-xs { font-size: 11px; color: var(--text-muted); font-weight: 600; }
         
-        .card, .dashboard-stat, .record-item, .urgency-banner, .benefit-product-card { 
+        .card, .record-item, .benefit-product-card { 
             background: var(--glass-bg); 
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-card-border); 
             border-radius: 20px; padding: 18px; margin-bottom: 16px; 
             box-shadow: var(--surface-shadow);
             width: 100%; overflow: hidden;
-        }
-        
-        .urgency-banner { 
-            display: flex; align-items: center; gap: 14px; padding: 16px 18px; 
-            border-left: 5px solid var(--warning); margin-bottom: 18px;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
         }
         
         input, select, textarea { 
@@ -142,13 +135,6 @@
         .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); } 
         .badge-primary { background: rgba(37,99,235,0.15); color: var(--primary); border: 1px solid rgba(37,99,235,0.3); } 
         
-        .gamification-badge { 
-            display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; 
-            border-radius: 8px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,0.15); 
-            border: 1px solid var(--glass-card-border); margin-top: 4px; 
-        }
-        .badge-closer { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(239,68,68,0.2)); color: #d97706; border-color: rgba(245,158,11,0.4); } 
-        .badge-starter { background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(16,185,129,0.2)); color: #2563eb; border-color: rgba(37,99,235,0.4); } 
         .tag-prof { background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
         .tag-stage { background: rgba(37,99,235,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(37,99,235,0.25); display: inline-block; }
         
@@ -187,13 +173,6 @@
         .modal-box { background: var(--glass-bg); border: 1px solid var(--glass-card-border); border-radius: 24px; padding: 24px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); text-align: center; }
 
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .dashboard-stat { padding: 18px; border-radius: 18px; text-align: center; } 
-        .dashboard-stat h2 { color: var(--primary); font-size: 26px; margin: 6px 0 0 0; font-weight: 800; }
-        .ring-container { display: flex; align-items: center; gap: 16px; }
-        .circular-chart { width: 75px; height: 75px; transform: rotate(-90deg); }
-        .circle-bg { fill: none; stroke: rgba(0, 0, 0, 0.06); stroke-width: 3.8; }
-        body.dark-mode .circle-bg, body.admin-view-active .circle-bg { stroke: rgba(255, 255, 255, 0.08); }
-        .circle { fill: none; stroke-width: 3.8; stroke-linecap: round; stroke: var(--success); transition: stroke-dasharray 0.6s ease; }
 
         /* 3D LUXURY DIGITAL VISITING CARD */
         .vcard-3d-box {
@@ -227,7 +206,7 @@
         .tree-branch-container::before { content: ''; position: absolute; top: -10px; left: 25%; right: 25%; height: 2px; background: var(--primary); opacity: 0.5; }
         .empty-slot { border: 1.5px dashed var(--glass-card-border); border-radius: 14px; padding: 12px; min-width: 110px; font-size: 11px; color: var(--text-muted); }
 
-        /* 🚨 HQ WAR ROOM FLASH TICKER */
+        /* HQ WAR ROOM FLASH TICKER */
         .war-room-ticker {
             background: linear-gradient(90deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
             border: 1px solid var(--glass-card-border);
@@ -242,9 +221,7 @@
         body.dark-mode .countdown-chip, body.admin-view-active .countdown-chip { background: rgba(255,255,255,0.08); }
         .btn-fire-react { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #d97706; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
 
-        /* ========================================================= */
-        /* 🚀 SYSTEM INSTALLING / KERNEL BOOT SEQUENCE STYLES      */
-        /* ========================================================= */
+        /* 🚀 SYSTEM INSTALLING / KERNEL BOOT SEQUENCE STYLES */
         #welcome-splash { 
             z-index: 99999; 
             background: #020617; 
@@ -298,6 +275,19 @@
             box-shadow: 0 0 12px #38bdf8;
             transition: width 0.1s linear;
         }
+        .theme-icon { 
+            font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; 
+            background: var(--glass-bg); border: 1px solid var(--glass-card-border);
+        }
+        .benefit-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 14px; cursor: pointer; }
+        .benefit-list { list-style: none; padding: 0; margin: 10px 0 0 0; border-top: 1px dashed var(--glass-card-border); padding-top: 10px; }
+        .benefit-list li { font-size: 12px; color: var(--text-main); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+        .benefit-list li i { color: var(--success); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+        .ss-accordion { border: 1px solid var(--glass-card-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: rgba(0,0,0,0.01); }
+        .ss-acc-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main); }
+        .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-card-border); display: none; line-height: 1.6; }
+        .ss-accordion.active .ss-acc-body { display: block; }
+        .ss-accordion.active .ss-acc-head i { transform: rotate(180deg); color: var(--primary); }
     </style>
 </head>
 <body>
@@ -468,7 +458,7 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- 👑 ADMIN MODULE (SEPARATE & ACCESSIBLE ONLY BY 9999 PASSKEY) -->
+    <!-- 👑 ADMIN MODULE (ACCESSIBLE ONLY BY 9999 PASSKEY)         -->
     <!-- ========================================================= -->
     <div id="admin-module" class="hidden">
         <div class="app-header">
@@ -489,18 +479,9 @@
 
         <!-- ADMIN TAB 1: HOME -->
         <div id="admin-home" class="tab-content">
-            <div class="grid-2" style="margin-bottom:16px;">
-                <div class="dashboard-stat"><span class="text-xs">Network Turnover</span><h2 id="admin-dd-total" class="text-success">₹0</h2></div>
-                <div class="dashboard-stat"><span class="text-xs">Active Operatives</span><h2 id="admin-active-count">0</h2></div>
-            </div>
-            <div class="card" style="padding:20px 18px;">
-                <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-filter text-primary"></i> Live Conversion Funnel</h4>
-                <div style="margin-bottom:6px;"><span class="text-sm">Total Leads</span> <strong id="funnel-total" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; margin-bottom:14px; overflow:hidden;"><div id="bar-total" style="width:100%; background:var(--primary); height:100%;"></div></div>
-                <div style="margin-bottom:6px;"><span class="text-sm">Hot Prospects</span> <strong id="funnel-hot" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; margin-bottom:14px; overflow:hidden;"><div id="bar-hot" style="width:0%; background:var(--warning); height:100%;"></div></div>
-                <div style="margin-bottom:6px;"><span class="text-sm">Converted (DD)</span> <strong id="funnel-closed" style="float:right;">0</strong></div>
-                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; overflow:hidden;"><div id="bar-closed" style="width:0%; background:var(--success); height:100%;"></div></div>
+            <div class="card" style="padding:20px 18px; text-align:center;">
+                <span class="text-xs" style="text-transform:uppercase;">Active Field Operatives</span>
+                <h2 id="admin-active-count" style="color:var(--primary); font-size:32px; margin:8px 0 0 0;">0</h2>
             </div>
             <div class="radar-screen"><div class="radar-grid"></div><div class="radar-sweep"></div><div id="radar-blips"></div></div>
             <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-satellite text-primary"></i> Live Operatives Radar</h4>
@@ -512,17 +493,13 @@
             <div class="card" style="border-top: 4px solid var(--primary);">
                 <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Onboard Operative</h4>
                 <div class="grid-2"><input type="text" id="new-id" placeholder="ID (HTM-XX)"><input type="text" id="new-name" placeholder="Full Name"></div>
-                <div class="grid-2"><input type="password" id="new-pass" placeholder="Password"><input type="number" id="new-target" placeholder="Target (₹)"></div>
+                <div class="grid-2"><input type="password" id="new-pass" placeholder="Password"><input type="text" id="new-sponsor" placeholder="Sponsor ID (e.g. HTM-01)"></div>
                 
-                <div class="grid-2">
-                    <input type="text" id="new-sponsor" placeholder="Sponsor ID (e.g. HTM-01)">
-                    <select id="new-pos">
-                        <option value="left">Left Leg (Team A)</option>
-                        <option value="right">Right Leg (Team B)</option>
-                    </select>
-                </div>
+                <select id="new-pos" style="margin-bottom:14px;">
+                    <option value="left">Left Leg (Team A)</option>
+                    <option value="right">Right Leg (Team B)</option>
+                </select>
 
-                <select id="new-badge" style="margin-bottom:14px;"><option value="">No Badge</option><option value="Closer">🏆 Top Closer</option><option value="Starter">⚡ Fast Starter</option></select>
                 <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Credentials</button>
             </div>
             <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-users text-primary"></i> Active Roster</h4>
@@ -534,7 +511,7 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                 <div>
                     <h4 style="margin:0 0 2px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Master Network Tree Control</h4>
-                    <span class="text-xs" id="admin-tree-focus-label">Viewing: HTM Root</span>
+                    <span class="text-xs" id="admin-tree-focus-label">Viewing: Network Root</span>
                 </div>
                 <button class="btn btn-outline btn-sm" onclick="Admin.resetAdminTree()"><i class="fas fa-undo"></i> Reset Root</button>
             </div>
@@ -566,17 +543,16 @@
             </div>
         </div>
 
-        <!-- ADMIN TAB 4: CONTROLS (WITH WAR-ROOM FLASH BROADCAST STUDIO) -->
+        <!-- ADMIN TAB 4: CONTROLS -->
         <div id="admin-controls" class="tab-content hidden">
-            
             <div class="card" style="border-top: 4px solid var(--danger);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <h4 style="color:var(--danger); margin:0; font-size:15px;"><i class="fas fa-satellite-dish"></i> HQ War-Room Flash Broadcaster</h4>
                     <span class="badge" style="background:rgba(239,68,68,0.15); color:var(--danger);">Live Ticker</span>
                 </div>
-                <p class="text-xs" style="margin-bottom:14px;">पूरी टीम के डैशबोर्ड पर टिकर, काउंटडाउन ऑफर टाइमर या स्क्रीन-लॉक हाई अलर्ट भेजें:</p>
+                <p class="text-xs" style="margin-bottom:14px;">पूरी टीम के डैशबोर्ड पर टिकर, काउंटडाउन टाइमर या स्क्रीन-लॉक हाई अलर्ट भेजें:</p>
                 
-                <input type="text" id="war-msg-input" placeholder="Flash Announcement (e.g. आज रात 9 बजे तक 2 DD पर स्पेशल रिवॉर्ड!)">
+                <input type="text" id="war-msg-input" placeholder="Flash Announcement (e.g. आज रात 9 बजे तक विशेष ट्रेनिंग/ऑफर)">
                 
                 <div class="grid-2">
                     <select id="war-priority">
@@ -636,16 +612,6 @@
         <!-- ADMIN TAB 5: GOD MODE -->
         <div id="admin-godmode" class="tab-content hidden">
             <h4 style="color:#8b5cf6; font-size:16px; margin-bottom:14px;"><i class="fas fa-vault"></i> Master Records Vault</h4>
-            <div class="card" style="padding:18px;">
-                <div class="grid-2">
-                    <select id="vault-filter-agent" onchange="Admin.renderVault()"><option value="All">All Agents</option></select>
-                    <select id="vault-filter-status" onchange="Admin.renderVault()"><option value="All">All Statuses</option><option value="Closed">DD Closed</option><option value="🔥 Hot">Hot Leads</option></select>
-                </div>
-                <div class="grid-2" style="margin-top:12px;">
-                    <button class="btn btn-outline" style="border-color:#8b5cf6; color:#8b5cf6;" onclick="Admin.exportJPG()"><i class="fas fa-image"></i> Export JPG</button>
-                    <button class="btn btn-outline" style="border-color:var(--success); color:var(--success);" onclick="Admin.exportCSV()"><i class="fas fa-file-excel"></i> Export CSV</button>
-                </div>
-            </div>
             <div id="admin-sales-container"></div>
         </div>
 
@@ -687,51 +653,23 @@
             </div>
             <div style="width:100%; margin-top:10px;">
                 <h2 style="font-size:22px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
-                <div id="mem-badges-container" style="margin-top:6px;"></div>
             </div>
         </div>
 
-        <!-- 1. FIELD TAB (WITH HQ WAR ROOM FLASH TICKER & COUNTDOWN) -->
+        <!-- 1. FIELD TAB -->
         <div id="mem-dash" class="tab-content">
             
-            <div id="mem-war-ticker-box" class="war-room-ticker">
+            <div id="mem-war-ticker-box" class="war-room-ticker hidden">
                 <i class="fas fa-satellite-dish text-danger fa-pulse" style="font-size:16px;"></i>
                 <div class="ticker-marquee">
-                    <span id="mem-war-marquee-text">🚨 HQ WAR-ROOM: आज रात 9 बजे तक 2 DD क्लोज करने पर स्पेशल रिकॉग्निशन + बोनस!</span>
+                    <span id="mem-war-marquee-text">HQ Live Notice...</span>
                 </div>
                 <div class="countdown-chip" id="mem-war-countdown-chip">
-                    <i class="fas fa-stopwatch"></i> <span id="mem-war-timer-val">04h : 18m : 30s</span>
+                    <i class="fas fa-stopwatch"></i> <span id="mem-war-timer-val">00:00:00</span>
                 </div>
-                <button class="btn-fire-react" onclick="Member.reactWarRoomFire()">🔥 <span id="mem-war-react-count">8</span></button>
+                <button class="btn-fire-react" onclick="Member.reactWarRoomFire()">🔥 <span id="mem-war-react-count">0</span></button>
             </div>
 
-            <div id="mem-urgency-wrapper" class="card urgency-banner">
-                <i class="fas fa-hourglass-half" style="font-size:22px; color:var(--warning);"></i>
-                <div><strong style="font-size:13px;" id="urgency-title">Daily Quota Pending</strong><div class="text-xs" id="urgency-desc">Target DD volume required.</div></div>
-            </div>
-            
-            <div class="card" style="padding:18px;">
-                <div class="ring-container">
-                    <svg viewBox="0 0 36 36" class="circular-chart">
-                        <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                        <path class="circle" id="mem-target-circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
-                    </svg>
-                    <div style="flex:1;">
-                        <span class="text-xs" id="mem-target-label" style="text-transform:uppercase;">Monthly Target</span>
-                        <div id="mem-target-text" style="color:var(--text-main); font-size:19px; font-weight:800; margin:2px 0;">₹0</div>
-                        <span class="badge badge-success" id="mem-target-percent-badge">0% Achieved</span>
-                    </div>
-                </div>
-                <div style="background:rgba(0,0,0,0.05); height:7px; border-radius:4px; overflow:hidden; margin-top:14px;">
-                    <div id="mem-target-bar" style="width:0%; background:var(--success); height:100%; transition: width 0.6s ease;"></div>
-                </div>
-            </div>
-
-            <div class="card" style="padding: 16px 18px;">
-                <h4 style="margin-bottom:10px; font-size:13px;"><i class="fas fa-trophy text-warning"></i> Network Leaderboard</h4>
-                <div id="member-leaderboard-preview"></div>
-            </div>
-            
             <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
             <div id="plan-init-state" class="card" style="border-top: 4px solid var(--primary);">
                 <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
@@ -766,20 +704,16 @@
                 <div class="grid-2">
                     <select id="lead-stage">
                         <option value="New Lead">📌 New Prospect</option>
-                        <option value="Token Given">💵 Token Given</option>
+                        <option value="Follow-up 1">🔄 Follow-up 1</option>
                         <option value="Follow-up 2">🔄 Follow-up 2</option>
                         <option value="Decision Maker">🧠 Decision Maker Meeting</option>
-                        <option value="Ready to Pay">⏳ Ready to Pay</option>
+                        <option value="Ready to Join">⏳ Ready to Join</option>
                     </select>
                     <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 12px;">
                 </div>
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
             </div>
             
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h4 style="margin:0; font-size:14px;"><i class="fas fa-id-badge text-primary"></i> Pipeline Leads</h4>
-                <div class="text-xs" style="color:var(--success); font-weight:700; background:rgba(16,185,129,0.1); padding:5px 9px; border-radius:8px;" id="pipeline-potential">Potential: ₹0</div>
-            </div>
             <div style="display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
                 <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding:8px 12px; font-size:12px; min-width:130px;" oninput="Member.applyFilters()">
                 <button class="btn btn-outline btn-sm filter-pill active" id="flt-all" onclick="Member.setFilter('All')">All</button>
@@ -794,28 +728,12 @@
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
                 <div>
                     <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Binary Genealogy Pyramid</h4>
-                    <span class="text-xs" id="tree-focus-label">Root: You (HTM-01)</span>
+                    <span class="text-xs" id="tree-focus-label">Root: You</span>
                 </div>
                 <button class="btn btn-outline btn-sm" onclick="Member.resetTreeRoot()"><i class="fas fa-undo"></i> Reset to Me</button>
             </div>
 
-            <div class="card" style="padding:14px; margin-bottom:16px; border-top:3px solid var(--primary);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <strong class="text-xs" style="color:var(--text-main);"><i class="fas fa-file-csv text-success"></i> Import Safe Shop Tree</strong>
-                        <p class="text-xs" style="margin:2px 0 0 0;">Upload Downline CSV (ID, Name, Password, Sponsor, Pos)</p>
-                    </div>
-                    <label class="btn btn-primary btn-sm" style="width:auto; padding:6px 12px; font-size:11px;">
-                        <i class="fas fa-upload"></i> Upload CSV
-                        <input type="file" id="tree-csv-file" accept=".csv" class="hidden" onchange="Member.importSafeShopCSV(this)">
-                    </label>
-                </div>
-            </div>
-
             <div class="card" style="padding: 20px 10px; overflow-x: auto;">
-                <p class="text-xs" style="text-align:center; margin-top:0; color:var(--text-muted);">
-                    <i class="fas fa-info-circle"></i> किसी भी नोड पर टैप करके उसके असीमित लेवल्स देखें।
-                </p>
                 <div class="tree-scroll-wrapper" id="binary-pyramid-container">
                     <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Pyramid Tree...</p>
                 </div>
@@ -875,7 +793,7 @@
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>6. Follow-up (24-48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर शंकाओं का समाधान करें और DD कलेक्ट करें।</div>
+                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर शंकाओं का समाधान करें।</div>
                 </div>
                 <div class="ss-accordion" onclick="this.classList.toggle('active')">
                     <div class="ss-acc-head"><span>7. 100% User (उत्पाद उपयोग)</span> <i class="fas fa-chevron-down"></i></div>
@@ -924,14 +842,6 @@
                     <i class="fas fa-file-pdf"></i> बिज़नेस प्लान व प्रगति सूत्र (PDF)
                 </button>
             </div>
-
-            <div id="mem-ac-quiz-box" class="hidden" style="margin-bottom:20px;">
-                <h4 style="margin-bottom:10px; font-size:14px;"><i class="fas fa-question-circle text-warning"></i> दैनिक क्विज़</h4>
-                <div class="card" id="quiz-card" style="border-top: 4px solid var(--warning);">
-                    <p class="text-sm" id="quiz-q" style="margin-top:0; font-weight:600;">Loading...</p>
-                    <div class="quiz-option" id="quiz-o1" onclick="Member.checkQuiz(1)">Option 1</div><div class="quiz-option" id="quiz-o2" onclick="Member.checkQuiz(2)">Option 2</div>
-                </div>
-            </div>
         </div>
 
         <!-- 5-ITEM BALANCED FLOATING NAV -->
@@ -969,10 +879,10 @@
             const launchBtn = document.getElementById('boot-launch-btn');
 
             const steps = [
-                { p: 20, log: "> Initializing BIOS Handshake...<br>> Mounting HTM Quantum Kernel...", step: "LOADING KERNEL" },
-                { p: 45, log: "> Verifying Direct Selling Security Handshake...", step: "ENCRYPTING DATA" },
-                { p: 75, log: "> Syncing Genealogy Tree & Catalog Nodes...", step: "SYNCING DATABASE" },
-                { p: 100, log: "> [OK] System Installed & Operational.", step: "SYSTEM READY" }
+                { p: 25, log: "> Initializing BIOS Handshake...<br>> Mounting HTM Core...", step: "LOADING KERNEL" },
+                { p: 55, log: "> Verifying Security Handshake...", step: "AUTHENTICATING" },
+                { p: 85, log: "> Connecting Safe Shop Database...", step: "CONNECTING DB" },
+                { p: 100, log: "> [OK] System Ready.", step: "COMPLETE" }
             ];
 
             let cur = 0;
@@ -989,7 +899,7 @@
                     clearInterval(interval);
                     launchBtn.classList.remove('hidden');
                 }
-            }, 250);
+            }, 200);
         }
     }
 
@@ -1043,7 +953,7 @@
         static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
         static dismissSplash() {
             const splash = document.getElementById('welcome-splash'); splash.style.opacity = '0';
-            setTimeout(() => { splash.classList.add('hidden'); }, 350);
+            setTimeout(() => { splash.classList.add('hidden'); }, 300);
             Auth.init();
         }
         static toggleTheme() {
@@ -1086,7 +996,9 @@
 
     class Auth {
         static init() {
-            const role = localStorage.getItem('htm_role') || 'member';
+            const role = localStorage.getItem('htm_role');
+            const memberId = localStorage.getItem('htm_id');
+
             if (role === 'admin') { 
                 document.body.classList.add('admin-view-active');
                 document.getElementById('admin-module').classList.remove('hidden'); 
@@ -1094,7 +1006,7 @@
                 document.getElementById('auth-module').classList.add('hidden');
                 Admin.initData(); 
                 setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); 
-            } else {
+            } else if (role === 'member' && memberId) {
                 document.body.classList.remove('admin-view-active');
                 document.getElementById('member-module').classList.remove('hidden'); 
                 document.getElementById('admin-module').classList.add('hidden');
@@ -1102,6 +1014,11 @@
                 document.getElementById('mem-ui-name').innerText = `Welcome, ${localStorage.getItem('htm_name') || 'Agent'}`;
                 Member.initData(); 
                 setTimeout(()=>UI.moveIndicator(document.querySelector('#member-module .nav-box.active')),300);
+            } else {
+                document.body.classList.remove('admin-view-active');
+                document.getElementById('auth-module').classList.remove('hidden');
+                document.getElementById('admin-module').classList.add('hidden');
+                document.getElementById('member-module').classList.add('hidden');
             }
         }
 
@@ -1126,20 +1043,25 @@
     }
 
     class Member {
-        static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static currentQuizAns = 0; static cachedSelfieBase64 = "";
+        static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static cachedSelfieBase64 = "";
         static currentTreeRootId = ""; static networkUsers = [];
 
         static initData() {
-            this.currentTreeRootId = localStorage.getItem('htm_id') || 'HTM-01';
-            this.renderMemberBadges(); this.listenSOSReplies(); this.listenAcademy();
-            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor(); this.evaluateUrgencyTriggers();
+            this.currentTreeRootId = localStorage.getItem('htm_id') || '';
+            this.listenSOSReplies(); this.listenAcademy();
+            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor();
             this.fetchBenefitsCatalog(); this.fetchNetworkUsers(); this.listenWarRoomBroadcast();
         }
 
         static listenWarRoomBroadcast() {
             db.collection('system').doc('war_room').onSnapshot(doc => {
-                if(!doc.exists || !doc.data().active) return;
+                const tickerBox = document.getElementById('mem-war-ticker-box');
+                if(!doc.exists || !doc.data().active) {
+                    if(tickerBox) tickerBox.classList.add('hidden');
+                    return;
+                }
                 const d = doc.data();
+                if(tickerBox) tickerBox.classList.remove('hidden');
                 document.getElementById('mem-war-marquee-text').innerText = d.message || "Active War-Room Directive";
                 document.getElementById('mem-war-react-count').innerText = d.reactions || 0;
             });
@@ -1148,7 +1070,7 @@
         static acknowledgeWarRoomAlert() {
             document.getElementById('war-room-siren-modal').classList.add('hidden');
             this.reactWarRoomFire();
-            UI.showToast("Directive Acknowledged! Go Close Deals!", "success");
+            UI.showToast("Directive Acknowledged!", "success");
         }
 
         static async reactWarRoomFire() {
@@ -1179,29 +1101,15 @@
         }
 
         static fetchNetworkUsers() {
-            const mockUsers = [
-                { id: "HTM-01", name: "Puneet Kumar", sponsorId: "", position: "root" },
-                { id: "HTM-02", name: "Rahul Sharma", sponsorId: "HTM-01", position: "left" },
-                { id: "HTM-03", name: "Amit Verma", sponsorId: "HTM-01", position: "right" },
-                { id: "HTM-04", name: "Suresh Singh", sponsorId: "HTM-02", position: "left" },
-                { id: "HTM-05", name: "Vikram Das", sponsorId: "HTM-02", position: "right" },
-                { id: "HTM-06", name: "Rohan Patel", sponsorId: "HTM-03", position: "left" },
-                { id: "HTM-07", name: "Deepak Yadav", sponsorId: "HTM-03", position: "right" }
-            ];
-
             db.collection('users').onSnapshot(snap => {
                 this.networkUsers = [];
                 snap.forEach(doc => this.networkUsers.push({ id: doc.id, ...doc.data() }));
-                if(this.networkUsers.length === 0) this.networkUsers = mockUsers;
-                this.renderPyramidTree();
-            }, () => {
-                this.networkUsers = mockUsers;
                 this.renderPyramidTree();
             });
         }
 
         static resetTreeRoot() {
-            this.currentTreeRootId = localStorage.getItem('htm_id') || 'HTM-01';
+            this.currentTreeRootId = localStorage.getItem('htm_id') || '';
             this.renderPyramidTree();
         }
 
@@ -1215,10 +1123,13 @@
             const container = document.getElementById('binary-pyramid-container');
             if(!container) return;
 
-            const rootUser = this.networkUsers.find(u => u.id === this.currentTreeRootId) || {
-                id: localStorage.getItem('htm_id') || 'HTM-01',
-                name: localStorage.getItem('htm_name') || 'Team Leader'
-            };
+            let rootUser = this.networkUsers.find(u => u.id === this.currentTreeRootId);
+            if(!rootUser && this.networkUsers.length > 0) rootUser = this.networkUsers[0];
+
+            if(!rootUser) {
+                container.innerHTML = `<p class="text-xs text-center" style="opacity:0.6; padding:20px;">No downline network records found in database.</p>`;
+                return;
+            }
 
             const labelEl = document.getElementById('tree-focus-label');
             if(labelEl) labelEl.innerText = `Root: ${rootUser.name} (${rootUser.id})`;
@@ -1269,34 +1180,6 @@
             `;
         }
 
-        static async importSafeShopCSV(input) {
-            const file = input.files[0];
-            if(!file) return;
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                const text = e.target.result;
-                const rows = text.split('\n').filter(r => r.trim().length > 0);
-                let imported = 0;
-                UI.showToast("Importing Safe Shop tree...", "warning");
-                for(let i = 1; i < rows.length; i++) {
-                    const cols = rows[i].split(',').map(c => c.trim().replace(/"/g, ''));
-                    if(cols.length >= 2 && cols[0]) {
-                        await db.collection('users').doc(cols[0]).set({
-                            name: cols[1] || 'Advisor',
-                            password: cols[2] || '12345',
-                            sponsorId: cols[3] || 'HTM-01',
-                            position: (cols[4] && cols[4].toLowerCase().includes('r')) ? 'right' : 'left',
-                            target: 50000,
-                            suspended: false
-                        }, {merge: true});
-                        imported++;
-                    }
-                }
-                UI.showToast(`Imported ${imported} Safe Shop Members!`, "success");
-            };
-            reader.readAsText(file);
-        }
-
         static handleSelfieUpload(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -1316,7 +1199,7 @@
                         document.getElementById('selfie-status-text').innerText = "Selfie Verified ✓";
                         document.getElementById('selfie-preview-img').src = Member.cachedSelfieBase64;
                         document.getElementById('selfie-preview-box').classList.remove('hidden');
-                        UI.showToast('Selfie verified for HQ.', 'success');
+                        UI.showToast('Selfie verified.', 'success');
                     };
                     img.src = e.target.result;
                 };
@@ -1330,31 +1213,9 @@
         }
 
         static fetchBenefitsCatalog() {
-            const defaultCatalog = [
-                {
-                    id: "p1", name: "Safe Divine - Shrimad Bhagavad Gita", category: "Spiritual",
-                    imageUrl: "https://images.unsplash.com/photo-1608096299210-db7e38487075?w=500&q=80",
-                    features: "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen Technology)\n• 3 भाषाएँ (संस्कृत, हिंदी, अंग्रेजी) व प्रामाणिक उच्चारण\n• 700 श्लोकों का आध्यात्मिक विश्लेषण (200 BV)"
-                },
-                {
-                    id: "p2", name: "Haoma Noni Premium Concentrate", category: "Wellness",
-                    imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=80",
-                    features: "• 100% शुद्ध हाओमा नोनी कॉन्संट्रेट\n• 150+ आवश्यक फाइटोन्यूट्रिएंट्स व एंटीऑक्सीडेंट्स\n• रोग प्रतिरोधक क्षमता (Immunity) व ऊर्जा वर्धक"
-                },
-                {
-                    id: "p3", name: "Zeno Premium 3-Piece Suit Length", category: "Fashion",
-                    imageUrl: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&q=80",
-                    features: "• Zeno लक्जरी 3-पीस सूट लेंथ फैब्रिक\n• ऑल-वेदर रिंकल-फ्री प्रीमियम फिनिश\n• डायरेक्ट मार्केटिंग प्रेजेंटेशन फॉर्मल ड्रेस कोड"
-                }
-            ];
-
             db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
                 this.loadedProducts = [];
                 snap.forEach(doc => this.loadedProducts.push({ id: doc.id, ...doc.data() }));
-                if(this.loadedProducts.length === 0) this.loadedProducts = defaultCatalog;
-                this.renderBenefitsCatalog();
-            }, () => {
-                this.loadedProducts = defaultCatalog;
                 this.renderBenefitsCatalog();
             });
         }
@@ -1375,7 +1236,7 @@
                 filtered = this.loadedProducts.filter(p => (p.category && p.category.toLowerCase().includes(this.currentProductFilter.toLowerCase())));
             }
             if(filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-center" style="padding:24px; opacity:0.6;">No products in ${this.currentProductFilter}.</p>`;
+                container.innerHTML = `<p class="text-xs text-center" style="padding:24px; opacity:0.6;">No products found in ${this.currentProductFilter}.</p>`;
                 return;
             }
             container.innerHTML = '';
@@ -1399,11 +1260,6 @@
             });
         }
 
-        static renderMemberBadges() {
-            const b = localStorage.getItem('htm_badge'); const c = document.getElementById('mem-badges-container');
-            if (b === 'Closer') c.innerHTML = `<span class="gamification-badge badge-closer"><i class="fas fa-trophy"></i> Master Closer</span>`; 
-            else if (b === 'Starter') c.innerHTML = `<span class="gamification-badge badge-starter"><i class="fas fa-bolt"></i> Fast Starter</span>`;
-        }
         static listenAcademy() {
             db.collection('system').doc('academy').onSnapshot(doc => {
                 if(!doc.exists) return; const d = doc.data(); const liveBtn = document.getElementById('btn-join-live');
@@ -1412,27 +1268,24 @@
                 if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); }
             });
         }
-        static checkQuiz(choice) {
-            const o1 = document.getElementById('quiz-o1'); const o2 = document.getElementById('quiz-o2');
-            if(choice === 1) { o1.classList.add('quiz-correct'); UI.showToast('Correct Answer! 🎉', 'success'); } 
-            else { o2.classList.add('quiz-wrong'); o1.classList.add('quiz-correct'); UI.showToast('Incorrect.', 'error'); }
-        }
+
         static listenSOSReplies() {
-            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id') || 'HTM-01').onSnapshot(snap => {
+            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id') || '').onSnapshot(snap => {
                 const c = document.getElementById('mem-sos-history'); if(!c) return;
                 let msgs = []; snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
-                msgs.sort((a,b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
                 c.innerHTML = ''; if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.6; padding: 10px;">No active whispers...</p>'; return; }
                 msgs.forEach(d => {
                     c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-card-border); padding:10px 12px; border-radius:12px; margin-bottom:8px;"><p class="text-xs" style="margin:0 0 6px 0; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-xs" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ...</p>`}</div>`;
                 });
             });
         }
+
         static async sendSOS() {
             const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
             await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id') || 'HTM-01', memberName: localStorage.getItem('htm_name') || 'Advisor', message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
             document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched.', 'success');
         }
+
         static askAI() {
             const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
             resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "14px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
@@ -1444,22 +1297,16 @@
                 resBox.innerHTML = "🎯 <b>क्लोजिंग पंच:</b><br><br>'सर, फैसला लेने में 2 ही रास्ते हैं—शुरू करना या न करना। शुरुआत करने से 1-2 साल में सारे सपने सच हो सकते हैं। फॉर्म भरिए, पूरी टीम साथ है!'";
             }
         }
-        static evaluateUrgencyTriggers() {
-            const target = 50000;
-            document.getElementById('mem-target-label').innerText = `Target: ₹${target.toLocaleString()}`;
-            document.getElementById('mem-target-text').innerText = `₹15,000`;
-            document.getElementById('mem-target-percent-badge').innerText = `30% Achieved`;
-            document.getElementById('mem-target-bar').style.width = `30%`;
-            const circleProgress = document.getElementById('mem-target-circle');
-            if(circleProgress) circleProgress.setAttribute('stroke-dasharray', `30, 100`);
-        }
+
         static setupOfflineMonitor() {
             const updateStatus = () => { const badge = document.getElementById('mem-network-status'); if (navigator.onLine) { badge.className = "badge badge-success"; badge.innerText = "Online"; } else { badge.className = "badge badge-warning"; badge.innerText = "Offline"; } }; window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
         }
+
         static checkActivePlanState() {
             const planId = localStorage.getItem("htm_active_plan");
             if (planId) { document.getElementById('plan-init-state').classList.add('hidden'); document.getElementById('plan-active-state').classList.remove('hidden'); document.getElementById('active-prospect-display').innerText = localStorage.getItem("htm_active_prospect"); } else { document.getElementById('plan-init-state').classList.remove('hidden'); document.getElementById('plan-active-state').classList.add('hidden'); }
         }
+
         static startPlan() {
             const prospect = document.getElementById('plan-prospect').value.trim();
             if (!prospect) return UI.showToast('Designate prospect.', 'error'); 
@@ -1468,32 +1315,37 @@
             document.getElementById('plan-prospect').value = '';
             this.checkActivePlanState(); UI.showToast('Run registered on radar.', 'success');
         }
+
         static endPlan() {
             localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); UI.showToast('Logged & Completed.', 'success');
         }
+
         static cancelPlan() {
             localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState();
         }
+
         static async addLead() {
             const name = document.getElementById('lead-name').value.trim();
             const phone = document.getElementById('lead-phone').value.trim();
             if(!name || !phone) return UI.showToast('Name & Phone required.', 'error');
             await db.collection('leads').add({
-                name, phone, memberId: localStorage.getItem('htm_id') || 'HTM-01', memberName: localStorage.getItem('htm_name') || 'Advisor',
+                name, phone, memberId: localStorage.getItem('htm_id') || '', memberName: localStorage.getItem('htm_name') || 'Advisor',
                 temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value,
                 stage: document.getElementById('lead-stage').value, followUp: document.getElementById('lead-date').value,
-                ddClosed: false, ddAmount: 0, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = '';
             UI.showToast('Added to pipeline.');
         }
+
         static streamLeads() {
-            db.collection('leads').onSnapshot(snap => {
+            db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id') || '').onSnapshot(snap => {
                 this.localLeads = [];
                 snap.forEach(doc => this.localLeads.push({ id: doc.id, ...doc.data() }));
                 this.applyFilters();
             });
         }
+
         static setFilter(type) {
             this.currentFilter = type;
             document.querySelectorAll('#mem-leads .filter-pill').forEach(btn => btn.classList.remove('active'));
@@ -1502,13 +1354,14 @@
             if(type === 'Today') document.getElementById('flt-today').classList.add('active');
             this.applyFilters();
         }
+
         static applyFilters() {
             const container = document.getElementById('member-leads-container');
             const searchTxt = document.getElementById('lead-search').value.toLowerCase();
             let filtered = this.localLeads.filter(d => {
                 const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt);
                 let matchType = true;
-                if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot') && !d.ddClosed;
+                if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot');
                 return matchSearch && matchType;
             });
             container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No matching leads.</p>' : '';
@@ -1516,40 +1369,28 @@
                 container.innerHTML += `
                     <div class="record-item">
                         <div class="record-header">
-                            <div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:4px; display:inline-block;">Class: ${d.temp}</span></div>
+                            <div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:4px; display:inline-block;">Class: ${d.temp} | Follow-up: ${d.followUp || 'N/A'}</span></div>
                         </div>
                     </div>
                 `;
             });
         }
+
         static showQR() { document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; UI.showModal('qr-modal'); }
     }
 
     class Admin {
-        static leadsVault = []; static adminTreeRootId = "";
+        static adminTreeRootId = "";
         static initData() { 
-            this.streamRadar(); this.streamSales(); this.listenSOS(); 
+            this.streamRadar(); this.listenSOS(); 
             this.fetchAdminNetworkUsers(); this.listenWarRoomAdmin();
         }
 
         static fetchAdminNetworkUsers() {
-            const mockUsers = [
-                { id: "HTM-01", name: "Puneet Kumar", sponsorId: "", position: "root" },
-                { id: "HTM-02", name: "Rahul Sharma", sponsorId: "HTM-01", position: "left" },
-                { id: "HTM-03", name: "Amit Verma", sponsorId: "HTM-01", position: "right" },
-                { id: "HTM-04", name: "Suresh Singh", sponsorId: "HTM-02", position: "left" },
-                { id: "HTM-05", name: "Vikram Das", sponsorId: "HTM-02", position: "right" },
-                { id: "HTM-06", name: "Rohan Patel", sponsorId: "HTM-03", position: "left" },
-                { id: "HTM-07", name: "Deepak Yadav", sponsorId: "HTM-03", position: "right" }
-            ];
-
             db.collection('users').onSnapshot(snap => {
                 let users = [];
                 snap.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
-                Member.networkUsers = users.length > 0 ? users : mockUsers;
-                this.renderAdminTree();
-            }, () => {
-                Member.networkUsers = mockUsers;
+                Member.networkUsers = users;
                 this.renderAdminTree();
             });
         }
@@ -1612,7 +1453,12 @@
 
             let rootUser = null;
             if(this.adminTreeRootId) rootUser = Member.networkUsers.find(u => u.id === this.adminTreeRootId);
-            if(!rootUser) rootUser = Member.networkUsers[0] || { id: "HTM-01", name: "HQ Root" };
+            if(!rootUser) rootUser = Member.networkUsers[0];
+
+            if(!rootUser) {
+                container.innerHTML = `<p class="text-xs text-center" style="opacity:0.6; padding:20px;">No registered members in tree.</p>`;
+                return;
+            }
 
             const labelEl = document.getElementById('admin-tree-focus-label');
             if(labelEl) labelEl.innerText = `Viewing: ${rootUser.name} (${rootUser.id})`;
@@ -1652,26 +1498,81 @@
         }
 
         static streamRadar() {
-            document.getElementById('admin-active-count').innerText = "3";
-            const blipBox = document.getElementById('radar-blips');
-            if(blipBox) blipBox.innerHTML = '<div class="radar-blip" style="top:40px; left:60px;"></div><div class="radar-blip" style="top:90px; left:110px;"></div>';
+            db.collection('tracking').where("status", "==", "Active").onSnapshot(snap => {
+                document.getElementById('admin-active-count').innerText = snap.size;
+            });
         }
-        static streamSales() {
-            document.getElementById('admin-dd-total').innerText = "₹1,45,000";
-            document.getElementById('funnel-total').innerText = "18";
-            document.getElementById('funnel-hot').innerText = "7";
-            document.getElementById('funnel-closed').innerText = "5";
+
+        static listenSOS() {
+            db.collection('sos_messages').orderBy('timestamp', 'desc').onSnapshot(snap => {
+                const c = document.getElementById('admin-sos-container'); if(!c) return;
+                c.innerHTML = snap.empty ? '<p class="text-xs text-center" style="padding: 10px;">No distress signals.</p>' : '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    c.innerHTML += `<div style="background: rgba(239,68,68,0.05); border-left: 4px solid var(--danger); border-radius: 8px; padding: 12px; margin-bottom: 10px;"><strong class="text-sm" style="color:var(--danger);">${d.memberName}</strong><p style="margin: 4px 0 0 0; font-size: 13px;">${d.message}</p></div>`;
+                });
+            });
         }
-        static listenSOS() {}
-        static createUser() {}
-        static autoFillFeatures() {}
-        static smartSuggest() {}
-        static addProductURL() {}
-        static pushLiveLink() {}
-        static updateAcademy() {}
-        static renderVault() {}
-        static exportJPG() {}
-        static exportCSV() {}
+
+        static async createUser() {
+            const id = document.getElementById('new-id').value.trim();
+            const name = document.getElementById('new-name').value.trim();
+            const pass = document.getElementById('new-pass').value.trim();
+            const sponsorId = document.getElementById('new-sponsor').value.trim();
+            const position = document.getElementById('new-pos').value;
+
+            if(!id || !name || !pass) return UI.showToast('Fill ID, Name, Password.', 'error');
+            await db.collection('users').doc(id).set({
+                name, password: pass, sponsorId, position, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            UI.showToast(`Operative ${id} authorized.`, 'success');
+            document.getElementById('new-id').value = ''; document.getElementById('new-name').value = ''; document.getElementById('new-pass').value = '';
+        }
+
+        static autoFillFeatures() {
+            const name = document.getElementById('prod-name').value.toLowerCase();
+            const featBox = document.getElementById('prod-features');
+            if(name.includes('gita')) featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen)\n• 3 भाषाएँ व 700 श्लोक (200 BV)";
+            else if(name.includes('noni')) featBox.value = "• शुद्ध हाओमा नोनी कॉन्संट्रेट\n• इम्यूनिटी बूस्टर व डिटॉक्सिफिकेशन";
+            else featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज";
+            UI.showToast("Features Auto-Filled!", "success");
+        }
+
+        static smartSuggest() {
+            const name = document.getElementById('prod-name').value.toLowerCase();
+            const catField = document.getElementById('prod-category');
+            if(name.includes('gita') || name.includes('hanuman')) catField.value = "Spiritual";
+            else if(name.includes('noni') || name.includes('haoma')) catField.value = "Wellness";
+            else catField.value = "Lifestyle";
+        }
+
+        static async addProductURL() {
+            const name = document.getElementById('prod-name').value.trim();
+            const category = document.getElementById('prod-category').value.trim();
+            const url = document.getElementById('prod-url').value.trim();
+            const features = document.getElementById('prod-features').value.trim();
+            if(!name || !category || !url) return UI.showToast('Fill Name, Category & URL', 'error');
+            await db.collection('products').add({
+                name, category, imageUrl: url, features, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            UI.showToast('Product published to catalog!', 'success');
+            document.getElementById('prod-name').value = ''; document.getElementById('prod-category').value = ''; document.getElementById('prod-url').value = '';
+        }
+
+        static async pushLiveLink() {
+            const link = document.getElementById('admin-live-link').value.trim();
+            if(!link) return UI.showToast('Enter Zoom/Meet link.', 'error');
+            await db.collection('system').doc('academy').set({ liveLink: link }, {merge: true});
+            UI.showToast('Live link broadcasted!', 'success');
+        }
+
+        static async updateAcademy() {
+            let vid = document.getElementById('ac-vid').value.trim();
+            const pdf = document.getElementById('ac-pdf').value.trim();
+            if (vid && vid.includes('watch?v=')) { try { vid = `https://www.youtube.com/embed/${new URL(vid).searchParams.get('v')}`; } catch(e) {} }
+            await db.collection('system').doc('academy').set({ vid, pdf }, {merge: true});
+            UI.showToast('Academy updated!', 'success');
+        }
     }
 
     function initAdminOverride() { 
