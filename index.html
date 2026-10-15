@@ -42,7 +42,7 @@
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { 
             margin: 0; background: var(--bg-body); color: var(--text-main); 
-            padding-bottom: 105px; -webkit-font-smoothing: antialiased; 
+            padding-bottom: 110px; -webkit-font-smoothing: antialiased; 
             min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; 
             overflow-x: hidden; position: relative;
         }
@@ -88,7 +88,6 @@
         input:focus, select:focus, textarea:focus { 
             border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); 
         }
-        textarea { resize: vertical; min-height: 85px; }
         
         .btn { 
             width: 100%; padding: 14px; border-radius: 14px; border: none; font-size: 14px; 
@@ -110,41 +109,23 @@
             color: var(--text-main); 
         }
         body.dark-mode .btn-outline, body.admin-view-active .btn-outline { border-color: rgba(255,255,255,0.18); color: #f8fafc; }
-        .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1.5px solid rgba(239, 68, 68, 0.3); }
         .btn-sm { width: auto; padding: 8px 14px; font-size: 12px; border-radius: 10px; }
-        
-        .filter-pill { 
-            border-radius: 20px; padding: 7px 15px; font-size: 12px; font-weight: 600; 
-            white-space: nowrap; cursor: pointer; border: 1px solid var(--glass-card-border); 
-            background: var(--glass-bg); color: var(--text-muted); 
-        }
-        .filter-pill.active { 
-            background: var(--primary); border-color: var(--primary); color: white; 
-            box-shadow: 0 4px 12px var(--primary-glow); 
-        }
-        
-        .action-tray { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; } 
-        .action-tray::-webkit-scrollbar { display: none; }
-        .action-btn { 
-            flex: 1; padding: 10px; border-radius: 12px; font-size: 12px; font-weight: 600; 
-            text-align: center; border: 1px solid var(--glass-card-border); cursor: pointer; white-space: nowrap; 
-        }
         
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; } 
         .badge-success { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid rgba(16,185,129,0.3); } 
         .badge-warning { background: rgba(245,158,11,0.15); color: var(--warning); border: 1px solid rgba(245,158,11,0.3); } 
-        .badge-primary { background: rgba(37,99,235,0.15); color: var(--primary); border: 1px solid rgba(37,99,235,0.3); } 
         
-        .tag-prof { background: rgba(148,163,184,0.15); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
-        .tag-stage { background: rgba(37,99,235,0.12); color: var(--primary); font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(37,99,235,0.25); display: inline-block; }
-        
-        .radar-screen { position: relative; height: 160px; border-radius: 16px; background: rgba(0,0,0,0.04); border: 1px solid var(--glass-card-border); overflow: hidden; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; }
-        body.dark-mode .radar-screen, body.admin-view-active .radar-screen { background: rgba(0,0,0,0.3); }
-        .radar-grid { position: absolute; width: 100%; height: 100%; background-image: radial-gradient(rgba(37,99,235,0.15) 1px, transparent 1px); background-size: 20px 20px; }
-        .radar-sweep { position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 1.5px solid rgba(37,99,235,0.4); animation: pulseRadar 3s infinite ease-out; }
-        @keyframes pulseRadar { 0% { transform: scale(0.1); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
-        .radar-blip { position: absolute; width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 12px var(--success); border: 2px solid #fff; }
-        
+        .online-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #10b981; display: inline-block;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulseGreen 1.6s infinite;
+        }
+        @keyframes pulseGreen {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.6; }
+        }
+
         .floating-nav { 
             position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
             background: rgba(255, 255, 255, 0.88); 
@@ -172,7 +153,43 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; box-sizing: border-box; }
         .modal-box { background: var(--glass-bg); border: 1px solid var(--glass-card-border); border-radius: 24px; padding: 24px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); text-align: center; }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        /* WAREHOUSE OS STYLE LIVE PHOTO FEED STREAM */
+        .photo-engine-header {
+            background: #0f172a; color: white;
+            padding: 14px 16px; border-radius: 18px 18px 0 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .photo-chat-container {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid var(--glass-card-border);
+            border-top: none;
+            border-radius: 0 0 18px 18px;
+            padding: 16px; min-height: 380px;
+            max-height: 520px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        body.dark-mode .photo-chat-container { background: rgba(15, 23, 42, 0.45); }
+        .bubble-user {
+            align-self: flex-end;
+            background: #2563eb; color: white;
+            padding: 8px 14px; border-radius: 18px 18px 4px 18px;
+            font-size: 13px; font-weight: 600;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+            max-width: 75%;
+        }
+        .bubble-bot {
+            align-self: flex-start;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-card-border);
+            border-radius: 18px 18px 18px 4px;
+            padding: 14px; max-width: 90%;
+            box-shadow: var(--surface-shadow);
+        }
+        .feed-photo-card img {
+            width: 100%; border-radius: 12px;
+            max-height: 230px; object-fit: cover;
+            margin-top: 8px; cursor: pointer;
+        }
 
         /* 3D LUXURY DIGITAL VISITING CARD */
         .vcard-3d-box {
@@ -189,39 +206,7 @@
         }
         .vcard-chip { width: 40px; height: 30px; background: linear-gradient(135deg, #d97706, #fbbf24); border-radius: 6px; margin-bottom: 14px; }
 
-        /* BINARY PYRAMID TREE */
-        .tree-scroll-wrapper { overflow-x: auto; padding: 10px 0 20px 0; text-align: center; scrollbar-width: none; }
-        .tree-scroll-wrapper::-webkit-scrollbar { display: none; }
-        .tree-node {
-            display: inline-block; background: var(--glass-bg);
-            border: 1.5px solid var(--glass-card-border);
-            border-radius: 16px; padding: 10px 14px;
-            min-width: 120px; max-width: 145px;
-            box-shadow: var(--surface-shadow); cursor: pointer; transition: all 0.2s ease;
-        }
-        .tree-node:hover { transform: scale(1.04); border-color: var(--primary); box-shadow: 0 8px 20px var(--primary-glow); }
-        .tree-node.root-node { border-color: #f59e0b; background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.02)); }
-        .tree-connector-line { width: 2px; height: 16px; background: var(--primary); margin: 0 auto; opacity: 0.5; }
-        .tree-branch-container { display: flex; justify-content: center; gap: 20px; position: relative; margin-top: 10px; }
-        .tree-branch-container::before { content: ''; position: absolute; top: -10px; left: 25%; right: 25%; height: 2px; background: var(--primary); opacity: 0.5; }
-        .empty-slot { border: 1.5px dashed var(--glass-card-border); border-radius: 14px; padding: 12px; min-width: 110px; font-size: 11px; color: var(--text-muted); }
-
-        /* HQ WAR ROOM FLASH TICKER */
-        .war-room-ticker {
-            background: linear-gradient(90deg, rgba(37,99,235,0.12), rgba(124,58,237,0.12));
-            border: 1px solid var(--glass-card-border);
-            border-radius: 16px; padding: 12px 14px; margin-bottom: 16px;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .ticker-marquee { flex: 1; white-space: nowrap; overflow: hidden; font-size: 12px; font-weight: 600; color: var(--text-main); }
-        .countdown-chip {
-            background: rgba(0,0,0,0.06); padding: 4px 8px; border-radius: 8px;
-            font-family: monospace; font-weight: 800; font-size: 11px; color: var(--primary); flex-shrink: 0;
-        }
-        body.dark-mode .countdown-chip, body.admin-view-active .countdown-chip { background: rgba(255,255,255,0.08); }
-        .btn-fire-react { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #d97706; padding: 4px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
-
-        /* 🚀 SYSTEM INSTALLING / KERNEL BOOT SEQUENCE STYLES */
+        /* BOOT SEQUENCE */
         #welcome-splash { 
             z-index: 99999; 
             background: #020617; 
@@ -275,19 +260,8 @@
             box-shadow: 0 0 12px #38bdf8;
             transition: width 0.1s linear;
         }
-        .theme-icon { 
-            font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; 
-            background: var(--glass-bg); border: 1px solid var(--glass-card-border);
-        }
-        .benefit-product-card img { width: 100%; height: 160px; object-fit: cover; border-radius: 14px; cursor: pointer; }
-        .benefit-list { list-style: none; padding: 0; margin: 10px 0 0 0; border-top: 1px dashed var(--glass-card-border); padding-top: 10px; }
-        .benefit-list li { font-size: 12px; color: var(--text-main); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
-        .benefit-list li i { color: var(--success); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
-        .ss-accordion { border: 1px solid var(--glass-card-border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; background: rgba(0,0,0,0.01); }
-        .ss-acc-head { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main); }
-        .ss-acc-body { padding: 14px 16px; font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--glass-card-border); display: none; line-height: 1.6; }
-        .ss-accordion.active .ss-acc-body { display: block; }
-        .ss-accordion.active .ss-acc-head i { transform: rotate(180deg); color: var(--primary); }
+        .theme-icon { font-size: 16px; cursor: pointer; padding: 8px; border-radius: 50%; background: var(--glass-bg); border: 1px solid var(--glass-card-border); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     </style>
 </head>
 <body>
@@ -298,7 +272,7 @@
 </div>
 
 <!-- ========================================================= -->
-<!-- 🚀 SYSTEM INSTALLING BOOT SCREEN                        -->
+<!-- 🚀 SYSTEM BOOT SCREEN                                   -->
 <!-- ========================================================= -->
 <div id="welcome-splash" class="modal-overlay">
     <div class="os-installer-box">
@@ -338,28 +312,7 @@
 
 <div id="toast-container"></div>
 
-<!-- 🚨 HIGH ALERT SIREN SCREEN-LOCK MODAL -->
-<div id="war-room-siren-modal" class="modal-overlay hidden" style="z-index: 100002; background: rgba(15,23,42,0.95); backdrop-filter: blur(30px);">
-    <div class="modal-box" style="border: 2px solid var(--danger); box-shadow: 0 0 50px rgba(239,68,68,0.4); text-align:center;">
-        <div style="width: 70px; height: 70px; margin: 0 auto 16px auto; border-radius: 50%; background: rgba(239,68,68,0.15); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--danger); animation: pulseRed 1.8s infinite;">
-            <i class="fas fa-bullhorn"></i>
-        </div>
-        <span class="badge" style="background: rgba(239,68,68,0.2); color: var(--danger); font-size:11px; margin-bottom:10px; display:inline-block;">HQ EMERGENCY BROADCAST</span>
-        <h3 id="siren-headline" style="color: #fff; font-size: 20px; margin-bottom: 10px;">Closing War-Room Directive</h3>
-        <p id="siren-message" class="text-sm" style="color: #cbd5e1; line-height: 1.6; margin-bottom: 20px;">Notice loading...</p>
-        
-        <div style="background: rgba(255,255,255,0.06); padding: 12px; border-radius: 14px; margin-bottom: 20px;">
-            <span class="text-xs" style="color: #94a3b8; display:block; margin-bottom: 4px;">Time Remaining To Action:</span>
-            <strong id="siren-timer" style="font-size: 20px; color: #fbbf24; font-family: monospace;">00h : 00m : 00s</strong>
-        </div>
-
-        <button class="btn btn-primary" style="background: var(--danger); font-size: 15px; padding: 15px;" onclick="Member.acknowledgeWarRoomAlert()">
-            <i class="fas fa-check-circle"></i> I Acknowledge / देखा
-        </button>
-    </div>
-</div>
-
-<!-- 3D LUXURY DIGITAL VISITING CARD MODAL -->
+<!-- 3D VISITING CARD MODAL -->
 <div id="vcard-modal" class="modal-overlay hidden">
     <div class="modal-box" style="padding: 0; background: transparent; border: none; max-width: 380px;">
         <div class="vcard-3d-box">
@@ -392,45 +345,6 @@
             <button class="btn btn-primary" onclick="Member.shareVisitingCardWhatsApp()"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
             <button class="btn btn-outline" style="width: auto; padding:0 20px;" onclick="UI.dismissModal('vcard-modal')">Close</button>
         </div>
-    </div>
-</div>
-
-<!-- SAFE DOUBLE-TAP IMAGE VIEWER -->
-<div id="image-viewer-modal" class="modal-overlay hidden" style="background: rgba(0,0,0,0.96); z-index: 100000; flex-direction: column; padding: 0;">
-    <div style="width: 100%; display: flex; justify-content: flex-end; padding: 16px; position: absolute; top: 0; left: 0; z-index: 100001; box-sizing: border-box;">
-        <button onclick="UI.closeImageViewer()" style="background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: white; width: 40px; height: 40px; border-radius: 20px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></button>
-    </div>
-    <div style="width: 100%; height: 72%; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative;">
-        <img id="viewer-image" src="" alt="Viewer" style="max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; cursor: zoom-in;" ondblclick="this.style.transform = this.style.transform === 'scale(2)' ? 'scale(1)' : 'scale(2)'; this.style.cursor = this.style.transform === 'scale(2)' ? 'zoom-out' : 'zoom-in';">
-    </div>
-    <div id="viewer-details-box" style="width: 100%; max-width: 500px; height: 28%; background: var(--glass-bg); border-top: 1px solid var(--glass-card-border); padding: 14px 18px; box-sizing: border-box; overflow-y: auto; text-align: left; border-radius: 22px 22px 0 0;">
-        <h4 id="viewer-title" style="margin: 0 0 4px 0; font-size: 15px; color: var(--text-main);">Product Name</h4>
-        <span class="badge badge-primary" id="viewer-category">Category</span>
-        <div id="viewer-features" style="font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-top: 6px; white-space: pre-line;"></div>
-    </div>
-</div>
-
-<!-- QR MODAL -->
-<div id="qr-modal" class="modal-overlay hidden">
-    <div class="modal-box">
-        <h3 style="margin-bottom:8px;">Digital Agent ID</h3>
-        <p class="text-sm" style="margin-bottom:20px;">Prospect can scan to connect directly.</p>
-        <div style="background:white; padding:16px; border-radius:16px; display:inline-block; margin-bottom:20px; border: 1px solid var(--glass-card-border);"><img id="qr-image" src="" alt="QR Code" width="180" height="180"></div>
-        <button class="btn btn-outline" onclick="UI.dismissModal('qr-modal')">Close Scanner</button>
-    </div>
-</div>
-
-<!-- SOS MODAL -->
-<div id="sos-modal" class="modal-overlay hidden">
-    <div class="modal-box" style="text-align:left; border-top: 5px solid var(--danger);">
-        <h3 style="margin-bottom:12px; color:var(--danger); text-align:center;"><i class="fas fa-user-secret"></i> Whisper HQ</h3>
-        <div id="mem-sos-history" style="max-height:220px; overflow-y:auto; margin-bottom:16px; border-bottom:1px solid var(--glass-card-border); padding-bottom:12px;"><p class="text-xs text-center" style="opacity:0.6;">No active whispers...</p></div>
-        <div style="display:flex; gap:8px; align-items: center;">
-            <input type="text" id="sos-message" placeholder="Type or tap mic..." style="margin:0; flex: 1;">
-            <button class="btn btn-outline btn-sm" id="mic-sos-btn" style="color:var(--danger); border-color:var(--danger); padding:13px 15px;" onclick="VoiceHelper.startSpeech('sos-message', 'mic-sos-btn')"><i class="fas fa-microphone"></i></button>
-            <button class="btn btn-primary btn-sm" style="background:var(--danger); padding:13px 16px;" onclick="Member.sendSOS()">Send</button>
-        </div>
-        <button class="btn btn-outline" style="margin-top:14px;" onclick="UI.dismissModal('sos-modal')">Close Window</button>
     </div>
 </div>
 
@@ -477,10 +391,10 @@
             </div>
         </div>
 
-        <!-- ADMIN TAB 1: HOME -->
+        <!-- ADMIN TAB 1: RADAR -->
         <div id="admin-home" class="tab-content">
             <div class="card" style="padding:20px 18px; text-align:center;">
-                <span class="text-xs" style="text-transform:uppercase;">Active Field Operatives</span>
+                <span class="text-xs" style="text-transform:uppercase;">Active Field Deployments</span>
                 <h2 id="admin-active-count" style="color:var(--primary); font-size:32px; margin:8px 0 0 0;">0</h2>
             </div>
             <div class="radar-screen"><div class="radar-grid"></div><div class="radar-sweep"></div><div id="radar-blips"></div></div>
@@ -502,136 +416,42 @@
 
                 <button class="btn btn-primary" onclick="Admin.createUser()">Authorize Credentials</button>
             </div>
-            <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-users text-primary"></i> Active Roster</h4>
+            <h4 style="margin-bottom:14px; font-size:14px;"><i class="fas fa-users text-primary"></i> Live Member Roster & Online Status</h4>
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- ADMIN TAB 3: TREE -->
-        <div id="admin-tree" class="tab-content hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <div>
-                    <h4 style="margin:0 0 2px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Master Network Tree Control</h4>
-                    <span class="text-xs" id="admin-tree-focus-label">Viewing: Network Root</span>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="Admin.resetAdminTree()"><i class="fas fa-undo"></i> Reset Root</button>
-            </div>
-
-            <div class="card" style="padding:14px; margin-bottom:14px; border-top:3px solid var(--primary);">
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="admin-tree-search-input" placeholder="Jump to Member ID (e.g. HTM-02)..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="flex-shrink:0; padding:0 14px;" onclick="Admin.jumpToMemberTree()"><i class="fas fa-search"></i> Inspect</button>
-                </div>
-            </div>
-
-            <div class="card" style="border-top: 4px solid var(--primary); padding:16px; margin-bottom:14px;">
-                <h4 style="color:var(--primary); margin:0 0 10px 0; font-size:14px;"><i class="fas fa-exchange-alt"></i> Re-assign Member Leg / Sponsor</h4>
-                <input type="text" id="admin-tree-edit-target" placeholder="Target Member ID (e.g. HTM-03)">
-                <div class="grid-2">
-                    <input type="text" id="admin-tree-edit-sponsor" placeholder="New Sponsor ID">
-                    <select id="admin-tree-edit-pos">
-                        <option value="left">Left Leg (Team A)</option>
-                        <option value="right">Right Leg (Team B)</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary" onclick="Admin.overrideTreeNodeFromTreeTab()"><i class="fas fa-save"></i> Update Node Placement</button>
-            </div>
-
-            <div class="card" style="padding: 18px 10px; overflow-x: auto;">
-                <div class="tree-scroll-wrapper" id="admin-pyramid-container">
-                    <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Master Network Tree...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ADMIN TAB 4: CONTROLS -->
+        <!-- ADMIN TAB 3: CONTROLS -->
         <div id="admin-controls" class="tab-content hidden">
-            <div class="card" style="border-top: 4px solid var(--danger);">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <h4 style="color:var(--danger); margin:0; font-size:15px;"><i class="fas fa-satellite-dish"></i> HQ War-Room Flash Broadcaster</h4>
-                    <span class="badge" style="background:rgba(239,68,68,0.15); color:var(--danger);">Live Ticker</span>
-                </div>
-                <p class="text-xs" style="margin-bottom:14px;">पूरी टीम के डैशबोर्ड पर टिकर, काउंटडाउन टाइमर या स्क्रीन-लॉक हाई अलर्ट भेजें:</p>
-                
-                <input type="text" id="war-msg-input" placeholder="Flash Announcement (e.g. आज रात 9 बजे तक विशेष ट्रेनिंग/ऑफर)">
-                
+            <div class="card" style="border-top: 4px solid #10b981;">
+                <h4 style="color:#10b981; margin:0 0 10px 0; font-size:15px;"><i class="fas fa-box-open"></i> Upload Product to Feed</h4>
                 <div class="grid-2">
-                    <select id="war-priority">
-                        <option value="normal">Normal Alert (चलने वाला टिकर)</option>
-                        <option value="urgent">Urgent Action (ऑरेंज वार्निंग)</option>
-                        <option value="siren">🚨 High Alert Siren (स्क्रीन लॉक)</option>
-                    </select>
-                    <input type="number" id="war-hours" placeholder="Countdown Hours (e.g. 4)" min="1">
+                    <input type="text" id="prod-name" placeholder="Item Name (e.g. Shrimad Bhagavad Gita)">
+                    <input type="text" id="prod-code" placeholder="SKU / Keyword (e.g. 22HA, Gita)">
                 </div>
-
-                <div style="display:flex; gap:10px; margin-top:4px;">
-                    <button class="btn btn-primary" style="background:var(--danger); color:#fff; flex:1;" onclick="Admin.publishWarRoomNotice()">
-                        <i class="fas fa-paper-plane"></i> Dispatch Flash Notice
-                    </button>
-                    <button class="btn btn-outline btn-sm" style="color:var(--text-muted); width:auto; padding:0 14px;" onclick="Admin.clearWarRoomNotice()" title="Clear Active Notice">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-
-                <div id="admin-war-status" class="text-xs" style="margin-top:10px; color:var(--text-muted);">
-                    Live Reactions: <strong id="admin-war-reacts" style="color:#d97706;">0 🔥 Advisors Fired Up</strong>
-                </div>
+                <input type="text" id="prod-url" placeholder="Direct Image URL (https://...)">
+                <textarea id="prod-desc" placeholder="Product Selling Highlights..." style="min-height:75px; font-size:12px;"></textarea>
+                <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductToFeed()"><i class="fas fa-upload"></i> Publish to Feed</button>
             </div>
 
             <div class="card" style="border-top: 4px solid var(--danger);">
                 <h4 style="margin-bottom:14px; color:var(--danger); font-size:15px;"><i class="fas fa-bell"></i> SOS Command Desk</h4>
                 <div id="admin-sos-container" style="max-height:260px; overflow-y:auto;"></div>
             </div>
-
-            <div class="card" style="border-top: 4px solid #10b981;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h4 style="color:#10b981; margin:0; font-size:15px;"><i class="fas fa-box-open"></i> Safe Shop Products</h4>
-                    <button class="btn btn-outline btn-sm" style="padding:5px 9px;" onclick="Admin.autoFillFeatures()"><i class="fas fa-magic"></i> Auto-Detect</button>
-                </div>
-                <div class="grid-2">
-                    <input type="text" id="prod-name" placeholder="Product Name" oninput="Admin.smartSuggest()">
-                    <input type="text" id="prod-category" placeholder="Category (Spiritual/Wellness/Fashion)">
-                </div>
-                <input type="text" id="prod-url" placeholder="Paste Direct Image URL (https://...)">
-                <textarea id="prod-features" placeholder="Product Features & Benefits..." style="min-height:80px; font-size:12px;"></textarea>
-                <button class="btn btn-primary" style="background:#10b981;" onclick="Admin.addProductURL()"><i class="fas fa-plus-circle"></i> Publish to Catalog</button>
-            </div>
-
-            <div class="card" style="border-top: 4px solid #8b5cf6;">
-                <h4 style="margin-bottom:10px; color:#8b5cf6; font-size:15px;"><i class="fas fa-graduation-cap"></i> Academy Hub</h4>
-                <div class="grid-2">
-                    <input type="text" id="admin-live-link" placeholder="Zoom/Meet Link">
-                    <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger); height: 48px;" onclick="Admin.pushLiveLink()">Go Live 🔴</button>
-                </div>
-                <hr style="border:0; border-top:1px dashed var(--glass-card-border); margin:14px 0;">
-                <input type="text" id="ac-vid" placeholder="YouTube Video URL">
-                <input type="text" id="ac-pdf" placeholder="PDF/Plan Drive URL">
-                <button class="btn btn-primary" style="background:#8b5cf6;" onclick="Admin.updateAcademy()"><i class="fas fa-upload"></i> Update Academy</button>
-            </div>
         </div>
 
-        <!-- ADMIN TAB 5: GOD MODE -->
-        <div id="admin-godmode" class="tab-content hidden">
-            <h4 style="color:#8b5cf6; font-size:16px; margin-bottom:14px;"><i class="fas fa-vault"></i> Master Records Vault</h4>
-            <div id="admin-sales-container"></div>
-        </div>
-
-        <!-- ADMIN 5-ITEM FLOATING NAV -->
+        <!-- ADMIN FLOATING NAV -->
         <div class="floating-nav">
             <div class="nav-indicator" id="admin-nav-indicator"></div>
-            <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-compass"></i><span>Home</span></div>
+            <div class="nav-box active" onclick="UI.switchTab('admin','home',this)"><i class="fas fa-satellite"></i><span>Radar</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin','team',this)"><i class="fas fa-users-cog"></i><span>Team</span></div>
-            <div class="nav-box" onclick="UI.switchTab('admin','tree',this)"><i class="fas fa-sitemap"></i><span>Tree</span></div>
             <div class="nav-box" onclick="UI.switchTab('admin','controls',this)"><i class="fas fa-sliders-h"></i><span>Controls</span></div>
-            <div class="nav-box" onclick="UI.switchTab('admin','godmode',this)"><i class="fas fa-bolt"></i><span>God Mode</span></div>
         </div>
     </div>
 
     <!-- ========================================================= -->
-    <!-- 👤 MEMBER MODULE (CLEAN & SEPARATED FOR FIELD AGENTS)   -->
+    <!-- 👤 MEMBER MODULE (CLEAN & DEDICATED FIELD DASHBOARD)      -->
     <!-- ========================================================= -->
     <div id="member-module" class="hidden">
-        <div class="btn-sos" onclick="UI.showModal('sos-modal')"><i class="fas fa-headset"></i></div>
-        
         <div class="member-header">
             <div style="display:flex; align-items:center; gap:10px;">
                 <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
@@ -642,216 +462,103 @@
                 </svg>
                 <div>
                     <h3 style="margin:0; font-size:16px;">HTM <span style="font-weight:400; color:var(--text-muted);">OS</span></h3>
-                    <span class="badge badge-success" id="mem-network-status" style="font-size:9px; padding:2px 8px;">Online</span>
+                    <span class="badge badge-success" style="font-size:9px; padding:2px 8px;"><span class="online-dot"></span> ON-DUTY</span>
                 </div>
             </div>
             <div style="display:flex; gap:12px; align-items:center;">
                 <i class="fas fa-id-card text-primary" style="font-size:18px; cursor:pointer;" onclick="Member.showVisitingCard()" title="My 3D Visiting Card"></i>
                 <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i>
-                <i class="fas fa-qrcode text-primary" style="font-size:18px; cursor:pointer;" onclick="Member.showQR()"></i>
                 <i class="fas fa-power-off text-muted" style="font-size:16px; cursor:pointer;" onclick="Auth.logout()" title="Logout"></i>
             </div>
-            <div style="width:100%; margin-top:10px;">
+            <div style="width:100%; margin-top:8px;">
                 <h2 style="font-size:22px; margin:0;" id="mem-ui-name">Welcome, Agent</h2>
             </div>
         </div>
 
-        <!-- 1. FIELD TAB -->
-        <div id="mem-dash" class="tab-content">
-            
-            <div id="mem-war-ticker-box" class="war-room-ticker hidden">
-                <i class="fas fa-satellite-dish text-danger fa-pulse" style="font-size:16px;"></i>
-                <div class="ticker-marquee">
-                    <span id="mem-war-marquee-text">HQ Live Notice...</span>
+        <!-- 1. LIVE PHOTO FEED (WAREHOUSE OS STREAM STYLE) -->
+        <div id="mem-gallery" class="tab-content">
+            <div class="photo-engine-header">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-wand-magic-sparkles" style="color:#a855f7;"></i>
+                    <strong style="font-size:14px;">LOOKUP AI <span class="online-dot" style="margin-left:4px;"></span></strong>
                 </div>
-                <div class="countdown-chip" id="mem-war-countdown-chip">
-                    <i class="fas fa-stopwatch"></i> <span id="mem-war-timer-val">00:00:00</span>
-                </div>
-                <button class="btn-fire-react" onclick="Member.reactWarRoomFire()">🔥 <span id="mem-war-react-count">0</span></button>
+                <span class="badge badge-success" style="background:rgba(16,185,129,0.2); font-size:10px;">Live Photo Engine</span>
             </div>
 
-            <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
-            <div id="plan-init-state" class="card" style="border-top: 4px solid var(--primary);">
-                <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
-                <select id="plan-type"><option value="1-on-1 Plan">1-on-1 Business Plan</option><option value="Venue Plan">Venue Seminar</option><option value="Follow-up Close">Follow-up Close</option></select>
-                
-                <label class="btn btn-outline" style="font-size:12px; padding:12px; margin-bottom:14px; color:var(--warning); border-color:var(--warning);">
-                    <i class="fas fa-camera"></i> <span id="selfie-status-text">Mandatory Check-in Selfie</span>
-                    <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="Member.handleSelfieUpload(this)">
-                </label>
-                <div id="selfie-preview-box" class="hidden" style="margin-bottom:14px; text-align:center;">
-                    <img id="selfie-preview-img" src="" alt="Selfie Preview" style="width:65px; height:65px; border-radius:50%; object-fit:cover; border:2px solid var(--success);">
+            <!-- CHAT / PHOTO STREAM CONTAINER -->
+            <div class="photo-chat-container" id="photo-stream-box">
+                <div class="bubble-bot">
+                    <span class="text-xs" style="color:var(--text-muted);"><i class="fas fa-info-circle"></i> System Synced</span>
+                    <p style="margin:4px 0 0 0; font-size:13px; font-weight:600;">Safe Shop Catalog Live. Enter item code or keyword to fetch instant photo cards.</p>
                 </div>
-
-                <button class="btn btn-primary" onclick="Member.startPlan()"><i class="fas fa-map-marker-alt"></i> Initiate Check-in (GPS)</button>
             </div>
-            
-            <div id="plan-active-state" class="card hidden" style="border: 2px solid var(--warning);">
-                <div style="text-align:center;"><h3 style="color:var(--warning); font-size:16px;"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3><p id="active-prospect-display" style="font-size:18px; font-weight:800; margin:8px 0;"></p><p class="text-xs" id="active-location-display">Satellite location registered with HQ Radar.</p></div>
-                <div class="record-actions" style="margin-top:16px;"><button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete (Add Remarks)</button><button class="btn btn-danger-ghost" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Drop</button></div>
+
+            <!-- SEARCH / INPUT BAR AT BOTTOM -->
+            <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
+                <div style="position:relative; flex:1;">
+                    <i class="fas fa-magnifying-glass" style="position:absolute; left:14px; top:17px; color:var(--text-muted); font-size:14px;"></i>
+                    <input type="text" id="stream-query-input" placeholder="Type item code (e.g. 22ha, gita, noni)..." style="margin:0; padding-left:38px; border-radius:24px;" onkeypress="if(event.key==='Enter') Member.queryPhotoFeed()">
+                </div>
+                <button class="btn btn-primary" style="width:50px; height:50px; border-radius:25px; padding:0; flex-shrink:0;" onclick="Member.queryPhotoFeed()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
 
-        <!-- 2. PIPELINE TAB -->
+        <!-- 2. TEAM TAB (WITH REAL-TIME ONLINE / ACTIVE STATUS) -->
+        <div id="mem-team" class="tab-content hidden">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <div>
+                    <h4 style="margin:0; font-size:16px;"><i class="fas fa-users text-primary"></i> Team Presence Matrix</h4>
+                    <p class="text-xs" style="margin:2px 0 0 0;">Track teammates login & live active status.</p>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="Member.fetchLiveTeam()"><i class="fas fa-rotate"></i> Refresh</button>
+            </div>
+
+            <div id="member-team-list-container">
+                <p class="text-xs text-center" style="padding:24px; opacity:0.6;"><i class="fas fa-spinner fa-spin"></i> Checking live team presence...</p>
+            </div>
+        </div>
+
+        <!-- 3. PIPELINE TAB -->
         <div id="mem-leads" class="tab-content hidden">
             <div class="card" style="border-top: 4px solid var(--primary);">
                 <h4 style="margin-bottom:16px; font-size:15px;"><i class="fas fa-user-plus text-primary"></i> Register Prospect</h4>
                 <div class="grid-2"><input type="text" id="lead-name" placeholder="Prospect Name"><input type="number" id="lead-phone" placeholder="Phone Number"></div>
                 <div class="grid-2">
                     <select id="lead-temp"><option value="🔥 Hot">🔥 Hot</option><option value="🌤️ Warm">🌤 Warm</option><option value="🥶 Cold">🥶 Cold</option></select>
-                    <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option><option value="Housewife">Housewife</option></select>
-                </div>
-                <div class="grid-2">
-                    <select id="lead-stage">
-                        <option value="New Lead">📌 New Prospect</option>
-                        <option value="Follow-up 1">🔄 Follow-up 1</option>
-                        <option value="Follow-up 2">🔄 Follow-up 2</option>
-                        <option value="Decision Maker">🧠 Decision Maker Meeting</option>
-                        <option value="Ready to Join">⏳ Ready to Join</option>
-                    </select>
-                    <input type="date" id="lead-date" title="Follow-up Date" style="margin-bottom: 12px;">
+                    <select id="lead-prof"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Business">Business</option></select>
                 </div>
                 <button class="btn btn-primary" onclick="Member.addLead()"><i class="fas fa-save"></i> Commit to Pipeline</button>
-            </div>
-            
-            <div style="display:flex; gap:8px; margin-bottom:14px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
-                <input type="text" id="lead-search" placeholder="Search..." style="margin:0; padding:8px 12px; font-size:12px; min-width:130px;" oninput="Member.applyFilters()">
-                <button class="btn btn-outline btn-sm filter-pill active" id="flt-all" onclick="Member.setFilter('All')">All</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="flt-hot" onclick="Member.setFilter('Hot')">🔥 Hot</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="flt-today" onclick="Member.setFilter('Today')">📅 Today</button>
             </div>
             <div id="member-leads-container"></div>
         </div>
 
-        <!-- 3. BINARY PYRAMID TREE TAB -->
-        <div id="mem-tree" class="tab-content hidden">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <div>
-                    <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-sitemap text-primary"></i> Binary Genealogy Pyramid</h4>
-                    <span class="text-xs" id="tree-focus-label">Root: You</span>
-                </div>
-                <button class="btn btn-outline btn-sm" onclick="Member.resetTreeRoot()"><i class="fas fa-undo"></i> Reset to Me</button>
+        <!-- 4. OPERATIONS / GPS TAB -->
+        <div id="mem-ops" class="tab-content hidden">
+            <h4 style="margin-bottom:12px; font-size:14px;"><i class="fas fa-crosshairs text-primary"></i> Operations Tracker</h4>
+            <div id="plan-init-state" class="card" style="border-top: 4px solid var(--primary);">
+                <input type="text" id="plan-prospect" placeholder="Target Prospect Name">
+                <select id="plan-type"><option value="1-on-1 Plan">1-on-1 Business Plan</option><option value="Venue Plan">Venue Seminar</option></select>
+                <label class="btn btn-outline" style="font-size:12px; padding:12px; margin-bottom:14px; color:var(--warning); border-color:var(--warning);">
+                    <i class="fas fa-camera"></i> <span id="selfie-status-text">Mandatory Check-in Selfie</span>
+                    <input type="file" id="plan-selfie" accept="image/*" capture="user" class="hidden" onchange="Member.handleSelfieUpload(this)">
+                </label>
+                <button class="btn btn-primary" onclick="Member.startPlan()"><i class="fas fa-map-marker-alt"></i> Initiate Check-in (GPS)</button>
             </div>
-
-            <div class="card" style="padding: 20px 10px; overflow-x: auto;">
-                <div class="tree-scroll-wrapper" id="binary-pyramid-container">
-                    <p class="text-xs text-center"><i class="fas fa-spinner fa-spin"></i> Rendering Pyramid Tree...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- 4. CATALOG & BENEFITS TAB -->
-        <div id="mem-products" class="tab-content hidden">
-            <div style="margin-bottom:14px;">
-                <h4 style="margin:0 0 4px 0; color:var(--text-main); font-size:16px;"><i class="fas fa-box-open text-primary"></i> Safe Shop Products & Benefits</h4>
-                <p class="text-xs">प्लान प्रेजेंटेशन के दौरान प्रोस्पेक्ट को फीचर्स दिखाएं।</p>
-            </div>
-
-            <div style="display:flex; gap:6px; margin-bottom:14px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none;">
-                <button class="btn btn-outline btn-sm filter-pill active" id="prod-flt-all" onclick="Member.filterProducts('All')">All</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-spiritual" onclick="Member.filterProducts('Spiritual')">Spiritual</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-wellness" onclick="Member.filterProducts('Wellness')">Wellness</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-fashion" onclick="Member.filterProducts('Fashion')">Fashion</button>
-                <button class="btn btn-outline btn-sm filter-pill" id="prod-flt-lifestyle" onclick="Member.filterProducts('Lifestyle')">Lifestyle</button>
-            </div>
-
-            <div id="member-benefits-container">
-                <p class="text-xs text-center" style="padding:20px; opacity:0.7;"><i class="fas fa-spinner fa-spin"></i> Loading Products & Benefits...</p>
+            <div id="plan-active-state" class="card hidden" style="border: 2px solid var(--warning);">
+                <div style="text-align:center;"><h3 style="color:var(--warning); font-size:16px;"><i class="fas fa-satellite-dish fa-spin"></i> Operational Run Live</h3><p id="active-prospect-display" style="font-size:18px; font-weight:800; margin:8px 0;"></p></div>
+                <div class="record-actions" style="margin-top:16px;"><button class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="Member.endPlan()"><i class="fas fa-check"></i> Complete</button><button class="btn btn-danger-ghost" onclick="Member.cancelPlan()"><i class="fas fa-times"></i> Drop</button></div>
             </div>
         </div>
 
-        <!-- 5. ACADEMY TAB -->
-        <div id="mem-academy" class="tab-content hidden">
-            <div id="live-training-container" class="hidden" style="margin-bottom:16px;">
-                <button class="btn btn-live-pulse" style="padding:14px; font-size: 14px; border-radius: 14px;" id="btn-join-live" onclick="window.open('','_blank')">
-                    <i class="fas fa-video"></i> 🔴 LIVE WEBINAR / DISHA TRAINING
-                </button>
-            </div>
-
-            <div class="card" style="border-top: 4px solid var(--primary); padding:18px;">
-                <h4 style="color:var(--primary); font-size:14px; margin-bottom:10px;"><i class="fas fa-shoe-prints"></i> 8 Steps to Success (सिस्टम)</h4>
-                
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>1. Dream (सपनों का निर्धारण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सपना स्पष्ट, समय-सीमा वाला और मापने योग्य होना चाहिए। अपने सपनों को डायरी में लिखें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>2. Commitment (समर्पण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">हफ्ते में 10-15 घंटे समर्पित करें। संडे वेन्यू सेमिनार कभी मिस न करें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>3. List Building (F.R.I.E.N.D.S)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">150-200 लोगों की लिस्ट डायरी में बनाएं। कभी प्री-जज न करें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>4. Invitation (सही आमंत्रण)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">फ़ोन पर पूरा प्लान न बताएं। केवल जिज्ञासा पैदा करें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>5. Show The Plan (STP)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्रॉपर ड्रेस कोड (फॉर्मल्स, टाई) के साथ कंपनी प्रोफाइल और इनकम प्लान दिखाएं।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>6. Follow-up (24-48 घंटे)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">प्लान के 48 घंटे के भीतर शंकाओं का समाधान करें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>7. 100% User (उत्पाद उपयोग)</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सिस्टम के प्रोडक्ट्स और टूल्स का स्वयं उपयोग करें।</div>
-                </div>
-                <div class="ss-accordion" onclick="this.classList.toggle('active')">
-                    <div class="ss-acc-head"><span>8. Be a Team Player & Teach</span> <i class="fas fa-chevron-down"></i></div>
-                    <div class="ss-acc-body">सक्रिय अपलाइन से सीखें और डाउनलाइन को डुप्लीकेट करें।</div>
-                </div>
-            </div>
-
-            <div class="card" style="border-top: 4px solid var(--primary); padding:18px;">
-                <h4 style="color:var(--primary); font-size:14px; margin-bottom:10px;"><i class="fas fa-phone-volume"></i> इनविटेशन स्क्रिप्ट्स</h4>
-                <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                        <strong class="text-sm">For Students</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:3px 8px; font-size:10px;" onclick="Member.copyScript('student-scr')"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                    <p class="text-xs" id="student-scr" style="margin:0;">"भाई, कॉलेज के साथ खाली 1-2 घंटे में खुद के खर्चे और डिजिटल स्किल्स के लिए पार्ट-टाइम इनकम में इंटरेस्टेड है? शाम 6 बजे एक प्रेजेंटेशन है।"</p>
-                </div>
-                <div class="script-box">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                        <strong class="text-sm">For Working Class</strong>
-                        <button class="btn btn-outline btn-sm" style="padding:3px 8px; font-size:10px;" onclick="Member.copyScript('job-scr')"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                    <p class="text-xs" id="job-scr" style="margin:0;">"सर, जॉब को डिस्टर्ब किए बिना शाम के 1 घंटे में एक सेकेंडरी इनकम सोर्स बिल्ड करना चाहेंगे? 20 मिनट का समय निकालें।"</p>
-                </div>
-            </div>
-
-            <div class="card" style="border-top: 4px solid #8b5cf6; padding:18px;">
-                <h4 style="color:#8b5cf6; margin-bottom:8px; font-size:14px;"><i class="fas fa-robot"></i> Safe Shop Closing Helper</h4>
-                <div style="display:flex; gap:8px; align-items:center;">
-                    <input type="text" id="ai-query" placeholder="सवाल लिखें (paise, time, scam)..." style="margin:0; flex:1;">
-                    <button class="btn btn-primary btn-sm" style="background:#8b5cf6; padding: 0 16px; flex-shrink:0;" onclick="Member.askAI()">उत्तर</button>
-                </div>
-                <div id="ai-response" class="text-sm" style="margin-top:12px;"></div>
-            </div>
-
-            <div id="mem-ac-video-box" class="hidden" style="margin-bottom:16px;">
-                <h4 style="margin-bottom:10px; font-size:14px;"><i class="fas fa-play-circle text-danger"></i> ट्रेनिंग वीडियो</h4>
-                <div class="card" style="padding:0; overflow:hidden;"><iframe id="mem-ac-iframe" width="100%" height="210" src="" frameborder="0" allowfullscreen></iframe></div>
-            </div>
-
-            <div id="mem-ac-pdf-box" class="hidden" style="margin-bottom:16px;">
-                <button class="btn btn-outline" style="font-weight: 600; border-color:var(--danger); color:var(--danger);" id="mem-ac-pdf-btn">
-                    <i class="fas fa-file-pdf"></i> बिज़नेस प्लान व प्रगति सूत्र (PDF)
-                </button>
-            </div>
-        </div>
-
-        <!-- 5-ITEM BALANCED FLOATING NAV -->
+        <!-- 4-ITEM STREAMLINED MEMBER NAV -->
         <div class="floating-nav">
             <div class="nav-indicator" id="mem-nav-indicator"></div>
-            <div class="nav-box active" onclick="UI.switchTab('mem','dash',this)"><i class="fas fa-layer-group"></i><span>Field</span></div>
+            <div class="nav-box active" onclick="UI.switchTab('mem','gallery',this)"><i class="fas fa-wand-magic-sparkles"></i><span>Feed AI</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem','team',this)"><i class="fas fa-users"></i><span>Team</span></div>
             <div class="nav-box" onclick="UI.switchTab('mem','leads',this)"><i class="fas fa-funnel-dollar"></i><span>Pipeline</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','tree',this)"><i class="fas fa-sitemap"></i><span>Tree</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','products',this)"><i class="fas fa-box-open"></i><span>Catalog</span></div>
-            <div class="nav-box" onclick="UI.switchTab('mem','academy',this)"><i class="fas fa-graduation-cap"></i><span>Academy</span></div>
+            <div class="nav-box" onclick="UI.switchTab('mem','ops',this)"><i class="fas fa-location-crosshairs"></i><span>Field</span></div>
         </div>
     </div>
 </div>
@@ -879,9 +586,9 @@
             const launchBtn = document.getElementById('boot-launch-btn');
 
             const steps = [
-                { p: 25, log: "> Initializing BIOS Handshake...<br>> Mounting HTM Core...", step: "LOADING KERNEL" },
-                { p: 55, log: "> Verifying Security Handshake...", step: "AUTHENTICATING" },
-                { p: 85, log: "> Connecting Safe Shop Database...", step: "CONNECTING DB" },
+                { p: 25, log: "> Mounting HTM Kernel...", step: "LOADING KERNEL" },
+                { p: 55, log: "> Connecting Firestore...", step: "AUTHENTICATING" },
+                { p: 85, log: "> Initializing Live Photo Engine...", step: "FEED ENGINE" },
                 { p: 100, log: "> [OK] System Ready.", step: "COMPLETE" }
             ];
 
@@ -899,36 +606,14 @@
                     clearInterval(interval);
                     launchBtn.classList.remove('hidden');
                 }
-            }, 200);
-        }
-    }
-
-    class VoiceHelper {
-        static startSpeech(targetInputId, btnId) {
-            const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if(!SpeechRec) return UI.showToast("Speech recognition not supported.", "warning");
-            const recognition = new SpeechRec();
-            recognition.lang = 'hi-IN';
-            recognition.interimResults = false;
-            const btn = document.getElementById(btnId);
-            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-            UI.showToast("Listening...", "warning");
-            recognition.onresult = (e) => {
-                const text = e.results[0][0].transcript;
-                const input = document.getElementById(targetInputId);
-                if(input) input.value = input.value ? `${input.value} ${text}` : text;
-                UI.showToast("Voice captured!", "success");
-            };
-            recognition.onerror = () => UI.showToast("Voice input stopped.", "error");
-            recognition.onend = () => { if(btn) btn.innerHTML = '<i class="fas fa-microphone"></i>'; };
-            recognition.start();
+            }, 180);
         }
     }
 
     class UI {
         static showToast(msg, type='success') {
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
-            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
+            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : 'fa-times-circle';
             toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
         }
@@ -946,8 +631,7 @@
             element.parentElement.querySelectorAll('.nav-box').forEach(el => el.classList.remove('active'));
             document.getElementById(`${prefix}-${tabId}`).classList.remove('hidden'); element.classList.add('active');
             this.moveIndicator(element);
-            if(prefix === 'member' && tabId === 'tree') Member.renderPyramidTree();
-            if(prefix === 'admin' && tabId === 'tree') Admin.renderAdminTree();
+            if(prefix === 'member' && tabId === 'team') Member.fetchLiveTeam();
         }
         static showModal(id) { const el = document.getElementById(id); if(el) el.classList.remove('hidden'); }
         static dismissModal(id) { const el = document.getElementById(id); if(el) el.classList.add('hidden'); }
@@ -958,29 +642,7 @@
         }
         static toggleTheme() {
             document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('htm_theme', isDark ? 'dark' : 'light');
-            document.querySelectorAll('.theme-icon').forEach(i => {
-                i.className = isDark ? 'fas fa-sun theme-icon text-warning' : 'fas fa-moon theme-icon text-muted';
-            });
-        }
-        static applySavedTheme() {
-            if(localStorage.getItem('htm_theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                document.querySelectorAll('.theme-icon').forEach(i => i.className = 'fas fa-sun theme-icon text-warning');
-            }
-        }
-        static openImageViewer(url, name="Product", cat="General", features="") {
-            const img = document.getElementById('viewer-image');
-            img.src = url; img.style.transform = 'scale(1)';
-            document.getElementById('viewer-title').innerText = name;
-            document.getElementById('viewer-category').innerText = cat;
-            document.getElementById('viewer-features').innerText = features || "Safe Shop Quality Certified Product.";
-            document.getElementById('image-viewer-modal').classList.remove('hidden');
-        }
-        static closeImageViewer() {
-            document.getElementById('image-viewer-modal').classList.add('hidden');
-            document.getElementById('viewer-image').src = '';
+            localStorage.setItem('htm_theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
         }
     }
 
@@ -989,7 +651,7 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => { 
-        UI.applySavedTheme();
+        if(localStorage.getItem('htm_theme') === 'dark') document.body.classList.add('dark-mode');
         SystemBootEngine.runInstaller();
         setTimeout(() => { document.querySelectorAll('.floating-nav .nav-box.active').forEach(el => UI.moveIndicator(el)); }, 300);
     });
@@ -1029,6 +691,13 @@
             try {
                 const doc = await db.collection('users').doc(id).get();
                 if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
+                
+                // Mark user as actively online in database
+                await db.collection('users').doc(id).update({
+                    isOnline: true,
+                    lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
                 localStorage.setItem('htm_role', 'member'); 
                 localStorage.setItem('htm_id', id); 
                 localStorage.setItem('htm_name', doc.data().name); 
@@ -1036,52 +705,140 @@
             } catch (err) { UI.showToast(err.message, 'error'); }
         }
 
-        static logout() { 
+        static async logout() { 
+            const id = localStorage.getItem('htm_id');
+            if(id && localStorage.getItem('htm_role') === 'member') {
+                try {
+                    await db.collection('users').doc(id).update({
+                        isOnline: false,
+                        lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } catch(e) {}
+            }
             localStorage.clear(); 
             window.location.reload(); 
         }
     }
 
+    // Ping presence every 30 seconds
+    setInterval(() => {
+        const id = localStorage.getItem('htm_id');
+        if(id && localStorage.getItem('htm_role') === 'member') {
+            db.collection('users').doc(id).update({
+                isOnline: true,
+                lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(()=>{});
+        }
+    }, 30000);
+
     class Member {
-        static localLeads = []; static loadedProducts = []; static currentProductFilter = 'All'; static currentFilter = 'All'; static cachedSelfieBase64 = "";
-        static currentTreeRootId = ""; static networkUsers = [];
+        static localLeads = []; static cachedSelfieBase64 = "";
 
         static initData() {
-            this.currentTreeRootId = localStorage.getItem('htm_id') || '';
-            this.listenSOSReplies(); this.listenAcademy();
-            this.checkActivePlanState(); this.streamLeads(); this.setupOfflineMonitor();
-            this.fetchBenefitsCatalog(); this.fetchNetworkUsers(); this.listenWarRoomBroadcast();
+            this.checkActivePlanState(); this.streamLeads(); this.fetchLiveTeam();
         }
 
-        static listenWarRoomBroadcast() {
-            db.collection('system').doc('war_room').onSnapshot(doc => {
-                const tickerBox = document.getElementById('mem-war-ticker-box');
-                if(!doc.exists || !doc.data().active) {
-                    if(tickerBox) tickerBox.classList.add('hidden');
+        // 1. WAREHOUSE OS STYLE LIVE PHOTO ENGINE CHAT STREAM
+        static async queryPhotoFeed() {
+            const input = document.getElementById('stream-query-input');
+            const query = input.value.trim().toLowerCase();
+            if(!query) return;
+
+            const chatBox = document.getElementById('photo-stream-box');
+
+            // 1. Append User Search Bubble
+            const userBubble = document.createElement('div');
+            userBubble.className = "bubble-user";
+            userBubble.innerText = query;
+            chatBox.appendChild(userBubble);
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // 2. Fetch Matching Product from Firestore
+            try {
+                const snap = await db.collection('products').get();
+                let matched = [];
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const name = (d.name || '').toLowerCase();
+                    const code = (d.code || '').toLowerCase();
+                    const cat = (d.category || '').toLowerCase();
+                    if(name.includes(query) || code.includes(query) || cat.includes(query)) {
+                        matched.push(d);
+                    }
+                });
+
+                const botBubble = document.createElement('div');
+                botBubble.className = "bubble-bot feed-photo-card";
+
+                if(matched.length === 0) {
+                    botBubble.innerHTML = `
+                        <span class="badge badge-warning" style="font-size:9px;">NOT FOUND</span>
+                        <p style="margin:4px 0 0 0; font-size:13px;">No SKU or product image found for "<b>${query}</b>". Ask admin to upload.</p>
+                    `;
+                } else {
+                    const item = matched[0];
+                    botBubble.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="badge badge-success" style="font-size:9px;">SOLVED: ${item.code ? item.code.toUpperCase() : 'SYNCED'}</span>
+                            <span class="text-xs" style="color:var(--text-muted);"><i class="fas fa-check-double text-success"></i> 100% Quality</span>
+                        </div>
+                        <h4 style="margin:6px 0 2px 0; font-size:14px; color:var(--text-main);">${item.name}</h4>
+                        <img src="${item.imageUrl}" alt="${item.name}" loading="lazy" onclick="window.open('${item.imageUrl}', '_blank')">
+                        ${item.features ? `<p class="text-xs" style="margin:8px 0 0 0; color:var(--text-muted); line-height:1.4;">${item.features}</p>` : ''}
+                    `;
+                }
+
+                chatBox.appendChild(botBubble);
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        // 2. REAL-TIME TEAM PRESENCE (ONLINE / ACTIVE CHECK)
+        static fetchLiveTeam() {
+            const container = document.getElementById('member-team-list-container');
+            if(!container) return;
+
+            db.collection('users').onSnapshot(snap => {
+                if(snap.empty) {
+                    container.innerHTML = `<p class="text-xs text-center" style="opacity:0.6; padding:20px;">No registered members in database.</p>`;
                     return;
                 }
-                const d = doc.data();
-                if(tickerBox) tickerBox.classList.remove('hidden');
-                document.getElementById('mem-war-marquee-text').innerText = d.message || "Active War-Room Directive";
-                document.getElementById('mem-war-react-count').innerText = d.reactions || 0;
-            });
-        }
 
-        static acknowledgeWarRoomAlert() {
-            document.getElementById('war-room-siren-modal').classList.add('hidden');
-            this.reactWarRoomFire();
-            UI.showToast("Directive Acknowledged!", "success");
-        }
+                container.innerHTML = '';
+                const now = Date.now();
 
-        static async reactWarRoomFire() {
-            const countEl = document.getElementById('mem-war-react-count');
-            countEl.innerText = parseInt(countEl.innerText || 0) + 1;
-            UI.showToast("You're Fired Up! 🔥", "success");
-            try {
-                await db.collection('system').doc('war_room').update({
-                    reactions: firebase.firestore.FieldValue.increment(1)
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const lastSeenMs = d.lastSeen?.toMillis ? d.lastSeen.toMillis() : 0;
+                    // Active if marked online and pinged in last 90 seconds
+                    const isActive = d.isOnline === true && (now - lastSeenMs < 90000);
+
+                    const statusBadge = isActive
+                        ? `<span class="badge badge-success"><span class="online-dot"></span> LIVE ONLINE</span>`
+                        : `<span class="badge" style="background:rgba(100,116,139,0.15); color:var(--text-muted);">OFFLINE</span>`;
+
+                    container.innerHTML += `
+                        <div class="card" style="padding:14px 16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div style="width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg, var(--primary), #8b5cf6); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:16px;">
+                                    ${d.name ? d.name.charAt(0).toUpperCase() : 'U'}
+                                </div>
+                                <div>
+                                    <h4 style="font-size:14px; margin:0; color:var(--text-main);">${d.name}</h4>
+                                    <span class="text-xs" style="color:var(--text-muted);">ID: <b>${doc.id}</b> ${d.sponsorId ? `| Spon: ${d.sponsorId}` : ''}</span>
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                ${statusBadge}
+                                ${d.position ? `<span class="text-xs" style="display:block; margin-top:4px; font-weight:600; text-transform:capitalize;">${d.position} Leg</span>` : ''}
+                            </div>
+                        </div>
+                    `;
                 });
-            } catch(e) {}
+            });
         }
 
         static showVisitingCard() {
@@ -1096,215 +853,32 @@
         static shareVisitingCardWhatsApp() {
             const name = localStorage.getItem('htm_name');
             const id = localStorage.getItem('htm_id');
-            const text = encodeURIComponent(`*नमस्ते!*\n\nमैं *${name}*, Safe Shop Direct Selling & HTM Enterprise का ऑथराइज़्ड एडवाइज़र हूँ (ID: *${id}*)।\n\nयदि आप भी अपने स्मार्टफोन से पार्ट-टाइम ई-कॉमर्स बिज़नेस शुरू करना चाहते हैं, तो मुझसे सीधे संपर्क करें।`);
+            const text = encodeURIComponent(`*नमस्ते!*\n\nमैं *${name}*, Safe Shop Direct Selling & HTM Enterprise का ऑथराइज़्ड एडवाइज़र हूँ (ID: *${id}*)।`);
             window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-        }
-
-        static fetchNetworkUsers() {
-            db.collection('users').onSnapshot(snap => {
-                this.networkUsers = [];
-                snap.forEach(doc => this.networkUsers.push({ id: doc.id, ...doc.data() }));
-                this.renderPyramidTree();
-            });
-        }
-
-        static resetTreeRoot() {
-            this.currentTreeRootId = localStorage.getItem('htm_id') || '';
-            this.renderPyramidTree();
-        }
-
-        static drillDownTree(nodeId) {
-            this.currentTreeRootId = nodeId;
-            this.renderPyramidTree();
-            UI.showToast("Viewing sub-tree of " + nodeId, "success");
-        }
-
-        static renderPyramidTree() {
-            const container = document.getElementById('binary-pyramid-container');
-            if(!container) return;
-
-            let rootUser = this.networkUsers.find(u => u.id === this.currentTreeRootId);
-            if(!rootUser && this.networkUsers.length > 0) rootUser = this.networkUsers[0];
-
-            if(!rootUser) {
-                container.innerHTML = `<p class="text-xs text-center" style="opacity:0.6; padding:20px;">No downline network records found in database.</p>`;
-                return;
-            }
-
-            const labelEl = document.getElementById('tree-focus-label');
-            if(labelEl) labelEl.innerText = `Root: ${rootUser.name} (${rootUser.id})`;
-
-            const leftChild = this.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'left');
-            const rightChild = this.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'right');
-
-            const leftLeft = leftChild ? this.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'left') : null;
-            const leftRight = leftChild ? this.networkUsers.find(u => u.sponsorId === leftChild.id && u.position === 'right') : null;
-            const rightLeft = rightChild ? this.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'left') : null;
-            const rightRight = rightChild ? this.networkUsers.find(u => u.sponsorId === rightChild.id && u.position === 'right') : null;
-
-            const renderNode = (user, sideLabel, isRoot = false) => {
-                if(!user) return `<div class="empty-slot"><i class="fas fa-plus-circle"></i><br>Empty ${sideLabel}</div>`;
-                return `
-                    <div class="tree-node ${isRoot ? 'root-node' : ''}" onclick="Member.drillDownTree('${user.id}')" title="Tap to expand levels">
-                        <i class="fas fa-user-tie text-primary" style="font-size:16px;"></i>
-                        <h5 style="margin:4px 0 2px 0; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${user.name}</h5>
-                        <span class="text-xs" style="color:var(--text-muted); font-size:10px;">${user.id}</span>
-                        ${sideLabel ? `<span class="badge ${sideLabel === 'Left' ? 'badge-primary' : 'badge-warning'}" style="display:block; font-size:8px; margin-top:4px;">${sideLabel}</span>` : ''}
-                    </div>
-                `;
-            };
-
-            container.innerHTML = `
-                <div>
-                    ${renderNode(rootUser, "", true)}
-                    <div class="tree-connector-line"></div>
-                </div>
-                <div class="tree-branch-container">
-                    <div>
-                        ${renderNode(leftChild, "Left")}
-                        <div class="tree-connector-line"></div>
-                        <div class="tree-branch-container" style="gap:10px;">
-                            ${renderNode(leftLeft, "L")}
-                            ${renderNode(leftRight, "R")}
-                        </div>
-                    </div>
-                    <div>
-                        ${renderNode(rightChild, "Right")}
-                        <div class="tree-connector-line"></div>
-                        <div class="tree-branch-container" style="gap:10px;">
-                            ${renderNode(rightLeft, "L")}
-                            ${renderNode(rightRight, "R")}
-                        </div>
-                    </div>
-                </div>
-            `;
         }
 
         static handleSelfieUpload(input) {
             if (input.files && input.files[0]) {
-                const file = input.files[0];
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const maxDim = 300;
-                        let w = img.width, h = img.height;
-                        if(w > h) { if(w > maxDim) { h *= maxDim / w; w = maxDim; } }
-                        else { if(h > maxDim) { w *= maxDim / h; h = maxDim; } }
-                        canvas.width = w; canvas.height = h;
-                        ctx.drawImage(img, 0, 0, w, h);
-                        Member.cachedSelfieBase64 = canvas.toDataURL('image/jpeg', 0.6);
-                        document.getElementById('selfie-status-text').innerText = "Selfie Verified ✓";
-                        document.getElementById('selfie-preview-img').src = Member.cachedSelfieBase64;
-                        document.getElementById('selfie-preview-box').classList.remove('hidden');
-                        UI.showToast('Selfie verified.', 'success');
-                    };
-                    img.src = e.target.result;
+                reader.onload = (e) => {
+                    Member.cachedSelfieBase64 = e.target.result;
+                    document.getElementById('selfie-status-text').innerText = "Selfie Verified ✓";
+                    UI.showToast('Selfie verified.', 'success');
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(input.files[0]);
             }
-        }
-
-        static copyScript(elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => UI.showToast("Script copied!", "success")).catch(() => UI.showToast("Failed to copy", "error"));
-        }
-
-        static fetchBenefitsCatalog() {
-            db.collection('products').orderBy('timestamp', 'desc').onSnapshot(snap => {
-                this.loadedProducts = [];
-                snap.forEach(doc => this.loadedProducts.push({ id: doc.id, ...doc.data() }));
-                this.renderBenefitsCatalog();
-            });
-        }
-
-        static filterProducts(category) {
-            this.currentProductFilter = category;
-            document.querySelectorAll('#mem-products .filter-pill').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.getElementById(`prod-flt-${category.toLowerCase()}`);
-            if(activeBtn) activeBtn.classList.add('active');
-            this.renderBenefitsCatalog();
-        }
-
-        static renderBenefitsCatalog() {
-            const container = document.getElementById('member-benefits-container');
-            if(!container) return;
-            let filtered = this.loadedProducts;
-            if(this.currentProductFilter !== 'All') {
-                filtered = this.loadedProducts.filter(p => (p.category && p.category.toLowerCase().includes(this.currentProductFilter.toLowerCase())));
-            }
-            if(filtered.length === 0) {
-                container.innerHTML = `<p class="text-xs text-center" style="padding:24px; opacity:0.6;">No products found in ${this.currentProductFilter}.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            filtered.forEach(p => {
-                let benefitLines = (p.features || "").split('\n').filter(l => l.trim().length > 0);
-                let listHtml = '';
-                benefitLines.forEach(l => { listHtml += `<li><i class="fas fa-check-circle"></i> <span>${l.replace(/^[•\-\*]\s*/, '')}</span></li>`; });
-                const safeName = (p.name || "").replace(/'/g, "\\'");
-                const safeCat = (p.category || "").replace(/'/g, "\\'");
-                const safeFeat = (p.features || "").replace(/'/g, "\\'");
-                container.innerHTML += `
-                    <div class="benefit-product-card">
-                        <img src="${p.imageUrl}" alt="${p.name}" loading="lazy" onclick="UI.openImageViewer('${p.imageUrl}', '${safeName}', '${safeCat}', '${safeFeat}')">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin:10px 0 6px 0;">
-                            <h4 style="font-size:14px; margin:0; color:var(--text-main); font-weight:700;">${p.name}</h4>
-                            <span class="badge badge-primary" style="font-size:9px;">${p.category}</span>
-                        </div>
-                        <ul class="benefit-list">${listHtml}</ul>
-                    </div>
-                `;
-            });
-        }
-
-        static listenAcademy() {
-            db.collection('system').doc('academy').onSnapshot(doc => {
-                if(!doc.exists) return; const d = doc.data(); const liveBtn = document.getElementById('btn-join-live');
-                if (d.liveLink) { liveBtn.setAttribute('onclick', `window.open('${d.liveLink}', '_blank')`); document.getElementById('live-training-container').classList.remove('hidden'); }
-                if (d.vid) { document.getElementById('mem-ac-iframe').src = d.vid; document.getElementById('mem-ac-video-box').classList.remove('hidden'); }
-                if (d.pdf) { document.getElementById('mem-ac-pdf-btn').setAttribute('onclick', `window.open('${d.pdf}', '_blank')`); document.getElementById('mem-ac-pdf-box').classList.remove('hidden'); }
-            });
-        }
-
-        static listenSOSReplies() {
-            db.collection('sos_messages').where("memberId", "==", localStorage.getItem('htm_id') || '').onSnapshot(snap => {
-                const c = document.getElementById('mem-sos-history'); if(!c) return;
-                let msgs = []; snap.forEach(doc => { if(!doc.data().clearedByMember) msgs.push({id: doc.id, ...doc.data()}); });
-                c.innerHTML = ''; if(msgs.length === 0) { c.innerHTML = '<p class="text-xs text-center" style="opacity:0.6; padding: 10px;">No active whispers...</p>'; return; }
-                msgs.forEach(d => {
-                    c.innerHTML += `<div style="background:rgba(0,0,0,0.03); border: 1px solid var(--glass-card-border); padding:10px 12px; border-radius:12px; margin-bottom:8px;"><p class="text-xs" style="margin:0 0 6px 0; font-weight: 500;"><span style="color:var(--danger); font-weight: 700;">You:</span> ${d.message}</p>${d.reply ? `<p class="text-xs" style="color:var(--success); margin:0; font-weight:600;">HQ: ${d.reply}</p>` : `<p class="text-xs" style="color:var(--warning); margin:0; font-style:italic;">Awaiting HQ...</p>`}</div>`;
-                });
-            });
-        }
-
-        static async sendSOS() {
-            const msg = document.getElementById('sos-message').value.trim(); if(!msg) return UI.showToast('Message empty.', 'error');
-            await db.collection('sos_messages').add({ memberId: localStorage.getItem('htm_id') || 'HTM-01', memberName: localStorage.getItem('htm_name') || 'Advisor', message: msg, reply: "", clearedByMember: false, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            document.getElementById('sos-message').value = ''; UI.showToast('SOS dispatched.', 'success');
-        }
-
-        static askAI() {
-            const q = document.getElementById('ai-query').value.toLowerCase(); const resBox = document.getElementById('ai-response');
-            resBox.style.color = "var(--text-main)"; resBox.style.backgroundColor = "rgba(139, 92, 246, 0.08)"; resBox.style.padding = "14px"; resBox.style.borderRadius = "12px"; resBox.style.border = "1px solid rgba(139, 92, 246, 0.25)";
-            if(q.includes('paise') || q.includes('money')) {
-                resBox.innerHTML = "🎯 <b>पैसे नहीं हैं:</b><br><br>'सर, इमरजेंसी में पैसे जुटाए जाते हैं। यहाँ आप अपनी पसंद का वैल्यू-फॉर-मनी प्रोडक्ट लेकर लाखों कमाने की बिज़नेस ओनरशिप पा रहे हैं। आज शुरू नहीं किया तो 1 साल बाद भी पैसे नहीं होंगे।'";
-            } else if(q.includes('time') || q.includes('busy')) {
-                resBox.innerHTML = "🎯 <b>समय नहीं है:</b><br><br>'सर, 8-10 घंटे काम करके भी समय नहीं है तो टाइम फ्रीडम के लिए नेटवर्क मार्केटिंग जरूरी है। 1-2 घंटे देकर आप 100 लोगों की टीम बनाते हैं, जिससे दिन में 200 घंटे काम होता है।'";
-            } else {
-                resBox.innerHTML = "🎯 <b>क्लोजिंग पंच:</b><br><br>'सर, फैसला लेने में 2 ही रास्ते हैं—शुरू करना या न करना। शुरुआत करने से 1-2 साल में सारे सपने सच हो सकते हैं। फॉर्म भरिए, पूरी टीम साथ है!'";
-            }
-        }
-
-        static setupOfflineMonitor() {
-            const updateStatus = () => { const badge = document.getElementById('mem-network-status'); if (navigator.onLine) { badge.className = "badge badge-success"; badge.innerText = "Online"; } else { badge.className = "badge badge-warning"; badge.innerText = "Offline"; } }; window.addEventListener('online', updateStatus); window.addEventListener('offline', updateStatus); updateStatus();
         }
 
         static checkActivePlanState() {
             const planId = localStorage.getItem("htm_active_plan");
-            if (planId) { document.getElementById('plan-init-state').classList.add('hidden'); document.getElementById('plan-active-state').classList.remove('hidden'); document.getElementById('active-prospect-display').innerText = localStorage.getItem("htm_active_prospect"); } else { document.getElementById('plan-init-state').classList.remove('hidden'); document.getElementById('plan-active-state').classList.add('hidden'); }
+            if (planId) { 
+                document.getElementById('plan-init-state').classList.add('hidden'); 
+                document.getElementById('plan-active-state').classList.remove('hidden'); 
+                document.getElementById('active-prospect-display').innerText = localStorage.getItem("htm_active_prospect"); 
+            } else { 
+                document.getElementById('plan-init-state').classList.remove('hidden'); 
+                document.getElementById('plan-active-state').classList.add('hidden'); 
+            }
         }
 
         static startPlan() {
@@ -1313,15 +887,21 @@
             localStorage.setItem("htm_active_plan", "active_demo");
             localStorage.setItem("htm_active_prospect", prospect);
             document.getElementById('plan-prospect').value = '';
-            this.checkActivePlanState(); UI.showToast('Run registered on radar.', 'success');
+            this.checkActivePlanState(); 
+            UI.showToast('Field check-in active.', 'success');
         }
 
         static endPlan() {
-            localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState(); UI.showToast('Logged & Completed.', 'success');
+            localStorage.removeItem("htm_active_plan"); 
+            localStorage.removeItem("htm_active_prospect"); 
+            this.checkActivePlanState(); 
+            UI.showToast('Check-in Completed.', 'success');
         }
 
         static cancelPlan() {
-            localStorage.removeItem("htm_active_plan"); localStorage.removeItem("htm_active_prospect"); this.checkActivePlanState();
+            localStorage.removeItem("htm_active_plan"); 
+            localStorage.removeItem("htm_active_prospect"); 
+            this.checkActivePlanState();
         }
 
         static async addLead() {
@@ -1331,7 +911,6 @@
             await db.collection('leads').add({
                 name, phone, memberId: localStorage.getItem('htm_id') || '', memberName: localStorage.getItem('htm_name') || 'Advisor',
                 temp: document.getElementById('lead-temp').value, prof: document.getElementById('lead-prof').value,
-                stage: document.getElementById('lead-stage').value, followUp: document.getElementById('lead-date').value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
             document.getElementById('lead-name').value = ''; document.getElementById('lead-phone').value = '';
@@ -1342,159 +921,73 @@
             db.collection('leads').where("memberId", "==", localStorage.getItem('htm_id') || '').onSnapshot(snap => {
                 this.localLeads = [];
                 snap.forEach(doc => this.localLeads.push({ id: doc.id, ...doc.data() }));
-                this.applyFilters();
-            });
-        }
-
-        static setFilter(type) {
-            this.currentFilter = type;
-            document.querySelectorAll('#mem-leads .filter-pill').forEach(btn => btn.classList.remove('active'));
-            if(type === 'All') document.getElementById('flt-all').classList.add('active');
-            if(type === 'Hot') document.getElementById('flt-hot').classList.add('active');
-            if(type === 'Today') document.getElementById('flt-today').classList.add('active');
-            this.applyFilters();
-        }
-
-        static applyFilters() {
-            const container = document.getElementById('member-leads-container');
-            const searchTxt = document.getElementById('lead-search').value.toLowerCase();
-            let filtered = this.localLeads.filter(d => {
-                const matchSearch = d.name.toLowerCase().includes(searchTxt) || d.phone.includes(searchTxt);
-                let matchType = true;
-                if(this.currentFilter === 'Hot') matchType = d.temp.includes('Hot');
-                return matchSearch && matchType;
-            });
-            container.innerHTML = filtered.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No matching leads.</p>' : '';
-            filtered.forEach(d => {
-                container.innerHTML += `
-                    <div class="record-item">
-                        <div class="record-header">
-                            <div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs" style="margin-top:4px; display:inline-block;">Class: ${d.temp} | Follow-up: ${d.followUp || 'N/A'}</span></div>
+                const container = document.getElementById('member-leads-container');
+                if(!container) return;
+                container.innerHTML = this.localLeads.length === 0 ? '<p class="text-xs text-center" style="padding:20px; opacity:0.8;">No leads registered.</p>' : '';
+                this.localLeads.forEach(d => {
+                    container.innerHTML += `
+                        <div class="record-item">
+                            <div class="record-header">
+                                <div><strong style="font-size:15px;">${d.name}</strong> <span class="tag-prof">${d.prof || 'General'}</span><br><span class="text-xs">Class: ${d.temp} | Tel: ${d.phone}</span></div>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                });
             });
         }
-
-        static showQR() { document.getElementById('qr-image').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=Agent:%20${localStorage.getItem('htm_name')}`; UI.showModal('qr-modal'); }
     }
 
     class Admin {
-        static adminTreeRootId = "";
         static initData() { 
-            this.streamRadar(); this.listenSOS(); 
-            this.fetchAdminNetworkUsers(); this.listenWarRoomAdmin();
+            this.streamRadar(); this.streamAdminTeam(); this.listenSOS(); 
         }
 
-        static fetchAdminNetworkUsers() {
+        static streamAdminTeam() {
+            const container = document.getElementById('admin-team-container');
+            if(!container) return;
+            const now = Date.now();
+
             db.collection('users').onSnapshot(snap => {
-                let users = [];
-                snap.forEach(doc => users.push({ id: doc.id, ...doc.data() }));
-                Member.networkUsers = users;
-                this.renderAdminTree();
+                container.innerHTML = snap.empty ? '<p class="text-xs text-center">No operatives registered.</p>' : '';
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const lastSeenMs = d.lastSeen?.toMillis ? d.lastSeen.toMillis() : 0;
+                    const isActive = d.isOnline === true && (now - lastSeenMs < 90000);
+                    const statusUI = isActive 
+                        ? `<span class="badge badge-success"><span class="online-dot"></span> ACTIVE</span>`
+                        : `<span class="badge" style="background:rgba(100,116,139,0.15); color:var(--text-muted);">OFFLINE</span>`;
+
+                    container.innerHTML += `
+                        <div class="record-item" style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h4 style="font-size:14px; margin:0;">${d.name} <span class="text-xs">(${doc.id})</span></h4>
+                                <span class="text-xs">Sponsor: ${d.sponsorId || 'None'} | Leg: ${d.position || 'None'}</span>
+                            </div>
+                            <div>${statusUI}</div>
+                        </div>
+                    `;
+                });
             });
         }
-        
-        static async publishWarRoomNotice() {
-            const msg = document.getElementById('war-msg-input').value.trim();
-            const priority = document.getElementById('war-priority').value;
-            const hours = parseFloat(document.getElementById('war-hours').value) || 3;
-            if(!msg) return UI.showToast("Enter announcement text.", "error");
 
-            const deadlineDate = new Date(Date.now() + (hours * 60 * 60 * 1000));
-            await db.collection('system').doc('war_room').set({
-                message: msg, priority, active: true, reactions: 0,
-                deadline: firebase.firestore.Timestamp.fromDate(deadlineDate),
+        static async addProductToFeed() {
+            const name = document.getElementById('prod-name').value.trim();
+            const code = document.getElementById('prod-code').value.trim().toLowerCase();
+            const url = document.getElementById('prod-url').value.trim();
+            const desc = document.getElementById('prod-desc').value.trim();
+
+            if(!name || !url) return UI.showToast('Name & Image URL required.', 'error');
+
+            await db.collection('products').add({
+                name, code: code || name.toLowerCase(), imageUrl: url, features: desc,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             });
-            UI.showToast("War-Room Flash Published!", "success");
-            document.getElementById('war-msg-input').value = '';
-        }
 
-        static async clearWarRoomNotice() {
-            if(confirm("Dismiss active ticker?")) {
-                await db.collection('system').doc('war_room').set({ active: false }, {merge: true});
-                UI.showToast("Broadcast dismissed.", "success");
-            }
-        }
-
-        static listenWarRoomAdmin() {
-            db.collection('system').doc('war_room').onSnapshot(doc => {
-                if(doc.exists && doc.data().active) {
-                    document.getElementById('admin-war-reacts').innerText = `${doc.data().reactions || 0} 🔥 Advisors Fired Up`;
-                } else {
-                    document.getElementById('admin-war-reacts').innerText = `No Active Broadcast`;
-                }
-            });
-        }
-
-        static resetAdminTree() {
-            this.adminTreeRootId = "";
-            this.renderAdminTree();
-        }
-
-        static jumpToMemberTree() {
-            const id = document.getElementById('admin-tree-search-input').value.trim();
-            if(!id) return UI.showToast("Enter Member ID", "warning");
-            this.adminTreeRootId = id;
-            this.renderAdminTree();
-            UI.showToast("Jumped to " + id, "success");
-        }
-
-        static drillDownAdminTree(nodeId) {
-            this.adminTreeRootId = nodeId;
-            this.renderAdminTree();
-            UI.showToast("Inspecting " + nodeId, "success");
-        }
-
-        static renderAdminTree() {
-            const container = document.getElementById('admin-pyramid-container');
-            if(!container) return;
-
-            let rootUser = null;
-            if(this.adminTreeRootId) rootUser = Member.networkUsers.find(u => u.id === this.adminTreeRootId);
-            if(!rootUser) rootUser = Member.networkUsers[0];
-
-            if(!rootUser) {
-                container.innerHTML = `<p class="text-xs text-center" style="opacity:0.6; padding:20px;">No registered members in tree.</p>`;
-                return;
-            }
-
-            const labelEl = document.getElementById('admin-tree-focus-label');
-            if(labelEl) labelEl.innerText = `Viewing: ${rootUser.name} (${rootUser.id})`;
-
-            const leftChild = Member.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'left');
-            const rightChild = Member.networkUsers.find(u => u.sponsorId === rootUser.id && u.position === 'right');
-
-            const renderNode = (user, sideLabel, isRoot = false) => {
-                if(!user) return `<div class="empty-slot"><i class="fas fa-plus-circle"></i><br>Empty ${sideLabel}</div>`;
-                return `
-                    <div class="tree-node ${isRoot ? 'root-node' : ''}" onclick="Admin.drillDownAdminTree('${user.id}')" title="Tap to expand levels">
-                        <i class="fas fa-user-shield text-warning" style="font-size:16px;"></i>
-                        <h5 style="margin:4px 0 2px 0; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${user.name}</h5>
-                        <span class="text-xs" style="color:var(--text-muted); font-size:10px;">${user.id}</span>
-                        ${sideLabel ? `<span class="badge ${sideLabel === 'Left' ? 'badge-primary' : 'badge-warning'}" style="display:block; font-size:8px; margin-top:4px;">${sideLabel}</span>` : ''}
-                    </div>
-                `;
-            };
-
-            container.innerHTML = `
-                <div>${renderNode(rootUser, "", true)}<div class="tree-connector-line"></div></div>
-                <div class="tree-branch-container">
-                    <div>${renderNode(leftChild, "Left")}</div>
-                    <div>${renderNode(rightChild, "Right")}</div>
-                </div>
-            `;
-        }
-
-        static async overrideTreeNodeFromTreeTab() {
-            const targetId = document.getElementById('admin-tree-edit-target').value.trim();
-            const newSponsor = document.getElementById('admin-tree-edit-sponsor').value.trim();
-            const newPos = document.getElementById('admin-tree-edit-pos').value;
-            if(!targetId) return UI.showToast('Enter Member ID.', 'error');
-            await db.collection('users').doc(targetId).set({ sponsorId: newSponsor, position: newPos }, {merge: true});
-            UI.showToast(`Updated! ${targetId} placed under ${newSponsor || 'Root'}`);
-            this.fetchAdminNetworkUsers();
+            UI.showToast('Product synced to Live Feed!', 'success');
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-code').value = '';
+            document.getElementById('prod-url').value = '';
+            document.getElementById('prod-desc').value = '';
         }
 
         static streamRadar() {
@@ -1523,55 +1016,10 @@
 
             if(!id || !name || !pass) return UI.showToast('Fill ID, Name, Password.', 'error');
             await db.collection('users').doc(id).set({
-                name, password: pass, sponsorId, position, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                name, password: pass, sponsorId, position, isOnline: false, createdAt: firebase.firestore.FieldValue.serverTimestamp()
             });
             UI.showToast(`Operative ${id} authorized.`, 'success');
             document.getElementById('new-id').value = ''; document.getElementById('new-name').value = ''; document.getElementById('new-pass').value = '';
-        }
-
-        static autoFillFeatures() {
-            const name = document.getElementById('prod-name').value.toLowerCase();
-            const featBox = document.getElementById('prod-features');
-            if(name.includes('gita')) featBox.value = "• बोलने वाली श्रीमद्भगवद्गीता (Talking Pen)\n• 3 भाषाएँ व 700 श्लोक (200 BV)";
-            else if(name.includes('noni')) featBox.value = "• शुद्ध हाओमा नोनी कॉन्संट्रेट\n• इम्यूनिटी बूस्टर व डिटॉक्सिफिकेशन";
-            else featBox.value = "• सेफ शॉप 100% ओरिजिनल सर्टिफाइड ब्रांडेड पैकेज";
-            UI.showToast("Features Auto-Filled!", "success");
-        }
-
-        static smartSuggest() {
-            const name = document.getElementById('prod-name').value.toLowerCase();
-            const catField = document.getElementById('prod-category');
-            if(name.includes('gita') || name.includes('hanuman')) catField.value = "Spiritual";
-            else if(name.includes('noni') || name.includes('haoma')) catField.value = "Wellness";
-            else catField.value = "Lifestyle";
-        }
-
-        static async addProductURL() {
-            const name = document.getElementById('prod-name').value.trim();
-            const category = document.getElementById('prod-category').value.trim();
-            const url = document.getElementById('prod-url').value.trim();
-            const features = document.getElementById('prod-features').value.trim();
-            if(!name || !category || !url) return UI.showToast('Fill Name, Category & URL', 'error');
-            await db.collection('products').add({
-                name, category, imageUrl: url, features, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            UI.showToast('Product published to catalog!', 'success');
-            document.getElementById('prod-name').value = ''; document.getElementById('prod-category').value = ''; document.getElementById('prod-url').value = '';
-        }
-
-        static async pushLiveLink() {
-            const link = document.getElementById('admin-live-link').value.trim();
-            if(!link) return UI.showToast('Enter Zoom/Meet link.', 'error');
-            await db.collection('system').doc('academy').set({ liveLink: link }, {merge: true});
-            UI.showToast('Live link broadcasted!', 'success');
-        }
-
-        static async updateAcademy() {
-            let vid = document.getElementById('ac-vid').value.trim();
-            const pdf = document.getElementById('ac-pdf').value.trim();
-            if (vid && vid.includes('watch?v=')) { try { vid = `https://www.youtube.com/embed/${new URL(vid).searchParams.get('v')}`; } catch(e) {} }
-            await db.collection('system').doc('academy').set({ vid, pdf }, {merge: true});
-            UI.showToast('Academy updated!', 'success');
         }
     }
 
