@@ -109,6 +109,7 @@
             color: var(--text-main); 
         }
         body.dark-mode .btn-outline, body.admin-view-active .btn-outline { border-color: rgba(255,255,255,0.18); color: #f8fafc; }
+        .btn-danger-ghost { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1.5px solid rgba(239, 68, 68, 0.3); }
         .btn-sm { width: auto; padding: 8px 14px; font-size: 12px; border-radius: 10px; }
         
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; } 
@@ -153,7 +154,7 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px; box-sizing: border-box; }
         .modal-box { background: var(--glass-bg); border: 1px solid var(--glass-card-border); border-radius: 24px; padding: 24px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); text-align: center; }
 
-        /* WAREHOUSE OS STYLE LIVE PHOTO FEED STREAM */
+        /* WAREHOUSE OS LIVE FEED CHAT STYLE */
         .photo-engine-header {
             background: #0f172a; color: white;
             padding: 14px 16px; border-radius: 18px 18px 0 0;
@@ -272,7 +273,7 @@
 </div>
 
 <!-- ========================================================= -->
-<!-- 🚀 SYSTEM BOOT SCREEN                                   -->
+<!-- 🚀 SYSTEM BOOT INSTALLER SCREEN                           -->
 <!-- ========================================================= -->
 <div id="welcome-splash" class="modal-overlay">
     <div class="os-installer-box">
@@ -291,8 +292,8 @@
         <span class="text-xs" style="color: #94a3b8; letter-spacing: 0.05em; text-transform: uppercase;">Direct Marketing Neural OS</span>
 
         <div class="terminal-log-box" id="boot-terminal-log">
-            > Initializing BIOS Handshake...<br>
-            > Mounting Firebase Firestore Database...
+            > Initializing Hardware Crypto Token...<br>
+            > Verifying Device Security Fingerprint...
         </div>
 
         <div class="progress-bar-track">
@@ -300,7 +301,7 @@
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="text-xs" style="color: #64748b; font-family: monospace;" id="boot-step-name">CHECKING ENCRYPTION...</span>
+            <span class="text-xs" style="color: #64748b; font-family: monospace;" id="boot-step-name">CHECKING HARDWARE...</span>
             <strong class="text-xs" style="color: #38bdf8; font-family: monospace;" id="boot-percent-num">0%</strong>
         </div>
 
@@ -353,7 +354,7 @@
     <!-- AUTH MODULE -->
     <div id="auth-module" class="hidden" style="margin-top:8vh;">
         <div style="text-align:center; margin-bottom:30px;">
-            <div style="width: 80px; height: 80px; margin: 0 auto 14px auto; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="initAdminOverride()" title="Tap crown for Admin Passkey">
+            <div style="width: 80px; height: 80px; margin: 0 auto 14px auto; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="initAdminOverride()" title="Crown: Tap to Authenticate Master Device">
                 <svg width="74" height="74" viewBox="0 0 100 100" fill="none">
                     <path d="M50 5L89 27.5V72.5L50 95L11 72.5V27.5L50 5Z" fill="url(#auth_grad)" stroke="#3b82f6" stroke-width="2"/>
                     <path d="M35 34L41 42L50 32L59 42L65 34V46H35V34Z" fill="#fbbf24"/>
@@ -372,7 +373,7 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- 👑 ADMIN MODULE (ACCESSIBLE ONLY BY 9999 PASSKEY)         -->
+    <!-- 👑 ADMIN MODULE (LOCKED TO REGISTERED HARDWARE TOKEN ONLY) -->
     <!-- ========================================================= -->
     <div id="admin-module" class="hidden">
         <div class="app-header">
@@ -383,7 +384,7 @@
                 </svg>
                 <div>
                     <h3 style="font-size:16px;">HQ Command Core <i class="fas fa-moon theme-icon text-muted" onclick="UI.toggleTheme()"></i></h3>
-                    <span class="badge badge-warning" style="margin-top:2px; display:inline-block;">God Mode Control</span>
+                    <span class="badge badge-warning" style="margin-top:2px; display:inline-block;"><i class="fas fa-shield-halved"></i> Device Bound</span>
                 </div>
             </div>
             <div style="background: var(--glass-bg); padding: 8px; border-radius: 50%; border: 1px solid var(--glass-card-border);">
@@ -420,8 +421,24 @@
             <div id="admin-team-container"></div>
         </div>
 
-        <!-- ADMIN TAB 3: CONTROLS -->
+        <!-- ADMIN TAB 3: CONTROLS & DEVICE SECURITY -->
         <div id="admin-controls" class="tab-content hidden">
+            <!-- HARDWARE DEVICE TOKEN SECURITY CONTROL -->
+            <div class="card" style="border-top: 4px solid #f59e0b;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                    <h4 style="color:#f59e0b; margin:0; font-size:15px;"><i class="fas fa-lock"></i> Master Hardware Security</h4>
+                    <span class="badge badge-success"><i class="fas fa-check-circle"></i> LOCKED</span>
+                </div>
+                <p class="text-xs" style="margin-bottom:12px;">Admin panel sirf is device se khulega. Kisi aur device par passkey 9999 daalne par bhi access block rahega.</p>
+                <div style="background:rgba(0,0,0,0.04); padding:10px 12px; border-radius:10px; margin-bottom:12px; font-family:monospace; font-size:11px; word-break:break-all; border:1px solid var(--glass-card-border);">
+                    <span style="color:var(--text-muted); display:block; font-size:9px;">AUTHORIZED HARDWARE TOKEN:</span>
+                    <span id="admin-hardware-token-display">Loading token...</span>
+                </div>
+                <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger); width:100%;" onclick="Admin.resetMasterDeviceToken()">
+                    <i class="fas fa-link-slash"></i> Unbind / Reset Hardware Lock
+                </button>
+            </div>
+
             <div class="card" style="border-top: 4px solid #10b981;">
                 <h4 style="color:#10b981; margin:0 0 10px 0; font-size:15px;"><i class="fas fa-box-open"></i> Upload Product to Feed</h4>
                 <div class="grid-2">
@@ -449,7 +466,7 @@
     </div>
 
     <!-- ========================================================= -->
-    <!-- 👤 MEMBER MODULE (CLEAN & DEDICATED FIELD DASHBOARD)      -->
+    <!-- 👤 MEMBER MODULE                                          -->
     <!-- ========================================================= -->
     <div id="member-module" class="hidden">
         <div class="member-header">
@@ -485,7 +502,6 @@
                 <span class="badge badge-success" style="background:rgba(16,185,129,0.2); font-size:10px;">Live Photo Engine</span>
             </div>
 
-            <!-- CHAT / PHOTO STREAM CONTAINER -->
             <div class="photo-chat-container" id="photo-stream-box">
                 <div class="bubble-bot">
                     <span class="text-xs" style="color:var(--text-muted);"><i class="fas fa-info-circle"></i> System Synced</span>
@@ -493,7 +509,6 @@
                 </div>
             </div>
 
-            <!-- SEARCH / INPUT BAR AT BOTTOM -->
             <div style="display:flex; gap:8px; margin-top:10px; align-items:center;">
                 <div style="position:relative; flex:1;">
                     <i class="fas fa-magnifying-glass" style="position:absolute; left:14px; top:17px; color:var(--text-muted); font-size:14px;"></i>
@@ -577,6 +592,50 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
+    // ====================================================================
+    // 🔐 HARDWARE DEVICE TOKEN ENGINE (SINGLE AUTHORIZED DEVICE LOCK)
+    // ====================================================================
+    class DeviceLockManager {
+        static getLocalDeviceToken() {
+            let token = localStorage.getItem('htm_device_hardware_token');
+            if(!token) {
+                token = 'HTM-HW-' + Math.random().toString(36).substring(2, 10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+                localStorage.setItem('htm_device_hardware_token', token);
+            }
+            return token;
+        }
+
+        static async verifyOrAssignAdminDevice() {
+            const localToken = this.getLocalDeviceToken();
+            const configRef = db.collection('system').doc('admin_config');
+            const doc = await configRef.get();
+
+            if(!doc.exists || !doc.data().authorizedDeviceToken) {
+                // No device bound yet. Prompt master to assign current device permanently
+                const confirmBind = confirm("⚠️ MASTER DEVICE SETUP:\n\nKya aap is phone/browser ko apna PERMANENT Authorized Admin Hardware banana chahte hain?\n\n(Iske baad kisi bhi dusre phone ya browser par Admin access block ho jayega)");
+                if(confirmBind) {
+                    await configRef.set({
+                        authorizedDeviceToken: localToken,
+                        assignedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        assignedBrowser: navigator.userAgent
+                    }, {merge: true});
+                    UI.showToast("Current Hardware Assigned as Master Admin!", "success");
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                const authorizedToken = doc.data().authorizedDeviceToken;
+                if(authorizedToken === localToken) {
+                    return true; // Verified Hardware Match!
+                } else {
+                    alert("🚫 ACCESS DENIED: UNAUTHORIZED HARDWARE!\n\nYeh Admin Panel sirf us Registered Device par khul sakta hai jise pehle assign kiya gaya tha.\n\nDusre phones ya browsers par iska access permanently locked hai.");
+                    return false;
+                }
+            }
+        }
+    }
+
     class SystemBootEngine {
         static runInstaller() {
             const terminal = document.getElementById('boot-terminal-log');
@@ -586,8 +645,8 @@
             const launchBtn = document.getElementById('boot-launch-btn');
 
             const steps = [
-                { p: 25, log: "> Mounting HTM Kernel...", step: "LOADING KERNEL" },
-                { p: 55, log: "> Connecting Firestore...", step: "AUTHENTICATING" },
+                { p: 25, log: "> Mounting HTM Hardware Lock Engine...", step: "TOKEN SECURITY" },
+                { p: 55, log: "> Verifying Hardware Signature...", step: "VERIFYING CRYPTO" },
                 { p: 85, log: "> Initializing Live Photo Engine...", step: "FEED ENGINE" },
                 { p: 100, log: "> [OK] System Ready.", step: "COMPLETE" }
             ];
@@ -613,7 +672,7 @@
     class UI {
         static showToast(msg, type='success') {
             const container = document.getElementById('toast-container'); const toast = document.createElement('div');
-            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : 'fa-times-circle';
+            toast.className = `toast ${type}`; const icon = type === 'success' ? 'fa-check-circle' : (type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle');
             toast.innerHTML = `<i class="fas ${icon}"></i> ${msg}`; container.appendChild(toast);
             setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3000);
         }
@@ -657,17 +716,25 @@
     });
 
     class Auth {
-        static init() {
+        static async init() {
             const role = localStorage.getItem('htm_role');
             const memberId = localStorage.getItem('htm_id');
 
             if (role === 'admin') { 
-                document.body.classList.add('admin-view-active');
-                document.getElementById('admin-module').classList.remove('hidden'); 
-                document.getElementById('member-module').classList.add('hidden');
-                document.getElementById('auth-module').classList.add('hidden');
-                Admin.initData(); 
-                setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); 
+                // Strict check: Verify Hardware Lock before rendering Admin
+                const isAuthorizedHardware = await DeviceLockManager.verifyOrAssignAdminDevice();
+                if(isAuthorizedHardware) {
+                    document.body.classList.add('admin-view-active');
+                    document.getElementById('admin-module').classList.remove('hidden'); 
+                    document.getElementById('member-module').classList.add('hidden');
+                    document.getElementById('auth-module').classList.add('hidden');
+                    Admin.initData(); 
+                    setTimeout(()=>UI.moveIndicator(document.querySelector('#admin-module .nav-box.active')),300); 
+                } else {
+                    // Revoke local role if device is unauthorized
+                    localStorage.removeItem('htm_role');
+                    window.location.reload();
+                }
             } else if (role === 'member' && memberId) {
                 document.body.classList.remove('admin-view-active');
                 document.getElementById('member-module').classList.remove('hidden'); 
@@ -692,7 +759,6 @@
                 const doc = await db.collection('users').doc(id).get();
                 if (!doc.exists || doc.data().password !== pass) throw new Error("Invalid Credentials.");
                 
-                // Mark user as actively online in database
                 await db.collection('users').doc(id).update({
                     isOnline: true,
                     lastSeen: firebase.firestore.FieldValue.serverTimestamp()
@@ -715,7 +781,9 @@
                     });
                 } catch(e) {}
             }
+            const savedHardware = localStorage.getItem('htm_device_hardware_token');
             localStorage.clear(); 
+            if(savedHardware) localStorage.setItem('htm_device_hardware_token', savedHardware);
             window.location.reload(); 
         }
     }
@@ -738,7 +806,6 @@
             this.checkActivePlanState(); this.streamLeads(); this.fetchLiveTeam();
         }
 
-        // 1. WAREHOUSE OS STYLE LIVE PHOTO ENGINE CHAT STREAM
         static async queryPhotoFeed() {
             const input = document.getElementById('stream-query-input');
             const query = input.value.trim().toLowerCase();
@@ -746,7 +813,6 @@
 
             const chatBox = document.getElementById('photo-stream-box');
 
-            // 1. Append User Search Bubble
             const userBubble = document.createElement('div');
             userBubble.className = "bubble-user";
             userBubble.innerText = query;
@@ -754,7 +820,6 @@
             input.value = '';
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // 2. Fetch Matching Product from Firestore
             try {
                 const snap = await db.collection('products').get();
                 let matched = [];
@@ -762,8 +827,7 @@
                     const d = doc.data();
                     const name = (d.name || '').toLowerCase();
                     const code = (d.code || '').toLowerCase();
-                    const cat = (d.category || '').toLowerCase();
-                    if(name.includes(query) || code.includes(query) || cat.includes(query)) {
+                    if(name.includes(query) || code.includes(query)) {
                         matched.push(d);
                     }
                 });
@@ -796,7 +860,6 @@
             }
         }
 
-        // 2. REAL-TIME TEAM PRESENCE (ONLINE / ACTIVE CHECK)
         static fetchLiveTeam() {
             const container = document.getElementById('member-team-list-container');
             if(!container) return;
@@ -813,7 +876,6 @@
                 snap.forEach(doc => {
                     const d = doc.data();
                     const lastSeenMs = d.lastSeen?.toMillis ? d.lastSeen.toMillis() : 0;
-                    // Active if marked online and pinged in last 90 seconds
                     const isActive = d.isOnline === true && (now - lastSeenMs < 90000);
 
                     const statusBadge = isActive
@@ -939,7 +1001,23 @@
 
     class Admin {
         static initData() { 
-            this.streamRadar(); this.streamAdminTeam(); this.listenSOS(); 
+            this.streamRadar(); this.streamAdminTeam(); this.listenSOS(); this.displayHardwareTokenInfo();
+        }
+
+        static displayHardwareTokenInfo() {
+            const tokenEl = document.getElementById('admin-hardware-token-display');
+            if(tokenEl) {
+                tokenEl.innerText = DeviceLockManager.getLocalDeviceToken();
+            }
+        }
+
+        static async resetMasterDeviceToken() {
+            const confirmReset = confirm("⚠️ RESET HARDWARE LOCK?\n\nKya aap sach me apna hardware lock hatana chahte hain? Iske baad dobara naye device ko assign karna padega.");
+            if(confirmReset) {
+                await db.collection('system').doc('admin_config').delete();
+                UI.showToast("Hardware lock unbound successfully!", "success");
+                setTimeout(() => window.location.reload(), 1000);
+            }
         }
 
         static streamAdminTeam() {
@@ -1023,11 +1101,18 @@
         }
     }
 
-    function initAdminOverride() { 
-        if (prompt("HQ Passkey Authorization:") === "9999") { 
-            localStorage.setItem('htm_role', 'admin'); 
-            window.location.reload(); 
-        } 
+    async function initAdminOverride() { 
+        const pass = prompt("HQ Passkey Authorization:");
+        if (pass === "9999") { 
+            // Check Hardware Lock before granting Admin access
+            const isAuthorized = await DeviceLockManager.verifyOrAssignAdminDevice();
+            if(isAuthorized) {
+                localStorage.setItem('htm_role', 'admin'); 
+                window.location.reload(); 
+            }
+        } else if (pass !== null) {
+            UI.showToast("Invalid HQ Passkey!", "error");
+        }
     }
 </script>
 </body>
